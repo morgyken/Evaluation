@@ -1,0 +1,19 @@
+{
+    "name": "Evaluation",
+    "alias": "evaluation",
+    "description": "Out-patient evaluation module for all theatre, diagnostics nand labs",
+    "keywords": [],
+    "active": 1,
+    "order": 3,
+    "providers": [
+        "Ignite\\Evaluation\\Providers\\EvaluationServiceProvider"
+    ],
+    "aliases": [],
+    "files": [
+        "start.php"
+    ],
+    "core": 0,
+    "version": "v1.0",
+    "author": "Samuel Okoth",
+    "email": "sodhiambo@collabmed.com"
+}

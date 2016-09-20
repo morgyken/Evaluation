@@ -1,0 +1,15 @@
+{
+    "name": "samueldervis/evaluation",
+    "description": "Out-patient evaluation module for all theatre, diagnostics nand labs",
+    "authors": [
+        {
+            "name": "Samuel Dervis",
+            "email": "samueldervis@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Dervis\\Modules\\Evaluation\\": ""
+        }
+    }
+}
