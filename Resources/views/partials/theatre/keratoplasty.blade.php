@@ -24,7 +24,5 @@
     mg
     <br><br>
     Eye padded with occ. <input type="text" name="eye" value=""><br><br>
-    Post op review Date: <input type="date" name="reviewdate" value=""><br><br>
-    Surgeon's Sign: <input type="text" name="sign" value=""><br>
-
+    Post op review Date: <input type="date" name="reviewdate" value=""><br>
 </div>

@@ -4,6 +4,7 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
+$performed_diagnosis = \Dervis\Modules\Evaluation\Entities\PatientDiagnosis::whereVisit($data['visit'])->get();
 ?>
 <div>
     <div class="row">
@@ -51,7 +52,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        @if(!empty($performed))
+                        @if(!empty($performed_diagnosis))
                         <div class="box box-success">
                             <div class="box-header">
                                 <h4 class="box-title">Previously ordered diagnosis</h4>
@@ -67,7 +68,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($performed as $item)
+                                        @foreach($performed_diagnosis as $item)
                                         <tr>
                                             <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                             <td>{{$item->price}}</td>

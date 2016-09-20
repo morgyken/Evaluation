@@ -17,7 +17,7 @@
             <div class="btn-group-sm">
                 <form id="photobg"  enctype="multipart/form-data">
                     <input type="hidden" name="visit" value="{{$data['visit']}}"/>
-                    <input type="hidden" name="user" value="{{Auth::user()->user_id}}"/>
+                    <input type="hidden" name="user" value="{{Auth::user()->id}}"/>
                     <input type="file" class="btn" id="background" name="image"/>
                     <span class="help-block" id="message"></span>
                 </form>

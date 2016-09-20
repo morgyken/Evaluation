@@ -41,7 +41,7 @@ if (empty($op_notes)) {
                 <div class="form-group req {{ $errors->has('surgeon') ? ' has-error' : '' }}">
                     {!! Form::label('surgeon', 'Surgeon',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        {!! Form::select('surgeon',get_checkin_destinations(), old('surgeon',$op_notes->surgeon), ['class' => 'form-control']) !!}
+                        {!! Form::select('surgeon',get_doctors(), old('surgeon',$op_notes->surgeon), ['class' => 'form-control']) !!}
                         {!! $errors->first('surgeon', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>

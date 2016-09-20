@@ -21,5 +21,4 @@
     Steriod anti-biotic <input type="checkbox" value=""><br><br>
     Additional Details: <input type="text" name="details" value=""><br><br>
     Post op review Date: <input type="date" name="reviewdate" value=""><br><br>
-    Surgeon's Sign: <input type="text" name="sign" value=""><br>
 </div>

@@ -46,13 +46,14 @@ class PatientDiagnosis extends Model {
 
     public $primaryKey = 'visit';
     protected $table = 'patient_investigations';
+    protected $guarded = [];
 
     public function visits() {
         return $this->belongsTo(PatientVisits::class, 'visit', 'visit_id');
     }
 
     public function procedures() {
-        return $this->belongsTo(\Ignite\Setup\Entities\Procedures::class, 'test');
+        return $this->hasOne(\Ignite\Setup\Entities\Procedures::class, 'id', 'test');
     }
 
     public function doctors() {

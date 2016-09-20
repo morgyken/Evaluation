@@ -4,9 +4,10 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
+
 $patient = $data['patient'];
-$data['docs'] = get_patient_documents($patient->id);
-$data['section'] = 'evaluation';
+$data['docs'] = \Dervis\Modules\Reception\Entities\PatientDocuments::wherePatient($patient->patient_id)->get();
+$data['section'] = 'nurse';
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation')
@@ -20,13 +21,10 @@ $data['section'] = 'evaluation';
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#vitals" data-toggle="tab">Vitals</a></li>
-                    <li><a href="#pre-exam" data-toggle="tab">Preliminary</a></li>
-                    <li><a href="#doctor" data-toggle="tab">Doctors' notes</a></li>
-                    <li><a href="#treatment" data-toggle="tab">Treatment</a></li>
-                    <li><a href="#investigations" data-toggle="tab">Investigations</a></li>
-                    <li><a href="#op" data-toggle="tab">OP Notes</a></li>
-                    <li><a href="#drawings" data-toggle="tab">Drawings</a></li>
-                    <li><a href="#documents" data-toggle="tab">Documents</a></li>
+                    <li><a href="#doctor" data-toggle="tab">Preliminary Examination</a></li>
+                    @if($data['visits']->theatre)
+                    <li><a href="#thetre" data-toggle="tab">Theatre</a></li>
+                    @endif
                     <li><a href="#history" data-toggle="tab">History</a></li>
                 </ul>
                 <div class="tab-content">
@@ -35,44 +33,20 @@ $data['section'] = 'evaluation';
                             @include('evaluation::partials.patient_vitals')
                         </div>
                     </div>
-                    <div class="tab-pane active" id="pre-exam">
+                    <div class="tab-pane" id="doctor">
                         <div>
                             @include('evaluation::partials.nurse_eye')
                         </div>
                     </div>
-                    <div class="tab-pane" id="doctor">
+                    <div class="tab-pane" id="thetre">
                         <div>
-                            @include('evaluation::partials.doctors_notes')
+                            @include('evaluation::partials.theatre')
                         </div>
                     </div>
-                    <div class="tab-pane" id="investigations">
-                        <div>
-                            @include('evaluation::partials.investigations')
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="treatment">
-                        <div>
-                            @include('evaluation::partials.treatment')
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="op">
-                        <div>
-                            @include('evaluation::partials.op_notes')
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="documents">
-                        <div>
-                            @include('reception::partials.doc_list')
-                        </div>
-                    </div>
-
                     <div class="tab-pane" id="history">
                         <div>
                             @include('evaluation::partials.history')
                         </div>
-                    </div>
-                    <div class="tab-pane" id="drawings">
-                        @include('evaluation::partials.drawings')
                     </div>
                 </div>
             </div>
@@ -90,7 +64,6 @@ $data['section'] = 'evaluation';
     var OPNOTES_URL = "{{route('evaluation.ajax.save_opnotes')}}";
     var TREAT_URL = "{{route('evaluation.ajax.save_treatment')}}";
     var DRAWINGS_URL = "{{route('evaluation.ajax.save_drawings')}}";
-    var VISIT_METAS_URL = "{{route('evaluation.ajax.save_visit_metas')}}";
 </script>
 <script src="{{Module::asset('evaluation:js/doctor_evaluation.min.js')}}"></script>
 @endsection

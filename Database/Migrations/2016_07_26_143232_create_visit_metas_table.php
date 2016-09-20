@@ -11,7 +11,7 @@ class CreateVisitMetasTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('evaluation_visit_metas', function(Blueprint $column) {
+        Schema::create('visit_metas', function(Blueprint $column) {
             $column->integer('visit')->unsigned();
             $column->string('sick_off')->nullable();
             $column->date('sick_off_review')->nullable();
@@ -30,7 +30,7 @@ class CreateVisitMetasTable extends Migration {
                     ->onDelete('cascade');
             $column->foreign('visit')
                     ->references('visit_id')
-                    ->on('evaluation_patient_visits')
+                    ->on('patient_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
         });
@@ -42,7 +42,7 @@ class CreateVisitMetasTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('evaluation_visit_metas');
+        Schema::drop('visit_metas');
     }
 
 }

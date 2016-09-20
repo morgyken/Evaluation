@@ -37,6 +37,7 @@ class OP extends Model {
     public $primaryKey = 'visit';
     public $incrementing = false;
     public $table = 'patient_opnotes';
+    protected $fillable = ['visit'];
 
     public function visits() {
         return $this->belongsTo(PatientVisits::class, 'visit', 'visit_id');

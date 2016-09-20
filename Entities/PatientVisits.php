@@ -115,7 +115,7 @@ class PatientVisits extends Model {
     }
 
     public function investigations() {
-        return $this->hasMany(PatientDiagnosis::class, 'visit', 'id');
+        return $this->hasMany(PatientDiagnosis::class, 'visit');
     }
 
     public function treatments() {
@@ -127,7 +127,7 @@ class PatientVisits extends Model {
     }
 
     public function appointments() {
-        return $this->belongsTo(\Ignite\Reception\Entities\Appointments::class, 'id', 'visit_id');
+        return $this->belongsTo(\Ignite\Reception\Entities\Appointments::class, 'visit_id');
     }
 
     public function doctors() {

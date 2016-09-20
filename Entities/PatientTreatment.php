@@ -41,7 +41,7 @@ class PatientTreatment extends Model {
     }
 
     public function procedures() {
-        return $this->belongsTo(\Ignite\Setup\Entities\Procedures::class, 'procedure', 'procedure_id');
+        return $this->belongsTo(\Ignite\Setup\Entities\Procedures::class, 'procedure');
     }
 
     public function getNetAttribute() {

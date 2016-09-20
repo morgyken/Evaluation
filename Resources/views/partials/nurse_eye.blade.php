@@ -7,7 +7,7 @@
 ?>
 
 <div class="row">
-    {!! Form::open(['id'=>'eye_preview']) !!}
+    {!! Form::open(['id'=>'eye_preview_form']) !!}
     <div class="col-md-12">
         <table class="table table-condensed">
             <thead>
@@ -52,4 +52,7 @@
         </table>
     </div>
     {!! Form::close() !!}
+    <script type="text/javascript">
+        var PRELIMINARY_EXAMINATION = "{{route('evaluation.ajax.save_preliminary')}}";
+    </script>
 </div>

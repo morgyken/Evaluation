@@ -1,7 +1,7 @@
 <?php
 
 $params = [
-    'middleware' => ['web', 'auth', 'setup'],
+    'middleware' => ['auth.admin', 'setup'],
     'prefix' => 'evaluation',
     'as' => 'evaluation.',
     'namespace' => 'Dervis\\Modules\Evaluation\Http\Controllers'];
@@ -17,7 +17,7 @@ Route::group($params, function() {
     Route::get('patients/visits/preliminary/{patient}/{flag?}', ['uses' => 'EvaluationController@preliminary_examinations', 'as' => 'patient_preview']);
     Route::get('patients/visits/manage/{patient}/{flag?}', ['uses' => 'EvaluationController@nurse_manage', 'as' => 'nurse_manage']);
     Route::get('patients/visits/reviews/{patient}', ['uses' => 'EvaluationController@patient_visits', 'as' => 'patient_visits']);
-    //new vsit
+    //new visit
     Route::get('patients/visit/new/{patient?}', ['uses' => 'EvaluationController@new_visit', 'as' => 'new_visit']);
     //evaluate
     Route::get('patients/visits/evaluate/{visit}', ['uses' => 'EvaluationController@patient_evaluation', 'as' => 'evaluate']);
@@ -27,7 +27,7 @@ Route::group($params, function() {
     //patient review
     Route::get('patients/review/all', ['uses' => 'EvaluationController@review', 'as' => 'review']);
     Route::get('patients/review/{patient}', ['uses' => 'EvaluationController@review_patient', 'as' => 'review_patient']);
-//waiting radiology
+    //waiting radiology
     Route::get('patients/waiting/radiology', ['uses' => 'EvaluationController@waiting_radiology', 'as' => 'waiting_radiology']);
     Route::get('patients/radiology/evaluate/{visit}', ['uses' => 'EvaluationController@radiology', 'as' => 'evaluate.radiology']);
     //waiting labs

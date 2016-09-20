@@ -39,8 +39,4 @@
         <tr><td>  <input type="text" name="t4">       </td><td> Number of spots</td><td> <input type="text" name="tt4"></td>
         </tr>
     </table>
-
-    <br><br>
-
-    <label style="font-weight: 900;"> Doctor's signature:</label><input type="text" name="remarks">
 </div>

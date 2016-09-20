@@ -12,13 +12,22 @@
 
 namespace Ignite\Evaluation\Library;
 
+use Ignite\Evaluation\Entities\EyeExam;
+use Ignite\Evaluation\Entities\OP;
+use Ignite\Evaluation\Entities\PatientDiagnosis;
+use Ignite\Evaluation\Entities\PatientDrawings;
+use Ignite\Evaluation\Entities\PatientPrescriptions;
+use Ignite\Evaluation\Entities\PatientTreatment;
+use Ignite\Evaluation\Entities\VisitMeta;
 use Illuminate\Http\Request;
 use Ignite\Reception\Entities\Patients;
 use Ignite\Evaluation\Entities\PatientVisits;
 use Ignite\Evaluation\Entities\PatientVitals;
 use Ignite\Reception\Entities\Appointments;
 use Ignite\Evaluation\Entities\PatientDoctorNotes;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+use Jenssegers\Date\Date;
 
 /**
  * Description of EvaluationFunctions
@@ -54,7 +63,7 @@ class EvaluationFunctions {
         $visit = new PatientVisits;
         $visit->clinic = config('practice.clinic');
         $visit->patient = $appointment->patient;
-        $visit->user = \Illuminate\Support\Facades\Auth::user()->user_id;
+        $visit->user = Auth::user()->user_id;
         $visit->appointment = $appointment->visit_id;
         $visit->save();
         return $visit->visit_id;
@@ -83,8 +92,7 @@ class EvaluationFunctions {
         $vital->allergies = $request->allergies;
         $vital->chronic_illnesses = $request->chronic_illnesses;
         $vital->nurse_notes = $request->notes;
-        $vital->user = $request->user();
-        dd(Auth::user());
+        $vital->user = $request->user()->id;
         return $vital->save();
     }
 
@@ -104,15 +112,16 @@ class EvaluationFunctions {
         $notes->treatment_plan = $request->treatment_plan;
         $notes->user = $request->user;
         $notes->save();
-        if ($request->has('option'))
+        if ($request->has('option')) {
             save_eye_exam($request);
+        }
     }
 
     public static function save_eye_exam(Request $request) {
         // $pre_run = \Dervis\Model\Evaluation\EyeExam::whereVisit($request->visit)->delete();
         //  dd($pre_run);
         foreach ($request->option as $key => $exam) {
-            $eye = \Ignite\Evaluation\Entities\EyeExam::firstOrCreate(['option' => $exam, 'visit' => $request->visit]);
+            $eye = EyeExam::firstOrCreate(['option' => $exam, 'visit' => $request->visit]);
             $eye->od = $request->od[$key];
             $eye->os = $request->os[$key];
             $eye->comments = $request->comments[$key];
@@ -123,9 +132,9 @@ class EvaluationFunctions {
     }
 
     public static function save_drawings(Request $request) {
-        $drawing = \Ignite\Evaluation\Entities\PatientDrawings::findOrNew($request->visit);
+        $drawing = PatientDrawings::findOrNew($request->visit);
         $drawing->object = serialize($request->objects);
-        $drawing->user = $request->user;
+        $drawing->user = $request->user()->id;
         $drawing->visit = $request->visit;
         if ($request->hasFile('image')) {
             $image = Image::make($request->file('image')->getRealPath());
@@ -140,23 +149,28 @@ class EvaluationFunctions {
      * @param Request $request
      */
     public static function save_treatment(Request $request) {
-        $record = new \Ignite\Evaluation\Entities\PatientTreatment;
-        $record->procedure = $request->procedure;
-        $record->price = $request->price;
-        $record->base = $request->cost;
-        $record->visit = $request->visit;
-        $record->user = $request->user()->id;
-        return $record->save();
+        $id = 0;
+        PatientTreatment::whereVisit($request->visit)->whereIsPaid(false)->delete();
+        foreach ($request->procedure as $treatment) {
+            $record = new PatientTreatment;
+            $record->procedure = $treatment;
+            $record->price = $request->price[$id];
+            $record->base = $request->cost[$id];
+            $record->visit = $request->visit;
+            $record->user = $request->user()->id;
+            $record->save();
+            $id++;
+        }
+        return true;
     }
 
     public static function save_diagnosis(Request $request) {
-        dd($request->all());
         $id = 0;
         if ($request->has('procedure')) {
-            \Ignite\Evaluation\Entities\PatientDiagnosis::whereVisit($request->visit)->whereType($request->type)->whereIsPaid(false)
-                    ->delete();
+            PatientDiagnosis::whereVisit($request->visit)->whereType($request->type)->whereIsPaid(false)
+                    ->whereNull('results')->delete();
             foreach ($request->procedure as $treatment) {
-                $record = new \Dervis\Model\Evaluation\PatientDiagnosis();
+                $record = new PatientDiagnosis;
                 $record->visit = $request->visit;
                 $record->type = $request->type;
                 $record->test = $treatment;
@@ -174,7 +188,7 @@ class EvaluationFunctions {
                 case 'diagnosis':
                     $visit->diagnostics = true;
                     break;
-                case 'labs':
+                case 'laboratory':
                     $visit->laboratory = true;
                     break;
             }
@@ -193,7 +207,7 @@ class EvaluationFunctions {
         if (empty($request->drug)) {
             return false;
         }
-        $prescribe = new \Ignite\Evaluation\Entities\PatientPrescriptions;
+        $prescribe = new PatientPrescriptions;
         $prescribe->drug = strtoupper($request->drug);
         $prescribe->take = $request->take;
         $prescribe->whereto = $request->prescription_whereto;
@@ -212,13 +226,12 @@ class EvaluationFunctions {
      * @return mixed
      */
     public static function save_opnotes(Request $request) {
-        \Ignite\Evaluation\Entities\OP::where('visit', $request->visit)->delete();
-        $op = new \Dervis\Model\Evaluation\OP;
+        $op = OP::firstOrNew(['visit' => $request->visit]);
         $op->implants = $request->implants;
         $op->surgery_indication = $request->indication;
         $op->postop = $request->postop;
         $op->date = new Date($request->date . ' ' . $request->time);
-        $op->surgeon = $request->surgeon;
+        $op->doctor = $request->surgeon;
         $op->indication = $request->indication;
         $op->user = $request->user;
         $op->visit = $request->visit;
@@ -267,13 +280,13 @@ class EvaluationFunctions {
         $appointment->clinic = $this_appointment->clinic;
         $appointment->category = $this_appointment->category;
         if ($appointment->save()) {
-//dispatch(new \Dervis\Jobs\SendNotificationSMS($appointment->schedule_id), 'reminders');
-            sendAppointmentNotification($appointment->visit_id);
-            $this_appointment->next_visit = $appointment->visit_id;
-            $request->session()->flash('success', "Appointment has been saved");
+            //dispatch(new \Dervis\Jobs\SendNotificationSMS($appointment->schedule_id), 'reminders');
+            //sendAppointmentNotification($appointment->id);
+            $this_appointment->next_visit = $appointment->id;
+            flash("Appointment has been saved");
             return $this_appointment->save();
         }
-        $request->session()->flash('error', "An error occurred");
+        flash()->error("An error occurred");
         return false;
     }
 
@@ -284,7 +297,7 @@ class EvaluationFunctions {
     }
 
     public static function update_visit_meta(Request $request) {
-        $meta = \Ignite\Evaluation\Entities\VisitMeta::findOrNew($request->visit);
+        $meta = VisitMeta::findOrNew($request->visit);
         $meta->user = $request->user;
         $meta->visit = $request->visit;
         $meta->call = $request->has('call');
@@ -300,14 +313,16 @@ class EvaluationFunctions {
         return $meta->save();
     }
 
-    public static function book_for_theatre(\Dervis\Model\Evaluation\VisitMeta $meta) {
+    public static function book_for_theatre(VisitMeta $meta) {
         $object = [
             'title' => 'Book patient for theatre',
             'message' => 'Book ' . $meta->visits->patients->fullname . ' to thetre',
             'link' => route('system.reception.checkin', $meta->visit->patients->patient_id),
             'group' => 'reception',
         ];
-        return new \Dervis\Library\Notification($object);
+        //@todo Send notification
+        return true; //send_notification();
+        //return new \Dervis\Library\Notification($object);
     }
 
     public static function checkout(Request $request, $data = null) {
@@ -319,9 +334,9 @@ class EvaluationFunctions {
             $visit_id = $data['id'];
             $section = $data['from'];
         }
-        $visit = \Ignite\Evaluation\Entities\PatientVisits::find($visit_id);
+        $visit = PatientVisits::find($visit_id);
         $where = $section . '_out';
-        $visit->$where = new \Jenssegers\Date\Date();
+        $visit->$where = new Date();
         return $visit->save();
     }
 

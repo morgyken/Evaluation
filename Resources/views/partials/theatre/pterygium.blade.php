@@ -19,5 +19,4 @@
     Sent for histology: No <input type="checkbox" name="notsent" value="">
     Yes<input type="checkbox" name="sent" value=""><br><br>
     Post op review Date: <input type="date" name="reviewdate" value=""><br><br>
-    Surgeon's Sign: <input type="text" name="sign" value=""><br>
 </div>

@@ -24,17 +24,17 @@ $performed = \Dervis\Modules\Evaluation\Entities\PatientTreatment::whereVisit($d
             <table class="table table-condensed table-borderless table-responsive" id="procedures">
                 <tbody>
                     @foreach($procedures as $procedure)
-                    <tr id="row{{$procedure->procedure_id}}">
+                    <tr id="row{{$procedure->id}}">
                         <td>
-                            <input type="checkbox" name="procedure[]" value="{{$procedure->procedure_id}}" class="check"/>
+                            <input type="checkbox" name="procedure[]" value="{{$procedure->id}}" class="check"/>
                         </td>
                         <td>
-                            <span id="name{{$procedure->procedure_id}}"> {{$procedure->name}}</span>
+                            <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>
                         </td>
                         <td>
-                            <input type="hidden" name="price[]" value="{{(int)$procedure->cash_charge}}" size="5" id="price{{$procedure->procedure_id}}" />
-                            <input type="text" name="cost[]" value="{{(int)$procedure->cash_charge}}" id="cost{{$procedure->procedure_id}}" size="5" disabled/></td>
-                        <td><input type="text" name="no_performed[]" value="1" size="3" id="no{{$procedure->procedure_id}}" disabled/></td>
+                            <input type="hidden" name="price[]" value="{{(int)$procedure->cash_charge}}" size="5" id="price{{$procedure->id}}" disabled/>
+                            <input type="text" name="cost[]" value="{{(int)$procedure->cash_charge}}" id="cost{{$procedure->id}}" size="5" disabled/></td>
+                        <td><input type="text" name="no_performed[]" value="1" size="3" id="no{{$procedure->id}}" disabled/></td>
                     </tr>
                     @endforeach
                 </tbody>

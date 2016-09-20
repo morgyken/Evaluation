@@ -66,5 +66,4 @@
     <label>Eye padded: Yes/No </label><br><br>
     <label>Additional Details: </label><input type="text" name="add"><br><br>
 
-    <label>Doctor's Signature:</label><input type="text" name="docsign"><br><br>
 </div>

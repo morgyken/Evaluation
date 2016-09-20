@@ -37,7 +37,7 @@ class EvaluationController extends Controller {
             return redirect()->route('evaluation.waiting_nurse');
         } $this->data['visit'] = $visit;
         $this->data['patient'] = Patients::find($v->patient);
-        return view('evaluation::patient_preview')->with('data', $this->data);
+        return view('evaluation::patient_preview1')->with('data', $this->data);
     }
 
     public function waiting_doctor() {

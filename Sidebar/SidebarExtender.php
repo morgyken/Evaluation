@@ -46,30 +46,37 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
                 $item->item('Preliminary Examinations', function (Item $item) {
                     $item->icon('fa fa-wheelchair');
                     $item->route('evaluation.waiting_nurse');
+                    $item->authorize($this->auth->hasAccess('Evaluation.Nurse'));
                 });
                 $item->item('Doctor\'s queue', function (Item $item) {
                     $item->icon('fa fa-wheelchair-alt');
                     $item->route('evaluation.waiting_doctor');
+                    $item->authorize($this->auth->hasAccess('Evaluation.Doctor'));
                 });
                 $item->item('Radiology Queue', function (Item $item) {
                     $item->icon('fa fa-braille');
                     $item->route('evaluation.waiting_radiology');
+                    $item->authorize($this->auth->hasAccess('Evaluation.Radiology'));
                 });
                 $item->item('Diagnostics Queue', function (Item $item) {
                     $item->icon('fa fa-hotel');
                     $item->route('evaluation.waiting_diagnostics');
+                    $item->authorize($this->auth->hasAccess('Evaluation.Diagnostics'));
                 });
                 $item->item('Laboratory Queue', function (Item $item) {
                     $item->icon('fa fa-diamond');
                     $item->route('evaluation.waiting_laboratory');
+                    $item->authorize($this->auth->hasAccess('Evaluation.Laboratory'));
                 });
                 $item->item('Theatre Queue', function (Item $item) {
                     $item->icon('fa fa-diamond');
                     $item->route('evaluation.waiting_theatre');
+                    $item->authorize($this->auth->hasAccess('Evaluation.Theatre'));
                 });
                 $item->item('Review Visits', function (Item $item) {
                     $item->icon('fa fa-deaf');
                     $item->route('evaluation.review');
+                    $item->authorize($this->auth->hasAccess('Evaluation.Review'));
                 });
             });
         });

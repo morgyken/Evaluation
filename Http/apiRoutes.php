@@ -35,4 +35,6 @@ Route::group($ajax, function() {
     Route::get('delete_procedure_category', ['as' => 'delete_procedure_cat', 'uses' => 'ApiController@delete_procedure_cat']);
     Route::post('save_visit_metas', ['uses' => 'ApiController@save_visit_metas', 'as' => 'save_visit_metas']);
     Route::post('auto_order_diagnosis', ['uses' => 'ApiController@order_diagnosis', 'as' => 'order_diagnosis']);
+    Route::post('save_preliminary', ['uses' => 'ApiController@save_preliminary', 'as' => 'save_preliminary']);
+    Route::post('auto_save_results', ['uses' => 'ApiController@investigation_result', 'as' => 'investigation_result']);
 });

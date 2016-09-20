@@ -24,7 +24,7 @@ $diagnosis_p = unserialize($notes->diagnosis);
         <label>Examination</label>
         <textarea name='examination' class="form-control" rows='3'>{{$notes->examination}}</textarea>
     </div>
-    <!-- include('system.evaluation.partials.eye_diagnosis')-->
+    @include('evaluation::partials.eye_diagnosis')
     <div class="form-group req">
         <label>Investigations</label>
         <textarea name='investigations' class="form-control" rows='3'>{{$notes->examination}}</textarea>
