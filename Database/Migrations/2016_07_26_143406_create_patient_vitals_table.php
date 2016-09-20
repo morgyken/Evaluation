@@ -11,7 +11,7 @@ class CreatePatientVitalsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('patient_vitals', function(Blueprint $column) {
+        Schema::create('evaluation_vitals', function(Blueprint $column) {
             $column->increments('id');
             $column->integer('visit')->unsigned();
             $column->double('weight', 10, 2)->nullable();
@@ -38,7 +38,7 @@ class CreatePatientVitalsTable extends Migration {
                     ->onDelete('cascade');
             $column->foreign('visit')
                     ->references('visit_id')
-                    ->on('patient_visits')
+                    ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
         });
@@ -50,7 +50,7 @@ class CreatePatientVitalsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('patient_vitals');
+        Schema::drop('evaluation_vitals');
     }
 
 }

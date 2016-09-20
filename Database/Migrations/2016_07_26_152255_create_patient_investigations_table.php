@@ -12,7 +12,7 @@ class CreatePatientInvestigationsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('patient_investigations', function(Blueprint $column) {
+        Schema::create('evaluation_investigations', function(Blueprint $column) {
             $column->increments('id');
             $column->integer('visit')->unsigned();
             $column->string('type')->default('diagnosis');
@@ -28,11 +28,11 @@ class CreatePatientInvestigationsTable extends Migration {
             $column->timestamps();
             $column->foreign('visit')
                     ->references('visit_id')
-                    ->on('patient_visits')
+                    ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
         });
-        DB::statement("ALTER TABLE patient_investigations ADD file LONGBLOB");
+        DB::statement("ALTER TABLE evaluation_investigations ADD file LONGBLOB");
     }
 
     /**
@@ -41,7 +41,7 @@ class CreatePatientInvestigationsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('patient_investigations');
+        Schema::drop('investigations');
     }
 
 }

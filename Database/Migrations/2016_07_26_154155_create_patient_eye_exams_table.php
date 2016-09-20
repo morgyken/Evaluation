@@ -11,7 +11,7 @@ class CreatePatientEyeExamsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('patient_eye_exams', function(Blueprint $column) {
+        Schema::create('evaluation_eye_exams', function(Blueprint $column) {
             $column->increments('id');
             $column->integer('visit')->unsigned();
             $column->string('option');
@@ -22,7 +22,7 @@ class CreatePatientEyeExamsTable extends Migration {
 
             $column->foreign('visit')
                     ->references('visit_id')
-                    ->on('patient_visits')
+                    ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $column->foreign('user')->references('id')->on('users')
@@ -39,7 +39,7 @@ class CreatePatientEyeExamsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('patient_eye_exams');
+        Schema::drop('evaluation_eye_exams');
     }
 
 }

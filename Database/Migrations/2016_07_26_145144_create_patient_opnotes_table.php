@@ -11,7 +11,7 @@ class CreatePatientOpnotesTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('patient_opnotes', function(Blueprint $column) {
+        Schema::create('evaluation_opnotes', function(Blueprint $column) {
             $column->increments('id');
             $column->integer('visit')->unsigned();
             $column->longText('surgery_indication')->nullable();
@@ -24,7 +24,7 @@ class CreatePatientOpnotesTable extends Migration {
             $column->timestamps();
             $column->foreign('visit')
                     ->references('visit_id')
-                    ->on('patient_visits')
+                    ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $column->foreign('user')->references('id')->on('users')
@@ -43,7 +43,7 @@ class CreatePatientOpnotesTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('patient_opnotes');
+        Schema::drop('evaluation_opnotes');
     }
 
 }

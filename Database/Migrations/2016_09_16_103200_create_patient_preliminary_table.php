@@ -11,7 +11,7 @@ class CreatePatientPreliminaryTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('patient_preliminary', function(Blueprint $column) {
+        Schema::create('evaluation_preliminary', function(Blueprint $column) {
             $column->increments('id');
             $column->integer('visit')->unsigned();
             $column->string('entity');
@@ -23,7 +23,7 @@ class CreatePatientPreliminaryTable extends Migration {
 
             $column->foreign('visit')
                     ->references('visit_id')
-                    ->on('patient_visits')
+                    ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $column->foreign('user')->references('id')->on('users')
@@ -38,7 +38,7 @@ class CreatePatientPreliminaryTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('patient_preliminary');
+        Schema::drop('evaluation_preliminary');
     }
 
 }

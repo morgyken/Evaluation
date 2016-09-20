@@ -11,12 +11,13 @@ class CreateDiagnosisCodesTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('diagnosis_codes', function(Blueprint $table) {
+        Schema::create('evaluation_diagnosis_codes', function(Blueprint $table) {
             $table->increments('id');
             $table->string('code');
             $table->string('name');
             $table->integer('level');
             $table->string('diagnosis_type');
+            $table->timestamps();
         });
     }
 
@@ -26,7 +27,7 @@ class CreateDiagnosisCodesTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('diagnosis_codes');
+        Schema::drop('evaluation_diagnosis_codes');
     }
 
 }

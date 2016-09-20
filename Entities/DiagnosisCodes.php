@@ -12,11 +12,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property integer $level
  * @property string $diagnosis_type
+ * @property string $created_at
+ * @property string $updated_at
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereCode($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereLevel($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereDiagnosisType($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class DiagnosisCodes extends Model {
@@ -24,5 +28,6 @@ class DiagnosisCodes extends Model {
     public $primaryKey = 'code';
     public $timestamps = false;
     public $incrementing = false;
+    public $table = 'evaluation_diagnosis_codes';
 
 }

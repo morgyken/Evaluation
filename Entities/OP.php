@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $user
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \Ignite\Evaluation\Entities\PatientVisits $visits
+ * @property-read \Ignite\Evaluation\Entities\Visits $visits
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\OP whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\OP whereVisit($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\OP whereSurgeryIndication($value)
@@ -36,11 +36,11 @@ class OP extends Model {
 
     public $primaryKey = 'visit';
     public $incrementing = false;
-    public $table = 'patient_opnotes';
+    public $table = 'evaluation_opnotes';
     protected $fillable = ['visit'];
 
     public function visits() {
-        return $this->belongsTo(PatientVisits::class, 'visit', 'visit_id');
+        return $this->belongsTo(Visits::class, 'visit', 'visit_id');
     }
 
 }

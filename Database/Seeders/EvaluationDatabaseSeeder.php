@@ -1,6 +1,6 @@
 <?php
 
-namespace Dervis\Modules\Evaluation\Database\Seeders;
+namespace Ignite\Evaluation\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
@@ -14,7 +14,7 @@ class EvaluationDatabaseSeeder extends Seeder {
     public function run() {
 
         // $this->call("OthersTableSeeder");
-        //$this->call(ProceduresSeederTableSeeder::class);
+        $this->call(ProceduresTableSeeder::class);
     }
 
 }

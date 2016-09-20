@@ -4,7 +4,7 @@ $params = [
     'middleware' => ['auth.admin', 'setup'],
     'prefix' => 'evaluation',
     'as' => 'evaluation.',
-    'namespace' => 'Dervis\\Modules\Evaluation\Http\Controllers'];
+    'namespace' => 'Ignite\Evaluation\Http\Controllers'];
 
 Route::group($params, function() {
     Route::get('/', ['uses' => 'EvaluationController@index', 'as' => 'index']);

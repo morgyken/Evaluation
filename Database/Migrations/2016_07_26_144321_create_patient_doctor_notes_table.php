@@ -11,7 +11,7 @@ class CreatePatientDoctorNotesTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('patient_doctor_notes', function(Blueprint $column) {
+        Schema::create('evaluation_doctor_notes', function(Blueprint $column) {
             $column->increments('id');
             $column->integer('visit')->unsigned();
             $column->longText('presenting_complaints')->nullable();
@@ -19,12 +19,12 @@ class CreatePatientDoctorNotesTable extends Migration {
             $column->longText('examination')->nullable();
             $column->longText('diagnosis')->nullable();
             $column->longText('treatment_plan')->nullable();
+            $column->integer('user')->unsigned();
             $column->timestamps();
 
-            $column->integer('user')->unsigned();
             $column->foreign('visit')
                     ->references('visit_id')
-                    ->on('patient_visits')
+                    ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $column->foreign('user')->references('id')->on('users')
@@ -39,7 +39,7 @@ class CreatePatientDoctorNotesTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('patient_doctor_notes');
+        Schema::drop('evaluation_doctor_notes');
     }
 
 }

@@ -11,7 +11,7 @@ class CreatePatientDrawingsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('patient_drawings', function(Blueprint $column) {
+        Schema::create('evaluation_drawings', function(Blueprint $column) {
             $column->increments('id');
             $column->integer('visit')->unsigned();
             $column->longText('object')->nullable();
@@ -22,7 +22,7 @@ class CreatePatientDrawingsTable extends Migration {
                     ->onDelete('cascade');
             $column->foreign('visit')
                     ->references('visit_id')
-                    ->on('patient_visits')
+                    ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
         });
@@ -34,7 +34,7 @@ class CreatePatientDrawingsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('patient_drawings');
+        Schema::drop('evaluation_drawings');
     }
 
 }
