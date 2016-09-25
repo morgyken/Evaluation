@@ -1,5 +1,5 @@
 {
-    "name": "samueldervis/evaluation",
+    "name": "collabmed/evaluation",
     "description": "Out-patient evaluation module for all theatre, diagnostics nand labs",
     "license": "proprietary",
     "type": "asgard-module",
