@@ -39,10 +39,9 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
 
     public function extendWith(\Maatwebsite\Sidebar\Menu $menu) {
         $menu->group('Dashboard', function (Group $group) {
-            $group->item('Patient Evaluation', function (Item $item) {
+            $group->item('Evaluation', function (Item $item) {
                 $item->weight(2);
                 $item->icon('fa fa-heartbeat');
-
                 $item->item('Preliminary Examinations', function (Item $item) {
                     $item->icon('fa fa-wheelchair');
                     $item->route('evaluation.waiting_nurse');
