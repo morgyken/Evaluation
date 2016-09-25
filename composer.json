@@ -2,13 +2,13 @@
     "name": "collabmed/evaluation",
     "description": "Out-patient evaluation module for all theatre, diagnostics nand labs",
     "license": "proprietary",
-    "type": "asgard-module",
+    "type": "dervis-module",
     "homepage": "http://www.collabmed.com",
     "authors": [
         {
             "name": "Samuel Odhiambo Okoth",
             "email": "sodhiambo@collabmed.com",
-            "role": "developer"
+            "role": "Developer"
         }
     ],
     "require": {
