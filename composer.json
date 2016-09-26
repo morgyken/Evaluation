@@ -17,7 +17,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Dervis\\Modules\\Evaluation\\": ""
+            "Ignite\\Evaluation\\": ""
         }
+    },
+    "extra": {
+        "installer-name": "Evaluation"
     }
 }
