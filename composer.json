@@ -2,7 +2,7 @@
     "name": "collabmed/evaluation",
     "description": "Out-patient evaluation module for all theatre, diagnostics nand labs",
     "license": "proprietary",
-    "type": "dervis-module",
+    "type": "asgard-module",
     "homepage": "http://www.collabmed.com",
     "authors": [
         {
@@ -19,8 +19,5 @@
         "psr-4": {
             "Ignite\\Evaluation\\": ""
         }
-    },
-    "extra": {
-        "installer-name": "Evaluation"
     }
 }
