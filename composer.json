@@ -2,6 +2,7 @@
     "name": "collabmed/evaluation-module",
     "description": "Out-patient evaluation module for all theatre, diagnostics nand labs",
     "license": "proprietary",
+    "keywords": ["evaluation", "collabmed", "samuel", "dervis", "diagnostics", "in-patient", "out-patient"],
     "type": "asgard-module",
     "homepage": "http://www.collabmed.com",
     "authors": [
