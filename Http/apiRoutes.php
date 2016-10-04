@@ -12,10 +12,10 @@
 
 
 $ajax = [
-    'namespace' => 'Dervis\Modules\Evaluation\Http\Controllers',
-    'as' => 'evaluation.ajax.',
-    'prefix' => 'evaluation/ajax',
-    'middleware' => ['ajax'],
+    'namespace' => 'Ignite\Evaluation\Http\Controllers',
+    'as' => 'api.evaluation.',
+    'prefix' => 'api/evaluation',
+    'middleware' => mconfig('core.core.middleware.api'),
 ];
 //AJAX ONLY routes
 Route::group($ajax, function() {

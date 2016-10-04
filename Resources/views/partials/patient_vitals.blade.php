@@ -62,7 +62,7 @@ $form = vitals_for_visit($data['visit']);
             <div class="form-group">
                 <label class="col-md-4 control-label">Temperature Location</label>
                 <div class="col-md-8">
-                    {!! Form::select('temperature_location',config('system.temperature_location'),$form->temperature_location ,[ 'class'=>"form-control",'placeholder'=>'Choose..'])!!}
+                    {!! Form::select('temperature_location',mconfig('evaluation.options.temperature_location'),$form->temperature_location ,[ 'class'=>"form-control",'placeholder'=>'Choose..'])!!}
                 </div>
             </div>
         </div>
@@ -98,8 +98,8 @@ $form = vitals_for_visit($data['visit']);
             <div class="form-group">
                 <label class="col-md-4 control-label">Blood sugar unit</label>
                 <div class="col-md-8">
-                    <label class="radio-inline"><input type='radio' name='blood_sugar_unit' value='mmol/L' checked> mmol/L</label>
-                    <label class="radio-inline"><input type='radio' name='blood_sugar_unit' value='mg/dL'> mg/dL</label>
+                    <label class="radio-inline"><input type='radio' name='blood_sugar_units' value='mmol/L' checked> mmol/L</label>
+                    <label class="radio-inline"><input type='radio' name='blood_sugar_units' value='mg/dL'> mg/dL</label>
                 </div>
             </div>
             <hr/>
@@ -135,7 +135,7 @@ $form = vitals_for_visit($data['visit']);
             </div>
             <div class="form-group">
                 <label >Notes</label>
-                <textarea name='notes' rows='3' placeholder="Nurses' Notes" class="form-control">{{$form->nurse_notes}}</textarea>
+                <textarea name='nurse_notes' rows='3' placeholder="Nurses' Notes" class="form-control">{{$form->nurse_notes}}</textarea>
             </div>
         </div>
         <div class="pull-right">

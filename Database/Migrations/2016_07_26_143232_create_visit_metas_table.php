@@ -22,7 +22,7 @@ class CreateVisitMetasTable extends Migration {
             $column->boolean('book_theatre')->default(false);
             $column->boolean('refer_specialist')->default(false);
             $column->boolean('book_for_doctor')->default(false);
-            $column->integer('user')->unsigned();
+            $column->integer('user')->unsigned()->nullable();
             $column->timestamps();
 
             $column->foreign('user')->references('id')->on('users')

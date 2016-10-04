@@ -35,7 +35,7 @@ $data['section'] = 'evaluation';
                             @include('evaluation::partials.patient_vitals')
                         </div>
                     </div>
-                    <div class="tab-pane active" id="pre-exam">
+                    <div class="tab-pane" id="pre-exam">
                         <div>
                             @include('evaluation::partials.nurse_eye')
                         </div>
@@ -82,15 +82,15 @@ $data['section'] = 'evaluation';
 <script type="text/javascript">
     var USER_ID = parseInt("{{ Auth::user()->id }}");
     var VISIT_ID = parseInt("{{ $data['visit'] }}");
-    var VITALS_URL = "{{route('evaluation.ajax.save_vitals')}}";
-    var NOTES_URL = "{{route('evaluation.ajax.save_notes')}}";
-    var PRESCRIPTION_URL = "{{route('evaluation.ajax.save_prescription')}}";
-    var SET_DATE_URL = "{{route('evaluation.ajax.set_visit_date')}}";
-    var DIAGNOSIS_URL = "{{route('evaluation.ajax.save_diagnosis')}}";
-    var OPNOTES_URL = "{{route('evaluation.ajax.save_opnotes')}}";
-    var TREAT_URL = "{{route('evaluation.ajax.save_treatment')}}";
-    var DRAWINGS_URL = "{{route('evaluation.ajax.save_drawings')}}";
-    var VISIT_METAS_URL = "{{route('evaluation.ajax.save_visit_metas')}}";
+    var VITALS_URL = "{{route('api.evaluation.save_vitals')}}";
+    var NOTES_URL = "{{route('api.evaluation.save_notes')}}";
+    var PRESCRIPTION_URL = "{{route('api.evaluation.save_prescription')}}";
+    var SET_DATE_URL = "{{route('api.evaluation.set_visit_date')}}";
+    var DIAGNOSIS_URL = "{{route('api.evaluation.save_diagnosis')}}";
+    var OPNOTES_URL = "{{route('api.evaluation.save_opnotes')}}";
+    var TREAT_URL = "{{route('api.evaluation.save_treatment')}}";
+    var DRAWINGS_URL = "{{route('api.evaluation.save_drawings')}}";
+    var VISIT_METAS_URL = "{{route('api.evaluation.save_visit_metas')}}";
 </script>
 <script src="{{Module::asset('evaluation:js/doctor_evaluation.min.js')}}"></script>
 @endsection

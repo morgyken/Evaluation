@@ -5,7 +5,7 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 
-$eye_datas = \Dervis\Modules\Evaluation\Entities\EyeExam::whereVisit($data['visit'])->get();
+$eye_datas = get_eye_exams($data['visit']);
 ?>
 <div class="row">
     <div class="col-md-12">

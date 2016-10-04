@@ -415,7 +415,7 @@ class ProceduresTableSeeder extends Seeder {
                 $p->name = $procedure['name'];
                 $p->code = $procedure['code'];
 
-                $p->category_id = $faker->randomElement(array_keys($procedure_categories));
+                $p->category = $faker->randomElement(array_keys($procedure_categories));
                 $p->cash_charge = $procedure['cash_charge'];
                 $p->charge_insurance = $faker->randomElement([true, false]);
                 //dd($p);

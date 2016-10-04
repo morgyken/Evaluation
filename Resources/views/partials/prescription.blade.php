@@ -32,8 +32,8 @@
                         <td width="17%"><input type="text" name="take" id="Take" size="10" />
                         </td>
                         <td width="65%">
-                            {!! Form::select('prescription_whereto',config('system.prescription_whereto'),[])!!}
-                            {!! Form::select('prescription_method',config('system.prescription_method'),[])!!}
+                            {!! Form::select('prescription_whereto',mconfig('evaluation.options.prescription_whereto'),[])!!}
+                            {!! Form::select('prescription_method',mconfig('evaluation.options.prescription_method'),[])!!}
                         </td>
                         <td width="10%"></td>
                     </tr>

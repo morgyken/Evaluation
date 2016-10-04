@@ -43,7 +43,7 @@
             set_next_date();
         });
         function set_next_date() {
-            var SET_DATE_URL = "{{route('evaluation.ajax.set_next_date')}}";
+            var SET_DATE_URL = "{{route('api.evaluation.set_next_date')}}";
             var form_data = $('#next_visit').append('<input type="hidden" name="visit" value="' + VISIT_ID + '" /> ');
             form_data = form_data.append('<input type="hidden" name="user" value="' + USER_ID + '" /> ');
             $.ajax({type: "POST", url: SET_DATE_URL, data: form_data.serialize(), success: function () {

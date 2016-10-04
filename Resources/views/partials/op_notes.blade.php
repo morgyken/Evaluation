@@ -4,10 +4,7 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$op_notes = \Dervis\Modules\Evaluation\Entities\OP::whereVisit($data['visit'])->first();
-if (empty($op_notes)) {
-    $op_notes = new \Dervis\Modules\Evaluation\Entities\OP;
-}
+$op_notes = get_visit_data($data['visit'],'op_notes');
 ?>
 <div class="row">
     <div class="col-md-12">

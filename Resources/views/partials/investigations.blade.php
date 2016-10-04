@@ -4,7 +4,7 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$performed_diagnosis = \Dervis\Modules\Evaluation\Entities\PatientDiagnosis::whereVisit($data['visit'])->get();
+$performed_diagnosis = get_investigations($data['visit']);
 ?>
 <div>
     <div class="row">

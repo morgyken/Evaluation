@@ -5,9 +5,7 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  *///$diagnosis=
 
-$labs = \Dervis\Modules\Setup\Entities\Procedures::whereHas('categories', function ($query) {
-            $query->where('applies_to', 3);
-        })->get();
+$labs = get_procedures_for('laboratory');
 //$performed = Dervis\Model\Evaluation\PatientTreatment::whereVisit($data['visit'])->get();
 ?>
 @if($labs->isEmpty())

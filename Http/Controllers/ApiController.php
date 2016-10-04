@@ -2,12 +2,27 @@
 
 namespace Ignite\Evaluation\Http\Controllers;
 
+use Ignite\Evaluation\Entities\PatientDiagnosis;
+use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Nwidart\Modules\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Ignite\Evaluation\Library\EvaluationFunctions;
 
 class ApiController extends Controller {
+
+    /**
+     * @var EvaluationRepository
+     */
+    protected $evaluation;
+
+    /**
+     * ApiController constructor.
+     * @param EvaluationRepository $evaluation
+     */
+    public function __construct(EvaluationRepository $evaluation) {
+        $this->evaluation = $evaluation;
+    }
 
     public function save_drawings(Request $request) {
         return Response::json(EvaluationFunctions::save_drawings($request));
@@ -17,8 +32,8 @@ class ApiController extends Controller {
         return Response::json(get_diagnosis_codes($regex));
     }
 
-    public function save_vitals(Request $request) {
-        return Response::json(EvaluationFunctions::save_vitals($request));
+    public function save_vitals() {
+        return Response::json($this->evaluation->save_vitals());
     }
 
     public function save_opnotes(Request $request) {
@@ -31,7 +46,7 @@ class ApiController extends Controller {
 
     public function investigation_result(Request $request) {
         foreach ($request->investigation as $item) {
-            $__in = \Ignite\Evaluation\Entities\PatientDiagnosis::firstOrNew(['visit' => $request->visit[$item], 'test' => $item]);
+            $__in = PatientDiagnosis::firstOrNew(['visit' => $request->visit[$item], 'test' => $item]);
             $__in->results = $request->result[$item];
             $__in->file = base64_encode(file_get_contents($request->file[$item]->getRealPath()));
             $__in->save();

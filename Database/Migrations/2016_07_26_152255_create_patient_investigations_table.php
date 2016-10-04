@@ -23,7 +23,7 @@ class CreatePatientInvestigationsTable extends Migration {
             $column->integer('to_user')->unsigned()->nullable();
             $column->integer('from_user')->unsigned()->nullable();
             $column->longText('instructions')->nullable();
-            $column->longText('results')->nullable();
+            $column->longText('results')->nullable()->nullable();
             $column->integer('status')->default(1);
             $column->timestamps();
             $column->foreign('visit')
@@ -41,7 +41,7 @@ class CreatePatientInvestigationsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('investigations');
+        Schema::drop('evaluation_investigations');
     }
 
 }

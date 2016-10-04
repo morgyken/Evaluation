@@ -71,7 +71,7 @@ $data['section'] = 'diagnostics';
 </div>
 <script type="text/javascript">
     var VISIT_ID = "{{ $data['visit'] }}";
-    var SAVE_URL = "{{route('evaluation.ajax.save_diagnosis')}}";
+    var SAVE_URL = "{{route('api.evaluation.save_diagnosis')}}";
     $(document).ready(function () {
         $('.accordion').accordion({heightStyle: "content"});
         $('#laboratory_form').submit(function (e) {

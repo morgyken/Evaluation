@@ -32,7 +32,7 @@ class EyeExam extends Model {
 
     public $primaryKey = 'visit';
     public $incrementing = false;
-    public $fillable = ['visit', 'option'];
+    public $guarded = [];
     protected $table = 'evaluation_eye_exams';
 
     public function visits() {

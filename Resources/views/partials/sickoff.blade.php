@@ -14,7 +14,7 @@
                     <h4 class="box-title">Sickoff notes</h4>
                 </div>
                 <div class="box-body">
-                    {!! Form::open(['id'=>'sickoff','route' => 'reports.sick_off','target'=>"_blank"])!!}
+                    {!! Form::open(['id'=>'sickoff','route' => 'evaluation.reports.sick_off','target'=>"_blank"])!!}
                     <input type="hidden" name="patient" value="{{$data['patient']->patient_id}}"/>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Sick of period</label>

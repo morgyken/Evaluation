@@ -18,7 +18,7 @@ class CreatePatientPreliminaryTable extends Migration {
             $column->string('left');
             $column->string('right');
             $column->string('remarks');
-            $column->integer('user')->unsigned();
+            $column->integer('user')->unsigned()->nullable();
             $column->timestamps();
 
             $column->foreign('visit')

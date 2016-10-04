@@ -64,7 +64,7 @@ $count = 0;
 <script type="text/javascript">
     $(document).ready(function () {
         var to_checkout = null;
-        var SIGN_OUT = "{{route('evaluation.ajax.checkout_patient')}}";
+        var SIGN_OUT = "{{route('api.evaluation.checkout_patient')}}";
         var FROM = 'laboratory';
         $('.checkout').click(function () {
             to_checkout = $(this).val();

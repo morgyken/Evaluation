@@ -48,7 +48,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Prescriptions[] $prescriptions
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Investigations[] $investigations
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Treatment[] $treatments
- * @property-read \Ignite\Evaluation\Entities\OP $opnotes
+ * @property-read \Ignite\Evaluation\Entities\OpNotes $opnotes
  * @property-read \Ignite\Reception\Entities\Appointments $appointments
  * @property-read \Ignite\Users\Entities\UserProfile $doctors
  * @property-read \Ignite\Settings\Entities\Schemes $schemes
@@ -171,7 +171,7 @@ class Visits extends Model {
     }
 
     public function opnotes() {
-        return $this->hasOne(OP::class, 'visit', 'visit_id');
+        return $this->hasOne(OpNotes::class, 'visit', 'visit_id');
     }
 
     public function appointments() {

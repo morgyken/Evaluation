@@ -21,7 +21,7 @@ class CreatePatientPrescriptionsTable extends Migration {
             $column->string('duration');
             $column->boolean('allow_substitution');
 
-            $column->integer('user')->unsigned();
+            $column->integer('user')->unsigned()->nullable();
             $column->timestamps();
             $column->foreign('visit')
                     ->references('visit_id')

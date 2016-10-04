@@ -25,7 +25,7 @@ class CreateProcedureCategoriesTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('settings_procedure_categories');
+        Schema::drop('evaluation_procedure_categories');
     }
 
 }

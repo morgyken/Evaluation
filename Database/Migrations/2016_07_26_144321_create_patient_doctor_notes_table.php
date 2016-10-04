@@ -19,7 +19,7 @@ class CreatePatientDoctorNotesTable extends Migration {
             $column->longText('examination')->nullable();
             $column->longText('diagnosis')->nullable();
             $column->longText('treatment_plan')->nullable();
-            $column->integer('user')->unsigned();
+            $column->integer('user')->unsigned()->nullable();
             $column->timestamps();
 
             $column->foreign('visit')

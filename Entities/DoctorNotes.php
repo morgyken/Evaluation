@@ -34,6 +34,7 @@ class DoctorNotes extends Model {
 
     public $primaryKey = 'visit';
     public $incrementing = false;
+    protected $guarded=[];
     public $table = 'evaluation_doctor_notes';
 
     public function visits() {

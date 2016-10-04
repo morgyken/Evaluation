@@ -3,6 +3,7 @@
 namespace Ignite\Evaluation\Http\Controllers;
 
 use Ignite\Evaluation\Entities\Visits;
+use Ignite\Evaluation\Library\EvaluationFunctions;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Http\Request;
 
@@ -35,22 +36,22 @@ class EvaluationController extends \Ignite\Core\Http\Controllers\AdminBaseContro
     }
 
     public function patient_evaluation($visit) {
-        $this->data['visits'] = $v = \Ignite\Evaluation\Entities\Visits::find($visit);
+        $this->data['visits'] = $v = Visits::find($visit);
         if (empty($v)) {
             return redirect()->route('evaluation.waiting_doctor');
         }
         $this->data['visit'] = $visit;
-        $this->data['patient'] = \Ignite\Reception\Entities\Patients::find($v->patient);
+        $this->data['patient'] = Patients::find($v->patient);
         return view('evaluation::evaluation')->with('data', $this->data);
     }
 
     public function waiting_radiology() {
-        $this->data['all'] = \Ignite\Evaluation\Entities\Visits::checkedAt('radiology')->get();
+        $this->data['all'] = Visits::checkedAt('radiology')->get();
         return view('evaluation::queue_radiology')->with('data', $this->data);
     }
 
-    public function radiology(int $id) {
-        $this->data['visits'] = \Ignite\Evaluation\Entities\Visits::find($id);
+    public function radiology( $id) {
+        $this->data['visits'] = Visits::find($id);
         $this->data['visit'] = $id;
         return view('evaluation::radiology')->with('data', $this->data);
     }
@@ -60,7 +61,7 @@ class EvaluationController extends \Ignite\Core\Http\Controllers\AdminBaseContro
      * @return type
      */
     public function waiting_diagnostics() {
-        $this->data['all'] = \Ignite\Evaluation\Entities\Visits::checkedAt('diagnostics')->get();
+        $this->data['all'] = Visits::checkedAt('diagnostics')->get();
         return view('evaluation::queue_diagnostics')->with('data', $this->data);
     }
 
@@ -71,13 +72,13 @@ class EvaluationController extends \Ignite\Core\Http\Controllers\AdminBaseContro
      * @todo Improve diagnostics
      */
     public function diagnostics($id) {
-        $this->data['visits'] = \Ignite\Evaluation\Entities\Visits::find($id);
+        $this->data['visits'] = Visits::find($id);
         $this->data['visit'] = $id;
         return view('evaluation::diagnostics')->with('data', $this->data);
     }
 
     public function waiting_labs() {
-        $this->data['all'] = \Ignite\Evaluation\Entities\Visits::checkedAt('laboratory')->get();
+        $this->data['all'] = Visits::checkedAt('laboratory')->get();
         return view('evaluation::queue_labs')->with('data', $this->data);
     }
 
@@ -87,25 +88,25 @@ class EvaluationController extends \Ignite\Core\Http\Controllers\AdminBaseContro
      * @return type
      */
     public function labs($id) {
-        $this->data['visits'] = \Ignite\Evaluation\Entities\Visits::find($id);
+        $this->data['visits'] = Visits::find($id);
         $this->data['visit'] = $id;
         return view('evaluation::labs')->with('data', $this->data);
     }
 
     public function waiting_theatre() {
-        $this->data['all'] = \Ignite\Evaluation\Entities\Visits::checkedAt('theatre')->get();
+        $this->data['all'] = Visits::checkedAt('theatre')->get();
         return view('evaluation::queue_theatre')->with('data', $this->data);
     }
 
     public function theatre($id) {
-        $this->data['visits'] = $v = \Ignite\Evaluation\Entities\Visits::find($id);
+        $this->data['visits'] = $v = Visits::find($id);
         $this->data['visit'] = $id;
-        $this->data['patient'] = \Ignite\Reception\Entities\Patients::find($v->patient);
+        $this->data['patient'] = Patients::find($v->patient);
         return view('evaluation::theatre')->with('data', $this->data);
     }
 
     public function sign_out(Request $request, $visit_id, $section) {
-        $checkout = \Ignite\Evaluation\Library\EvaluationFunctions::checkout($request, ['id' => $visit_id, 'from' => $section]);
+        $checkout = EvaluationFunctions::checkout($request, ['id' => $visit_id, 'from' => $section]);
         if ($checkout) {
             $request->session()->flash('success', 'Patient checked out from ' . ucfirst($section));
         } else {
@@ -117,20 +118,20 @@ class EvaluationController extends \Ignite\Core\Http\Controllers\AdminBaseContro
     }
 
     public function review() {
-        $this->data['patients'] = \Ignite\Reception\Entities\Patients::whereHas('visits', function($query) {
+        $this->data['patients'] = Patients::whereHas('visits', function($query) {
 
                 })->get();
         return view('evaluation::reviews')->with('data', $this->data);
     }
 
     public function review_patient($patient_id) {
-        $this->data['patients'] = \Ignite\Reception\Entities\Patients::wherePatient($patient_id)->get();
+        $this->data['patients'] = Patients::wherePatient($patient_id)->get();
         return view('evaluation::patient_preview')->with('data', $this->data);
     }
 
     public function patient_visits($patient_id) {
-        $this->data['visits'] = \Ignite\Evaluation\Visits::wherePatient($patient_id)->get();
-        $this->data['patient'] = \Ignite\Reception\Patients::find($patient_id);
+        $this->data['visits'] = Visits::wherePatient($patient_id)->get();
+        $this->data['patient'] = Patients::find($patient_id);
         return view('evaluation::patient_visits')->with('data', $this->data);
     }
 

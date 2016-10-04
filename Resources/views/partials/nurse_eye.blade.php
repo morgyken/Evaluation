@@ -53,6 +53,6 @@
     </div>
     {!! Form::close() !!}
     <script type="text/javascript">
-        var PRELIMINARY_EXAMINATION = "{{route('evaluation.ajax.save_preliminary')}}";
+        var PRELIMINARY_EXAMINATION = "{{route('api.evaluation.save_preliminary')}}";
     </script>
 </div>

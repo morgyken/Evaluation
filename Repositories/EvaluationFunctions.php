@@ -4,37 +4,79 @@
  * =============================================================================
  *
  * Collabmed Solutions Ltd
- * Project: iClinic
+ * Project: Collabmed Health Platform
  * Author: Samuel Okoth <sodhiambo@collabmed.com>
  *
  * =============================================================================
  */
 
-namespace Ignite\Evaluation\Library;
+namespace Ignite\Evaluation\Repositories;
 
+use Ignite\Evaluation\Entities\DoctorNotes;
+use Ignite\Evaluation\Entities\Drawings;
 use Ignite\Evaluation\Entities\EyeExam;
-use Ignite\Evaluation\Entities\OP;
-use Ignite\Evaluation\Entities\PatientDiagnosis;
-use Ignite\Evaluation\Entities\PatientDrawings;
-use Ignite\Evaluation\Entities\PatientPrescriptions;
-use Ignite\Evaluation\Entities\PatientTreatment;
+use Ignite\Evaluation\Entities\Investigations;
+use Ignite\Evaluation\Entities\OpNotes;
+use Ignite\Evaluation\Entities\Prescriptions;
+use Ignite\Evaluation\Entities\Treatment;
 use Ignite\Evaluation\Entities\VisitMeta;
-use Illuminate\Http\Request;
-use Ignite\Reception\Entities\Patients;
-use Ignite\Evaluation\Entities\PatientVisits;
-use Ignite\Evaluation\Entities\PatientVitals;
+use Ignite\Evaluation\Entities\Visits;
+use Ignite\Evaluation\Entities\Vitals;
 use Ignite\Reception\Entities\Appointments;
-use Ignite\Evaluation\Entities\PatientDoctorNotes;
+use Ignite\Reception\Entities\Patients;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Jenssegers\Date\Date;
 
 /**
- * Description of EvaluationFunctions
+ * Description of FunctionsRepository
  *
- * @author Samuel Dervis <samueldervis@gmail.com>
+ * @author samuel
  */
-class EvaluationFunctions {
+class EvaluationFunctions implements EvaluationRepository {
+
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * @var array
+     */
+    protected $input;
+
+    /**
+     * @var mixed
+     */
+    protected $visit;
+
+    /**
+     * @var
+     */
+    protected $user;
+
+    /**
+     * EvaluationFunctions constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request) {
+        $this->request = $request;
+        $this->input = $request->all();
+        if ($request->has('visit')) {
+            $this->visit = $this->request->visit;
+        }
+        $this->user = $this->request->user()->id;
+        $this->prepareInput($this->input);
+    }
+
+    /**
+     * Remove the token from the input array
+     * @param $input
+     */
+    private function prepareInput(&$input) {
+        unset($input['_token']);
+    }
 
     /**
      * Create a central management for preemptive patient evaluation route
@@ -42,12 +84,12 @@ class EvaluationFunctions {
      * @param bool $flag Switch to determine if we use the parameter patient_visit as either patient id or schedule id
      * @return array The associative array for patient record
      */
-    public static function patient_management($patient_visit, bool $flag = null) {
+    public function patient_management($patient_visit, $flag = null) {
         $data = [];
         $data['schedule'] = $schedule = Appointments::findOrNew($patient_visit);
         $data['checked_in'] = empty($flag);
         $patient = empty($flag) ? $schedule->patient : $patient_visit;
-        $data['visits'] = PatientVisits::wherePatient($patient)->get();
+        $data['visits'] = Visits::wherePatient($patient)->get();
         $data['patient'] = Patients::find($patient);
         return $data;
     }
@@ -58,9 +100,9 @@ class EvaluationFunctions {
      * @deprecated since version 1.4 The current model does not require to create an new visit. Can implement by type-hinting
      * @return int
      */
-    public static function create_new_visit($schedule) {
+    public function create_new_visit($schedule) {
         $appointment = Appointments::find($schedule);
-        $visit = new PatientVisits;
+        $visit = new Visits;
         $visit->clinic = config('practice.clinic');
         $visit->patient = $appointment->patient;
         $visit->user = Auth::user()->user_id;
@@ -73,34 +115,34 @@ class EvaluationFunctions {
      * Save patient vitals
      * @param Request $request
      */
-    public static function save_vitals(Request $request) {
-        $vital = PatientVitals::findOrNew($request->visit);
-        $vital->visit = $request->visit;
-        $vital->weight = $request->weight;
-        $vital->height = $request->height;
-        $vital->bp_systolic = $request->bp_systolic;
-        $vital->bp_diastolic = $request->bp_diastolic;
-        $vital->pulse = $request->pulse;
-        $vital->respiration = $request->respiration;
-        $vital->temperature = $request->temperature;
-        $vital->temperature_location = $request->temperature_location;
-        $vital->oxygen = $request->oxygen;
-        $vital->hip = $request->hip;
-        $vital->waist = $request->waist;
-        $vital->blood_sugar = $request->blood_sugar;
-        $vital->blood_sugar_units = $request->blood_sugar_unit;
-        $vital->allergies = $request->allergies;
-        $vital->chronic_illnesses = $request->chronic_illnesses;
-        $vital->nurse_notes = $request->notes;
-        $vital->user = $request->user()->id;
-        return $vital->save();
+    public function save_vitals() {
+        $vital = Vitals::where('visit', $this->visit)->update($this->input);
+        dd($vital);
+        /* $vital->weight = $request->weight;
+          $vital->height = $request->height;
+          $vital->bp_systolic = $request->bp_systolic;
+          $vital->bp_diastolic = $request->bp_diastolic;
+          $vital->pulse = $request->pulse;
+          $vital->respiration = $request->respiration;
+          $vital->temperature = $request->temperature;
+          $vital->temperature_location = $request->temperature_location;
+          $vital->oxygen = $request->oxygen;
+          $vital->hip = $request->hip;
+          $vital->waist = $request->waist;
+          $vital->blood_sugar = $request->blood_sugar;
+          $vital->blood_sugar_units = $request->blood_sugar_unit;
+          $vital->allergies = $request->allergies;
+          $vital->chronic_illnesses = $request->chronic_illnesses;
+          $vital->nurse_notes = $request->notes;
+          $vital->user = $request->user()->id;
+          return $vital->save(); */
     }
 
     /**
      * @param Request $request
      */
-    public static function save_notes(Request $request) {
-        $notes = PatientDoctorNotes::findOrNew($request->visit);
+    public function save_notes(Request $request) {
+        $notes = DoctorNotes::findOrNew($request->visit);
 //$notes->investigation = $request->investigations;
         $notes->diagnosis = serialize($request->diagnosis);
 //$notes->professional_history = $request->professional_history;
@@ -113,11 +155,11 @@ class EvaluationFunctions {
         $notes->user = $request->user;
         $notes->save();
         if ($request->has('option')) {
-            save_eye_exam($request);
+            $this->save_eye_exam($request);
         }
     }
 
-    public static function save_eye_exam(Request $request) {
+    public function save_eye_exam(Request $request) {
         // $pre_run = \Dervis\Model\Evaluation\EyeExam::whereVisit($request->visit)->delete();
         //  dd($pre_run);
         foreach ($request->option as $key => $exam) {
@@ -131,8 +173,8 @@ class EvaluationFunctions {
         return true;
     }
 
-    public static function save_drawings(Request $request) {
-        $drawing = PatientDrawings::findOrNew($request->visit);
+    public function save_drawings(Request $request) {
+        $drawing = Drawings::findOrNew($request->visit);
         $drawing->object = serialize($request->objects);
         $drawing->user = $request->user()->id;
         $drawing->visit = $request->visit;
@@ -148,11 +190,11 @@ class EvaluationFunctions {
     /**
      * @param Request $request
      */
-    public static function save_treatment(Request $request) {
+    public function save_treatment(Request $request) {
         $id = 0;
-        PatientTreatment::whereVisit($request->visit)->whereIsPaid(false)->delete();
+        Treatment::whereVisit($request->visit)->whereIsPaid(false)->delete();
         foreach ($request->procedure as $treatment) {
-            $record = new PatientTreatment;
+            $record = new Treatment;
             $record->procedure = $treatment;
             $record->price = $request->price[$id];
             $record->base = $request->cost[$id];
@@ -164,13 +206,13 @@ class EvaluationFunctions {
         return true;
     }
 
-    public static function save_diagnosis(Request $request) {
+    public function save_diagnosis(Request $request) {
         $id = 0;
         if ($request->has('procedure')) {
-            PatientDiagnosis::whereVisit($request->visit)->whereType($request->type)->whereIsPaid(false)
+            Investigations::whereVisit($request->visit)->whereType($request->type)->whereIsPaid(false)
                     ->whereNull('results')->delete();
             foreach ($request->procedure as $treatment) {
-                $record = new PatientDiagnosis;
+                $record = new Investigations;
                 $record->visit = $request->visit;
                 $record->type = $request->type;
                 $record->test = $treatment;
@@ -182,7 +224,7 @@ class EvaluationFunctions {
                 $id++;
             }
             //@todo Remove patient in diagnostics queue if not booked
-            $visit = PatientVisits::find($request->visit);
+            $visit = Visits::find($request->visit);
             $type = $request->type;
             switch ($type) {
                 case 'diagnosis':
@@ -203,11 +245,11 @@ class EvaluationFunctions {
      * @param Request $request
      * @return bool
      */
-    public static function save_prescriptions(Request $request) {
+    public function save_prescriptions(Request $request) {
         if (empty($request->drug)) {
             return false;
         }
-        $prescribe = new PatientPrescriptions;
+        $prescribe = new Prescriptions;
         $prescribe->drug = strtoupper($request->drug);
         $prescribe->take = $request->take;
         $prescribe->whereto = $request->prescription_whereto;
@@ -225,8 +267,8 @@ class EvaluationFunctions {
      * @param Request $request
      * @return mixed
      */
-    public static function save_opnotes(Request $request) {
-        $op = OP::firstOrNew(['visit' => $request->visit]);
+    public function save_opnotes(Request $request) {
+        $op = OpNotes::firstOrNew(['visit' => $request->visit]);
         $op->implants = $request->implants;
         $op->surgery_indication = $request->indication;
         $op->postop = $request->postop;
@@ -245,13 +287,10 @@ class EvaluationFunctions {
      * @return boolean
      * @deprecated since version 1 New method available on the same class
      */
-    public static function sign_out_patient(Request $request, $visit_id) {
-        return true;
-        $visit = PatientVisits::find($visit_id);
+    public function sign_out_patient(Request $request, $visit_id) {
+        $visit = Visits::find($visit_id);
         $to_up = Appointments::whereVisitId($visit->appointment);
-//var_dump($request);
         $to_up->update(['status' => 3]);
-// dd($to_up);
         $visit->sign_out = true;
         if ($visit->save()) {
             $request->session()->flash('success', 'Patient signed out');
@@ -262,8 +301,8 @@ class EvaluationFunctions {
         return false;
     }
 
-    public static function set_next_visit(Request $request) {
-        $visit = PatientVisits::findOrFail($request->visit);
+    public function set_next_visit(Request $request) {
+        $visit = Visits::findOrFail($request->visit);
         $this_appointment = $visit->appointments;
         if (empty($this_appointment->next_visit)) {
             $appointment = new Appointments;
@@ -290,13 +329,13 @@ class EvaluationFunctions {
         return false;
     }
 
-    public static function set_visit_date(Request $request) {
-        $visit = PatientVisits::find($request->visit);
+    public function set_visit_date(Request $request) {
+        $visit = Visits::find($request->visit);
         $visit->created_at = $request->visit_date;
         return $visit->save();
     }
 
-    public static function update_visit_meta(Request $request) {
+    public function update_visit_meta(Request $request) {
         $meta = VisitMeta::findOrNew($request->visit);
         $meta->user = $request->user;
         $meta->visit = $request->visit;
@@ -306,14 +345,14 @@ class EvaluationFunctions {
         $meta->refer_specialist = $request->has('refer_specialist');
         if ($request->has('book_theatre')) {
             if (!$meta->book_theatre) {
-                book_for_theatre($meta);
+                $this->book_for_theatre($meta);
             }
         }
         $meta->book_theatre = $request->has('book_theatre');
         return $meta->save();
     }
 
-    public static function book_for_theatre(VisitMeta $meta) {
+    public function book_for_theatre(VisitMeta $meta) {
         $object = [
             'title' => 'Book patient for theatre',
             'message' => 'Book ' . $meta->visits->patients->fullname . ' to thetre',
@@ -325,7 +364,7 @@ class EvaluationFunctions {
         //return new \Dervis\Library\Notification($object);
     }
 
-    public static function checkout(Request $request, $data = null) {
+    public function checkout(Request $request, $data = null) {
         $visit_id = $section = null;
         if ($request->ajax()) {
             $visit_id = $request->id;
@@ -334,13 +373,13 @@ class EvaluationFunctions {
             $visit_id = $data['id'];
             $section = $data['from'];
         }
-        $visit = PatientVisits::find($visit_id);
+        $visit = Visits::find($visit_id);
         $where = $section . '_out';
         $visit->$where = new Date();
         return $visit->save();
     }
 
-    public static function order_diagnosis(Request $request) {
+    public function order_diagnosis(Request $request) {
         dd($request);
     }
 

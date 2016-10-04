@@ -2,6 +2,8 @@
 
 namespace Ignite\Evaluation\Providers;
 
+use Ignite\Evaluation\Repositories\EvaluationFunctions;
+use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Illuminate\Support\ServiceProvider;
 
 class EvaluationServiceProvider extends ServiceProvider {
@@ -22,6 +24,7 @@ class EvaluationServiceProvider extends ServiceProvider {
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->registerBindings();
     }
 
     /**
@@ -31,6 +34,13 @@ class EvaluationServiceProvider extends ServiceProvider {
      */
     public function register() {
         //
+    }
+
+    /**
+     * Register my bindings
+     */
+    public function registerBindings() {
+        $this->app->bind(EvaluationRepository::class, EvaluationFunctions::class);
     }
 
     /**

@@ -7,7 +7,7 @@
 /**
  * @todo Move this declaration from here. Either use view creator or move to model repository
  */
-$f_vitals = patient_vitals($patient->id);
+$f_vitals = get_vitals($patient->id);
 $checkout = '';
 if (!empty($data['section'])) {
     $checkout = route('evaluation.sign_out', [$data['visit'], $data['section']]);

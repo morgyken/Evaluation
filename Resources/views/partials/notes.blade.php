@@ -5,11 +5,10 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 $notes = get_patient_doctor_notes($data['visit']);
-if (empty($notes)) {
-    $notes = new Dervis\Modules\Evaluation\Entities\PatientDoctorNotes;
-}
-$diagnosis_p[0] = $diagnosis_p[1] = $diagnosis_p[2] = null;
-$diagnosis_p = unserialize($notes->diagnosis);
+
+
+$diagnosis_p[0] = $diagnosis_p[1] = $diagnosis_p[2] = null;/*
+$diagnosis_p = unserialize($notes->diagnosis);*/
 ?>
 <div>
     <div class="form-group req">

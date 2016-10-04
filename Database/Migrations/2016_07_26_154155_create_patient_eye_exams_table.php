@@ -18,7 +18,7 @@ class CreatePatientEyeExamsTable extends Migration {
             $column->string('od');
             $column->string('os');
             $column->longText('comments');
-            $column->integer('user')->unsigned();
+            $column->integer('user')->unsigned()->nullable();
 
             $column->foreign('visit')
                     ->references('visit_id')

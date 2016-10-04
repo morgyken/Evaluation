@@ -28,11 +28,11 @@ class ProcedureCategories extends Model {
     public $table = 'evaluation_procedure_categories';
 
     public function getAppliesAttribute() {
-        return config('system.applies_to.' . $this->applies_to);
+        return mconfig('evaluation.options.applies_to.' . $this->applies_to);
     }
 
     public function procedures() {
-        return $this->hasMany(Procedures::class, 'category_id', 'category_id');
+        return $this->hasMany(Procedures::class, 'category_id');
     }
 
 }

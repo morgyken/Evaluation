@@ -5,10 +5,8 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 
-$procedures = \Dervis\Modules\Setup\Entities\Procedures::whereHas('categories', function ($query) {
-            $query->where('applies_to', 1);
-        })->get();
-$performed = \Dervis\Modules\Evaluation\Entities\PatientTreatment::whereVisit($data['visit'])->get();
+$procedures =get_procedures_for('doctor');
+$performed = get_treatments($data['visit']);
 ?>
 <div class="row">
     <div class="col-md-12">

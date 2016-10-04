@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property string $name
  * @property string $code
- * @property integer $category_id
+ * @property integer $category
  * @property float $cash_charge
  * @property boolean $charge_insurance
  * @property string $description
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereCode($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereCategoryId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereCategory($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereCashCharge($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereChargeInsurance($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereDescription($value)
@@ -33,7 +33,7 @@ class Procedures extends Model {
     public $table = 'evaluation_procedures';
 
     public function categories() {
-        return $this->belongsTo(ProcedureCategories::class, 'category', 'id');
+        return $this->belongsTo(ProcedureCategories::class, 'category');
     }
 
 }

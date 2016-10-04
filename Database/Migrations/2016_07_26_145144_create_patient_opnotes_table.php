@@ -20,7 +20,7 @@ class CreatePatientOpnotesTable extends Migration {
             $column->dateTime('date')->nullable();
             $column->integer('doctor')->unsigned()->nullable();
             $column->longText('indication')->nullable();
-            $column->integer('user')->unsigned();
+            $column->integer('user')->unsigned()->nullable();
             $column->timestamps();
             $column->foreign('visit')
                     ->references('visit_id')

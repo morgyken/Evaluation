@@ -40,4 +40,8 @@ Route::group($params, function() {
     //waiting theatre
     Route::get('patients/waiting/theatre', ['uses' => 'EvaluationController@waiting_theatre', 'as' => 'waiting_theatre']);
     Route::get('patients/theatre/evaluate/{visit}', ['uses' => 'EvaluationController@theatre', 'as' => 'evaluate.theatre']);
+
+    Route::group(['prefix' => 'reports', 'as' => 'reports.'], function() {
+        Route::post('patients/sick_off/notes', ['uses' => 'ReportsController@sick_off', 'as' => 'sick_off']);
+    });
 });

@@ -49,14 +49,14 @@ $data['visit_id'] = 1;
 <script type="text/javascript">
     var USER_ID = parseInt("{{ Auth::user()->user_id }}");
     var VISIT_ID = parseInt("{{ $data['visit_id'] }}");
-    var VITALS_URL = "{{route('evaluation.ajax.save_vitals')}}";
-    var NOTES_URL = "{{route('evaluation.ajax.save_notes')}}";
-    var PRESCRIPTION_URL = "{{route('evaluation.ajax.save_prescription')}}";
-    var SET_DATE_URL = "{{route('evaluation.ajax.set_visit_date')}}";
-    var DIAGNOSIS_URL = "{{route('evaluation.ajax.save_diagnosis')}}";
-    var OPNOTES_URL = "{{route('evaluation.ajax.save_opnotes')}}";
-    var TREAT_URL = "{{route('evaluation.ajax.save_treatment')}}";
-    var DRAWINGS_URL = "{{route('evaluation.ajax.save_drawings')}}";
+    var VITALS_URL = "{{route('api.evaluation.save_vitals')}}";
+    var NOTES_URL = "{{route('api.evaluation.save_notes')}}";
+    var PRESCRIPTION_URL = "{{route('api.evaluation.save_prescription')}}";
+    var SET_DATE_URL = "{{route('api.evaluation.set_visit_date')}}";
+    var DIAGNOSIS_URL = "{{route('api.evaluation.save_diagnosis')}}";
+    var OPNOTES_URL = "{{route('api.evaluation.save_opnotes')}}";
+    var TREAT_URL = "{{route('api.evaluation.save_treatment')}}";
+    var DRAWINGS_URL = "{{route('api.evaluation.save_drawings')}}";
 </script>
 <script src="{{asset('js/doctor_evaluation.min.js')}}"></script>
 @endsection
