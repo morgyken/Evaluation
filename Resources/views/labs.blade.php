@@ -22,10 +22,10 @@ $patient = $data['visit']->patients;
                         <li><a href="#new" data-toggle="tab">New Tests</a> </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="ordered">
+                        <div class="tab-pane active " id="ordered">
                             @include('evaluation::partials.labs.ordered')
                         </div>
-                        <div class="tab-pane">
+                        <div class="tab-pane" id="new">
                             @include('evaluation::partials.labs.new')
                         </div>
                     </div>
@@ -34,6 +34,7 @@ $patient = $data['visit']->patients;
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     var VISIT_ID = "{{ $data['visit']->id }}";
     var SAVE_URL = "{{route('api.evaluation.investigation_result')}}";
@@ -58,5 +59,4 @@ $patient = $data['visit']->patients;
         });
     });
 </script>
-
 @endsection
