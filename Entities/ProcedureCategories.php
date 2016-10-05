@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $name
  * @property string $applies_to
  * @property string $deleted_at
- * @property-read mixed $applies
+ * @property-read mixed $applied_to
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Procedures[] $procedures
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureCategories whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureCategories whereName($value)
@@ -20,18 +20,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureCategories whereDeletedAt($value)
  * @mixin \Eloquent
  */
-class ProcedureCategories extends Model {
+class ProcedureCategories extends Model
+{
 
     use SoftDeletes;
 
     public $timestamps = false;
     public $table = 'evaluation_procedure_categories';
+    protected $guarded = [];
 
-    public function getAppliesAttribute() {
+    public function getAppliedToAttribute()
+    {
         return mconfig('evaluation.options.applies_to.' . $this->applies_to);
     }
 
-    public function procedures() {
+    public function procedures()
+    {
         return $this->hasMany(Procedures::class, 'category_id');
     }
 

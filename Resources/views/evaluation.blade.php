@@ -68,7 +68,7 @@ $data['section'] = 'evaluation';
 
                     <div class="tab-pane" id="history">
                         <div>
-                            @include('evaluation::partials.history')
+                            include('evaluation::partials.history')
                         </div>
                     </div>
                     <div class="tab-pane" id="drawings">

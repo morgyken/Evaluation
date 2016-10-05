@@ -10,6 +10,16 @@
  * =============================================================================
  */
 return [
+    'applies_to' => [
+        1 => 'Doctor',
+        2 => 'Pharmacy',
+        3 => 'Lab',
+        4 => 'Radiology',
+        5 => 'Nursing',
+        6 => 'UltraSound',
+        7 => 'Diagnostics',
+        8 => 'Theatre',
+    ],
     'visit_status' => [
         1 => 'Scheduled',
         2 => 'Checked In',

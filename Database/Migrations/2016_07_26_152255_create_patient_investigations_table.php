@@ -27,7 +27,7 @@ class CreatePatientInvestigationsTable extends Migration {
             $column->integer('status')->default(1);
             $column->timestamps();
             $column->foreign('visit')
-                    ->references('visit_id')
+                    ->references('id')
                     ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');

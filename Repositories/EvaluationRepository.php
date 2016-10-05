@@ -19,4 +19,23 @@ namespace Ignite\Evaluation\Repositories;
  */
 interface EvaluationRepository {
 
+    /**
+     * @return mixed
+     */
+    public function save_opnotes();
+
+    /**
+     * @return mixed
+     */
+    public function save_notes();
+
+    /**
+     * @return mixed
+     */
+    public function save_vitals();
+
+    /**
+     * @return mixed
+     */
+    public function get_diagnosis_codes_auto();
 }

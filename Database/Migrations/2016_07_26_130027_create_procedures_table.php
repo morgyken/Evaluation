@@ -19,7 +19,7 @@ class CreateProceduresTable extends Migration {
             $column->decimal('cash_charge', 10, 2); //cash amount charged
             $column->boolean('charge_insurance')->default(false); //cash charge applies to insurance
             $column->text('description')->nullable();
-            $column->boolean('active')->default(true);
+            $column->boolean('status')->default(true);
 
             $column->foreign('category')
                     ->references('id')

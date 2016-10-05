@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $cash_charge
  * @property boolean $charge_insurance
  * @property string $description
- * @property boolean $active
+ * @property boolean $status
  * @property-read \Ignite\Evaluation\Entities\ProcedureCategories $categories
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereName($value)
@@ -23,12 +23,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereCashCharge($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereChargeInsurance($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereActive($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereStatus($value)
  * @mixin \Eloquent
  */
 class Procedures extends Model {
 
-    protected $fillable = [];
+    protected $guarded = [];
     public $timestamps = false;
     public $table = 'evaluation_procedures';
 

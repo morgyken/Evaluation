@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $user
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \Ignite\Evaluation\Entities\Visits $visits
+ * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @property-read mixed $dose
  * @property-read mixed $sub
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereId($value)
@@ -42,7 +42,7 @@ class Prescriptions extends Model {
     public $table = 'evaluation_prescriptions';
 
     public function visits() {
-        return $this->belongsTo(Visits::class, 'visit', 'visit_id');
+        return $this->belongsTo(Visit::class, 'visit');
     }
 
     public function getDoseAttribute() {

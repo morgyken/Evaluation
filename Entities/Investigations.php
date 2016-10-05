@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property mixed $file
- * @property-read \Ignite\Evaluation\Entities\Visits $visits
+ * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
  * @property-read \Ignite\Users\Entities\UserProfile $doctors
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereId($value)
@@ -49,7 +49,7 @@ class Investigations extends Model {
     protected $guarded = [];
 
     public function visits() {
-        return $this->belongsTo(Visits::class, 'visit', 'visit_id');
+        return $this->belongsTo(Visit::class, 'visit');
     }
 
     public function procedures() {

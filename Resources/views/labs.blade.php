@@ -4,58 +4,38 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$patient = $data['visits']->patients;
-$diagnoses = $data['visits']->investigations->where('type', 'laboratory');
-$data['section'] = 'laboratory';
+$patient = $data['visit']->patients;
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation | Laboratory')
 @section('content_description','Patient evaluation | Laboratory')
 
 @section('content')
+@include('evaluation::partials.patient_details')
 <div class="box box-info">
     <div class="box-body">
-        @include('evaluation::partials.patient_details')
         <div class="form-horizontal">
             <div class="col-md-12">
-                @if(!$diagnoses->isEmpty())
-                {!! Form::open(['id'=>'laboratory_form','files'=>true]) !!}
-                <div class="accordion">
-                    @foreach($diagnoses as $item)
-                    <h4>{{$item->procedures->name}}</h4>
-                    <div>
-                        <input type="hidden" name="investigation[]" value="{{$item->test}}"/>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Results</label>
-                                <textarea name="result[{{$item->test}}]" class="form-control"></textarea>
-                                <input type="hidden" name="type[{{$item->test}}]" value="laboratory"/>
-                                <input type="hidden" name="visit[{{$item->test}}]" value="{{$data['visit']}}"/>
-                            </div>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#ordered" data-toggle="tab">Ordered Tests</a></li>
+                        <li><a href="#new" data-toggle="tab">New Tests</a> </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="ordered">
+                            @include('evaluation::partials.labs.ordered')
                         </div>
-                        <div class="col-md-4 col-md-offset-2">
-                            <div class="form-group">
-                                <label>File</label>
-                                <input type="file" class="form-control" name="file[{{$item->test}}]"/>
-                            </div>
-                        </div>
-                        <div class="pull-right">
-                            <button>Cancel</button>
-                            <button type="submit">Save</button>
+                        <div class="tab-pane">
+                            @include('evaluation::partials.labs.new')
                         </div>
                     </div>
-                    @endforeach
                 </div>
-                {!! Form::close()!!}
-                @else
-                <p>No laboratory tests ordered for this patient</p>
-                @endif
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    var VISIT_ID = "{{ $data['visit'] }}";
+    var VISIT_ID = "{{ $data['visit']->id }}";
     var SAVE_URL = "{{route('api.evaluation.investigation_result')}}";
     $(document).ready(function () {
         $('.accordion').accordion({heightStyle: "content"});

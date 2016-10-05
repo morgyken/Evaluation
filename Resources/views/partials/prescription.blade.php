@@ -71,7 +71,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         @foreach($data['visits']->prescriptions as $pres)
                         <tr>
                             <td>{{$pres->drug}}</td>

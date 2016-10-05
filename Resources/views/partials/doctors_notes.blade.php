@@ -14,7 +14,6 @@
             {!! Form::close() !!}
         </div>
         <div class="col-md-6">
-            <!--include('evaluation::partials.investigations')-->
             @include('evaluation::partials.prescription')
             @include('evaluation::partials.sickoff')
             <!--include('evaluation::partials.visit_date')-->

@@ -15,13 +15,15 @@ use Ignite\Evaluation\Entities\DoctorNotes;
 use Ignite\Evaluation\Entities\EyeExam;
 use Ignite\Evaluation\Entities\Investigations;
 use Ignite\Evaluation\Entities\OpNotes;
+use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
 use Ignite\Evaluation\Entities\Treatment;
 use Ignite\Evaluation\Entities\VisitMeta;
-use Ignite\Evaluation\Entities\Visits;
+use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\Vitals;
 use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\PatientDocuments;
+use Ignite\Settings\Entities\Clinics;
 
 if (!function_exists('get_patient_queue')) {
 
@@ -81,6 +83,7 @@ if (!function_exists('get_diagnosis_code')) {
 
     /**
      * @param string|null $regex
+     * @deprecated Use repository
      * @return array Diagnosis codes
      */
     function get_diagnosis_codes($regex = null) {
@@ -95,11 +98,11 @@ if (!function_exists('get_diagnosis_code')) {
 if (!function_exists('vitals_for_visit')) {
 
     /**
-     * @param $visit_id
+     * @param $id
      * @return \Illuminate\Database\Eloquent\Model
      */
-    function vitals_for_visit($visit_id) {
-        return Vitals::firstOrNew(['visit' => $visit_id]);
+    function vitals_for_visit($id) {
+        return Vitals::firstOrNew(['visit' => $id]);
     }
 
 }
@@ -110,7 +113,7 @@ if (!function_exists('patient_visits')) {
      * @return array|\Illuminate\Database\Eloquent\Collection|static[]
      */
     function patient_visits($patient_id) {
-        return Visits::wherePatient($patient_id)->get();
+        return Visit::wherePatient($patient_id)->get();
     }
 
 }
@@ -222,6 +225,41 @@ if (!function_exists('get_visit_data')) {
         }
         flash('Could not find subset data for ' . $section, 'warning');
         return null;
+    }
+
+}
+if (!function_exists('get_product_categories')) {
+
+    /**
+     * @return \Illuminate\Support\Collection Procedure Collection
+     */
+    function get_procedure_categories() {
+        return ProcedureCategories::all()->pluck('name', 'id');
+    }
+
+}
+if (!function_exists('get_clinic_name')) {
+
+    /**
+     * Fetch the Clinic name given the ID
+     * @param int $id
+     * @return string
+     */
+    function get_clinic_name($id = null) {
+        if (empty($id)) {
+            $id = Cookie::get('clinic') || 1;
+        }
+        return Clinics::findOrNew($id)->name;
+    }
+
+}
+if (!function_exists('get_procedures')) {
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function get_procedures() {
+        return Procedures::all()->pluck('name', 'id');
     }
 
 }

@@ -6,7 +6,8 @@
     "active": 1,
     "order": 3,
     "providers": [
-        "Ignite\\Evaluation\\Providers\\EvaluationServiceProvider"
+        "Ignite\\Evaluation\\Providers\\EvaluationServiceProvider",
+        "Ignite\\Evaluation\\Providers\\RouteServiceProvider"
     ],
     "aliases": [],
     "files": [

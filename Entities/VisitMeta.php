@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $user
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \Ignite\Evaluation\Entities\Visits $visits
+ * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @property-read \Ignite\Users\Entities\User $users
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\VisitMeta whereVisit($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\VisitMeta whereSickOff($value)
@@ -40,11 +40,11 @@ class VisitMeta extends Model {
 
     public $primaryKey = 'visit';
     public $incrementing = false;
-    protected $guarded=[];
+    protected $guarded = [];
     public $table = 'evaluation_visit_metas';
 
     public function visits() {
-        return $this->belongsTo(Visits::class, 'visit', 'visit_id');
+        return $this->belongsTo(Visit::class, 'visit');
     }
 
     public function users() {

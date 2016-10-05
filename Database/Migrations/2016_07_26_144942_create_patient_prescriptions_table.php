@@ -24,7 +24,7 @@ class CreatePatientPrescriptionsTable extends Migration {
             $column->integer('user')->unsigned()->nullable();
             $column->timestamps();
             $column->foreign('visit')
-                    ->references('visit_id')
+                    ->references('id')
                     ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');

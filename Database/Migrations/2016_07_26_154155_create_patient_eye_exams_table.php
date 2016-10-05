@@ -21,7 +21,7 @@ class CreatePatientEyeExamsTable extends Migration {
             $column->integer('user')->unsigned()->nullable();
 
             $column->foreign('visit')
-                    ->references('visit_id')
+                    ->references('id')
                     ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');

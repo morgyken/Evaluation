@@ -22,7 +22,7 @@ class CreatePatientPreliminaryTable extends Migration {
             $column->timestamps();
 
             $column->foreign('visit')
-                    ->references('visit_id')
+                    ->references('id')
                     ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');

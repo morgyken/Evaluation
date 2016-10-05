@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $user
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \Ignite\Evaluation\Entities\Visits $visits
+ * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereVisit($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes wherePresentingComplaints($value)
@@ -34,11 +34,11 @@ class DoctorNotes extends Model {
 
     public $primaryKey = 'visit';
     public $incrementing = false;
-    protected $guarded=[];
+    protected $guarded = [];
     public $table = 'evaluation_doctor_notes';
 
     public function visits() {
-        return $this->belongsTo(Visits::class, 'visit', 'visit_id');
+        return $this->belongsTo(Visit::class, 'visit');
     }
 
 }

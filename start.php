@@ -11,7 +11,4 @@
   | this file as you want.
   |
  */
-
-require __DIR__ . '/Http/routes.php';
-require __DIR__ . '/Http/apiRoutes.php';
 require __DIR__ . '/helpers.php';

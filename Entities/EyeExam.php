@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $user
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \Ignite\Evaluation\Entities\Visits $visits
+ * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\EyeExam whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\EyeExam whereVisit($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\EyeExam whereOption($value)
@@ -36,7 +36,7 @@ class EyeExam extends Model {
     protected $table = 'evaluation_eye_exams';
 
     public function visits() {
-        return $this->belongsTo(Visits::class, 'visit');
+        return $this->belongsTo(Visit::class, 'visit');
     }
 
 }

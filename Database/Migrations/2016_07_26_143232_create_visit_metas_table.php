@@ -29,7 +29,7 @@ class CreateVisitMetasTable extends Migration {
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $column->foreign('visit')
-                    ->references('visit_id')
+                    ->references('id')
                     ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');

@@ -7,7 +7,6 @@ use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Nwidart\Modules\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
-use Ignite\Evaluation\Library\EvaluationFunctions;
 
 class ApiController extends Controller {
 
@@ -29,19 +28,19 @@ class ApiController extends Controller {
     }
 
     public function diagnosis_codes($regex = null) {
-        return Response::json(get_diagnosis_codes($regex));
+        return $this->evaluation->get_diagnosis_codes_auto();
     }
 
     public function save_vitals() {
         return Response::json($this->evaluation->save_vitals());
     }
 
-    public function save_opnotes(Request $request) {
-        return Response::json(EvaluationFunctions::save_opnotes($request));
+    public function save_opnotes() {
+        return Response::json($this->evaluation->save_opnotes());
     }
 
-    public function save_notes(Request $request) {
-        return Response::json(EvaluationFunctions::save_notes($request));
+    public function save_notes() {
+        return Response::json($this->evaluation->save_notes());
     }
 
     public function investigation_result(Request $request) {
@@ -62,8 +61,8 @@ class ApiController extends Controller {
         return Response::json(EvaluationFunctions::save_treatment($request));
     }
 
-    public function save_prescription(Request $request) {
-        return Response::json(EvaluationFunctions::save_prescriptions($request));
+    public function save_prescription() {
+        return Response::json($this->evaluation->save_prescriptions());
     }
 
     public function set_next_date(Request $request) {
