@@ -14,8 +14,8 @@ class InvestigationsController extends AdminBaseController {
         $this->evaluation = $evaluation;
     }
 
-    public function __invoke() {
-        dd($this->evaluation);
+    public function __invoke($type) {
+        $this->evaluation->order_evaluation($type);
     }
 
 }

@@ -9,7 +9,7 @@
  * =============================================================================
  */
 
-$diagnoses = $data['visit']->investigations->where('type', 'laboratory');
+$diagnoses = $visit->investigations->where('type', 'laboratory');
 $data['section'] = 'laboratory';
 ?>
 @if(!$diagnoses->isEmpty())
@@ -24,7 +24,7 @@ $data['section'] = 'laboratory';
                 <label>Results</label>
                 <textarea name="result[{{$item->test}}]" class="form-control"></textarea>
                 <input type="hidden" name="type[{{$item->test}}]" value="laboratory"/>
-                <input type="hidden" name="visit[{{$item->test}}]" value="{{$data['visit']}}"/>
+                <input type="hidden" name="visit[{{$item->test}}]" value="{{$visit}}"/>
             </div>
         </div>
         <div class="col-md-4 col-md-offset-2">

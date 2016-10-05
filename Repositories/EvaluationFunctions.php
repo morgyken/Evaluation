@@ -414,8 +414,23 @@ class EvaluationFunctions implements EvaluationRepository {
         return Procedures::updateOrCreate(['id' => $this->id], $this->input);
     }
 
-    public function order_diagnosis() {
-        dd($request);
+    public function order_evaluation($type) {
+        dd($this->order_item_stack());
+    }
+
+    /**
+     * Build an index of items dynamically
+     * @param $keys
+     * @return array
+     */
+    private function order_item_stack() {
+        $stack = [];
+        foreach ($this->input as $key => $one) {
+            if (starts_with($key, 'item')) {
+                $stack[] = substr($key, 4);
+            }
+        }
+        return $stack;
     }
 
 }

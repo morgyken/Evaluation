@@ -43,7 +43,7 @@ if (!function_exists('get_procedures_for')) {
      * @param string $name
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_procedures_for($name) {
+    function get_procedures_for($name, $term = null) {
         $to_fetch = 0;
         switch ($name) {
             case 'doctor':
@@ -57,6 +57,11 @@ if (!function_exists('get_procedures_for')) {
                 break;
             default :
                 break;
+        }
+        if (!empty($term)) {
+            return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
+                        $query->where('applies_to', $to_fetch);
+                    })->where('name', 'like', "%$term%")->get();
         }
         return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
                     $query->where('applies_to', $to_fetch);

@@ -4,14 +4,14 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$patient = $data['visit']->patients;
+extract($data);
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation | Laboratory')
 @section('content_description','Patient evaluation | Laboratory')
 
 @section('content')
-@include('evaluation::partials.patient_details')
+@include('evaluation::partials.common.patient_details')
 <div class="box box-info">
     <div class="box-body">
         <div class="form-horizontal">
@@ -36,7 +36,7 @@ $patient = $data['visit']->patients;
 </div>
 
 <script type="text/javascript">
-    var VISIT_ID = "{{ $data['visit']->id }}";
+    var VISIT_ID = "{{ $visit->id }}";
     var SAVE_URL = "{{route('api.evaluation.investigation_result')}}";
     $(document).ready(function () {
         $('.accordion').accordion({heightStyle: "content"});
