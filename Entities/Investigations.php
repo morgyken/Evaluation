@@ -2,6 +2,7 @@
 
 namespace Ignite\Evaluation\Entities;
 
+use Ignite\Users\Entities\UserProfile;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,33 +14,26 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $test
  * @property float $price
  * @property float $base
- * @property boolean $is_paid
- * @property integer $to_user
- * @property integer $from_user
- * @property string $instructions
- * @property string $results
- * @property integer $status
+ * @property boolean $paid
+ * @property integer $user
+ * @property boolean $orderd
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property mixed $file
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
  * @property-read \Ignite\Users\Entities\UserProfile $doctors
+ * @property-read \Ignite\Evaluation\Entities\InvestigationResult $results
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereVisit($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereType($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereTest($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations wherePrice($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereBase($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereIsPaid($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereToUser($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereFromUser($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereInstructions($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereResults($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations wherePaid($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereUser($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereOrderd($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereFile($value)
  * @mixin \Eloquent
  */
 class Investigations extends Model {
@@ -57,7 +51,11 @@ class Investigations extends Model {
     }
 
     public function doctors() {
-        return $this->belongsTo(\Ignite\Users\Entities\UserProfile::class, 'from_user', 'user_id');
+        return $this->belongsTo(UserProfile::class, 'from_user', 'user_id');
+    }
+
+    public function results() {
+        return $this->hasOne(InvestigationResult::class, 'id', 'id');
     }
 
 }

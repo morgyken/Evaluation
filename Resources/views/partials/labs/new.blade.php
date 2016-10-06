@@ -9,7 +9,7 @@
  * =============================================================================
  */
 ?>
-{!! Form::open(['route'=>['evaluation.order','labs']])!!}
+{!! Form::open(['route'=>['evaluation.order','laboratory']])!!}
 <table class="table table-condensed" id="evaluation_order">
     {!! Form::hidden('visit',$visit->id) !!}
     <thead>

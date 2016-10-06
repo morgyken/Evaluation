@@ -15,7 +15,12 @@ class InvestigationsController extends AdminBaseController {
     }
 
     public function __invoke($type) {
-        $this->evaluation->order_evaluation($type);
+        if ($this->evaluation->order_evaluation($type)) {
+            flash()->success('Test ordered for ' . $type);
+        } else {
+            flash('Something wasn\'t right', 'danger');
+        }
+        return back();
     }
 
 }

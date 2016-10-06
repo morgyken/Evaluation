@@ -92,6 +92,7 @@ class EvaluationController extends AdminBaseController {
      */
     public function labs($visit) {
         $this->data['visit'] = Visit::find($visit);
+        $this->data['section'] = 'laboratory';
         return view('evaluation::labs')->with('data', $this->data);
     }
 

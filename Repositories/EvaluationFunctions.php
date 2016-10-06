@@ -415,7 +415,19 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     public function order_evaluation($type) {
-        dd($this->order_item_stack());
+        foreach ($this->__get_selected_stack() as $index) {
+            $item = 'item' . $index;
+            $price = 'price' . $index;
+            Investigations::create([
+                'visit' => $this->visit,
+                'type' => $type,
+                'user' => $this->user,
+                'test' => $this->input[$item],
+                'price' => $this->input[$price],
+                'base' => 0
+            ]);
+        }
+        return true;
     }
 
     /**
@@ -423,7 +435,7 @@ class EvaluationFunctions implements EvaluationRepository {
      * @param $keys
      * @return array
      */
-    private function order_item_stack() {
+    private function __get_selected_stack() {
         $stack = [];
         foreach ($this->input as $key => $one) {
             if (starts_with($key, 'item')) {

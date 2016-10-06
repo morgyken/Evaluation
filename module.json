@@ -11,7 +11,7 @@
     ],
     "aliases": [],
     "files": [
-        "start.php"
+        "helpers.php"
     ],
     "core": 0,
     "version": "v1.0.0",

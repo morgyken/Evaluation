@@ -7,7 +7,7 @@
 $checkout = '';
 $patient = $visit->patients;
 if (!empty($section)) {
-    $checkout = route('evaluation.sign_out', [$visit->id, $data['section']]);
+    $checkout = route('evaluation.sign_out', [$visit->id, $section]);
 }
 ?>
 <div class="box box-default">
