@@ -16,23 +16,24 @@ class ProceduresTableSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        $procedure_categories = [
-            1 => ['name' => 'Consultation', 'applies_to' => 1],
-            2 => ['name' => 'Haematology', 'applies_to' => 3],
-            3 => ['name' => 'Clinical Chemistry - Biochemistry', 'applies_to' => 2],
-            4 => ['name' => 'Clinical Chemistry - Special & Immunochemistry', 'applies_to' => 3],
-            5 => ['name' => 'Serology', 'applies_to' => 4],
-            6 => ['name' => 'Parasitology & Microbiology', 'applies_to' => 6],
-            7 => ['name' => 'Cytology / Histology', 'applies_to' => 3],
-            8 => ['name' => 'Fluids Routine', 'applies_to' => 4],
-            9 => ['name' => 'X-Ray Scans', 'applies_to' => 1],
-            10 => ['name' => 'PhysioTherapy', 'applies_to' => 1],
-            11 => ['name' => 'Ultrasound', 'applies_to' => 3],
-            12 => ['name' => 'urina', 'applies_to' => 5],
-            13 => ['name' => 'Shoulder', 'applies_to' => 6],
-            14 => ['name' => 'Diagnostics', 'applies_to' => 7],
-            15 => ['name' => 'Theatre', 'applies_to' => 8],
-        ];
+        /*
+          $procedure_categories = [
+          1 => ['name' => 'Consultation', 'applies_to' => 1],
+          2 => ['name' => 'Haematology', 'applies_to' => 3],
+          3 => ['name' => 'Clinical Chemistry - Biochemistry', 'applies_to' => 2],
+          4 => ['name' => 'Clinical Chemistry - Special & Immunochemistry', 'applies_to' => 3],
+          5 => ['name' => 'Serology', 'applies_to' => 4],
+          6 => ['name' => 'Parasitology & Microbiology', 'applies_to' => 6],
+          7 => ['name' => 'Cytology / Histology', 'applies_to' => 3],
+          8 => ['name' => 'Fluids Routine', 'applies_to' => 4],
+          9 => ['name' => 'X-Ray Scans', 'applies_to' => 1],
+          10 => ['name' => 'PhysioTherapy', 'applies_to' => 1],
+          11 => ['name' => 'Ultrasound', 'applies_to' => 3],
+          12 => ['name' => 'urina', 'applies_to' => 5],
+          13 => ['name' => 'Shoulder', 'applies_to' => 6],
+          14 => ['name' => 'Diagnostics', 'applies_to' => 7],
+          15 => ['name' => 'Theatre', 'applies_to' => 8],
+          ]; */
         $procedures = [
             ['name' => 'Consultation', 'code' => 'CONS', 'cash_charge' => '3000.00'],
             ['name' => 'TBC(Total Blood Count) or FBC(Full Blood Count){Hb,RBC,PCV,MCV,MCH,MCHC, WBC,PLT,}', 'code' => 'C0044', 'cash_charge' => '1000.00'],
@@ -399,7 +400,17 @@ class ProceduresTableSeeder extends Seeder {
             ['name' => 'BETA - 2 -MICROGLOBULIN (Serum)', 'code' => 'B0031', 'cash_charge' => '2800.00'],
             ['name' => 'Surgery', 'code' => 'DSAFDAS45', 'cash_charge' => '330.00']
         ];
-
+        $procedure_categories = [
+            1 => ['name' => 'Doctor', 'applies_to' => 1],
+            2 => ['name' => 'Evaluation', 'applies_to' => 1],
+            3 => ['name' => 'Pharmacy', 'applies_to' => 2],
+            4 => ['name' => 'Lab', 'applies_to' => 3],
+            5 => ['name' => 'Radiology', 'applies_to' => 4],
+            6 => ['name' => 'Nursing', 'applies_to' => 5],
+            7 => ['name' => 'UltraSound', 'applies_to' => 6],
+            8 => ['name' => 'Diagnostics', 'applies_to' => 7],
+            9 => ['name' => 'Theatre', 'applies_to' => 8],
+        ];
 
         DB::transaction(function() use ($procedure_categories, $procedures) {
             //$sample = config('procedures.categories');
@@ -415,7 +426,7 @@ class ProceduresTableSeeder extends Seeder {
                 $p->name = $procedure['name'];
                 $p->code = $procedure['code'];
 
-                $p->category_id = $faker->randomElement(array_keys($procedure_categories));
+                $p->category = $faker->randomElement(array_keys($procedure_categories));
                 $p->cash_charge = $procedure['cash_charge'];
                 $p->charge_insurance = $faker->randomElement([true, false]);
                 //dd($p);

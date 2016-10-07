@@ -1,0 +1,465 @@
+<?php
+
+/*
+ * =============================================================================
+ *
+ * Collabmed Solutions Ltd
+ * Project: Collabmed Health Platform
+ * Author: Samuel Okoth <sodhiambo@collabmed.com>
+ *
+ * =============================================================================
+ */
+
+namespace Ignite\Evaluation\Repositories;
+
+use Ignite\Evaluation\Entities\DiagnosisCodes;
+use Ignite\Evaluation\Entities\DoctorNotes;
+use Ignite\Evaluation\Entities\Drawings;
+use Ignite\Evaluation\Entities\EyeExam;
+use Ignite\Evaluation\Entities\Investigations;
+use Ignite\Evaluation\Entities\OpNotes;
+use Ignite\Evaluation\Entities\Preliminary;
+use Ignite\Evaluation\Entities\Prescriptions;
+use Ignite\Evaluation\Entities\ProcedureCategories;
+use Ignite\Evaluation\Entities\Procedures;
+use Ignite\Evaluation\Entities\Treatment;
+use Ignite\Evaluation\Entities\VisitMeta;
+use Ignite\Evaluation\Entities\Visit;
+use Ignite\Evaluation\Entities\Vitals;
+use Ignite\Reception\Entities\Appointments;
+use Ignite\Reception\Entities\Patients;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
+use Jenssegers\Date\Date;
+
+/**
+ * Description of FunctionsRepository
+ *
+ * @author samuel
+ */
+class EvaluationFunctions implements EvaluationRepository {
+
+    /**
+     * Incoming HTTP request
+     * @var Request
+     *
+     */
+    protected $request;
+
+    /**
+     * The filtered input
+     * @var array
+     */
+    protected $input;
+
+    /**
+     * Visit reference ID
+     * @var mixed|int
+     */
+    protected $visit;
+
+    /**
+     * User making the request
+     * @var int
+     */
+    protected $user;
+
+    /**
+     * Model ID or null
+     * @var null|int
+     */
+    protected $id = null;
+
+    /**
+     * EvaluationFunctions constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request) {
+        $this->request = $request;
+        $this->input = $this->request->all();
+        if ($this->request->has('visit')) {
+            $this->visit = $this->request->visit;
+        }
+        if (Auth::check()) {
+            $this->user = $this->request->user()->id;
+        }
+        $this->prepareInput($this->input);
+    }
+
+    /**
+     * Remove the token from the input array
+     * Also remove empty values
+     * @param $input
+     */
+    private function prepareInput(&$input) {
+        unset($input['_token']);
+        foreach ($input as $key => $value) {
+            if (empty($value)) {
+                unset($input[$key]);
+            }
+        }
+        if (!empty($input['id'])) {
+            $this->id = $input['id'];
+            unset($input['id']);
+        }
+    }
+
+    /**
+     * Create a central management for preemptive patient evaluation route
+     * @param $patient_visit
+     * @param bool $flag Switch to determine if we use the parameter patient_visit as either patient id or schedule id
+     * @return array The associative array for patient record
+     */
+    public function patient_management($patient_visit, $flag = null) {
+        $data = [];
+        $data['schedule'] = $schedule = Appointments::findOrNew($patient_visit);
+        $data['checked_in'] = empty($flag);
+        $patient = empty($flag) ? $schedule->patient : $patient_visit;
+        $data['visits'] = Visit::wherePatient($patient)->get();
+        $data['patient'] = Patients::find($patient);
+        return $data;
+    }
+
+    /**
+     * Create a new visit incase it has not been setup yet
+     * @param $schedule
+     * @deprecated since version 1.4 The current model does not require to create an new visit. Can implement by type-hinting
+     * @return int
+     */
+    public function create_new_visit($schedule) {
+        $appointment = Appointments::find($schedule);
+        $visit = new Visit;
+        $visit->clinic = config('practice.clinic');
+        $visit->patient = $appointment->patient;
+        $visit->user = Auth::user()->user_id;
+        $visit->appointment = $appointment->id;
+        $visit->save();
+        return $visit->id;
+    }
+
+    /**
+     * Save patient vitals
+     * @param
+     */
+    public function save_vitals() {
+        Vitals::firstOrCreate(['visit' => $this->visit]); //safety first
+        return Vitals::where('visit', $this->visit)->update($this->input);
+    }
+
+    public function get_diagnosis_codes_auto() {
+        $ret = [];
+        $term = $this->request->term['term'];
+        if (!empty($term)) {
+            $found = DiagnosisCodes::select('id', 'name as text')
+                            ->where('name', 'like', "%$term%")->get();
+        }
+        $ret['results'] = $found;
+        return json_encode($ret);
+    }
+
+    /**
+     * @param
+     */
+    public function save_notes() {
+        dd($this->input);
+        return DoctorNotes::updateOrCreate(['visit' => $this->visit], $this->input);
+        dd($notes);
+//$notes->investigation = $this->request->investigations;
+        $notes->diagnosis = serialize($this->request->diagnosis);
+//$notes->professional_history = $this->request->professional_history;
+        $notes->visit = $this->request->visit;
+        $notes->presenting_complaints = $this->request->presenting_complaints;
+        $notes->past_medical_history = $this->request->past_medical_history;
+//$notes->treatment_history = $this->request->drug_history;
+        $notes->examination = $this->request->examination;
+        $notes->treatment_plan = $this->request->treatment_plan;
+        $notes->user = $this->request->user;
+        $notes->save();
+        if ($this->request->has('option')) {
+            $this->save_eye_exam($this->request);
+        }
+    }
+
+    public function save_eye_exam() {
+// $pre_run = \Dervis\Model\Evaluation\EyeExam::whereVisit($this->request->visit)->delete();
+//  dd($pre_run);
+        foreach ($this->request->option as $key => $exam) {
+            $eye = EyeExam::firstOrCreate(['option' => $exam, 'visit' => $this->request->visit]);
+            $eye->od = $this->request->od[$key];
+            $eye->os = $this->request->os[$key];
+            $eye->comments = $this->request->comments[$key];
+            $eye->user = $this->request->user()->id;
+            $eye->save();
+        }
+        return true;
+    }
+
+    public function save_drawings() {
+        $drawing = Drawings::findOrNew($this->request->visit);
+        $drawing->object = serialize($this->request->objects);
+        $drawing->user = $this->request->user()->id;
+        $drawing->visit = $this->request->visit;
+        if ($this->request->hasFile('image')) {
+            $image = Image::make($this->request->file('image')->getRealPath());
+            $_encode = $image/* ->fit(160, 160) */
+                    ->encode('jpg');
+            $stream = $_encode->stream();
+            $drawing->background = base64_encode($stream);
+        }
+        $drawing->save();
+    }
+
+    /**
+     * @param
+     */
+    public function save_treatment() {
+        $id = 0;
+        Treatment::whereVisit($this->request->visit)->whereIsPaid(false)->delete();
+        foreach ($this->request->procedure as $treatment) {
+            $record = new Treatment;
+            $record->procedure = $treatment;
+            $record->price = $this->request->price[$id];
+            $record->base = $this->request->cost[$id];
+            $record->visit = $this->request->visit;
+            $record->user = $this->request->user()->id;
+            $record->save();
+            $id++;
+        }
+        return true;
+    }
+
+    private function check_in_at($section) {
+        $visit = Visit::find($this->visit);
+        switch ($section) {
+            case 'diagnosis':
+                $visit->diagnostics = true;
+                break;
+            case 'laboratory':
+                $visit->laboratory = true;
+                break;
+        }
+        return $visit->save();
+    }
+
+    public function save_diagnosis() {
+        DB::transaction(function () {
+            if (!empty($this->input['procedure'])) {
+                foreach ($this->input['procedure'] as $key => $treatment) {
+                    Investigations::create([
+                        'type' => $this->input['type'][$key],
+                        'visit' => $this->visit,
+                        'test' => $treatment,
+                        'price' => $this->input['cost'][$key],
+                        'base' => $this->input['price'][$key],
+                        'instructions' => $this->input['instructions'][$key],
+                        'user' => $this->user,
+                        'ordered' => true
+                    ]);
+                    $this->check_in_at($this->input['type'][$key]);
+                }
+            }
+        });
+        return ['result' => true];
+    }
+
+    /**
+     * @param
+     * @return bool
+     */
+    public function save_prescriptions() {
+        dd($this->input);
+        if (empty($this->request->drug)) {
+            return false;
+        }
+        Prescriptions::create($this->input);
+        /*
+          $prescribe = new Prescriptions;
+          $prescribe->drug = strtoupper($this->request->drug);
+          $prescribe->take = $this->request->take;
+          $prescribe->whereto = $this->request->prescription_whereto;
+          $prescribe->method = $this->request->prescription_method;
+          $prescribe->duration = $this->request->duration;
+          $prescribe->visit = $this->request->visit;
+          $prescribe->user = $this->request->user;
+          if ($this->request->has('allow_substitution')) {
+          $prescribe->allow_substitution = true;
+          }
+          return $prescribe->save(); */
+    }
+
+    /**
+     * @param
+     * @return mixed
+     */
+    public function save_opnotes() {
+        $op = OpNotes::firstOrNew(['visit' => $this->request->visit]);
+        $op->implants = $this->request->implants;
+        $op->surgery_indication = $this->request->indication;
+        $op->postop = $this->request->postop;
+        $op->date = new Date($this->request->date . ' ' . $this->request->time);
+        $op->doctor = $this->request->surgeon;
+        $op->indication = $this->request->indication;
+        $op->user = $this->request->user;
+        $op->visit = $this->request->visit;
+        return $op->save();
+    }
+
+    /**
+     *
+     * @param
+     * @param type $id
+     * @return boolean
+     * @deprecated since version 1 New method available on the same class
+     */
+    public function sign_out_patient($id) {
+        $visit = Visit::find($id);
+        $to_up = Appointments::whereVisitId($visit->appointment);
+        $to_up->update(['status' => 3]);
+        $visit->sign_out = true;
+        if ($visit->save()) {
+            $this->request->session()->flash('success', 'Patient signed out');
+            return true;
+        } else {
+            $this->request->session()->flash('error', 'An error occured');
+        }
+        return false;
+    }
+
+    public function set_next_visit() {
+        $visit = Visit::findOrFail($this->request->visit);
+        $this_appointment = $visit->appointments;
+        if (empty($this_appointment->next_visit)) {
+            $appointment = new Appointments;
+        } else {
+            $appointment = Appointments::findOrNew($this_appointment->next_visit);
+        }
+        $appointment->patient = $this_appointment->patient;
+        $appointment->time = new Date($this->request->next_visit . ' 10:00');
+        $appointment->procedure = $this_appointment->procedure;
+        $appointment->doctor = $this_appointment->doctor;
+        $appointment->status = 5;
+        $appointment->instructions = $this_appointment->instructions;
+        $appointment->payment_mode = $this_appointment->payment_mode;
+        $appointment->clinic = $this_appointment->clinic;
+        $appointment->category = $this_appointment->category;
+        if ($appointment->save()) {
+//dispatch(new \Dervis\Jobs\SendNotificationSMS($appointment->schedule_id), 'reminders');
+//sendAppointmentNotification($appointment->id);
+            $this_appointment->next_visit = $appointment->id;
+            flash("Appointment has been saved");
+            return $this_appointment->save();
+        }
+        flash()->error("An error occurred");
+        return false;
+    }
+
+    public function set_visit_date() {
+        $visit = Visit::find($this->request->visit);
+        $visit->created_at = $this->request->visit_date;
+        return $visit->save();
+    }
+
+    public function update_visit_meta() {
+        $meta = VisitMeta::findOrNew($this->request->visit);
+        $meta->user = $this->request->user;
+        $meta->visit = $this->request->visit;
+        $meta->call = $this->request->has('call');
+        $meta->pre_authorization = $this->request->has('pre_authorization');
+        $meta->book_for_doctor = $this->request->has('book_for_doctor');
+        $meta->refer_specialist = $this->request->has('refer_specialist');
+        if ($this->request->has('book_theatre')) {
+            if (!$meta->book_theatre) {
+                $this->book_for_theatre($meta);
+            }
+        }
+        $meta->book_theatre = $this->request->has('book_theatre');
+        return $meta->save();
+    }
+
+    public function book_for_theatre(VisitMeta $meta) {
+        $object = [
+            'title' => 'Book patient for theatre',
+            'message' => 'Book ' . $meta->visits->patients->fullname . ' to thetre',
+            'link' => route('system.reception.checkin', $meta->visit->patients->patient_id),
+            'group' => 'reception',
+        ];
+//@todo Send notification
+        return true; //send_notification();
+//return new \Dervis\Library\Notification($object);
+    }
+
+    public function checkout($data = null) {
+        $id = $section = null;
+        if ($this->request->ajax()) {
+            $id = $this->request->id;
+            $section = $this->request->from;
+        } else {
+            $id = $data['id'];
+            $section = $data['from'];
+        }
+        $visit = Visit::find($id);
+        $where = $section . '_out';
+        $visit->$where = new Date();
+        return $visit->save();
+    }
+
+    /**
+     * Saves a new procedure category model. Updates a model if ID is supplied in param
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function add_procedure_category() {
+        return ProcedureCategories::updateOrCreate(['id' => $this->id], $this->input);
+    }
+
+    /**
+     * Save procedure model instance
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function add_procedure() {
+        return Procedures::updateOrCreate(['id' => $this->id], $this->input);
+    }
+
+    public function order_evaluation($type) {
+        foreach ($this->__get_selected_stack() as $index) {
+            $item = 'item' . $index;
+            $price = 'price' . $index;
+            Investigations::create([
+                'visit' => $this->visit,
+                'type' => $type,
+                'user' => $this->user,
+                'test' => $this->input[$item],
+                'price' => $this->input[$price],
+                'base' => 0
+            ]);
+        }
+        return true;
+    }
+
+    public function save_preliminary_eye() {
+        foreach ($this->input['entity'] as $key => $entity) {
+            Preliminary::updateOrCreate(
+                    [
+                'entity' => $entity, 'visit' => $this->visit], ['left' => $this->input['left'][$key] ? : 0,
+                'right' => $this->input['right'][$key] ? : 0,
+                'user' => $this->user, 'remarks' => str_random()]);
+        }
+        return true;
+    }
+
+    /**
+     * Build an index of items dynamically
+     * @return array
+     */
+    private function __get_selected_stack() {
+        $stack = [];
+        foreach ($this->input as $key => $one) {
+            if (starts_with($key, 'item')) {
+                $stack[] = substr($key, 4);
+            }
+        }
+        return $stack;
+    }
+
+}

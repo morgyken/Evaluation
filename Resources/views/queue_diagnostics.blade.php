@@ -16,15 +16,15 @@ $count = 0;
         <table class="table table-striped">
             <tbody>
                 @foreach($data['all'] as $visit)
-                <tr id="row_id{{$visit->visit_id}}">
+                <tr id="row_id{{$visit->id}}">
                     <td>{{$visit->patients->full_name}}</td>
                     <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
                     <td>{{$visit->visit_destination}}</td>
                     <td>
-                        <a href="{{route('evaluation.evaluate.diagnostics',$visit->visit_id)}}" class="btn btn-xs btn-primary">
+                        <a href="{{route('evaluation.evaluate.diagnostics',$visit->id)}}" class="btn btn-xs btn-primary">
                             <i class="fa fa-ellipsis-h"></i> Evaluate</a>
 
-                        <button value='{{$visit->visit_id}}' class="btn btn-warning btn-xs checkout">
+                        <button value='{{$visit->id}}' class="btn btn-warning btn-xs checkout">
                             <i class="fa fa-sign-out"></i> Checkout</button>
                     </td>
                 </tr>
@@ -64,7 +64,7 @@ $count = 0;
 <script type="text/javascript">
     $(document).ready(function () {
         var to_checkout = null;
-        var SIGN_OUT = "{{route('evaluation.ajax.checkout_patient')}}";
+        var SIGN_OUT = "{{route('api.evaluation.checkout_patient')}}";
         var FROM = 'diagnostics';
         $('.checkout').click(function () {
             to_checkout = $(this).val();

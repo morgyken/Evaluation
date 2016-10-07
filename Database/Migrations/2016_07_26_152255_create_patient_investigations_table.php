@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
 
 class CreatePatientInvestigationsTable extends Migration {
 
@@ -18,21 +17,22 @@ class CreatePatientInvestigationsTable extends Migration {
             $column->string('type')->default('diagnosis');
             $column->integer('test')->unsigned();
             $column->double('price', 10, 2);
-            $column->double('base', 10, 2);
-            $column->boolean('is_paid')->default(false);
-            $column->integer('to_user')->unsigned()->nullable();
-            $column->integer('from_user')->unsigned()->nullable();
+            $column->double('base', 10, 2)->nullable();
+            $column->boolean('paid')->default(false);
+            $column->integer('user')->unsigned()->nullable();
             $column->longText('instructions')->nullable();
-            $column->longText('results')->nullable();
-            $column->integer('status')->default(1);
+            $column->boolean('ordered')->default(false);
             $column->timestamps();
+
             $column->foreign('visit')
-                    ->references('visit_id')
+                    ->references('id')
                     ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
+            $column->foreign('user')->references('id')->on('users')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
         });
-        DB::statement("ALTER TABLE evaluation_investigations ADD file LONGBLOB");
     }
 
     /**
@@ -41,7 +41,7 @@ class CreatePatientInvestigationsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('investigations');
+        Schema::drop('evaluation_investigations');
     }
 
 }

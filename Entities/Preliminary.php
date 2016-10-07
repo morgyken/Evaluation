@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Preliminary extends Model {
 
-    protected $fillable = [];
+    protected $guarded = [];
     public $table = 'evaluation_preliminary';
 
 }

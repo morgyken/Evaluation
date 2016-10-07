@@ -26,12 +26,12 @@
             <tbody>
                 @foreach($data['visits'] as $visit)
                 <tr>
-                    <td>{{$visit->visit_id}}</td>
+                    <td>{{$visit->id}}</td>
                     <td>{{$visit->clinics->name}}</td>
                     <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
                     <td>{{$visit->visit_destination}}</td>
                     <td>
-                        <a href="{{route('evaluation.patient_visits',$visit->visit_id)}}" class="btn btn-xs"><i class="fa fa-deafness"></i> Review</a>
+                        <a href="{{route('evaluation.patient_visits',$visit->id)}}" class="btn btn-xs"><i class="fa fa-deafness"></i> Review</a>
                     </td>
                 </tr>
                 @endforeach

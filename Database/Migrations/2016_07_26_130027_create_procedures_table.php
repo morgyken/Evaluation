@@ -15,13 +15,18 @@ class CreateProceduresTable extends Migration {
             $column->increments('id');
             $column->string('name');
             $column->string('code'); //->unique();
-            $column->integer('category_id')->unsigned();
+            $column->integer('category')->unsigned();
+            $column->integer('template')->unsigned()->nullable();
             $column->decimal('cash_charge', 10, 2); //cash amount charged
             $column->boolean('charge_insurance')->default(false); //cash charge applies to insurance
             $column->text('description')->nullable();
-            $column->boolean('active')->default(true);
-
-            $column->foreign('category_id')
+            $column->boolean('status')->default(true);
+            $column->foreign('template')
+                    ->references('id')
+                    ->on('evaluation_procedure_templates')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
+            $column->foreign('category')
                     ->references('id')
                     ->on('evaluation_procedure_categories')
                     ->onDelete('cascade')
@@ -35,7 +40,7 @@ class CreateProceduresTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('settings_procedures');
+        Schema::drop('evaluation_procedures');
     }
 
 }

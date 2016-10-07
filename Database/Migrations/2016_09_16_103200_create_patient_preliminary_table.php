@@ -18,11 +18,11 @@ class CreatePatientPreliminaryTable extends Migration {
             $column->string('left');
             $column->string('right');
             $column->string('remarks');
-            $column->integer('user')->unsigned();
+            $column->integer('user')->unsigned()->nullable();
             $column->timestamps();
 
             $column->foreign('visit')
-                    ->references('visit_id')
+                    ->references('id')
                     ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');

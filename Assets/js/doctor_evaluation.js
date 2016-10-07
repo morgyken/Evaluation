@@ -114,23 +114,7 @@ $(document).ready(function () {
         $.ajax({type: "POST", url: PRESCRIPTION_URL, data: form_data.serialize()});
         $("#prescription").find("input[type=text]").val("");
     }
-    /*
-     * =========================================================================
-     * eye preview
-     * =========================================================================
-     */
-    $('#eye_preview_form input').blur(function (e) {
-        save_eye_preview();
-    });
-    $('#eye_preview_form').submit(function (e) {
-        e.preventDefault();
-        save_eye_preview();
-    });
-    function save_eye_preview() {
-        var form_data = $('#eye_preview_form').append('<input type="hidden" name="visit" value="' + VISIT_ID + '" /> ');
-        form_data = $('#eye_preview_form').append('<input type="hidden" name="user" value="' + USER_ID + '" /> ');
-        $.ajax({type: "POST", url: PRELIMINARY_EXAMINATION, data: form_data.serialize()});
-    }
+
     /*
      * =========================================================================
      * Visit date
@@ -151,79 +135,9 @@ $(document).ready(function () {
             }
         });
     }
-    /*
-     * All accodions
-     */
-    $('.accordion').accordion({heightStyle: "content"});
-
     //mock hide this
     $('.instructions').hide();
-    /*
-     * =========================================================================
-     * Investigation settings
-     * =========================================================================
-     * */
 
-    $('#diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
-        show_selection_investigation();
-    });
-    $('#laboratory_form .check,#diagnosis_form .check').click(function () {
-        var elements = $(this).parent().parent().find('input');
-        var texts = $(this).parent().parent().find('textarea');
-        if ($(this).is(':checked')) {
-            elements.prop('disabled', false);
-            texts.prop('disabled', false);
-            $(texts).parent().show();
-        } else {
-            elements.prop('disabled', true);
-            texts.prop('disabled', true);
-            $(texts).parent().hide();
-        }
-        $(this).prop('disabled', false);
-        show_selection_investigation();
-    });
-    function show_selection_investigation() {
-        $('#diagnosisTable').css('display', 'block');
-        $('#diagnosisInfo > tbody > tr').remove();
-        var total = 0;
-        $("#diagnosis_form input:checkbox:checked").each(function () {
-            var procedure_id = $(this).val();
-            var name = $('#name' + procedure_id).html();
-            var cost = $('#cost' + procedure_id).val();
-            total += parseInt(cost);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + cost + '</td></tr>');
-        });
-        //for labs
-        $("#laboratory_form input:checkbox:checked").each(function () {
-            var procedure_id = $(this).val();
-            var name = $('#name' + procedure_id).html();
-            var cost = $('#cost' + procedure_id).val();
-            total += parseInt(cost);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + cost + '</td></tr>');
-        });
-        console.log(total);
-        if (total) {
-            $('#diagnosisInfo > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
-        }
-        save_diagnosis();
-        save_lab_tests();
-    }
-    $('#saveDiagnosis').click(function () {
-        save_diagnosis();
-        save_lab_tests();
-    });
-    function save_diagnosis() {
-        var form_data = $('#diagnosis_form').append('<input type="hidden" name="visit" value="' + VISIT_ID + '" /> ');
-        form_data = form_data.append('<input type="hidden" name="user" value="' + USER_ID + '" /> ');
-        form_data = form_data.append('<input type="hidden" name="type" value="diagnosis" /> ');
-        $.ajax({type: "POST", url: DIAGNOSIS_URL, data: form_data.serialize()});
-    }
-    function save_lab_tests() {
-        var form_data = $('#laboratory_form').append('<input type="hidden" name="visit" value="' + VISIT_ID + '" /> ');
-        form_data = form_data.append('<input type="hidden" name="user" value="' + USER_ID + '" /> ');
-        form_data = form_data.append('<input type="hidden" name="type" value="laboratory" /> ');
-        $.ajax({type: "POST", url: DIAGNOSIS_URL, data: form_data.serialize()});
-    }
 
     /*
      * =========================================================================

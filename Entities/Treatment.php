@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $user
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \Ignite\Evaluation\Entities\Visits $visits
+ * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
  * @property-read mixed $net
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Treatment whereId($value)
@@ -38,7 +38,7 @@ class Treatment extends Model {
     public $table = 'evaluation_treatments';
 
     public function visits() {
-        return $this->belongsTo(Visits::class, 'visit', 'visit_id');
+        return $this->belongsTo(Visit::class, 'visit');
     }
 
     public function procedures() {

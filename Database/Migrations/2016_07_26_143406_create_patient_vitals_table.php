@@ -30,14 +30,14 @@ class CreatePatientVitalsTable extends Migration {
             $column->string('allergies')->nullable();
             $column->longText('chronic_illnesses')->nullable();
             $column->longText('nurse_notes')->nullable();
-            $column->integer('user')->unsigned();
+            $column->integer('user')->unsigned()->nullable();
             $column->timestamps();
 
             $column->foreign('user')->references('id')->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $column->foreign('visit')
-                    ->references('visit_id')
+                    ->references('id')
                     ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');

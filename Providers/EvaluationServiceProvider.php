@@ -2,6 +2,9 @@
 
 namespace Ignite\Evaluation\Providers;
 
+use Ignite\Evaluation\Console\AutoCheckout;
+use Ignite\Evaluation\Repositories\EvaluationFunctions;
+use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Illuminate\Support\ServiceProvider;
 
 class EvaluationServiceProvider extends ServiceProvider {
@@ -22,6 +25,7 @@ class EvaluationServiceProvider extends ServiceProvider {
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->registerBindings();
     }
 
     /**
@@ -30,7 +34,14 @@ class EvaluationServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-        //
+        $this->registerCommands();
+    }
+
+    /**
+     * Register my bindings
+     */
+    public function registerBindings() {
+        $this->app->bind(EvaluationRepository::class, EvaluationFunctions::class);
     }
 
     /**
@@ -88,6 +99,11 @@ class EvaluationServiceProvider extends ServiceProvider {
      */
     public function provides() {
         return array();
+    }
+
+    private function registerCommands()
+    {
+        $this->commands([AutoCheckout::class]);
     }
 
 }

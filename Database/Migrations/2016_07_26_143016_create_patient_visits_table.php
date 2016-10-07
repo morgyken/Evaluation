@@ -12,7 +12,7 @@ class CreatePatientVisitsTable extends Migration {
      */
     public function up() {
         Schema::create('evaluation_visits', function(Blueprint $column) {
-            $column->increments('visit_id');
+            $column->increments('id');
             $column->integer('clinic')->unsigned();
             $column->integer('patient')->unsigned();
             $column->integer('purpose')->nullable()->unsigned();

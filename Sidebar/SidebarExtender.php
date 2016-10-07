@@ -15,6 +15,7 @@ namespace Ignite\Evaluation\Sidebar;
 use Maatwebsite\Sidebar\Group;
 use Maatwebsite\Sidebar\Item;
 use Ignite\Core\Contracts\Authentication;
+use Maatwebsite\Sidebar\Menu;
 
 /**
  * Description of SidebarExtender
@@ -37,7 +38,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
         $this->auth = $auth;
     }
 
-    public function extendWith(\Maatwebsite\Sidebar\Menu $menu) {
+    public function extendWith(Menu $menu) {
         $menu->group('Dashboard', function (Group $group) {
             $group->item('Evaluation', function (Item $item) {
                 $item->weight(2);
@@ -46,6 +47,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
                     $item->icon('fa fa-wheelchair');
                     $item->route('evaluation.waiting_nurse');
                     $item->authorize($this->auth->hasAccess('Evaluation.Nurse'));
+                    $item->isActiveWhen(route('evaluation.nursing_manage', null, false));
                 });
                 $item->item('Doctor\'s queue', function (Item $item) {
                     $item->icon('fa fa-wheelchair-alt');
@@ -76,6 +78,18 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
                     $item->icon('fa fa-deaf');
                     $item->route('evaluation.review');
                     $item->authorize($this->auth->hasAccess('Evaluation.Review'));
+                });
+            });
+            $group->item('Setup', function (Item $item) {
+                $item->item('Procedure Categories', function(Item $item) {
+                    $item->icon('fa fa-wpforms');
+                    $item->route('evaluation.procedure_cat');
+                    $item->weight(4);
+                });
+                $item->item('Procedures', function(Item $item) {
+                    $item->icon('fa fa-hourglass-1');
+                    $item->route('evaluation.procedures');
+                    $item->weight(4);
                 });
             });
         });

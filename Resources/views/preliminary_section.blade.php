@@ -27,7 +27,7 @@ $patient = $data['patient'];
         <div class="col-md-8">
             <h4>Patient Evaluation</h4>
             @if($data['checked_in'])
-            <a href="{{route('evaluation.new_visit',$data['schedule']->visit_id)}}" class="btn btn-info">
+            <a href="{{route('evaluation.new_visit',$data['schedule']->id)}}" class="btn btn-info">
                 <i class="fa fa-medkit"></i> New Visit</a>
             @else
             <p class="text-warning">This patient is not checked in. Checkin patient to create a new visit</p>
@@ -49,10 +49,10 @@ $patient = $data['patient'];
                             Active Visit
                             @endif
                         </td>
-                        <td><a class='btn btn-xs' href="{{route('evaluation.nursing_manage',$visit->visit_id)}}">
+                        <td><a class='btn btn-xs' href="{{route('evaluation.nursing_manage',$visit->id)}}">
                                 <i class="fa fa-wpforms"></i> Review</a>
                             @if(!$visit->sign_out)
-                            <a class="btn btn-xs" href="{{route('evaluation.sign_out',$visit->visit_id)}}">
+                            <a class="btn btn-xs" href="{{route('evaluation.sign_out',$visit->id)}}">
                                 <i class="fa fa-sign-out"></i> Check out</a>
                             @endif</td>
                     </tr>
