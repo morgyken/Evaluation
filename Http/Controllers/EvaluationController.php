@@ -96,7 +96,7 @@ class EvaluationController extends AdminBaseController {
      */
     public function diagnostics($id) {
         $this->data['visit'] = Visit::find($id);
-        return view('evaluation::diagnostics', ['data' => $this->data]);
+        return view('evaluation::patient_diagnostics', ['data' => $this->data]);
     }
 
     public function waiting_labs() {
