@@ -4,7 +4,7 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$form = vitals_for_visit($data['visit']);
+$form = vitals_for_visit($visit);
 ?>
 <div class="row">
     {!! Form::open(['id'=>'vitals_form']) !!}

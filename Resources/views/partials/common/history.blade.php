@@ -4,7 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$history = patient_visits($patient->id);
+$history = patient_visits($visit->patient);
 ?>
 <div class="row">
     <div class="col-md-12">

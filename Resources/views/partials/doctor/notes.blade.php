@@ -4,7 +4,7 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$notes = get_patient_doctor_notes($data['visit']);
+$notes = get_patient_doctor_notes($visit);
 ?>
 <div>
     <div class="form-group req">

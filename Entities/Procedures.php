@@ -38,4 +38,8 @@ class Procedures extends Model {
         return $this->belongsTo(ProcedureCategories::class, 'category');
     }
 
+    public function getCashChargeAttribute($value) {
+        return ceil($value);
+    }
+
 }

@@ -56,6 +56,7 @@ if (!function_exists('get_procedures_for')) {
                 $to_fetch = 7;
                 break;
             default :
+                dd("Undefined section");
                 break;
         }
         if (!empty($term)) {
@@ -103,11 +104,12 @@ if (!function_exists('get_diagnosis_code')) {
 if (!function_exists('vitals_for_visit')) {
 
     /**
-     * @param $id
+     * @param Visit $visit
      * @return \Illuminate\Database\Eloquent\Model
+     * @internal param $id
      */
-    function vitals_for_visit($id) {
-        return Vitals::firstOrNew(['visit' => $id]);
+    function vitals_for_visit(Visit $visit) {
+        return Vitals::firstOrNew(['visit' => $visit->id]);
     }
 
 }
@@ -139,8 +141,8 @@ if (!function_exists('get_patient_doctor_notes')) {
      * @param $visit
      * @return mixed
      */
-    function get_patient_doctor_notes($visit) {
-        return DoctorNotes::firstOrNew(['visit' => $visit]);
+    function get_patient_doctor_notes(Visit $visit) {
+        return DoctorNotes::firstOrNew(['visit' => $visit->id]);
     }
 
 }
@@ -163,8 +165,8 @@ if (!function_exists('get_visit_meta')) {
      * @param $visit
      * @return \Illuminate\Database\Eloquent\Model
      */
-    function get_visit_meta($visit) {
-        return VisitMeta::firstOrNew(['visit' => $visit]);
+    function get_visit_meta(Visit $visit) {
+        return VisitMeta::firstOrNew(['visit' => $visit->id]);
     }
 
 }
@@ -175,8 +177,8 @@ if (!function_exists('get_investigations')) {
      * @param $visit
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_investigations($visit) {
-        return Investigations::where(['visit' => $visit])->get();
+    function get_investigations(Visit $visit) {
+        return Investigations::where(['visit' => $visit->id])->get();
     }
 
 }
@@ -187,8 +189,8 @@ if (!function_exists('get_treatments')) {
      * @param $visit
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_treatments($visit) {
-        return Treatment::where(['visit' => $visit])->get();
+    function get_treatments(Visit $visit) {
+        return Treatment::where(['visit' => $visit->id])->get();
     }
 
 }
@@ -199,8 +201,8 @@ if (!function_exists('get_op_notes')) {
      * @param $visit
      * @return $this
      */
-    function get_op_notes($visit) {
-        return OpNotes::firstOrNew(['visit' => $visit]);
+    function get_op_notes(Visit $visit) {
+        return OpNotes::firstOrNew(['visit' => $visit->id]);
     }
 
 }
@@ -213,7 +215,7 @@ if (!function_exists('get_visit_data')) {
      * @param $section
      * @return mixed
      */
-    function get_visit_data($visit, $section) {
+    function get_visit_data(Visit $visit, $section) {
         switch ($section) {
             case 'treatment':
                 return get_treatments($visit);

@@ -20,39 +20,46 @@
             <tbody>
                 <tr class="larger">
                     <td>Uncorrected Vision
-                        <input name="eye_vision[]" value="uncorrected_vision" type="hidden"/></td>
-                    <td><input type="text" name="right[]" value="" size="20"/></td>
-                    <td><input type="text" name="left[]" value="" size="20"/></td>
+                        <input type="hidden" name="entity[]" value="uncorrected_vision" /></td>
+                    <td><input type="text" name="right[]"  size="20"/></td>
+                    <td><input type="text" name="left[]"  size="20"/></td>
                 </tr>
-                <tr class="samll-size">
+                <tr class="small-size">
                     <td>Present Glasses
-                        <input name="eye_vision[]" value="present_glasses" type="hidden"/></td>
+                        <input type="hidden" name="entity[]" value="present_glasses" /></td>
                     <td><input type="text" name="right[]" size="20"/></td>
                     <td><input type="text" name="left[]" size="20"/></td>
                 </tr>
                 <tr class="larger">
                     <td>Auto Refraction
-                        <input name="eye_vision[]" value="auto_refraction" type="hidden"/></td>
+                        <input type="hidden" name="entity[]" value="auto_refraction" /></td>
                     <td><input type="text" name="right[]" size="20"/></td>
                     <td><input type="text" name="left[]" size="20"/></td>
                 </tr>
                 <tr class="larger">
                     <td>IOP Recording
-                        <input name="eye_vision[]" value="iop_recording" type="hidden"/></td>
+                        <input  type="hidden" name="entity[]" value="iop_recording"/></td>
                     <td><input type="text" name="right[]" size="20"/></td>
                     <td><input type="text" name="left[]" size="20"/></td>
                 </tr>
+                <!--
                 <tr>
                     <td>Remarks</td>
                     <td rowspan="2">
                         <textarea name="remarks" placeholder="Remarks"></textarea>
                     </td>
-                </tr>
+                </tr>-->
             </tbody>
+            <tfoot>
+                <tr>
+                    <th><button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button></th>
+                </tr>
+            </tfoot>
         </table>
     </div>
     {!! Form::close() !!}
     <script type="text/javascript">
         var PRELIMINARY_EXAMINATION = "{{route('api.evaluation.save_preliminary')}}";
     </script>
+    <script src="{{m_asset('evaluation:js/nurse_eye_preliminary.min.js')}}"></script>
 </div>

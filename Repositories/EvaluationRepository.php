@@ -38,4 +38,9 @@ interface EvaluationRepository {
      * @return mixed
      */
     public function get_diagnosis_codes_auto();
+
+    /**
+     * @return mixed
+     */
+    public function save_preliminary_eye();
 }

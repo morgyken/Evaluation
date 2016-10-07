@@ -6,7 +6,7 @@
  */
 //$diagnosis=
 
-$diagnosis = get_procedures_for('dignostics');
+$diagnosis = get_procedures_for('diagnostics');
 ?>
 @if($diagnosis->isEmpty())
 <div class="alert alert-info">
@@ -14,16 +14,18 @@ $diagnosis = get_procedures_for('dignostics');
 </div>
 @else
 {!! Form::open(['id'=>'diagnosis_form'])!!}
+{!! Form::hidden('visit',$visit->id) !!}
 <table class="table table-condensed table-borderless table-responsive" id="procedures">
     <tbody>
         @foreach($diagnosis as $procedure)
         <tr id="row{{$procedure->id}}">
             <td>
-                <input type="checkbox" name="procedure[]" value="{{$procedure->id}}" class="check"/>
+                <input type="checkbox" name="procedure[{{$procedure->id}}]" value="{{$procedure->id}}" class="check"/>
             </td>
             <td>
                 <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>
                 <br/>
+                <input type="hidden" name="type[]" value="diagnosis" disabled/>
                 <span class="instructions">
                     <textarea placeholder="Instructions" name="instructions[]" disabled cols="50"></textarea></span>
             </td>
@@ -43,12 +45,4 @@ $diagnosis = get_procedures_for('dignostics');
     </thead>
 </table>
 {!! Form::close()!!}
-
-<script type="text/javascript">
-    var VISIT_ID = "{{ $data['visit'] }}";
-    var SAVE_URL = "{{route('api.evaluation.save_diagnosis')}}";
-    $(document).ready(function () {
-        $('.accordion').accordion({heightStyle: "content"});
-    });
-</script>
 @endif

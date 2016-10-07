@@ -18,6 +18,7 @@ use Ignite\Evaluation\Entities\Drawings;
 use Ignite\Evaluation\Entities\EyeExam;
 use Ignite\Evaluation\Entities\Investigations;
 use Ignite\Evaluation\Entities\OpNotes;
+use Ignite\Evaluation\Entities\Preliminary;
 use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
@@ -29,6 +30,7 @@ use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Jenssegers\Date\Date;
 
@@ -40,26 +42,32 @@ use Jenssegers\Date\Date;
 class EvaluationFunctions implements EvaluationRepository {
 
     /**
+     * Incoming HTTP request
      * @var Request
+     *
      */
     protected $request;
 
     /**
+     * The filtered input
      * @var array
      */
     protected $input;
 
     /**
+     * Visit reference ID
      * @var mixed|int
      */
     protected $visit;
 
     /**
+     * User making the request
      * @var int
      */
     protected $user;
 
     /**
+     * Model ID or null
      * @var null|int
      */
     protected $id = null;
@@ -70,8 +78,8 @@ class EvaluationFunctions implements EvaluationRepository {
      */
     public function __construct(Request $request) {
         $this->request = $request;
-        $this->input = $request->all();
-        if ($request->has('visit')) {
+        $this->input = $this->request->all();
+        if ($this->request->has('visit')) {
             $this->visit = $this->request->visit;
         }
         if (Auth::check()) {
@@ -158,43 +166,43 @@ class EvaluationFunctions implements EvaluationRepository {
         dd($this->input);
         return DoctorNotes::updateOrCreate(['visit' => $this->visit], $this->input);
         dd($notes);
-//$notes->investigation = $request->investigations;
-        $notes->diagnosis = serialize($request->diagnosis);
-//$notes->professional_history = $request->professional_history;
-        $notes->visit = $request->visit;
-        $notes->presenting_complaints = $request->presenting_complaints;
-        $notes->past_medical_history = $request->past_medical_history;
-//$notes->treatment_history = $request->drug_history;
-        $notes->examination = $request->examination;
-        $notes->treatment_plan = $request->treatment_plan;
-        $notes->user = $request->user;
+//$notes->investigation = $this->request->investigations;
+        $notes->diagnosis = serialize($this->request->diagnosis);
+//$notes->professional_history = $this->request->professional_history;
+        $notes->visit = $this->request->visit;
+        $notes->presenting_complaints = $this->request->presenting_complaints;
+        $notes->past_medical_history = $this->request->past_medical_history;
+//$notes->treatment_history = $this->request->drug_history;
+        $notes->examination = $this->request->examination;
+        $notes->treatment_plan = $this->request->treatment_plan;
+        $notes->user = $this->request->user;
         $notes->save();
-        if ($request->has('option')) {
-            $this->save_eye_exam($request);
+        if ($this->request->has('option')) {
+            $this->save_eye_exam($this->request);
         }
     }
 
     public function save_eye_exam() {
-// $pre_run = \Dervis\Model\Evaluation\EyeExam::whereVisit($request->visit)->delete();
+// $pre_run = \Dervis\Model\Evaluation\EyeExam::whereVisit($this->request->visit)->delete();
 //  dd($pre_run);
-        foreach ($request->option as $key => $exam) {
-            $eye = EyeExam::firstOrCreate(['option' => $exam, 'visit' => $request->visit]);
-            $eye->od = $request->od[$key];
-            $eye->os = $request->os[$key];
-            $eye->comments = $request->comments[$key];
-            $eye->user = $request->user()->id;
+        foreach ($this->request->option as $key => $exam) {
+            $eye = EyeExam::firstOrCreate(['option' => $exam, 'visit' => $this->request->visit]);
+            $eye->od = $this->request->od[$key];
+            $eye->os = $this->request->os[$key];
+            $eye->comments = $this->request->comments[$key];
+            $eye->user = $this->request->user()->id;
             $eye->save();
         }
         return true;
     }
 
     public function save_drawings() {
-        $drawing = Drawings::findOrNew($request->visit);
-        $drawing->object = serialize($request->objects);
-        $drawing->user = $request->user()->id;
-        $drawing->visit = $request->visit;
-        if ($request->hasFile('image')) {
-            $image = Image::make($request->file('image')->getRealPath());
+        $drawing = Drawings::findOrNew($this->request->visit);
+        $drawing->object = serialize($this->request->objects);
+        $drawing->user = $this->request->user()->id;
+        $drawing->visit = $this->request->visit;
+        if ($this->request->hasFile('image')) {
+            $image = Image::make($this->request->file('image')->getRealPath());
             $_encode = $image/* ->fit(160, 160) */
                     ->encode('jpg');
             $stream = $_encode->stream();
@@ -208,53 +216,52 @@ class EvaluationFunctions implements EvaluationRepository {
      */
     public function save_treatment() {
         $id = 0;
-        Treatment::whereVisit($request->visit)->whereIsPaid(false)->delete();
-        foreach ($request->procedure as $treatment) {
+        Treatment::whereVisit($this->request->visit)->whereIsPaid(false)->delete();
+        foreach ($this->request->procedure as $treatment) {
             $record = new Treatment;
             $record->procedure = $treatment;
-            $record->price = $request->price[$id];
-            $record->base = $request->cost[$id];
-            $record->visit = $request->visit;
-            $record->user = $request->user()->id;
+            $record->price = $this->request->price[$id];
+            $record->base = $this->request->cost[$id];
+            $record->visit = $this->request->visit;
+            $record->user = $this->request->user()->id;
             $record->save();
             $id++;
         }
         return true;
     }
 
-    public function save_diagnosis() {
-        $id = 0;
-        if ($request->has('procedure')) {
-            Investigations::whereVisit($request->visit)->whereType($request->type)->whereIsPaid(false)
-                    ->whereNull('results')->delete();
-            foreach ($request->procedure as $treatment) {
-                $record = new Investigations;
-                $record->visit = $request->visit;
-                $record->type = $request->type;
-                $record->test = $treatment;
-                $record->price = $request->cost[$id];
-                $record->base = $request->price[$id];
-                $record->instructions = $request->instructions[$id];
-                $record->from_user = $request->user;
-                $record->save();
-                $id++;
-            }
-//@todo Remove patient in diagnostics queue if not booked
-            $visit = Visit::find($request->visit);
-            $type = $request->type;
-            switch ($type) {
-                case 'diagnosis':
-                    $visit->diagnostics = true;
-                    break;
-                case 'laboratory':
-                    $visit->laboratory = true;
-                    break;
-            }
-// $visit->$type = true;
-// @todo Add laboratory here
-//dd($visit);
-            return $visit->save();
+    private function check_in_at($section) {
+        $visit = Visit::find($this->visit);
+        switch ($section) {
+            case 'diagnosis':
+                $visit->diagnostics = true;
+                break;
+            case 'laboratory':
+                $visit->laboratory = true;
+                break;
         }
+        return $visit->save();
+    }
+
+    public function save_diagnosis() {
+        DB::transaction(function () {
+            if (!empty($this->input['procedure'])) {
+                foreach ($this->input['procedure'] as $key => $treatment) {
+                    Investigations::create([
+                        'type' => $this->input['type'][$key],
+                        'visit' => $this->visit,
+                        'test' => $treatment,
+                        'price' => $this->input['cost'][$key],
+                        'base' => $this->input['price'][$key],
+                        'instructions' => $this->input['instructions'][$key],
+                        'user' => $this->user,
+                        'ordered' => true
+                    ]);
+                    $this->check_in_at($this->input['type'][$key]);
+                }
+            }
+        });
+        return ['result' => true];
     }
 
     /**
@@ -269,14 +276,14 @@ class EvaluationFunctions implements EvaluationRepository {
         Prescriptions::create($this->input);
         /*
           $prescribe = new Prescriptions;
-          $prescribe->drug = strtoupper($request->drug);
-          $prescribe->take = $request->take;
-          $prescribe->whereto = $request->prescription_whereto;
-          $prescribe->method = $request->prescription_method;
-          $prescribe->duration = $request->duration;
-          $prescribe->visit = $request->visit;
-          $prescribe->user = $request->user;
-          if ($request->has('allow_substitution')) {
+          $prescribe->drug = strtoupper($this->request->drug);
+          $prescribe->take = $this->request->take;
+          $prescribe->whereto = $this->request->prescription_whereto;
+          $prescribe->method = $this->request->prescription_method;
+          $prescribe->duration = $this->request->duration;
+          $prescribe->visit = $this->request->visit;
+          $prescribe->user = $this->request->user;
+          if ($this->request->has('allow_substitution')) {
           $prescribe->allow_substitution = true;
           }
           return $prescribe->save(); */
@@ -287,15 +294,15 @@ class EvaluationFunctions implements EvaluationRepository {
      * @return mixed
      */
     public function save_opnotes() {
-        $op = OpNotes::firstOrNew(['visit' => $request->visit]);
-        $op->implants = $request->implants;
-        $op->surgery_indication = $request->indication;
-        $op->postop = $request->postop;
-        $op->date = new Date($request->date . ' ' . $request->time);
-        $op->doctor = $request->surgeon;
-        $op->indication = $request->indication;
-        $op->user = $request->user;
-        $op->visit = $request->visit;
+        $op = OpNotes::firstOrNew(['visit' => $this->request->visit]);
+        $op->implants = $this->request->implants;
+        $op->surgery_indication = $this->request->indication;
+        $op->postop = $this->request->postop;
+        $op->date = new Date($this->request->date . ' ' . $this->request->time);
+        $op->doctor = $this->request->surgeon;
+        $op->indication = $this->request->indication;
+        $op->user = $this->request->user;
+        $op->visit = $this->request->visit;
         return $op->save();
     }
 
@@ -312,16 +319,16 @@ class EvaluationFunctions implements EvaluationRepository {
         $to_up->update(['status' => 3]);
         $visit->sign_out = true;
         if ($visit->save()) {
-            $request->session()->flash('success', 'Patient signed out');
+            $this->request->session()->flash('success', 'Patient signed out');
             return true;
         } else {
-            $request->session()->flash('error', 'An error occured');
+            $this->request->session()->flash('error', 'An error occured');
         }
         return false;
     }
 
     public function set_next_visit() {
-        $visit = Visit::findOrFail($request->visit);
+        $visit = Visit::findOrFail($this->request->visit);
         $this_appointment = $visit->appointments;
         if (empty($this_appointment->next_visit)) {
             $appointment = new Appointments;
@@ -329,7 +336,7 @@ class EvaluationFunctions implements EvaluationRepository {
             $appointment = Appointments::findOrNew($this_appointment->next_visit);
         }
         $appointment->patient = $this_appointment->patient;
-        $appointment->time = new Date($request->next_visit . ' 10:00');
+        $appointment->time = new Date($this->request->next_visit . ' 10:00');
         $appointment->procedure = $this_appointment->procedure;
         $appointment->doctor = $this_appointment->doctor;
         $appointment->status = 5;
@@ -349,25 +356,25 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     public function set_visit_date() {
-        $visit = Visit::find($request->visit);
-        $visit->created_at = $request->visit_date;
+        $visit = Visit::find($this->request->visit);
+        $visit->created_at = $this->request->visit_date;
         return $visit->save();
     }
 
     public function update_visit_meta() {
-        $meta = VisitMeta::findOrNew($request->visit);
-        $meta->user = $request->user;
-        $meta->visit = $request->visit;
-        $meta->call = $request->has('call');
-        $meta->pre_authorization = $request->has('pre_authorization');
-        $meta->book_for_doctor = $request->has('book_for_doctor');
-        $meta->refer_specialist = $request->has('refer_specialist');
-        if ($request->has('book_theatre')) {
+        $meta = VisitMeta::findOrNew($this->request->visit);
+        $meta->user = $this->request->user;
+        $meta->visit = $this->request->visit;
+        $meta->call = $this->request->has('call');
+        $meta->pre_authorization = $this->request->has('pre_authorization');
+        $meta->book_for_doctor = $this->request->has('book_for_doctor');
+        $meta->refer_specialist = $this->request->has('refer_specialist');
+        if ($this->request->has('book_theatre')) {
             if (!$meta->book_theatre) {
                 $this->book_for_theatre($meta);
             }
         }
-        $meta->book_theatre = $request->has('book_theatre');
+        $meta->book_theatre = $this->request->has('book_theatre');
         return $meta->save();
     }
 
@@ -385,9 +392,9 @@ class EvaluationFunctions implements EvaluationRepository {
 
     public function checkout($data = null) {
         $id = $section = null;
-        if ($request->ajax()) {
-            $id = $request->id;
-            $section = $request->from;
+        if ($this->request->ajax()) {
+            $id = $this->request->id;
+            $section = $this->request->from;
         } else {
             $id = $data['id'];
             $section = $data['from'];
@@ -430,9 +437,19 @@ class EvaluationFunctions implements EvaluationRepository {
         return true;
     }
 
+    public function save_preliminary_eye() {
+        foreach ($this->input['entity'] as $key => $entity) {
+            Preliminary::updateOrCreate(
+                    [
+                'entity' => $entity, 'visit' => $this->visit], ['left' => $this->input['left'][$key] ? : 0,
+                'right' => $this->input['right'][$key] ? : 0,
+                'user' => $this->user, 'remarks' => str_random()]);
+        }
+        return true;
+    }
+
     /**
      * Build an index of items dynamically
-     * @param $keys
      * @return array
      */
     private function __get_selected_stack() {

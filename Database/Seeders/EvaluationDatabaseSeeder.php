@@ -15,6 +15,10 @@ class EvaluationDatabaseSeeder extends Seeder {
 
         // $this->call("OthersTableSeeder");
         $this->call(ProceduresTableSeeder::class);
+        /*
+         * @todo THis takes long add to dispatch in background
+         */
+        $this->call(DiagnosisCodeTableSeeder::class);
     }
 
 }

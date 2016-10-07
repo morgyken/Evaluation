@@ -4,24 +4,24 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$performed_diagnosis = get_investigations($data['visit']);
+$performed_diagnosis = get_investigations($visit);
 ?>
 <div>
     <div class="row">
         <div class="col-md-12">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="accordion">
                     <h4>Diagnosis</h4>
                     <div class="investigation_item">
-                        @include('evaluation::partials.diagnosis')
+                        @include('evaluation::partials.doctor.investigations-diagnostics')
                     </div>
                     <h4>Laboratory</h4>
                     <div class="investigation_item">
-                        @include('evaluation::partials.labs')
+                        @include('evaluation::partials.doctor.investigations-laboratory')
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-primary">
@@ -29,10 +29,6 @@ $performed_diagnosis = get_investigations($data['visit']);
                                 <h4 class="box-title">Selected diagnosis procedures</h4>
                             </div>
                             <div class="box-body">
-                                <div class="alert alert-success alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <i class="fa fa-check-circle-o"></i> New selected diagnosis will appear here
-                                </div>
                                 <div id="diagnosisTable">
                                     <table id="diagnosisInfo" class=" table table-condensed">
                                         <thead>
@@ -62,17 +58,20 @@ $performed_diagnosis = get_investigations($data['visit']);
                                     <thead>
                                         <tr>
                                             <th>Procedure</th>
+                                            <th>Type</th>
                                             <th>Cost</th>
-                                            <th>No.</th>
                                             <th>Payment</th>
+                                            <th>Result</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($performed_diagnosis as $item)
                                         <tr>
                                             <td>{{str_limit($item->procedures->name,20,'...')}}</td>
+                                            <td>{{$item->type}}</td>
                                             <td>{{$item->price}}</td>
                                             <td>{{$item->is_paid?'Paid':'Not Paid'}}</td>
+                                            <td>No Result</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -93,3 +92,4 @@ $performed_diagnosis = get_investigations($data['visit']);
         overflow:scroll;
     }
 </style>
+<script src="{{m_asset('evaluation:js/doctor-investigations-evaluation.min.js')}}"></script>

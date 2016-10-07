@@ -6,7 +6,7 @@
  */
 
 $procedures =get_procedures_for('doctor');
-$performed = get_treatments($data['visit']);
+$performed = get_treatments($visit);
 ?>
 <div class="row">
     <div class="col-md-12">

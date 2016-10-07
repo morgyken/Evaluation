@@ -15,7 +15,7 @@
                 </div>
                 <div class="box-body">
                     {!! Form::open(['id'=>'sickoff','route' => 'evaluation.reports.sick_off','target'=>"_blank"])!!}
-                    <input type="hidden" name="patient" value="{{$data['patient']->patient_id}}"/>
+                    <input type="hidden" name="patient" value="{{$visit->patient}}"/>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Sick of period</label>
                         <div class="col-md-8">

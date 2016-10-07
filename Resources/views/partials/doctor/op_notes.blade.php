@@ -4,7 +4,7 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$op_notes = get_visit_data($data['visit'],'op_notes');
+$op_notes = get_visit_data($visit,'op_notes');
 ?>
 <div class="row">
     <div class="col-md-12">

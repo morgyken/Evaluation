@@ -20,6 +20,7 @@ class CreatePatientInvestigationsTable extends Migration {
             $column->double('base', 10, 2)->nullable();
             $column->boolean('paid')->default(false);
             $column->integer('user')->unsigned()->nullable();
+            $column->longText('instructions')->nullable();
             $column->boolean('ordered')->default(false);
             $column->timestamps();
 

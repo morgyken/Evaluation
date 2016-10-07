@@ -10,7 +10,7 @@ if (!empty($section)) {
     $checkout = route('evaluation.sign_out', [$visit->id, $section]);
 }
 ?>
-<div class="box box-default">
+<div class="box box-info">
     <div class="box-body">
         <div class="col-md-5">
             <dt>Name:</dt><dd>{{$patient->full_name}} <strong><u>{{$patient->sex}}</u> ({{(new Date($patient->dob))->age}} years)</strong></dd>

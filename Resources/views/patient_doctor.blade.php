@@ -4,18 +4,16 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$patient = $data['patient'];
-$data['docs'] = get_patient_documents($patient->id);
-$data['section'] = 'evaluation';
+extract($data);
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation')
 @section('content_description','Patient evaluation and Treatment')
 
 @section('content')
-<div class="box box-info">
+@include('evaluation::partials.common.patient_details')
+<div class="box box-default">
     <div class="box-body">
-        @include('evaluation::partials.patient_details')
         <div class="form-horizontal">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -32,65 +30,53 @@ $data['section'] = 'evaluation';
                 <div class="tab-content">
                     <div class="tab-pane active" id="vitals">
                         <div>
-                            @include('evaluation::partials.patient_vitals')
+                            @include('evaluation::partials.nurse.patient_vitals')
                         </div>
                     </div>
                     <div class="tab-pane" id="pre-exam">
                         <div>
-                            @include('evaluation::partials.nurse_eye')
+                            @include('evaluation::partials.nurse.eye')
                         </div>
                     </div>
                     <div class="tab-pane" id="doctor">
                         <div>
-                            @include('evaluation::partials.doctors_notes')
+                            @include('evaluation::partials.doctor.doctors_notes')
                         </div>
                     </div>
                     <div class="tab-pane" id="investigations">
                         <div>
-                            @include('evaluation::partials.investigations')
+                            @include('evaluation::partials.doctor.investigations')
                         </div>
                     </div>
                     <div class="tab-pane" id="treatment">
                         <div>
-                            @include('evaluation::partials.treatment')
+                            @include('evaluation::partials.doctor.treatment')
                         </div>
                     </div>
                     <div class="tab-pane" id="op">
                         <div>
-                            @include('evaluation::partials.op_notes')
+                            @include('evaluation::partials.doctor.op_notes')
                         </div>
                     </div>
                     <div class="tab-pane" id="documents">
                         <div>
-                            @include('reception::partials.doc_list')
+                            @include('evaluation::partials.common.documents_list')
                         </div>
                     </div>
 
                     <div class="tab-pane" id="history">
                         <div>
-                            include('evaluation::partials.history')
+                            include('evaluation::partials.common.history')
                         </div>
                     </div>
                     <div class="tab-pane" id="drawings">
-                        @include('evaluation::partials.drawings')
+                        include('evaluation::partials.doctor.drawings')
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    var USER_ID = parseInt("{{ Auth::user()->id }}");
-    var VISIT_ID = parseInt("{{ $data['visit'] }}");
-    var VITALS_URL = "{{route('api.evaluation.save_vitals')}}";
-    var NOTES_URL = "{{route('api.evaluation.save_notes')}}";
-    var PRESCRIPTION_URL = "{{route('api.evaluation.save_prescription')}}";
-    var SET_DATE_URL = "{{route('api.evaluation.set_visit_date')}}";
-    var DIAGNOSIS_URL = "{{route('api.evaluation.save_diagnosis')}}";
-    var OPNOTES_URL = "{{route('api.evaluation.save_opnotes')}}";
-    var TREAT_URL = "{{route('api.evaluation.save_treatment')}}";
-    var DRAWINGS_URL = "{{route('api.evaluation.save_drawings')}}";
-    var VISIT_METAS_URL = "{{route('api.evaluation.save_visit_metas')}}";
-</script>
+@include('evaluation::routes')
 <script src="{{Module::asset('evaluation:js/doctor_evaluation.min.js')}}"></script>
 @endsection

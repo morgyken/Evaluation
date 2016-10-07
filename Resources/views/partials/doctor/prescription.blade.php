@@ -61,7 +61,7 @@
                     </tr>
                 </table>
 
-                @if(!$data['visits']->prescriptions->isEmpty())
+                @if(!$visit->prescriptions->isEmpty())
                 <table id="prescribed" class="table table-borderless">
                     <thead>
                         <tr>
@@ -71,7 +71,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($data['visits']->prescriptions as $pres)
+                        @foreach($visit->prescriptions as $pres)
                         <tr>
                             <td>{{$pres->drug}}</td>
                             <td>{{$pres->take}}</td>

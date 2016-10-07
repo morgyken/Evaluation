@@ -12,11 +12,11 @@
             <div class="box box-primary">
                 {!! Form::open(['id'=>'next_visit'])!!}
                 <div class="box-body">
-                    <input type="hidden" name="patient" value="{{$data['patient']->patient_id}}"/>
+                    <input type="hidden" name="patient" value="{{$visit->patient}}"/>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Next Appointment Date: </label>
                         <div class="col-md-8">
-                            <input type="text" id="datenext" value="{{$data['visits']->next_visit}}" name="next_visit" class="form-control"
+                            <input type="text" id="datenext" value="{{$visit->next_visit}}" name="next_visit" class="form-control"
                                    placeholder="eg 1 month"/>
                             <div class="help-block"> <span class="text-success" id="samdate"></span></div>
                         </div>

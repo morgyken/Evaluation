@@ -5,7 +5,7 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  * @todo Initial check states
  */
-$meta = get_visit_meta($data['visit']);
+$meta = get_visit_meta($visit);
 ?>
 <div class="row">
     <div class="col-md-12">

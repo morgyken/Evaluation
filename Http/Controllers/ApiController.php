@@ -13,34 +13,34 @@ class ApiController extends Controller {
     /**
      * @var EvaluationRepository
      */
-    protected $evaluation;
+    protected $evaluationRepository;
 
     /**
      * ApiController constructor.
-     * @param EvaluationRepository $evaluation
+     * @param EvaluationRepository $evaluationRepository
      */
-    public function __construct(EvaluationRepository $evaluation) {
-        $this->evaluation = $evaluation;
+    public function __construct(EvaluationRepository $evaluationRepository) {
+        $this->evaluationRepository = $evaluationRepository;
     }
 
     public function save_drawings(Request $request) {
-        return Response::json(EvaluationFunctions::save_drawings($request));
+        return Response::json($this->evaluationRepository->save_drawings($request));
     }
 
     public function diagnosis_codes($regex = null) {
-        return $this->evaluation->get_diagnosis_codes_auto();
+        return $this->evaluationRepository->get_diagnosis_codes_auto();
     }
 
     public function save_vitals() {
-        return Response::json($this->evaluation->save_vitals());
+        return Response::json($this->evaluationRepository->save_vitals());
     }
 
     public function save_opnotes() {
-        return Response::json($this->evaluation->save_opnotes());
+        return Response::json($this->evaluationRepository->save_opnotes());
     }
 
     public function save_notes() {
-        return Response::json($this->evaluation->save_notes());
+        return Response::json($this->evaluationRepository->save_notes());
     }
 
     public function investigation_result(Request $request) {
@@ -53,30 +53,28 @@ class ApiController extends Controller {
         return 'okay';
     }
 
-    public function save_diagnosis(Request $request) {
-        return Response::json(EvaluationFunctions::save_diagnosis($request));
+    public function save_diagnosis() {
+        return Response::json($this->evaluationRepository->save_diagnosis());
     }
 
     public function save_treatment(Request $request) {
-        return Response::json(EvaluationFunctions::save_treatment($request));
+        return Response::json($this->evaluationRepository->save_treatment($request));
     }
 
     public function save_prescription() {
-        return Response::json($this->evaluation->save_prescriptions());
+        return Response::json($this->evaluationRepository->save_prescriptions());
     }
 
     public function set_next_date(Request $request) {
-        return Response::json(EvaluationFunctions::set_next_visit($request));
+        return Response::json($this->evaluationRepository->set_next_visit($request));
     }
 
     public function set_visit_date(Request $request) {
-        return Response::json(EvaluationFunctions::set_visit_date($request));
+        return Response::json($this->evaluationRepository->set_visit_date($request));
     }
 
-    public function save_preliminary(Request $request) {
-        foreach ($request->eye_vision as $key => $entity) {
-
-        }
+    public function save_preliminary() {
+        $this->evaluationRepository->save_preliminary_eye();
     }
 
     public function get_procedures(Request $request, $type) {

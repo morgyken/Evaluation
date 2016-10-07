@@ -16,7 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $base
  * @property boolean $paid
  * @property integer $user
- * @property boolean $orderd
+ * @property string $instructions
+ * @property boolean $ordered
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
@@ -31,7 +32,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereBase($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations wherePaid($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereUser($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereOrderd($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereInstructions($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereOrdered($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereUpdatedAt($value)
  * @mixin \Eloquent
