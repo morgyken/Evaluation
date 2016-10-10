@@ -5,7 +5,7 @@
  */
 /* global PROCEDURE_URL */
 
-$(document).ready(function () {
+$(function () {
     $('#evaluation_order .check').click(function () {
         var elements = $(this).parent().parent().find('input');
         var texts = $(this).parent().parent().find('textarea');

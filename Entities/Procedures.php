@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $charge_insurance
  * @property string $description
  * @property boolean $status
+ * @property-read mixed $price
  * @property-read \Ignite\Evaluation\Entities\ProcedureCategories $categories
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereName($value)
@@ -28,18 +29,23 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereStatus($value)
  * @mixin \Eloquent
  */
-class Procedures extends Model {
-
-    protected $guarded = [];
-    public $timestamps = false;
+class Procedures extends Model
+{
     public $table = 'evaluation_procedures';
+    protected $guarded = [];
+    protected $appends = ['price'];
+    protected $hidden = ['cah_charge'];
+    public $timestamps = false;
 
-    public function categories() {
+    public function getPriceAttribute()
+    {
+        return (int) ceil($this->cash_charge);
+    }
+
+    public function categories()
+    {
         return $this->belongsTo(ProcedureCategories::class, 'category');
     }
 
-    public function getCashChargeAttribute($value) {
-        return ceil($value);
-    }
 
 }

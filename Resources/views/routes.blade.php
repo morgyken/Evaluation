@@ -21,6 +21,7 @@
     var TREAT_URL = "{{route('api.evaluation.save_treatment')}}";
     var DRAWINGS_URL = "{{route('api.evaluation.save_drawings')}}";
     var VISIT_METAS_URL = "{{route('api.evaluation.save_visit_metas')}}";
+    var PRELIMINARY_EXAMINATION = "{{route('api.evaluation.save_preliminary')}}";
     $(document).ready(function () {
         $('.accordion').accordion({heightStyle: "content"});
     });

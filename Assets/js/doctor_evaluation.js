@@ -6,7 +6,7 @@
 
 /* global DIAGNOSIS_URL, USER_ID, VISIT_ID, OPNOTES_URL, TREAT_URL, SET_DATE_URL, PRESCRIPTION_URL, NOTES_URL, VITALS_URL, VISIT_METAS_URL, PRELIMINARY_EXAMINATION */
 
-$(document).ready(function () {
+$(function () {
     /*
      * =========================================================================
      * Doctor notes
@@ -139,49 +139,7 @@ $(document).ready(function () {
     $('.instructions').hide();
 
 
-    /*
-     * =========================================================================
-     * Treatment URL
-     * =========================================================================
-     */
-    $('#treatment_form input').blur(function () {
-        show_selection();
-    });
-    $('#treatment_form .check').click(function () {
-        var elements = $(this).parent().parent().find('input');
-        if ($(this).is(':checked')) {
-            elements.prop('disabled', false);
-        } else {
-            elements.prop('disabled', true);
-        }
-        $(this).prop('disabled', false);
-        show_selection();
-    });
-    function show_selection() {
-        $('#tableHolder').css('display', 'block');
-        $('#treatment > tbody > tr').remove();
-        var total = 0;
-        $("#treatment_form input:checkbox:checked").each(function () {
-            var procedure_id = $(this).val();
-            var name = $('#name' + procedure_id).html();
-            var cost = $('#cost' + procedure_id).val();
-            var no = $('#no' + procedure_id).val();
-            total += (cost * no);
-            $('#treatment > tbody').append('<tr><td>' + name + '</td><td>' + cost + '</td><td>' + no + '</td></tr>');
-        });
-        if (total) {
-            $('#treatment > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td><td></td></tr>');
-        }
-        save_treatment();
-    }
-    $('#saveTreatment').click(function () {
-        save_treatment();
-    });
-    function save_treatment() {
-        var form_data = $('#treatment_form').append('<input type="hidden" name="visit" value="' + VISIT_ID + '" /> ');
-        form_data = $('#treatment_form').append('<input type="hidden" name="user" value="' + USER_ID + '" /> ');
-        $.ajax({type: "POST", url: TREAT_URL, data: form_data.serialize()});
-    }
+
     /*
      * =========================================================================
      * OP NOTES

@@ -11,7 +11,7 @@
  * */
 
 /* global DIAGNOSIS_URL, USER_ID, VISIT_ID */
-$(document).ready(function () {
+$(function () {
     $('#diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
         show_selection_investigation();
     });
@@ -31,7 +31,7 @@ $(document).ready(function () {
         show_selection_investigation();
     });
     function show_selection_investigation() {
-        $('#diagnosisTable').css('display', 'block');
+        $('#show_selection').hide();
         $('#diagnosisInfo > tbody > tr').remove();
         var total = 0;
         $("#diagnosis_form input:checkbox:checked").each(function () {
@@ -52,7 +52,7 @@ $(document).ready(function () {
         if (total) {
             $('#diagnosisInfo > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
         }
-
+        $('#show_selection').show();
         /*
          save_diagnosis();
          save_lab_tests();
@@ -61,10 +61,13 @@ $(document).ready(function () {
     $('#saveDiagnosis').click(function (e) {
         e.preventDefault();
         $.ajax({type: "POST", url: DIAGNOSIS_URL, data: $('#diagnosis_form, #laboratory_form').serialize()});
-        $('#diagnosis_form input:checkbox').removeAttr('checked');
-        $('#diagnosisInfo > tbody > tr').remove();
+        // If reload location - no need for this
+        /*$('#diagnosis_form input:checkbox').removeAttr('checked');
+         $('#diagnosisInfo > tbody > tr').remove();*/
         location.reload();
     });
     //sick of this
     $('#laboratory_form').find('input:radio, input:checkbox').prop('checked', false);
+    $('#diagnosis_form').find('input:radio, input:checkbox').prop('checked', false);
+    $('#show_selection').hide();
 });

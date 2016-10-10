@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $ordered
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read mixed $has_result
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
  * @property-read \Ignite\Users\Entities\UserProfile $doctors
@@ -40,9 +41,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Investigations extends Model {
 
-    public $primaryKey = 'visit';
     protected $table = 'evaluation_investigations';
     protected $guarded = [];
+
+    public function getTypeAttribute($type) {
+        return ucwords($type);
+    }
+
+    public function getHasResultAttribute() {
+        return count($this->results);
+    }
 
     public function visits() {
         return $this->belongsTo(Visit::class, 'visit');

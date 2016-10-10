@@ -22,6 +22,7 @@ class EvaluationController extends AdminBaseController {
     public function __construct(EvaluationRepository $evaluationRepository) {
         parent::__construct();
         $this->evaluationRepository = $evaluationRepository;
+        $this->__require_assets();
     }
 
     /**
@@ -156,6 +157,19 @@ class EvaluationController extends AdminBaseController {
         $this->data['visits'] = Visit::wherePatient($patient_id)->get();
         $this->data['patient'] = Patients::find($patient_id);
         return view('evaluation::patient_visits', ['data' => $this->data]);
+    }
+
+    private function __require_assets() {
+        $this->assetManager->addAssets([
+            'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations-evaluation.min.js'),
+            'doctor-treatment.js' => m_asset('evaluation:js/doctor-treatment.min.js'),
+            'nurse_eye_preliminary.js' => m_asset('evaluation:js/nurse_eye_preliminary.min.js'),
+            'doctor_evaluation.min.js' => m_asset('evaluation:js/doctor_evaluation.min.js'),
+        ]);
+        $this->assetPipeline->requireJs('doctor-investigations.js');
+        $this->assetPipeline->requireJs('doctor-treatment.js');
+        $this->assetPipeline->requireJs('nurse_eye_preliminary.js');
+        $this->assetPipeline->requireJs('doctor_evaluation.min.js');
     }
 
 }

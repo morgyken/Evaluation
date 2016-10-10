@@ -23,10 +23,10 @@ $performed_diagnosis = get_investigations($visit);
             </div>
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" id="show_selection">
                         <div class="box box-primary">
                             <div class="box-header">
-                                <h4 class="box-title">Selected diagnosis procedures</h4>
+                                <h4 class="box-title">Selected procedures</h4>
                             </div>
                             <div class="box-body">
                                 <div id="diagnosisTable">
@@ -51,7 +51,7 @@ $performed_diagnosis = get_investigations($visit);
                         @if(!empty($performed_diagnosis))
                         <div class="box box-success">
                             <div class="box-header">
-                                <h4 class="box-title">Previously ordered diagnosis</h4>
+                                <h4 class="box-title">Previously ordered tests</h4>
                             </div>
                             <div class="box-body">
                                 <table class="table table-condensed">
@@ -71,7 +71,7 @@ $performed_diagnosis = get_investigations($visit);
                                             <td>{{$item->type}}</td>
                                             <td>{{$item->price}}</td>
                                             <td>{{$item->is_paid?'Paid':'Not Paid'}}</td>
-                                            <td>No Result</td>
+                                            <td>{{$item->has_result?route('evaluation.investigation.result',$item->id):'No'}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -89,7 +89,6 @@ $performed_diagnosis = get_investigations($visit);
 <style>
     .investigation_item{
         height:400px;
-        overflow:scroll;
+        overflow-y: scroll;
     }
 </style>
-<script src="{{m_asset('evaluation:js/doctor-investigations-evaluation.min.js')}}"></script>

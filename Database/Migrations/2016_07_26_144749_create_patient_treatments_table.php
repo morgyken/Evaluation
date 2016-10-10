@@ -16,8 +16,7 @@ class CreatePatientTreatmentsTable extends Migration {
             $column->integer('visit')->unsigned();
             $column->integer('procedure')->unsigned();
             $column->double('price', 10, 2);
-            $column->double('base', 10, 2); //->default(false);
-            $column->integer('no_performed')->default(1);
+            $column->double('base', 10, 2);
             $column->boolean('is_paid')->default(false);
             $column->integer('user')->unsigned()->nullable();
             $column->timestamps();

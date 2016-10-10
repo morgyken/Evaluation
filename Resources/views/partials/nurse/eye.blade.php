@@ -58,8 +58,4 @@
         </table>
     </div>
     {!! Form::close() !!}
-    <script type="text/javascript">
-        var PRELIMINARY_EXAMINATION = "{{route('api.evaluation.save_preliminary')}}";
-    </script>
-    <script src="{{m_asset('evaluation:js/nurse_eye_preliminary.min.js')}}"></script>
 </div>

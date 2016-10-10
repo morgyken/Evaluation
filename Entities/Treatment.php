@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $procedure
  * @property float $price
  * @property float $base
- * @property integer $no_performed
  * @property boolean $is_paid
  * @property integer $user
  * @property \Carbon\Carbon $created_at
@@ -25,7 +24,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Treatment whereProcedure($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Treatment wherePrice($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Treatment whereBase($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Treatment whereNoPerformed($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Treatment whereIsPaid($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Treatment whereUser($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Treatment whereCreatedAt($value)

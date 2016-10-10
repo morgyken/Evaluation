@@ -78,5 +78,4 @@ extract($data);
     </div>
 </div>
 @include('evaluation::routes')
-<script src="{{Module::asset('evaluation:js/doctor_evaluation.min.js')}}"></script>
 @endsection
