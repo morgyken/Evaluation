@@ -37,6 +37,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereOrdered($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations laboratory()
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations diagnosis()
  * @mixin \Eloquent
  */
 class Investigations extends Model {
@@ -44,12 +46,16 @@ class Investigations extends Model {
     protected $table = 'evaluation_investigations';
     protected $guarded = [];
 
-    public function getTypeAttribute($type) {
-        return ucwords($type);
-    }
-
     public function getHasResultAttribute() {
         return count($this->results);
+    }
+
+    public function scopeLaboratory($query) {
+        return $query->where('type', 'laboratory');
+    }
+
+    public function scopeDiagnosis($query) {
+        return $query->where('type', 'diagnosis');
     }
 
     public function visits() {

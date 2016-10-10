@@ -14,7 +14,7 @@ $procedure = $data['procedure'];
 @section('content')
 <div class="form-horizontal">
     <div class="box box-info">
-        {!! Form::model($procedure,['route'=>'evaluation.procedures.save']) !!}
+        {!! Form::model($procedure,['route'=>'evaluation.setup.procedures.save']) !!}
         {!! Form::hidden('id',$procedure->id) !!}
         <div class="box-body">
             <div class="col-md-6">
@@ -99,7 +99,7 @@ $procedure = $data['procedure'];
                     <td>{{$procedure->cash_charge}}</td>
                     <td>
                         <a class="btn btn-primary btn-xs"
-                           href="{{route('evaluation.procedures',$procedure->id)}}">
+                           href="{{route('evaluation.setup.procedures',$procedure->id)}}">
                             <i class="fa fa-pencil-square-o"></i></a> |
                         <button class="btn btn-danger btn-xs delete" value="">
                             <i class="fa fa-trash-o"></i></button>

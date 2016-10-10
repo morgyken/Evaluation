@@ -34,7 +34,7 @@ $performed_diagnosis = get_investigations($visit);
                                         <thead>
                                             <tr>
                                                 <th>Test</th>
-                                                <th>Cost</th>
+                                                <th>Price</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -59,7 +59,7 @@ $performed_diagnosis = get_investigations($visit);
                                         <tr>
                                             <th>Procedure</th>
                                             <th>Type</th>
-                                            <th>Cost</th>
+                                            <th>Price</th>
                                             <th>Payment</th>
                                             <th>Result</th>
                                         </tr>

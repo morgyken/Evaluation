@@ -49,7 +49,10 @@ $(function () {
     });
     function save_treatment() {
         $.ajax({type: "POST", url: TREAT_URL, data: $('#treatment_form').serialize()});
+        $('#selected_treatment').hide();
+        location.reload();
     }
     $('#treatment_form').find('input:radio, input:checkbox').prop('checked', false);
     $('#selected_treatment').hide();
+
 });

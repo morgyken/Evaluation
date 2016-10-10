@@ -216,7 +216,6 @@ class EvaluationFunctions implements EvaluationRepository {
      * @return array
      */
     public function save_treatment() {
-        dd($this->__get_selected_stack());
         DB::transaction(function () {
             foreach ($this->__get_selected_stack() as $treatment) {
                 Treatment::create([

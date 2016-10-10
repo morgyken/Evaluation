@@ -34,6 +34,7 @@ class Treatment extends Model {
 
     public $primaryKey = 'visit';
     public $table = 'evaluation_treatments';
+    protected $guarded = [];
 
     public function visits() {
         return $this->belongsTo(Visit::class, 'visit');

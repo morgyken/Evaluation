@@ -13,7 +13,7 @@
 @section('content')
 <div class="box box-info">
     <div class="form-horizontal">
-        {!! Form::open(['route'=>'evaluation.procedure_cat.save']) !!}
+        {!! Form::open(['route'=>'evaluation.setup.procedure_cat.save']) !!}
         {!! Form::hidden('id',$data['model']->id) !!}
         <div class="box-body">
             <div class="col-md-6">
@@ -56,7 +56,7 @@
                     <td>{{$category->applies}}</td>
                     <td>
                         <a class="btn btn-primary btn-xs"
-                           href="{{route('evaluation.procedure_cat',$category->id)}}" >
+                           href="{{route('evaluation.setup.procedure_cat',$category->id)}}" >
                             <i class="fa fa-pencil-square-o"></i></a> |
                         <button class="btn btn-danger btn-xs delete" value="{{$category->id}}">
                             <i class="fa fa-trash-o"></i></button></td>

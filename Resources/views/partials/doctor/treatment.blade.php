@@ -17,6 +17,7 @@ $performed = get_treatments($visit);
             </div>
             @else
             {!! Form::open(['id'=>'treatment_form'])!!}
+            {!! Form::hidden('visit',$visit->id) !!}
             <table class="table table-condensed table-borderless table-responsive" id="procedures">
                 <tbody>
                     @foreach($procedures as $procedure)
@@ -29,9 +30,9 @@ $performed = get_treatments($visit);
                             <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>
                         </td>
                         <td>
-                            <input type="hidden" name="price{{$procedure->id}}" value="{{$procedure->price}}"
+                            <input type="hidden" name="cost{{$procedure->id}}" value="{{$procedure->price}}"
                                    size="5" id="price{{$procedure->id}}" disabled/>
-                            <input type="text" name="cost{{$procedure->id}}" value="{{$procedure->price}}"
+                            <input type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}"
                                    id="cost{{$procedure->id}}" size="5" disabled/>
                         </td>
                     </tr>

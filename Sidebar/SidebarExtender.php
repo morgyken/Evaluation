@@ -80,15 +80,25 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
                     $item->authorize($this->auth->hasAccess('Evaluation.Review'));
                 });
             });
+
+            $group->item('Finance', function(Item $item) {
+                $item->weight(4);
+                $item->icon('fa fa-money');
+
+                $item->item('Receive Payments', function (Item $item) {
+                    $item->icon('fa fa-euro');
+                    $item->route('evaluation.finance.pay');
+                });
+            });
             $group->item('Setup', function (Item $item) {
                 $item->item('Procedure Categories', function(Item $item) {
                     $item->icon('fa fa-wpforms');
-                    $item->route('evaluation.procedure_cat');
+                    $item->route('evaluation.setup.procedure_cat');
                     $item->weight(4);
                 });
                 $item->item('Procedures', function(Item $item) {
                     $item->icon('fa fa-hourglass-1');
-                    $item->route('evaluation.procedures');
+                    $item->route('evaluation.setup.procedures');
                     $item->weight(4);
                 });
             });
