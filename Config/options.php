@@ -10,6 +10,11 @@
  * =============================================================================
  */
 return [
+    'card_types' => [
+        'mastercard' => 'MasterCard',
+        'visa' => 'VISA',
+        'discovery' => 'Discovery',
+    ],
     'applies_to' => [
         1 => 'Doctor',
         2 => 'Pharmacy',

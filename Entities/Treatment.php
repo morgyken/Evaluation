@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
- * @property-read mixed $net
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Treatment whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Treatment whereVisit($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Treatment whereProcedure($value)
@@ -44,8 +43,5 @@ class Treatment extends Model {
         return $this->belongsTo(Procedures::class, 'procedure');
     }
 
-    public function getNetAttribute() {
-        return $this->price * $this->no_performed;
-    }
 
 }

@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $test
  * @property float $price
  * @property float $base
- * @property boolean $paid
+ * @property boolean $is_paid
  * @property integer $user
  * @property string $instructions
  * @property boolean $ordered
@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereTest($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations wherePrice($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereBase($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations wherePaid($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereIsPaid($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereUser($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereInstructions($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereOrdered($value)

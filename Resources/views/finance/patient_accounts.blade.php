@@ -25,9 +25,9 @@ extract($data);
                     <td>{{$patient->id_no}}</td>
                     <td>{{$patient->mobile}}</td>
                     <td>
-                        <a class="btn btn-primary btn-xs" href="{{route('evaluation.finance.pay',$patient->patient_id)}}">
+                        <a class="btn btn-primary btn-xs" href="{{route('evaluation.finance.pay',$patient->id)}}">
                             <i class="fa fa-hand-lizard-o"></i> Receive Payments</a>
-                        <a class="btn btn-success btn-xs" href="{{route('evaluation.finance.individual_account',$patient->patient_id)}}">
+                        <a class="btn btn-success btn-xs" href="{{route('evaluation.finance.individual_account',$patient->id)}}">
                             <i class="fa fa-eye-slash"></i> View Account</a>
                     </td>
                 </tr>
