@@ -8,7 +8,7 @@
 <strong>Payment Options</strong>
 <hr/>
 {!! Form::hidden('patient',$patient->id) !!}
-<div class="accordion form-horizontal">
+<div class="accordion form-horizontal" id="someForm">
     <h4>Cash</h4>
     <div>
         <div class="form-group">
@@ -57,13 +57,13 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label class="col-md-4 control-label">Name:</label>
+                <label class="col-md-4 control-label">Bank:</label>
                 <div class="col-md-8">
                     {!! Form::text('ChequeBank',old('ChequeBank'),['class'=>'form-control','placeholder'=>'Bank']) !!}
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label">Name:</label>
+                <label class="col-md-4 control-label">Branch:</label>
                 <div class="col-md-8">
                     {!! Form::text('ChequeBankBranch',old('ChequeBankBranch'),['class'=>'form-control','placeholder'=>'Branch']) !!}
                 </div>
@@ -117,9 +117,12 @@
 <div class="row">
     <div class="col-md-12">
         <hr/>
-        <span id="all" class="pull-left"></span>
+        <div class="pull-left">
+            <span id="all"></span><br/>
+            <span id="balance"></span>
+        </div>
         <div class="pull-right">
-            <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+            <button class="btn btn-success" type="submit" id="saver"><i class="fa fa-save"></i> Save</button>
         </div>
     </div>
 </div>

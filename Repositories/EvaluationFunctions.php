@@ -22,7 +22,6 @@ use Ignite\Evaluation\Entities\Preliminary;
 use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
-use Ignite\Evaluation\Entities\Treatment;
 use Ignite\Evaluation\Entities\VisitMeta;
 use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\Vitals;
@@ -212,25 +211,6 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     /**
-     * Save treatment for doctor
-     * @return array
-     */
-    public function save_treatment() {
-        DB::transaction(function () {
-            foreach ($this->__get_selected_stack() as $treatment) {
-                Treatment::create([
-                    'visit' => $this->visit,
-                    'procedure' => $treatment,
-                    'base' => $this->input['cost' . $treatment],
-                    'price' => $this->input['price' . $treatment],
-                    'user' => $this->user,
-                ]);
-            }
-        });
-        return ['result' => true];
-    }
-
-    /**
      * Check in patient to another section
      * @param $section
      * @return bool
@@ -244,6 +224,8 @@ class EvaluationFunctions implements EvaluationRepository {
             case 'laboratory':
                 $visit->laboratory = true;
                 break;
+            default :
+                return;
         }
         return $visit->save();
     }
@@ -258,8 +240,8 @@ class EvaluationFunctions implements EvaluationRepository {
                 Investigations::create([
                     'type' => $this->input['type' . $treatment],
                     'visit' => $this->visit,
-                    'test' => $treatment,
-                    'base' => $this->input['cost' . $treatment],
+                    'procedure' => $treatment,
+                    'cost' => $this->input['cost' . $treatment],
                     'price' => $this->input['price' . $treatment],
                     'instructions' => empty($this->input['instructions' . $treatment]) ? null : $this->input['instructions' . $treatment],
                     'user' => $this->user,

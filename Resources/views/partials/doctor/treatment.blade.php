@@ -6,7 +6,7 @@
  */
 
 $procedures = get_procedures_for('doctor');
-$performed = get_treatments($visit);
+$performed = get_investigations($visit, ['treatment']);
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -29,7 +29,7 @@ $performed = get_treatments($visit);
                         <td>
                             <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>
                         </td>
-                        <td>
+                        <td> <input type="hidden" name="type{{$procedure->id}}" value="treatment" disabled/>
                             <input type="hidden" name="cost{{$procedure->id}}" value="{{$procedure->price}}"
                                    size="5" id="price{{$procedure->id}}" disabled/>
                             <input type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}"

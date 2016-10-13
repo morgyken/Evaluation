@@ -177,20 +177,11 @@ if (!function_exists('get_investigations')) {
      * @param $visit
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_investigations(Visit $visit) {
-        return Investigations::where(['visit' => $visit->id])->get();
-    }
-
-}
-if (!function_exists('get_treatments')) {
-
-    /**
-     * Get patient treatment for visit
-     * @param $visit
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    function get_treatments(Visit $visit) {
-        return Treatment::where(['visit' => $visit->id])->get();
+    function get_investigations(Visit $visit, $type = null) {
+        if (empty($type)) {
+            return Investigations::where(['visit' => $visit->id])->get();
+        }
+        return Investigations::where(['visit' => $visit->id])->whereIn('type', $type)->get();
     }
 
 }
@@ -267,6 +258,17 @@ if (!function_exists('get_procedures')) {
      */
     function get_procedures() {
         return Procedures::all()->pluck('name', 'id');
+    }
+
+}
+if (!function_exists('generate_receipt_no')) {
+
+    /**
+     * Genearte a nice receipt number reference
+     * @return string
+     */
+    function generate_receipt_no() {
+        return m_setting('evaluation.receipt_prefix') . date('dmyHis');
     }
 
 }

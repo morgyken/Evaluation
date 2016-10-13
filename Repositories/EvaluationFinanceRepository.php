@@ -19,4 +19,9 @@ namespace Ignite\Evaluation\Repositories;
  */
 interface EvaluationFinanceRepository {
 
+    /**
+     * Record payment
+     * @return bool
+     */
+    public function record_payment();
 }

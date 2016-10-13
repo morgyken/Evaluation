@@ -12,7 +12,7 @@ $__visits = $patient->visits;
 @section('content_description','Receive payments from patients')
 
 @section('content')
-{!! Form::open(['id'=>'payForm','route'=>'evaluation.finance.pay.save'])!!}
+{!! Form::open(['id'=>'payForm','route'=>'evaluation.finance.pay.save','autocomplete'=>'off'])!!}
 <div class="box box-info">
     <div class="box-body">
         <div class="col-md-6">
@@ -20,33 +20,13 @@ $__visits = $patient->visits;
             <hr/>
             <h4>Select procedures for payment<span class="pull-right" id="total"></span></h4>
             @if(!empty($__visits))
-            <div id="accordion">
+            <div class="accordion">
                 @foreach($__visits as $visit)
                 <h3>{{(new Date($visit->created_at))->format('dS M y g:i a')}} -
                     Clinic {{$visit->clinics->name}}</h3>
                 <div id="visit{{$visit->id}}">
                     <table class="table table-condensed" id="paymentsTable">
                         <tbody>
-                            @foreach($visit->treatments as $item)
-                            <tr>
-                                @if($item->is_paid)
-                                <td><input type="checkbox" disabled/></td>
-                                <td>
-                                    <div class="label label-success">Paid</div>
-                                    {{$item->procedures->name}} <i class="small">(Treatment)</i> -
-                                    Ksh {{$item->price}}
-                                </td>
-                                @else
-                                <td><input type="checkbox" value="{{$item->procedure}}"
-                                           name="pay{{$item->procedure}}" class="group"/>
-                                    <input type="hidden" name="payVisit{{$item->procedure}}"
-                                           value="{{$visit->id}}"></td>
-                                <td>{{$item->procedures->name}} <i class="small">(Treatment)</i>- Ksh <span
-                                        class="topay">{{$item->price}}</span>
-                                </td>
-                                @endif
-                            </tr>
-                            @endforeach
                             @foreach($visit->investigations as $item)
                             <tr>
                                 @if($item->is_paid)
@@ -57,10 +37,8 @@ $__visits = $patient->visits;
                                     Ksh {{$item->price}}
                                 </td>
                                 @else
-                                <td><input type="checkbox" value="{{$item->test}}"
-                                           name="pay{{$item->test}}" class="group"/>
-                                    <input type="hidden" name="payVisit{{$item->test}}"
-                                           value="{{$visit->id}}"></td>
+                                <td><input type="checkbox" value="{{$item->id}}"
+                                           name="item{{$item->id}}" />
                                 <td>{{$item->procedures->name}} <i class="small">({{ucwords($item->type)}})</i> -
                                     Ksh <span class="topay">{{$item->price}}</span></td>
                                 @endif
@@ -83,11 +61,6 @@ $__visits = $patient->visits;
         </div>
         <div class="col-md-6">
             @include('evaluation::finance.form')
-        </div>
-    </div>
-    <div class="box-footer">
-        <div class="pull-left">
-            <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Save</button>
         </div>
     </div>
 </div>

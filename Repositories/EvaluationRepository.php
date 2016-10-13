@@ -65,11 +65,6 @@ interface EvaluationRepository {
     public function save_drawings();
 
     /**
-     * @param
-     */
-    public function save_treatment();
-
-    /**
      * @return mixed
      */
     public function save_diagnosis();
@@ -85,7 +80,6 @@ interface EvaluationRepository {
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function save_opnotes();
-
 
     /**
      * @return mixed

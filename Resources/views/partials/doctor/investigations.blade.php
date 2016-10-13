@@ -4,7 +4,7 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$performed_diagnosis = get_investigations($visit);
+$performed_diagnosis = get_investigations($visit, ['laboratory', 'diagnosis']);
 ?>
 <div>
     <div class="row">
@@ -48,7 +48,7 @@ $performed_diagnosis = get_investigations($visit);
                         </div>
                     </div>
                     <div class="col-md-12">
-                        @if(!empty($performed_diagnosis))
+                        @if(!$performed_diagnosis->isEmpty())
                         <div class="box box-success">
                             <div class="box-header">
                                 <h4 class="box-title">Previously ordered tests</h4>

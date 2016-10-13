@@ -1,52 +1,50 @@
 $(function () {
-    var costArray = 0;
-    var SUM = 0;
     $('#payForm input').keyup(function () {
-        sumPayments();
+        show_information();
     });
     function sumPayments() {
         function parser(j) {
             return parseInt(j) || 0;
         }
-        var insurance = parser($('input[name=InsuranceAmount]').val());
         var cash = parser($('input[name=CashAmount]').val());
         var mpesa = parser($('input[name=MpesaAmount]').val());
         var cheque = parser($('input[name=ChequeAmount]').val());
         var card = parser($('input[name=CardAmount]').val());
-        SUM = insurance + cash + mpesa + cheque + card;
-        $('#all').html("Total: <strong>Ksh " + SUM + "</strong>");
+        console.log(cash, mpesa, cheque, card);
+        return (cash + mpesa + cheque + card);
     }
-    $('#accordion').accordion({heightStyle: "content"});
-    $('#payForm').submit(function (e) {
-        e.preventDefault();
-        if (SUM === 0) {
-            alert('Please enter payment amount details');
-            return;
-        }
-        if (SUM !== costArray) {
-            alert('Payment does not match the cost for tselected procedures');
-            return;
-        }
-        $('#payForm').unbind().submit();
+    $('input').on('ifChanged', function (e) {
+        show_information();
     });
-    $('input').on('ifClicked', function (e) {
+    function calculate_cost_array() {
         var total = 0;
         $('#paymentsTable > tbody > tr').each(function () {
             if ($(this).find('input:checkbox').is(':checked')) {
                 total += parseInt($(this).find('span').html());
-                console.log(total);
             }
         });
-        $('#total').html("Total: <strrong>Ksh " + total + "</strong>");
-    });
-    $('#total').html("Total: <strrong>Ksh " + costArray + "</strong>");
-    $('#all').html("Total: <strrong>Ksh " + SUM + "</strong>");
+        return total;
+    }
+    function show_information() {
+        var selected_payments = calculate_cost_array();
+        var to_pay = sumPayments();
+        var needed = selected_payments - to_pay;
+        $('#total').html("Total: Ksh " + selected_payments);
+        $('#all').html("Total Payments: <strong>Ksh " + to_pay + "</strong>");
+        $('#balance').html('');
+        $('#saver').prop('disabled', false);
+        if (needed > 0) {
+            $('#balance').html("Balance: <strong style='color:red;'>Ksh " + needed + "</strong>");
+            $('#saver').prop('disabled', true);
+        }
+    }
     $('#paymentsTable').find('input:radio, input:checkbox').prop('checked', false);
     $('input[type="checkbox"]').iCheck({
         checkboxClass: 'icheckbox_flat-green',
         radioClass: 'iradio_flat-blue',
         increaseArea: '20%'
     });
+    $('#saver').prop('disabled', true);
     $(".accordion").accordion({
         heightStyle: "content"
     });

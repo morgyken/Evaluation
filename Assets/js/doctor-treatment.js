@@ -10,7 +10,7 @@
  * Treatment URL
  * =========================================================================
  */
-/* global TREAT_URL, VISIT_ID, USER_ID */
+/* global TREAT_URL, VISIT_ID, USER_ID, DIAGNOSIS_URL */
 
 $(function () {
     $('#treatment_form input').blur(function () {
@@ -48,7 +48,7 @@ $(function () {
         save_treatment();
     });
     function save_treatment() {
-        $.ajax({type: "POST", url: TREAT_URL, data: $('#treatment_form').serialize()});
+        $.ajax({type: "POST", url: DIAGNOSIS_URL, data: $('#treatment_form').serialize()});
         $('#selected_treatment').hide();
         location.reload();
     }

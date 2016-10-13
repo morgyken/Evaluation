@@ -57,10 +57,6 @@ class ApiController extends Controller {
         return Response::json($this->evaluationRepository->save_diagnosis());
     }
 
-    public function save_treatment(Request $request) {
-        return Response::json($this->evaluationRepository->save_treatment($request));
-    }
-
     public function save_prescription() {
         return Response::json($this->evaluationRepository->save_prescriptions());
     }

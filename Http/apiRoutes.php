@@ -16,7 +16,6 @@ $router->get('checkout_patient', ['uses' => 'ApiController@checkout_patient', 'a
 $router->get('diagnosis/{regex?}', ['uses' => 'ApiController@diagnosis_codes', 'as' => 'diagnosis_auto']);
 $router->post('auto_save_vitals', ['uses' => 'ApiController@save_vitals', 'as' => 'save_vitals']);
 $router->post('auto_save_notes', ['uses' => 'ApiController@save_notes', 'as' => 'save_notes']);
-$router->post('auto_save_treatment', ['uses' => 'ApiController@save_treatment', 'as' => 'save_treatment']);
 $router->post('auto_save_diagnosis', ['uses' => 'ApiController@save_diagnosis', 'as' => 'save_diagnosis']);
 $router->post('save_prescription', ['uses' => 'ApiController@save_prescription', 'as' => 'save_prescription']);
 $router->post('save_opnotes', ['uses' => 'ApiController@save_opnotes', 'as' => 'save_opnotes']);

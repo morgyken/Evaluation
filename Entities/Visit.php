@@ -53,7 +53,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Ignite\Evaluation\Entities\Drawings $drawings
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Prescriptions[] $prescriptions
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Investigations[] $investigations
- * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Treatment[] $treatments
  * @property-read \Ignite\Evaluation\Entities\OpNotes $opnotes
  * @property-read \Ignite\Reception\Entities\Appointments $appointments
  * @property-read \Ignite\Users\Entities\UserProfile $doctors
@@ -145,7 +144,7 @@ class Visit extends Model {
 
     public function getModeAttribute() {
         if ($this->payment_mode == 'insurance') {
-            return ucfirst($this->payment_mode ). " | ". $this->schemes->companies->name." | ".$this->schemes->name;
+            return ucfirst($this->payment_mode) . " | " . $this->schemes->companies->name . " | " . $this->schemes->name;
         }
         return ucfirst($this->payment_mode);
     }
@@ -176,10 +175,6 @@ class Visit extends Model {
 
     public function investigations() {
         return $this->hasMany(Investigations::class, 'visit');
-    }
-
-    public function treatments() {
-        return $this->hasMany(Treatment::class, 'visit');
     }
 
     public function opnotes() {

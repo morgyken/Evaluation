@@ -16,12 +16,15 @@ class FinanceController extends AdminBaseController {
         $this->financeRepository = $financeRepository;
     }
 
+    public function payment_details() {
+        $id = session('pay_id');
+        $this->data['payment'] = \Ignite\Evaluation\Entities\EvaluationPayments::find($id);
+        return view('evaluation::finance.details', ['data' => $this->data]);
+    }
+
     public function pay_save(PaymentsRequest $request) {
-        dd($request);
-        if ($ref = \Dervis\Helpers\FinancialFunctions::receive_payments($request, $patient)) {
-            \Dervis\Helpers\FinancialFunctions::updateInvoice();
-            return redirect()->route('finance::payment_details', $ref);
-        }
+        $this->financeRepository->record_payment();
+        return redirect()->route('evaluation.finance.payment_details');
     }
 
     public function pay($patient = null) {
@@ -30,10 +33,7 @@ class FinanceController extends AdminBaseController {
             return view('evaluation::finance.pay')->with('data', $this->data);
         }
         $this->data['patients'] = Patients::whereHas('visits', function ($query) {
-                    $query->whereHas('treatments', function ($q2) {
-                        $q2->whereIsPaid(false);
-                    });
-                    $query->orWhereHas('investigations', function ($q3) {
+                    $query->whereHas('investigations', function ($q3) {
                         $q3->whereIsPaid(false);
                     });
                 })->get();

@@ -56,4 +56,5 @@ $router->group(['prefix' => 'finance', 'as' => 'finance.'], function(Router $rou
     $router->get('accounts', ['uses' => 'FinanceController@accounts', 'as' => 'accounts']);
     $router->get('accounts/{patient}/show', ['uses' => 'FinanceController@individual_account', 'as' => 'individual_account']);
     $router->post('payment', ['as' => 'pay.save', 'uses' => 'FinanceController@pay_save']);
+    $router->get('payment_details', ['as' => 'payment_details', 'uses' => 'FinanceController@payment_details']);
 });

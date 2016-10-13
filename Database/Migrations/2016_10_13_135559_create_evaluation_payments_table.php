@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePatientTreatmentsTable extends Migration {
+class CreateEvaluationPaymentsTable extends Migration {
 
     /**
      * Run the migrations.
@@ -11,19 +11,17 @@ class CreatePatientTreatmentsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('evaluation_treatments', function(Blueprint $column) {
+        Schema::create('evaluation_payments', function (Blueprint $column) {
             $column->increments('id');
-            $column->integer('visit')->unsigned();
-            $column->integer('procedure')->unsigned();
-            $column->double('price', 10, 2);
-            $column->double('base', 10, 2);
-            $column->boolean('is_paid')->default(false);
-            $column->integer('user')->unsigned()->nullable();
+            $column->string('receipt')->unique();
+            $column->integer('patient')->unsigned();
+            $column->text('description')->nullable();
+            $column->integer('user')->unsigned();
             $column->timestamps();
 
-            $column->foreign('visit')
+            $column->foreign('patient')
                     ->references('id')
-                    ->on('evaluation_visits')
+                    ->on('reception_patients')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $column->foreign('user')->references('id')->on('users')
@@ -38,7 +36,7 @@ class CreatePatientTreatmentsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('evaluation_treatments');
+        Schema::dropIfExists('evaluation_payments');
     }
 
 }
