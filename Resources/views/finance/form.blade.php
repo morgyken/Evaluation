@@ -7,6 +7,16 @@
 ?>
 <strong>Payment Options</strong>
 <hr/>
+@if (count($errors) > 0)
+<div class="alert alert-danger">
+    <strong>Uh Oh!</strong> Check the following<br>
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 {!! Form::hidden('patient',$patient->id) !!}
 <div class="accordion form-horizontal" id="someForm">
     <h4>Cash</h4>
@@ -102,7 +112,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label">Expiry:</label>
                 <div class="col-md-8">
-                    {!! Form::text('expiry',old('expiry'),['placeholder'=>'eg. 04/22','class'=>'form-control']) !!}
+                    {!! Form::text('CardExpiry',old('expiry'),['placeholder'=>'eg. 04/22','class'=>'form-control']) !!}
                 </div>
             </div>
             <div class="form-group">

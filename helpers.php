@@ -12,17 +12,18 @@
 
 use Ignite\Evaluation\Entities\DiagnosisCodes;
 use Ignite\Evaluation\Entities\DoctorNotes;
+use Ignite\Evaluation\Entities\EvaluationPayments;
 use Ignite\Evaluation\Entities\EyeExam;
 use Ignite\Evaluation\Entities\Investigations;
 use Ignite\Evaluation\Entities\OpNotes;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
-use Ignite\Evaluation\Entities\Treatment;
 use Ignite\Evaluation\Entities\VisitMeta;
 use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\Vitals;
 use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\PatientDocuments;
+use Ignite\Reception\Entities\Patients;
 use Ignite\Settings\Entities\Clinics;
 
 if (!function_exists('get_patient_queue')) {
@@ -269,6 +270,64 @@ if (!function_exists('generate_receipt_no')) {
      */
     function generate_receipt_no() {
         return m_setting('evaluation.receipt_prefix') . date('dmyHis');
+    }
+
+}
+
+if (!function_exists('payment_label')) {
+
+    /**
+     * Helper to return fancy lable for payment status
+     * @param bool $paid
+     * @return string
+     */
+    function payment_label($paid = null) {
+        $fanc = '';
+        if ($paid) {
+            $fanc = "<span class='label label-success'><i class='fa fa-check-circle-o'></i> Paid</span>";
+        } else {
+            $fanc = "<span class='label label-warning'><i class='fa fa-refresh fa-spin'></i> Pending</span>";
+        }
+        return $fanc;
+    }
+
+}
+if (!function_exists('get_patients_with_bills')) {
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    function get_patients_with_bills() {
+        return Patients::whereHas('visits', function ($query) {
+                    $query->wherePaymentMode('cash');
+                    $query->whereHas('investigations', function ($q3) {
+                        // $q3->where('is_paid', false);
+                    });
+                })->get();
+    }
+
+}
+if (!function_exists('payment_modes')) {
+
+    /**
+     * @param EvaluationPayments $payment
+     * @return string
+     */
+    function payment_modes(EvaluationPayments $payment) {
+        $modes = [];
+        if (!empty($payment->cash)) {
+            $modes[] = 'Cash';
+        }
+        if (!empty($payment->card)) {
+            $modes[] = 'Credit Card';
+        }
+        if (!empty($payment->mpesa)) {
+            $modes[] = 'Mpesa';
+        }
+        if (!empty($payment->cheque)) {
+            $modes[] = 'Cheque';
+        }
+        return implode(' | ', $modes);
     }
 
 }

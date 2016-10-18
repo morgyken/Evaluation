@@ -41,7 +41,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $deleted_at
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read mixed $settled
  * @property-read mixed $unpaid_amount
  * @property-read mixed $visit_destination
  * @property-read mixed $signed_out
@@ -96,15 +95,11 @@ class Visit extends Model {
     public $table = 'evaluation_visits';
 
     public function amount() {
-        return $this->treatments->sum('price');
-    }
-
-    public function getSettledAttribute() {
-        return !(bool) ($this->treatments->where('is_paid', 0)->count());
+        return $this->investigations->sum('price');
     }
 
     public function getUnpaidAmountAttribute() {
-        return $this->treatments->where('is_paid', 0)->sum('price*no_performed');
+        return $this->investigations->where('is_paid', 0)->sum('price');
     }
 
     public function getVisitDestinationAttribute() {

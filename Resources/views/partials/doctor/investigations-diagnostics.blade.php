@@ -30,8 +30,8 @@ $diagnosis = get_procedures_for('diagnostics');
                     <textarea placeholder="Instructions" name="instructions{{$procedure->id}}" disabled cols="50"></textarea></span>
             </td>
             <td>
-                <input type="hidden" name="cost{{$procedure->id}}" value="{{$procedure->price}}" size="5" id="price{{$procedure->id}}" disabled />
-                <input type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}" id="cost{{$procedure->id}}" size="5" disabled/></td>
+                <input type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}" id="cost{{$procedure->id}}" size="5" disabled/>
+            </td>
         </tr>
         @endforeach
     </tbody>

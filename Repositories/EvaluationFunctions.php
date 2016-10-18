@@ -241,7 +241,6 @@ class EvaluationFunctions implements EvaluationRepository {
                     'type' => $this->input['type' . $treatment],
                     'visit' => $this->visit,
                     'procedure' => $treatment,
-                    'cost' => $this->input['cost' . $treatment],
                     'price' => $this->input['price' . $treatment],
                     'instructions' => empty($this->input['instructions' . $treatment]) ? null : $this->input['instructions' . $treatment],
                     'user' => $this->user,
@@ -421,9 +420,8 @@ class EvaluationFunctions implements EvaluationRepository {
                 'visit' => $this->visit,
                 'type' => $type,
                 'user' => $this->user,
-                'test' => $this->input[$item],
+                'procedure' => $this->input[$item],
                 'price' => $this->input[$price],
-                'base' => 0
             ]);
         }
         return true;

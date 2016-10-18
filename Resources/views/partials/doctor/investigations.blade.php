@@ -70,7 +70,7 @@ $performed_diagnosis = get_investigations($visit, ['laboratory', 'diagnosis']);
                                             <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                             <td>{{$item->type}}</td>
                                             <td>{{$item->price}}</td>
-                                            <td>{{$item->is_paid?'Paid':'Not Paid'}}</td>
+                                            <td>{!! payment_label($item->is_paid) !!}</td>
                                             <td>{{$item->has_result?route('evaluation.investigation.result',$item->id):'No'}}</td>
                                         </tr>
                                         @endforeach

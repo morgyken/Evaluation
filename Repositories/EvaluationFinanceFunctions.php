@@ -12,9 +12,13 @@
 
 namespace Ignite\Evaluation\Repositories;
 
+use Ignite\Evaluation\Entities\EvaluationPaymentCard;
 use Ignite\Evaluation\Entities\EvaluationPaymentCash;
+use Ignite\Evaluation\Entities\EvaluationPaymentCheque;
 use Ignite\Evaluation\Entities\EvaluationPaymentMpesa;
 use Ignite\Evaluation\Entities\EvaluationPayments;
+use Ignite\Evaluation\Entities\EvaluationPaymentsDetails;
+use Ignite\Evaluation\Entities\Investigations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -63,27 +67,62 @@ class EvaluationFinanceFunctions implements EvaluationFinanceRepository {
             $payment = new EvaluationPayments;
             $payment->patient = $this->request->patient;
             $payment->receipt = generate_receipt_no();
-            $payment->description = 'Patient Payments';
             $payment->user = $this->user;
             $payment->save();
             $this->payment_methods($payment);
-            $this->update_units();
-            session(['pay_id' => $payment->id]);
+            $this->payment_details($payment);
+            $this->pay_id = $payment->id;
         });
-        return true;
+        return $this->pay_id;
     }
 
-    private function update_units() {
-        \Ignite\Evaluation\Entities\Investigations::whereIn('id', $this->__get_selected_stack())->update(['is_paid' => true]);
+    private function payment_details(EvaluationPayments $payment) {
+        $__investigations = $this->__get_selected_stack();
+        foreach ($__investigations as $item) {
+            $investigation = Investigations::findOrFail($item);
+            $detail = new EvaluationPaymentsDetails;
+            $detail->price = $investigation->price;
+            $detail->investigation = $item;
+            $detail->payment = $payment->id;
+            $detail->cost = $investigation->procedures->price;
+            $detail->save();
+        }
     }
 
     private function payment_methods(EvaluationPayments $payment) {
         if ($this->request->has('CashAmount')) {
-            EvaluationPaymentCash::create(['amount' => $this->input['CashAmount'], 'payment' => $payment->id]);
+            EvaluationPaymentCash::create([
+                'amount' => $this->input['CashAmount'],
+                'payment' => $payment->id
+            ]);
         }
         if ($this->request->has('MpesaAmount')) {
             EvaluationPaymentMpesa::create([
-                'amount' => $this->input['MpesaAmount'], 'payment' => $payment->id, 'reference' => $this->input['MpesaCode']
+                'amount' => $this->input['MpesaAmount'],
+                'reference' => strtoupper($this->input['MpesaCode']),
+                'payment' => $payment->id,
+            ]);
+        }
+        if ($this->request->has('CardAmount')) {
+            EvaluationPaymentCard::create([
+                'type' => $this->input['CardType'],
+                'name' => strtoupper($this->input['CardNames']),
+                'number' => $this->input['CardNumber'],
+                'expiry' => $this->input['CardExpiry'],
+                'amount' => $this->input['CardAmount'],
+                'security' => '000',
+                'payment' => $payment->id
+            ]);
+        }
+        if ($this->request->has('ChequeAmount')) {
+            EvaluationPaymentCheque::create([
+                'name' => strtoupper($this->input['ChequeName']),
+                'date' => new \Date($this->input['ChequeDate']),
+                'amount' => $this->input['ChequeAmount'],
+                'bank' => $this->input['ChequeBank'],
+                'bank_branch' => $this->input['ChequeBankBranch'],
+                'number' => $this->input['ChequeNumber'],
+                'payment' => $payment->id
             ]);
         }
     }

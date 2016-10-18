@@ -15,7 +15,6 @@ class CreateEvaluationPaymentsTable extends Migration {
             $column->increments('id');
             $column->string('receipt')->unique();
             $column->integer('patient')->unsigned();
-            $column->text('description')->nullable();
             $column->integer('user')->unsigned();
             $column->timestamps();
 

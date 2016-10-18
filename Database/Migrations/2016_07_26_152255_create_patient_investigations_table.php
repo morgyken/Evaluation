@@ -17,8 +17,6 @@ class CreatePatientInvestigationsTable extends Migration {
             $column->string('type')->default('diagnosis');
             $column->integer('procedure')->unsigned();
             $column->double('price', 10, 2);
-            $column->double('cost', 10, 2)->nullable();
-            $column->boolean('is_paid')->default(false);
             $column->integer('user')->unsigned()->nullable();
             $column->longText('instructions')->nullable();
             $column->boolean('ordered')->default(false);

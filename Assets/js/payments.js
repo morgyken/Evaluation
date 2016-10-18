@@ -48,5 +48,5 @@ $(function () {
     $(".accordion").accordion({
         heightStyle: "content"
     });
-
+    $('.datepicker').datepicker({maxDate: 0, changeMonth: true});
 });

@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EvaluationPaymentCheque extends Model {
 
-    protected $fillable = [];
+    protected $guarded = [];
     public $table = 'evaluation_payments_cheque';
 
 }

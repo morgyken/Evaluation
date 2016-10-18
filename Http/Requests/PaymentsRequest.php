@@ -13,15 +13,12 @@ class PaymentsRequest extends FormRequest {
      */
     protected $rules;
 
-    /**
-     * @todo Add rules for other modes
-     * @return type
-     */
     public function rules() {
         $this->rules['patient'] = 'required';
         $this->mpesa_rules();
         $this->cash_rules();
         $this->card_rules();
+        $this->cheque_rules();
         return $this->rules;
     }
 
@@ -41,7 +38,21 @@ class PaymentsRequest extends FormRequest {
     private function card_rules() {
         if ($this->has('CardAmount')) {
             $this->rules['CardAmount'] = 'required|numeric';
-            $this->rules['MpesaCode'] = 'required';
+            $this->rules['CardType'] = 'required';
+            $this->rules['CardNames'] = 'required';
+            $this->rules['CardNumber'] = 'digits:16';
+            $this->rules['CardExpiry'] = 'required';
+        }
+    }
+
+    private function cheque_rules() {
+        if ($this->has('ChequeAmount')) {
+            $this->rules['ChequeName'] = 'required';
+            $this->rules['ChequeDate'] = 'required';
+            $this->rules['ChequeAmount'] = 'required|numeric';
+            $this->rules['ChequeBank'] = 'required';
+            $this->rules['ChequeBankBranch'] = 'required';
+            $this->rules['ChequeNumber'] = 'required|numeric';
         }
     }
 

@@ -30,8 +30,6 @@ $performed = get_investigations($visit, ['treatment']);
                             <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>
                         </td>
                         <td> <input type="hidden" name="type{{$procedure->id}}" value="treatment" disabled/>
-                            <input type="hidden" name="cost{{$procedure->id}}" value="{{$procedure->price}}"
-                                   size="5" id="price{{$procedure->id}}" disabled/>
                             <input type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}"
                                    id="cost{{$procedure->id}}" size="5" disabled/>
                         </td>
@@ -94,7 +92,7 @@ $performed = get_investigations($visit, ['treatment']);
                                     <tr>
                                         <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                         <td>{{$item->price}}</td>
-                                        <td>{{$item->is_paid?'Paid':'Not Paid'}}</td>
+                                        <td>{!! payment_label($item->is_paid) !!}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
