@@ -2,6 +2,7 @@
 
 namespace Ignite\Evaluation\Entities;
 
+use Ignite\Finance\Entities\EvaluationPaymentsDetails;
 use Ignite\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
  * @property-read \Ignite\Users\Entities\User $doctors
  * @property-read \Ignite\Evaluation\Entities\InvestigationResult $results
- * @property-read \Ignite\Evaluation\Entities\EvaluationPaymentsDetails $payments
+ * @property-read \Ignite\Finance\Entities\EvaluationPaymentsDetails $payments
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereVisit($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereType($value)

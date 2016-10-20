@@ -50,17 +50,6 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
     $router->get('procedure_cat/show/{cat?}', ['as' => 'procedure_cat', 'uses' => 'SetupController@procedure_cat']);
     $router->post('procedure_cat/save', ['as' => 'procedure_cat.save', 'uses' => 'SetupController@save_procedure_cat']);
 });
-//financials
-$router->group(['prefix' => 'finance', 'as' => 'finance.'], function(Router $router) {
-    $router->get('pay/{patient?}', ['as' => 'pay', 'uses' => 'FinanceController@pay']);
-    $router->get('accounts', ['uses' => 'FinanceController@accounts', 'as' => 'accounts']);
-    $router->get('accounts/{patient}/show', ['uses' => 'FinanceController@individual_account', 'as' => 'individual_account']);
-    $router->post('payment', ['as' => 'pay.save', 'uses' => 'FinanceController@pay_save']);
-    $router->get('payment_details/{id}', ['as' => 'payment_details', 'uses' => 'FinanceController@payment_details']);
-    $router->get('summary', ['as' => 'summary', 'uses' => 'FinanceController@summary']);
-    $router->get('insurance', ['as' => 'insurance', 'uses' => 'FinanceController@insurance']);
-    $router->get('cash_bills', ['as' => 'cash_bills', 'uses' => 'FinanceController@cash_bills']);
-});
 
 $router->group(['prefix' => 'report', 'as' => 'report.'], function(Router $router) {
     $router->post('pay/{patient?}', ['as' => 'pay_receipt', 'uses' => 'ReportsController@payment_receipt']);

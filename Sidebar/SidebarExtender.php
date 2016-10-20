@@ -81,34 +81,6 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
                 });
             });
 
-            $group->item('Finance', function(Item $item) {
-                $item->weight(4);
-                $item->icon('fa fa-money');
-
-                $item->item('Receive Payments', function (Item $item) {
-                    $item->icon('fa fa-euro');
-                    $item->route('evaluation.finance.pay');
-                });
-
-                $item->item('Patient Accounts', function (Item $item) {
-                    $item->icon('fa fa-list');
-                    $item->route('evaluation.finance.accounts');
-                });
-
-                $item->item('Payment Summary', function (Item $item) {
-                    $item->icon('fa fa-yelp');
-                    $item->route('evaluation.finance.summary');
-                });
-
-                $item->item('Insurance Bills', function (Item $item) {
-                    $item->icon('fa fa-coffee');
-                    $item->route('evaluation.finance.insurance');
-                });
-                $item->item('Cash Bills', function (Item $item) {
-                    $item->icon('fa fa-coffee');
-                    $item->route('evaluation.finance.cash_bills');
-                });
-            });
             $group->item('Setup', function (Item $item) {
                 $item->item('Procedure Categories', function(Item $item) {
                     $item->icon('fa fa-wpforms');
