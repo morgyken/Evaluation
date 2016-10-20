@@ -17,7 +17,7 @@ class AutoCheckout extends Command {
      *
      * @var string
      */
-    protected $name = 'evaluation:mass';
+    protected $name = 'evaluation:checkout';
 
     /**
      * The console command description.
