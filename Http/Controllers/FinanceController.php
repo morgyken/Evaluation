@@ -81,4 +81,9 @@ class FinanceController extends AdminBaseController {
         return view('evaluation::finance.summary', ['data' => $this->data]);
     }
 
+    public function cash_bills() {
+        $this->data['cash'] = EvaluationPayments::all();
+        return view('evaluation::finance.cash_bills', ['data' => $this->data]);
+    }
+
 }

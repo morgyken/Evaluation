@@ -18,8 +18,18 @@ extract($data);
     </div>
     <div class="box-body">
         <div class="col-md-12">
-            Name:    <strong>{{$payment->patients->full_name}}</strong><br/>
-            Receipt: <strong>#{{$payment->receipt}}</strong>
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>Name:</dt><dd>{{$payment->patients->full_name}}</dd>
+                    <dt>Receipt:</dt><dd>#{{$payment->receipt}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>Cashier:</dt><dd>{{$payment->users->profile->full_name}}</dd>
+                    <dt>Date:</dt><dd>{{smart_date_time($payment->created_at)}}</dd>
+                </dl>
+            </div>
         </div>
         <div class="col-md-6">
             <table class="table table-striped">
@@ -50,7 +60,6 @@ extract($data);
             </table>
         </div>
         <div class="col-md-6">
-            {!! Form::open(['route'=>'evaluation.report.pay_receipt','target'=>'_blank'])!!}
             @if(!empty($payment->cash))
             <h4>Cash Payment</h4>
             Amount: Ksh {{$payment->cash->amount}}
@@ -75,11 +84,13 @@ extract($data);
             @endif
             <strong>Total: Ksh {{$payment->total}}</strong>
             <hr/>
-            <input type="hidden" name="payment" value="{{$payment->id}}"/>
+
 
         </div>
     </div>
     <div class="box-footer">
+        {!! Form::open(['route'=>'evaluation.report.pay_receipt','target'=>'_blank'])!!}
+        {!! Form::hidden('payment',$payment->id) !!}
         <button class="btn btn-primary" type="submit"><i class="fa fa-file-pdf-o"></i> Print Receipt</button>
         {{Form::close()}}
     </div>

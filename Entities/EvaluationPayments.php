@@ -3,6 +3,7 @@
 namespace Ignite\Evaluation\Entities;
 
 use Ignite\Reception\Entities\Patients;
+use Ignite\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Ignite\Evaluation\Entities\EvaluationPaymentCard $card
  * @property-read \Ignite\Reception\Entities\Patients $patients
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\EvaluationPaymentsDetails[] $details
+ * @property-read \Ignite\Users\Entities\User $users
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\EvaluationPayments whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\EvaluationPayments whereReceipt($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\EvaluationPayments wherePatient($value)
@@ -30,54 +32,67 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\EvaluationPayments whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class EvaluationPayments extends Model {
+class EvaluationPayments extends Model
+{
 
     protected $fillable = [];
     public $table = 'evaluation_payments';
 
-    public function getTotalAttribute() {
+    public function getTotalAttribute()
+    {
         $total = 0;
         if (!empty($this->cash)) {
-            $total+=$this->cash->amount;
+            $total += $this->cash->amount;
         }
         if (!empty($this->card)) {
-            $total+=$this->card->amount;
+            $total += $this->card->amount;
         }
         if (!empty($this->mpesa)) {
-            $total+=$this->mpesa->amount;
+            $total += $this->mpesa->amount;
         }
         if (!empty($this->cheque)) {
-            $total+=$this->cheque->amount;
+            $total += $this->cheque->amount;
         }
         return number_format($total, 2);
     }
 
-    public function getModesAttribute() {
+    public function getModesAttribute()
+    {
         return payment_modes($this);
     }
 
-    public function cash() {
+    public function cash()
+    {
         return $this->hasOne(EvaluationPaymentCash::class, 'payment');
     }
 
-    public function mpesa() {
+    public function mpesa()
+    {
         return $this->hasOne(EvaluationPaymentMpesa::class, 'payment');
     }
 
-    public function cheque() {
+    public function cheque()
+    {
         return $this->hasOne(EvaluationPaymentCheque::class, 'payment');
     }
 
-    public function card() {
+    public function card()
+    {
         return $this->hasOne(EvaluationPaymentCard::class, 'payment');
     }
 
-    public function patients() {
+    public function patients()
+    {
         return $this->belongsTo(Patients::class, 'patient');
     }
 
-    public function details() {
+    public function details()
+    {
         return $this->hasMany(EvaluationPaymentsDetails::class, 'payment');
     }
 
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user');
+    }
 }

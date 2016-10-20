@@ -2,18 +2,18 @@
 
 namespace Ignite\Evaluation\Http\Controllers;
 
-use Ignite\Core\Http\Controllers\AdminBaseController;
+use Ignite\Evaluation\Entities\EvaluationPayments;
 use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Finance\Entities\InsuranceInvoice;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
-class ReportsController extends AdminBaseController {
+class ReportsController extends Controller {
 
     public function sick_off(Request $request) {
         $patient = Patients::find($request->patient);
-        $name = 'Sickoff notes ' . $patient->full_name . '.docx';
-
+        $name = 'Sick-off notes ' . $patient->full_name . '.docx';
 
         $exported = exportSickOff($request, $patient);
         $exported->save($temp_file = tempnam(sys_get_temp_dir(), 'PHPWord'));
@@ -33,8 +33,8 @@ class ReportsController extends AdminBaseController {
     }
 
     public function payment_receipt(Request $request) {
-        $info = ReceivePayments::find($request->payment);
-        $pdf = \PDF::loadView('system.prints.assad', ['info' => $info]);
+        $info = EvaluationPayments::find($request->payment);
+        $pdf = \PDF::loadView('system.prints.assad', ['data' => $info]);
         $pdf->setPaper('a4');
         return $pdf->download($info->receipt . '.pdf');
     }

@@ -63,5 +63,5 @@ $router->group(['prefix' => 'finance', 'as' => 'finance.'], function(Router $rou
 });
 
 $router->group(['prefix' => 'report', 'as' => 'report.'], function(Router $router) {
-    $router->get('pay/{patient?}', ['as' => 'pay_receipt', 'uses' => 'ReportsController@pay']);
+    $router->post('pay/{patient?}', ['as' => 'pay_receipt', 'uses' => 'ReportsController@payment_receipt']);
 });
