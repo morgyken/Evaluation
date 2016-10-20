@@ -307,27 +307,3 @@ if (!function_exists('get_patients_with_bills')) {
     }
 
 }
-if (!function_exists('payment_modes')) {
-
-    /**
-     * @param EvaluationPayments $payment
-     * @return string
-     */
-    function payment_modes(EvaluationPayments $payment) {
-        $modes = [];
-        if (!empty($payment->cash)) {
-            $modes[] = 'Cash';
-        }
-        if (!empty($payment->card)) {
-            $modes[] = 'Credit Card';
-        }
-        if (!empty($payment->mpesa)) {
-            $modes[] = 'Mpesa';
-        }
-        if (!empty($payment->cheque)) {
-            $modes[] = 'Cheque';
-        }
-        return implode(' | ', $modes);
-    }
-
-}
