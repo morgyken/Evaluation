@@ -6,7 +6,7 @@ use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\PatientInsurance;
 use Ignite\Reception\Entities\Patients;
 use Ignite\Settings\Entities\Clinics;
-use Ignite\Users\Entities\UserProfile;
+use Ignite\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -55,7 +55,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Investigations[] $investigations
  * @property-read \Ignite\Evaluation\Entities\OpNotes $opnotes
  * @property-read \Ignite\Reception\Entities\Appointments $appointments
- * @property-read \Ignite\Users\Entities\UserProfile $doctors
+ * @property-read \Ignite\Users\Entities\User $doctors
  * @property-read \Ignite\Reception\Entities\PatientInsurance $patient_scheme
  * @property-read \Ignite\Evaluation\Entities\VisitMeta $meta
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereId($value)
@@ -102,7 +102,7 @@ class Visit extends Model {
     public function getVisitDestinationAttribute() {
         $build = [];
         if (!empty($this->destination) and $this->evaluation) {
-            $build[] = 'Doctor: ' . $this->doctors->full_name;
+            $build[] = 'Doctor: ' . $this->doctors->profile->full_name;
         }
         if ($this->nurse) {
             $build[] = 'Nurse';
@@ -184,7 +184,7 @@ class Visit extends Model {
     }
 
     public function doctors() {
-        return $this->belongsTo(UserProfile::class, 'destination', 'user');
+        return $this->belongsTo(User::class, 'user');
     }
 
     public function patient_scheme() {

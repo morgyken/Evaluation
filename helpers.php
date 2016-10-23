@@ -12,7 +12,6 @@
 
 use Ignite\Evaluation\Entities\DiagnosisCodes;
 use Ignite\Evaluation\Entities\DoctorNotes;
-use Ignite\Evaluation\Entities\EvaluationPayments;
 use Ignite\Evaluation\Entities\EyeExam;
 use Ignite\Evaluation\Entities\Investigations;
 use Ignite\Evaluation\Entities\OpNotes;
