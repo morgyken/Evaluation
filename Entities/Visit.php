@@ -3,9 +3,9 @@
 namespace Ignite\Evaluation\Entities;
 
 use Ignite\Reception\Entities\Appointments;
+use Ignite\Reception\Entities\PatientInsurance;
 use Ignite\Reception\Entities\Patients;
 use Ignite\Settings\Entities\Clinics;
-use Ignite\Settings\Entities\Schemes;
 use Ignite\Users\Entities\UserProfile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -56,7 +56,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Ignite\Evaluation\Entities\OpNotes $opnotes
  * @property-read \Ignite\Reception\Entities\Appointments $appointments
  * @property-read \Ignite\Users\Entities\UserProfile $doctors
- * @property-read \Ignite\Settings\Entities\Schemes $schemes
+ * @property-read \Ignite\Reception\Entities\PatientInsurance $patient_scheme
  * @property-read \Ignite\Evaluation\Entities\VisitMeta $meta
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereClinic($value)
@@ -136,7 +136,9 @@ class Visit extends Model {
 
     public function getModeAttribute() {
         if ($this->payment_mode == 'insurance') {
-            return ucfirst($this->payment_mode) . " | " . $this->schemes->companies->name . " | " . $this->schemes->name;
+            return ucfirst($this->payment_mode) . " | " .
+                    $this->patient_scheme->schemes->companies->name . " | " .
+                    $this->patient_scheme->schemes->name;
         }
         return ucfirst($this->payment_mode);
     }
@@ -182,11 +184,11 @@ class Visit extends Model {
     }
 
     public function doctors() {
-        return $this->belongsTo(UserProfile::class, 'destination', 'user_id');
+        return $this->belongsTo(UserProfile::class, 'destination', 'user');
     }
 
-    public function schemes() {
-        return $this->belongsTo(Schemes::class, 'scheme');
+    public function patient_scheme() {
+        return $this->belongsTo(PatientInsurance::class, 'scheme');
     }
 
     public function meta() {
