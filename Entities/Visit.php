@@ -45,6 +45,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read mixed $visit_destination
  * @property-read mixed $signed_out
  * @property-read mixed $mode
+ * @property-read mixed $total_bill
  * @property-read \Ignite\Settings\Entities\Clinics $clinics
  * @property-read \Ignite\Reception\Entities\Patients $patients
  * @property-read \Ignite\Evaluation\Entities\Vitals $vitals
@@ -94,10 +95,6 @@ class Visit extends Model {
 
     public $table = 'evaluation_visits';
 
-    public function amount() {
-        return $this->investigations->sum('price');
-    }
-
     public function getUnpaidAmountAttribute() {
         return $this->investigations->where('is_paid', 0)->sum('price');
     }
@@ -142,6 +139,10 @@ class Visit extends Model {
             return ucfirst($this->payment_mode) . " | " . $this->schemes->companies->name . " | " . $this->schemes->name;
         }
         return ucfirst($this->payment_mode);
+    }
+
+    public function getTotalBillAttribute() {
+        return $this->investigations->sum('price');
     }
 
     public function clinics() {

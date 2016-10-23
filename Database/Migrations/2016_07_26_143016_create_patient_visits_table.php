@@ -59,7 +59,7 @@ class CreatePatientVisitsTable extends Migration {
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
             $column->foreign('scheme')->references('id')
-                    ->on('settings_schemes')
+                    ->on('reception_patient_schemes')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
         });

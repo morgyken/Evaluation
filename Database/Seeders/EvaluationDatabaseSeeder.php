@@ -2,6 +2,7 @@
 
 namespace Ignite\Evaluation\Database\Seeders;
 
+use Ignite\Evaluation\Jobs\DiagnosisCodeSeeder;
 use Illuminate\Database\Seeder;
 
 class EvaluationDatabaseSeeder extends Seeder {
@@ -19,6 +20,8 @@ class EvaluationDatabaseSeeder extends Seeder {
          * @todo THis takes long add to dispatch in background
          */
         //  $this->call(DiagnosisCodeTableSeeder::class);
+        /* $job = (new DiagnosisCodeSeeder())->onQueue('evaluation'); //->delay(new \Date('+3 minutes'));
+          dispatch($job); */
     }
 
 }
