@@ -190,7 +190,7 @@ if (!function_exists('get_op_notes')) {
     /**
      * Get Op Notes for visit
      * @param $visit
-     * @return $this
+     * @return $param
      */
     function get_op_notes(Visit $visit) {
         return OpNotes::firstOrNew(['visit' => $visit->id]);
@@ -303,6 +303,40 @@ if (!function_exists('get_patients_with_bills')) {
                         // $q3->where('is_paid', false);
                     });
                 })->get();
+    }
+
+}
+if (!function_exists('visit_destination')) {
+
+    /**
+     * Build for the visit destination
+     * @param Visit $visit
+     * @return string
+     */
+    function visit_destination(Visit $visit) {
+        $build = [];
+        if (!empty($visit->destination) and $visit->evaluation) {
+            $build[] = 'Doctor: ' . $visit->doctors->profile->full_name;
+        }
+        if ($visit->nurse) {
+            $build[] = 'Nurse';
+        }
+        if ($visit->theatre) {
+            $build[] = 'Theatre';
+        }
+        if ($visit->diagnostics) {
+            $build[] = 'Diagnostics';
+        }
+        if ($visit->laboratory) {
+            $build[] = 'Laboratory';
+        }
+        if ($visit->radiology) {
+            $build[] = 'Radiology';
+        }
+        if ($visit->pharmacy) {
+            $build[] = 'Parmacy';
+        }
+        return $build;
     }
 
 }

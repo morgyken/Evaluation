@@ -100,29 +100,7 @@ class Visit extends Model {
     }
 
     public function getVisitDestinationAttribute() {
-        $build = [];
-        if (!empty($this->destination) and $this->evaluation) {
-            $build[] = 'Doctor: ' . $this->doctors->profile->full_name;
-        }
-        if ($this->nurse) {
-            $build[] = 'Nurse';
-        }
-        if ($this->theatre) {
-            $build[] = 'Theatre';
-        }
-        if ($this->diagnostics) {
-            $build[] = 'Diagnostics';
-        }
-        if ($this->laboratory) {
-            $build[] = 'Laboratory';
-        }
-        if ($this->radiology) {
-            $build[] = 'Radiology';
-        }
-        if ($this->pharmacy) {
-            $build[] = 'Parmacy';
-        }
-        return implode(' | ', $build);
+        return implode(' | ', visit_destination($this));
     }
 
     public function getSignedOutAttribute() {
