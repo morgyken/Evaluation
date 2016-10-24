@@ -6,6 +6,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Artisan;
 
 class DiagnosisCodeSeeder implements ShouldQueue {
 
@@ -13,15 +14,13 @@ class DiagnosisCodeSeeder implements ShouldQueue {
         SerializesModels,
         Queueable;
 
-    public $seed_class;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($seed_class) {
-        $this->seed_class = $seed_class;
+    public function __construct() {
+
     }
 
     /**
@@ -30,7 +29,7 @@ class DiagnosisCodeSeeder implements ShouldQueue {
      * @return void
      */
     public function handle() {
-
+        Artisan::call('db:seed', ['class' => '\Ignite\Evaluation\Database\Seeders\DiagnosisCodeTableSeeder']);
     }
 
 }

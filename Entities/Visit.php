@@ -3,10 +3,10 @@
 namespace Ignite\Evaluation\Entities;
 
 use Ignite\Reception\Entities\Appointments;
+use Ignite\Reception\Entities\PatientInsurance;
 use Ignite\Reception\Entities\Patients;
 use Ignite\Settings\Entities\Clinics;
-use Ignite\Settings\Entities\Schemes;
-use Ignite\Users\Entities\UserProfile;
+use Ignite\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -45,6 +45,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read mixed $visit_destination
  * @property-read mixed $signed_out
  * @property-read mixed $mode
+ * @property-read mixed $total_bill
  * @property-read \Ignite\Settings\Entities\Clinics $clinics
  * @property-read \Ignite\Reception\Entities\Patients $patients
  * @property-read \Ignite\Evaluation\Entities\Vitals $vitals
@@ -54,8 +55,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Investigations[] $investigations
  * @property-read \Ignite\Evaluation\Entities\OpNotes $opnotes
  * @property-read \Ignite\Reception\Entities\Appointments $appointments
- * @property-read \Ignite\Users\Entities\UserProfile $doctors
- * @property-read \Ignite\Settings\Entities\Schemes $schemes
+ * @property-read \Ignite\Users\Entities\User $doctors
+ * @property-read \Ignite\Reception\Entities\PatientInsurance $patient_scheme
  * @property-read \Ignite\Evaluation\Entities\VisitMeta $meta
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereClinic($value)
@@ -94,38 +95,12 @@ class Visit extends Model {
 
     public $table = 'evaluation_visits';
 
-    public function amount() {
-        return $this->investigations->sum('price');
-    }
-
     public function getUnpaidAmountAttribute() {
         return $this->investigations->where('is_paid', 0)->sum('price');
     }
 
     public function getVisitDestinationAttribute() {
-        $build = [];
-        if (!empty($this->destination) and $this->evaluation) {
-            $build[] = 'Doctor: ' . $this->doctors->full_name;
-        }
-        if ($this->nurse) {
-            $build[] = 'Nurse';
-        }
-        if ($this->theatre) {
-            $build[] = 'Theatre';
-        }
-        if ($this->diagnostics) {
-            $build[] = 'Diagnostics';
-        }
-        if ($this->laboratory) {
-            $build[] = 'Laboratory';
-        }
-        if ($this->radiology) {
-            $build[] = 'Radiology';
-        }
-        if ($this->pharmacy) {
-            $build[] = 'Parmacy';
-        }
-        return implode(' | ', $build);
+        return implode(' | ', visit_destination($this));
     }
 
     public function getSignedOutAttribute() {
@@ -139,9 +114,15 @@ class Visit extends Model {
 
     public function getModeAttribute() {
         if ($this->payment_mode == 'insurance') {
-            return ucfirst($this->payment_mode) . " | " . $this->schemes->companies->name . " | " . $this->schemes->name;
+            return ucfirst($this->payment_mode) . " | " .
+                    $this->patient_scheme->schemes->companies->name . " | " .
+                    $this->patient_scheme->schemes->name;
         }
         return ucfirst($this->payment_mode);
+    }
+
+    public function getTotalBillAttribute() {
+        return $this->investigations->sum('price');
     }
 
     public function clinics() {
@@ -181,11 +162,11 @@ class Visit extends Model {
     }
 
     public function doctors() {
-        return $this->belongsTo(UserProfile::class, 'destination', 'user_id');
+        return $this->belongsTo(User::class, 'user');
     }
 
-    public function schemes() {
-        return $this->belongsTo(Schemes::class, 'scheme');
+    public function patient_scheme() {
+        return $this->belongsTo(PatientInsurance::class, 'scheme');
     }
 
     public function meta() {

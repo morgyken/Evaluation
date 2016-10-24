@@ -182,8 +182,6 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     public function save_eye_exam() {
-// $pre_run = \Dervis\Model\Evaluation\EyeExam::whereVisit($this->request->visit)->delete();
-//  dd($pre_run);
         foreach ($this->request->option as $key => $exam) {
             $eye = EyeExam::firstOrCreate(['option' => $exam, 'visit' => $this->request->visit]);
             $eye->od = $this->request->od[$key];
@@ -293,35 +291,6 @@ class EvaluationFunctions implements EvaluationRepository {
                     'visit' => $this->visit
         ]);
     }
-
-    /*
-      public function set_next_visit() {
-      $visit = Visit::findOrFail($this->request->visit);
-      $this_appointment = $visit->appointments;
-      if (empty($this_appointment->next_visit)) {
-      $appointment = new Appointments;
-      } else {
-      $appointment = Appointments::findOrNew($this_appointment->next_visit);
-      }
-      $appointment->patient = $this_appointment->patient;
-      $appointment->time = new Date($this->request->next_visit . ' 10:00');
-      $appointment->procedure = $this_appointment->procedure;
-      $appointment->doctor = $this_appointment->doctor;
-      $appointment->status = 5;
-      $appointment->instructions = $this_appointment->instructions;
-      $appointment->payment_mode = $this_appointment->payment_mode;
-      $appointment->clinic = $this_appointment->clinic;
-      $appointment->category = $this_appointment->category;
-      if ($appointment->save()) {
-      //dispatch(new \Dervis\Jobs\SendNotificationSMS($appointment->schedule_id), 'reminders');
-      //sendAppointmentNotification($appointment->id);
-      $this_appointment->next_visit = $appointment->id;
-      flash("Appointment has been saved");
-      return $this_appointment->save();
-      }
-      flash()->error("An error occurred");
-      return false;
-      } */
 
     /**
      * Set manual visit date especially for back-dating
