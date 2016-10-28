@@ -41,60 +41,53 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations treatment()
  * @mixin \Eloquent
  */
-class Investigations extends Model
-{
+class Investigations extends Model {
 
     protected $table = 'evaluation_investigations';
     protected $guarded = [];
     protected $appends = ['is_paid'];
 
-    public function getHasResultAttribute()
-    {
+    public function getHasResultAttribute() {
         return count($this->results);
     }
 
-    public function getIsPaidAttribute()
-    {
-        return (bool)$this->payments;
+    public function getPriceAttribute($value) {
+        return intval($value);
     }
 
-    public function scopeLaboratory($query)
-    {
+    public function getIsPaidAttribute() {
+        return (bool) $this->payments;
+    }
+
+    public function scopeLaboratory($query) {
         return $query->where('type', 'laboratory');
     }
 
-    public function scopeDiagnosis($query)
-    {
+    public function scopeDiagnosis($query) {
         return $query->where('type', 'diagnosis');
     }
 
-    public function scopeTreatment($query)
-    {
+    public function scopeTreatment($query) {
         return $query->where('type', 'treatment');
     }
 
-    public function visits()
-    {
+    public function visits() {
         return $this->belongsTo(Visit::class, 'visit');
     }
 
-    public function procedures()
-    {
+    public function procedures() {
         return $this->hasOne(Procedures::class, 'id', 'procedure');
     }
 
-    public function doctors()
-    {
+    public function doctors() {
         return $this->belongsTo(User::class, 'user');
     }
 
-    public function results()
-    {
+    public function results() {
         return $this->hasOne(InvestigationResult::class, 'investigation');
     }
 
-    public function payments()
-    {
+    public function payments() {
         return $this->hasOne(EvaluationPaymentsDetails::class, 'investigation');
     }
 

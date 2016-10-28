@@ -54,7 +54,9 @@ extract($data);
                 processData: false,
                 contentType: false,
                 success: function (data, status)
-                { },
+                {
+                    location.reload();
+                },
                 error: function (xhr, desc, err)
                 {
                     alert(err);

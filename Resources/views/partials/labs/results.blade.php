@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
  * =============================================================================
  *
  * Collabmed Solutions Ltd
@@ -6,9 +7,18 @@
  * Author: Samuel Okoth <sodhiambo@collabmed.com>
  *
  * =============================================================================
- */ ?>
+ */
+$diagnoses = $visit->investigations->where('type', 'laboratory');
+?>
 <div class="row">
     <div class="col-md-12">
-        <p class="text-info"><i class="fa fa-info"></i> No results yet</p>
+        @foreach($diagnoses as $item)
+        <div class="row">
+            <div class="col-md-12">
+                <strong>{{$item->procedures->name}}</strong>
+                <p>{{empty($item->results)?'Pending result':$item->results->results}}</p>
+            </div>
+        </div>
+        @endforeach
     </div>
 </div>

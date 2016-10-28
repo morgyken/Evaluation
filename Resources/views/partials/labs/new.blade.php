@@ -10,8 +10,8 @@
  */
 ?>
 {!! Form::open(['route'=>['evaluation.order','laboratory']])!!}
+{!! Form::hidden('visit',$visit->id) !!}
 <table class="table table-condensed" id="evaluation_order">
-    {!! Form::hidden('visit',$visit->id) !!}
     <thead>
         <tr>
             <th width="60%">Lab Test</th>

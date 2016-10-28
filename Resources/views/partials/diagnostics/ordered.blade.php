@@ -16,19 +16,20 @@ $diagnoses = $visit->investigations->where('type', 'diagnosis');
 {!! Form::hidden('visit',$visit->id)!!}
 <div class="accordion">
     @foreach($diagnoses as $item)
+    <?php $active = $item->has_result ? 'disabled' : ''; ?>
     <h4>{{$item->procedures->name}}</h4>
     <div>
         <div class="col-md-6">
             <div class="form-group">
                 <label>Results</label>
-                <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}"/>
-                <textarea name="results{{$item->id}}" class="form-control"></textarea>
+                <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" {{$active}}/>
+                <textarea name="results{{$item->id}}" class="form-control" {{$active}}></textarea>
             </div>
         </div>
         <div class="col-md-4 col-md-offset-2">
             <div class="form-group">
                 <label>File</label>
-                <input type="file" class="form-control" name="file{{$item->id}}"/>
+                <input type="file" class="form-control" name="file{{$item->id}}" {{$active}}/>
             </div>
         </div>
         <div class="pull-right">
