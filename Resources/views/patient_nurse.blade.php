@@ -59,7 +59,6 @@ extract($data);
     var SET_DATE_URL = "{{route('api.evaluation.set_visit_date')}}";
     var DIAGNOSIS_URL = "{{route('api.evaluation.save_diagnosis')}}";
     var OPNOTES_URL = "{{route('api.evaluation.save_opnotes')}}";
-    var TREAT_URL = "{{route('api.evaluation.save_treatment')}}";
     var DRAWINGS_URL = "{{route('api.evaluation.save_drawings')}}";
 </script>
 <script src="{{m_asset('evaluation:js/doctor_evaluation.min.js')}}"></script>
