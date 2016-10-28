@@ -37,7 +37,7 @@ extract($data);
                     </div>
                     <div class="tab-pane" id="thetre">
                         <div>
-                            @include('evaluation::partials.theatre')
+                            @include('evaluation::partials.theatre.theatre')
                         </div>
                     </div>
                     <div class="tab-pane" id="history">
