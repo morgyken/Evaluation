@@ -2,6 +2,7 @@
 
 namespace Ignite\Evaluation\Http\Controllers;
 
+use Ignite\Evaluation\Entities\InvestigationResult;
 use Ignite\Evaluation\Entities\PatientDiagnosis;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Nwidart\Modules\Routing\Controller;
@@ -44,8 +45,9 @@ class ApiController extends Controller {
     }
 
     public function investigation_result(Request $request) {
+        dd($request->all());
         foreach ($request->investigation as $item) {
-            $__in = PatientDiagnosis::firstOrNew(['visit' => $request->visit[$item], 'test' => $item]);
+            $__in = InvestigationResult::firstOrNew(['visit' => $request->visit[$item], 'test' => $item]);
             $__in->results = $request->result[$item];
             $__in->file = base64_encode(file_get_contents($request->file[$item]->getRealPath()));
             $__in->save();
