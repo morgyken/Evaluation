@@ -9,7 +9,8 @@ use Nwidart\Modules\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
-class ApiController extends Controller {
+class ApiController extends Controller
+{
 
     /**
      * @var EvaluationRepository
@@ -20,62 +21,68 @@ class ApiController extends Controller {
      * ApiController constructor.
      * @param EvaluationRepository $evaluationRepository
      */
-    public function __construct(EvaluationRepository $evaluationRepository) {
+    public function __construct(EvaluationRepository $evaluationRepository)
+    {
         $this->evaluationRepository = $evaluationRepository;
     }
 
-    public function save_drawings(Request $request) {
+    public function save_drawings(Request $request)
+    {
         return Response::json($this->evaluationRepository->save_drawings($request));
     }
 
-    public function diagnosis_codes($regex = null) {
+    public function diagnosis_codes($regex = null)
+    {
         return $this->evaluationRepository->get_diagnosis_codes_auto();
     }
 
-    public function save_vitals() {
+    public function save_vitals()
+    {
         return Response::json($this->evaluationRepository->save_vitals());
     }
 
-    public function save_opnotes() {
+    public function save_opnotes()
+    {
         return Response::json($this->evaluationRepository->save_opnotes());
     }
 
-    public function save_notes() {
+    public function save_notes()
+    {
         return Response::json($this->evaluationRepository->save_notes());
     }
 
-    public function investigation_result(Request $request) {
-        dd($request->all());
-        foreach ($request->investigation as $item) {
-            $__in = InvestigationResult::firstOrNew(['visit' => $request->visit[$item], 'test' => $item]);
-            $__in->results = $request->result[$item];
-            $__in->file = base64_encode(file_get_contents($request->file[$item]->getRealPath()));
-            $__in->save();
-        }
-        return 'okay';
+    public function investigation_result()
+    {
+        return Response::json($this->evaluationRepository->save_results_investigations());
     }
 
-    public function save_diagnosis() {
+    public function save_diagnosis()
+    {
         return Response::json($this->evaluationRepository->save_diagnosis());
     }
 
-    public function save_prescription() {
+    public function save_prescription()
+    {
         return Response::json($this->evaluationRepository->save_prescriptions());
     }
 
-    public function set_next_date(Request $request) {
+    public function set_next_date(Request $request)
+    {
         return Response::json($this->evaluationRepository->set_next_visit($request));
     }
 
-    public function set_visit_date(Request $request) {
+    public function set_visit_date(Request $request)
+    {
         return Response::json($this->evaluationRepository->set_visit_date($request));
     }
 
-    public function save_preliminary() {
+    public function save_preliminary()
+    {
         $this->evaluationRepository->save_preliminary_eye();
     }
 
-    public function get_procedures(Request $request, $type) {
+    public function get_procedures(Request $request, $type)
+    {
         $term = $request->term['term'];
         $build = [];
         $found = get_procedures_for($type, $term);

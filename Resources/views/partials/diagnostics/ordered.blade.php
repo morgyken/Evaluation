@@ -21,7 +21,8 @@ $diagnoses = $visit->investigations->where('type', 'diagnosis');
         <div class="col-md-6">
             <div class="form-group">
                 <label>Results</label>
-                <textarea name="result{{$item->id}}" class="form-control"></textarea>
+                <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}"/>
+                <textarea name="results{{$item->id}}" class="form-control"></textarea>
             </div>
         </div>
         <div class="col-md-4 col-md-offset-2">

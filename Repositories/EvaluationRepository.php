@@ -57,6 +57,11 @@ interface EvaluationRepository {
     /**
      * @return mixed
      */
+    public function save_results_investigations();
+
+    /**
+     * @return mixed
+     */
     public function save_eye_exam();
 
     /**
