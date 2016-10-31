@@ -12,10 +12,10 @@
 @section('content')
 <div class="box box-info">
     <div class="box-body">
-
         <table class="table">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>ID No</th>
                     <th>Name</th>
                     <th>Action</th>
@@ -24,10 +24,12 @@
             <tbody>
                 @foreach($data['patients'] as $patient)
                 <tr>
+                    <td>{{$loop->iteration}}</td>
                     <td>{{$patient->id_no}}</td>
                     <td>{{$patient->fullname}}</td>
                     <td>
-                        <a href="{{route('evaluation.patient_visits',[$patient->patient_id,1])}}" class="btn btn-xs"><i class="fa fa-deafness"></i> Review</a>
+                        <a href="{{route('evaluation.review_patient',$patient->id)}}" class="btn btn-xs">
+                            <i class="fa fa-deafness"></i> Review</a>
                     </td>
                 </tr>
                 @endforeach

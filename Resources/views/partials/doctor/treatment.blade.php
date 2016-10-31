@@ -72,37 +72,41 @@ $performed = get_investigations($visit, ['treatment']);
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="box box-success">
-                        <div class="box-header">
-                            <h4 class="box-title">Previously administered procedures</h4>
-                        </div>
-                        <div class="box-body">
-                            @if(!$performed->isEmpty())
-                            <table class="table table-condensed">
-                                <thead>
-                                    <tr>
-                                        <th>Procedure</th>
-                                        <th>Cost</th>
-                                        <th>Payment</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($performed as $item)
-                                    <tr>
-                                        <td>{{str_limit($item->procedures->name,20,'...')}}</td>
-                                        <td>{{$item->price}}</td>
-                                        <td>{!! payment_label($item->is_paid) !!}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            @else
-                            <p class="text-info"><i class="fa fa-info"></i> No previous treatment</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
+
+            </div>
+        </div>
+    </div>
+    <br/>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            <div class="box-header">
+                <h4 class="box-title">Previously administered procedures</h4>
+            </div>
+            <div class="box-body">
+                @if(!$performed->isEmpty())
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Procedure</th>
+                            <th>Cost</th>
+                            <th>Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($performed as $item)
+                        <tr>
+                            <td>{{str_limit($item->procedures->name,20,'...')}}</td>
+                            <td>{{$item->price}}</td>
+                            <td>{!! payment_label($item->is_paid) !!}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @else
+                <p class="text-info"><i class="fa fa-info"></i> No previous treatment</p>
+                @endif
             </div>
         </div>
     </div>

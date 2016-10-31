@@ -32,7 +32,6 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
     /**
      * @param Authentication $auth
      *
-     * @internal param Guard $guard
      */
     public function __construct(Authentication $auth) {
         $this->auth = $auth;

@@ -122,18 +122,17 @@ class EvaluationController extends AdminBaseController {
     }
 
     public function theatre($id) {
-        $this->data['visits'] = $v = Visit::find($id);
-        $this->data['visit'] = $id;
+        $this->data['visits'] = Visit::find($id);
         $this->data['patient'] = Patients::find($v->patient);
         return view('evaluation::theatre', ['data' => $this->data]);
     }
 
     public function sign_out(Request $request, $visit_id, $section) {
-        $checkout = EvaluationFunctions::checkout($request, ['id' => $visit_id, 'from' => $section]);
+        $checkout = $this->evaluationRepository->checkout($request, ['id' => $visit_id, 'from' => $section]);
         if ($checkout) {
-            $request->session()->flash('success', 'Patient checked out from ' . ucfirst($section));
+            flash('Patient checked out from ' . ucfirst($section));
         } else {
-            $request->session()->flash('warning', 'Patient could not be checked out.' . ucfirst($section));
+            flash('Patient could not be checked out.' . ucfirst($section));
         }
         if ($section == 'evaluation') {
             $section = 'doctor';
@@ -148,9 +147,9 @@ class EvaluationController extends AdminBaseController {
         return view('evaluation::reviews', ['data' => $this->data]);
     }
 
-    public function review_patient($patient_id) {
-        $this->data['patients'] = Patients::wherePatient($patient_id)->get();
-        return view('evaluation::patient_preview', ['data' => $this->data]);
+    public function review_patient($patient) {
+        $this->data['visits'] = Visit::wherePatient($patient)->get();
+        return view('evaluation::patient_review', ['data' => $this->data]);
     }
 
     public function patient_visits($patient_id) {
