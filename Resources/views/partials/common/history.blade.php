@@ -73,6 +73,7 @@ $history = patient_visits($visit->patient);
                         </div>
                     </div>
                     <div class="col-md-4">
+                        <!--
                         <div class="box box-default">
                             <div class="box-header">
                                 <h3 class="box-title">OP Notes</h3>
@@ -92,10 +93,7 @@ $history = patient_visits($visit->patient);
                                 @endif
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
+                        -->
                         <div class="box box-success">
                             <div class="box-header">
                                 <h3 class="box-title">Vitals</h3>
@@ -110,23 +108,86 @@ $history = patient_visits($visit->patient);
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-md-4">
                         <div class="box box-success">
                             <div class="box-header">
-                                <h3 class="box-title">Diagnosis</h3>
+                                <h3 class="box-title">Treatment</h3>
                             </div>
                             <div class="box-body">
-
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Procedure</th>
+                                            <th>Cost</th>
+                                            <th>Payment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($_visit->investigations->where('type','treatment') as $item)
+                                        <tr>
+                                            <td>{{str_limit($item->procedures->name,20,'...')}}</td>
+                                            <td>{{$item->price}}</td>
+                                            <td>{!! payment_label($item->is_paid) !!}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="box box-success">
                             <div class="box-header">
-                                <h3 class="box-title">Lab tests</h3>
+                                <h3 class="box-title">Diagnosis</h3>
                             </div>
                             <div class="box-body">
-
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Procedure</th>
+                                            <th>Cost</th>
+                                            <th>Payment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($_visit->investigations->where('type','diagnosis') as $item)
+                                        <tr>
+                                            <td>{{str_limit($item->procedures->name,20,'...')}}</td>
+                                            <td>{{$item->price}}</td>
+                                            <td>{!! payment_label($item->is_paid) !!}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="box box-success">
+                            <div class="box-header">
+                                <h3 class="box-title">Laboratory</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Procedure</th>
+                                            <th>Cost</th>
+                                            <th>Payment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($_visit->investigations->where('type','laboratory') as $item)
+                                        <tr>
+                                            <td>{{str_limit($item->procedures->name,20,'...')}}</td>
+                                            <td>{{$item->price}}</td>
+                                            <td>{!! payment_label($item->is_paid) !!}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

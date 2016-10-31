@@ -66,7 +66,7 @@ extract($data);
 
                     <div class="tab-pane" id="history">
                         <div>
-                            include('evaluation::partials.common.history')
+                            @include('evaluation::partials.common.history')
                         </div>
                     </div>
                     <div class="tab-pane" id="drawings">
