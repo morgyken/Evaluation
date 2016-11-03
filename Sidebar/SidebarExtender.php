@@ -69,9 +69,14 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
                     $item->authorize($this->auth->hasAccess('Evaluation.Laboratory'));
                 });
                 $item->item('Theatre Queue', function (Item $item) {
-                    $item->icon('fa fa-diamond');
+                    $item->icon('fa fa-heartbeat');
                     $item->route('evaluation.waiting_theatre');
                     $item->authorize($this->auth->hasAccess('Evaluation.Theatre'));
+                });
+                $item->item('Pharmacy Queue', function (Item $item) {
+                    $item->icon('fa fa-tablet');
+                    $item->route('evaluation.waiting_pharmacy');
+                    $item->authorize($this->auth->hasAccess('Evaluation.Pharmacy'));
                 });
                 $item->item('Review Visits', function (Item $item) {
                     $item->icon('fa fa-deaf');

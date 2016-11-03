@@ -127,6 +127,18 @@ class EvaluationController extends AdminBaseController {
         return view('evaluation::theatre', ['data' => $this->data]);
     }
 
+    public function waiting_pharmacy() {
+        $this->data['all'] = Visit::checkedAt('pharmacy')->get();
+        return view('evaluation::queue_pharmacy', ['data' => $this->data]);
+    }
+
+    public function pharmacy($id) {
+        $this->data['visit'] = $v = Visit::find($id);
+        $this->data['patient'] = Patients::find($v->patient);
+        $this->data['section'] = 'pharmacy';
+        return view('evaluation::patient_pharmacy', ['data' => $this->data]);
+    }
+
     public function sign_out(Request $request, $visit_id, $section) {
         $checkout = $this->evaluationRepository->checkout($request, ['id' => $visit_id, 'from' => $section]);
         if ($checkout) {
