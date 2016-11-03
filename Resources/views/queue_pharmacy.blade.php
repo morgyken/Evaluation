@@ -34,7 +34,7 @@ extract($data);
                 <tr>
                     <th>Name</th>
                     <th>Date / Time</th>
-                    <th>Doctor</th>
+                    <th>Destination</th>
                     <th>Actions</th>
                 </tr>
             </thead>

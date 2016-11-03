@@ -4,7 +4,7 @@
  * Project: iClinic
  * Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$count = 0;
+extract($data);
 ?>
 @extends('layouts.app')
 @section('content_title','Patients Awaiting Laboratory')
@@ -15,7 +15,7 @@ $count = 0;
     <div class="box-body">
         <table class="table table-striped">
             <tbody>
-                @foreach($data['all'] as $visit)
+                @foreach($all as $visit)
                 <tr id="row_id{{$visit->id}}">
                     <td>{{$visit->patients->full_name}}</td>
                     <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
@@ -34,7 +34,7 @@ $count = 0;
                 <tr>
                     <th>Name</th>
                     <th>Date / Time</th>
-                    <th>Doctor</th>
+                    <th>Destination</th>
                     <th>Actions</th>
                 </tr>
             </thead>
