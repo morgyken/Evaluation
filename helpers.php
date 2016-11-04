@@ -24,6 +24,7 @@ use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\PatientDocuments;
 use Ignite\Reception\Entities\Patients;
 use Ignite\Settings\Entities\Clinics;
+use Ignite\Inventory\Entities\InventoryProducts;
 
 if (!function_exists('get_patient_queue')) {
 
@@ -37,6 +38,7 @@ if (!function_exists('get_patient_queue')) {
     }
 
 }
+
 if (!function_exists('get_procedures_for')) {
 
     /**

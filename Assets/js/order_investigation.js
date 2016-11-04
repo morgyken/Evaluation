@@ -24,14 +24,14 @@ $(function () {
     map_select2(i);
     i++;
     function add_row() {
-        var to_add = "<td><select name=\"item" + i + "\" id=\"item_" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td><td><input type=\"text\" id=\"price_" + i + "\" name=\"price" + i + "\"/></td><td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
-        $('#addr' + i).html(to_add);
-        $('#evaluation_order tbody').append('<tr id="addr' + (i + 1) + '"></tr>');
+        var to_add = "<td><select name=\"proc_item" + i + "\" id=\"proc_item_" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td><td><input type=\"text\" id=\"proc_price_" + i + "\" name=\"proc_price" + i + "\"/></td><td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
+        $('#proc_addr' + i).html(to_add);
+        $('#evaluation_order tbody').append('<tr id="proc_addr' + (i + 1) + '"></tr>');
         map_select2(i);
         i++;
     }
     function map_select2(i) {
-        $('#addr' + i + ' select').select2({
+        $('#proc_addr' + i + ' select').select2({
             "theme": "classic",
             "placeholder": 'Please select a procedure',
             "formatNoMatches": function () {
@@ -44,7 +44,7 @@ $(function () {
                 return "Please enter " + (input.length - max) + " less characters";
             },
             "formatSelectionTooBig": function (limit) {
-                return "You can only select " + limit + " items";
+                return "You can only select " + limit + " proc_items";
             },
             "formatLoadMore": function (pageNumber) {
                 return "Loading more results...";
@@ -68,10 +68,10 @@ $(function () {
                 }
             }
         });
-        $('#addr' + i + ' select').on('select2:select', function (evt) {
+        $('#proc_addr' + i + ' select').on('select2:select', function (evt) {
             var selected = $(this).find('option:selected');
             var price = selected.data().data.price;
-            $('input[name=price' + i + ']').val(price);
+            $('input[name=proc_price' + i + ']').val(price);
             add_row();
         });
         $(".remove").click(function (e) {

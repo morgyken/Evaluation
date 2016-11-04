@@ -20,14 +20,14 @@
         </tr>
     </thead>
     <tbody>
-        <tr id='addr0'>
-            <td><select name="item0" id="item_0" class="select2-single" style="width: 100%" ></select></td>
-            <td><input type="text" id="price_0" name='price0' placeholder='Price'/></td>
+        <tr id='proc_addr0'>
+            <td><select name="proc_item0" id="proc_item_0" class="select2-single" style="width: 100%" ></select></td>
+            <td><input type="text" id="proc_price_0" name='proc_price0' placeholder='Price'/></td>
             <td>
                 <button class="btn btn-xs btn-danger remove"><i class="fa fa-trash-o"></i></button>
             </td>
         </tr>
-        <tr id='addr1'></tr>
+        <tr id='proc_addr1'></tr>
     </tbody>
     <tfoot>
         <tr>
