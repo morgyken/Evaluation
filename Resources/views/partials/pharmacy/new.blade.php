@@ -39,4 +39,4 @@
 <script>
     var PROCEDURE_URL = "{{route('api.evaluation.get_procedures','laboratory')}}";
 </script>
-<script src="{{m_asset('evaluation:js/myselect.js')}}"></script>
+<script src="{{m_asset('evaluation:js/select_pharmacy.min.js')}}"></script>
