@@ -404,8 +404,8 @@ class EvaluationFunctions implements EvaluationRepository {
      */
     public function order_evaluation($type) {
         foreach ($this->__get_selected_stack() as $index) {
-            $item = 'item' . $index;
-            $price = 'price' . $index;
+            $item = 'proc_item' . $index;
+            $price = 'proc_price' . $index;
             Investigations::create([
                 'visit' => $this->visit,
                 'type' => $type,
@@ -425,8 +425,8 @@ class EvaluationFunctions implements EvaluationRepository {
         foreach ($this->input['entity'] as $key => $entity) {
             Preliminary::updateOrCreate(
                     [
-                'entity' => $entity, 'visit' => $this->visit], ['left' => $this->input['left'][$key] ?: 0,
-                'right' => $this->input['right'][$key] ?: 0,
+                'entity' => $entity, 'visit' => $this->visit], ['left' => $this->input['left'][$key] ? : 0,
+                'right' => $this->input['right'][$key] ? : 0,
                 'user' => $this->user, 'remarks' => str_random()]);
         }
         return true;
