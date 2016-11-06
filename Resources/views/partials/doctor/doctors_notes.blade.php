@@ -9,9 +9,7 @@
 
     <div class="col-md-12">
         <div class="col-md-6">
-            {!! Form::open(['id'=>'notes_form']) !!}
             @include('evaluation::partials.doctor.notes')
-            {!! Form::close() !!}
         </div>
         <div class="col-md-6">
             @include('evaluation::partials.doctor.prescription')

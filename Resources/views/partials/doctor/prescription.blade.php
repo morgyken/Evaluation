@@ -9,6 +9,7 @@
     <div class="form-horizontal">
         <div class="col-md-12">
             {!! Form::open(['id'=>'prescription_form'])!!}
+            {!! Form::hidden('visit',$visit->id) !!}
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h4 class="box-title">Prescriptions</h4>

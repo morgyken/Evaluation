@@ -171,16 +171,22 @@ class EvaluationController extends AdminBaseController {
     }
 
     private function __require_assets() {
-        $this->assetManager->addAssets([
-            'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations-evaluation.min.js'),
+        $assets = [
+            'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations.min.js'),
             'doctor-treatment.js' => m_asset('evaluation:js/doctor-treatment.min.js'),
+            'doctor-next-steps.js' => m_asset('evaluation:js/doctor-next-steps.min.js'),
+            'doctor-notes.js' => m_asset('evaluation:js/doctor-notes.min.js'),
+            'doctor-opnotes.js' => m_asset('evaluation:js/doctor-opnotes.min.js'),
+            'doctor-prescriptions.js' => m_asset('evaluation:js/doctor-prescriptions.min.js'),
+            'doctor-visit-date.js' => m_asset('evaluation:js/doctor-set-visit-date.min.js'),
+            'nurse-vitals.js' => m_asset('evaluation:js/nurse-vitals.min.js'),
+            //'order-investigation.js' => m_asset('evaluation:js/doctor-treatment.min.js'),
             'nurse_eye_preliminary.js' => m_asset('evaluation:js/nurse_eye_preliminary.min.js'),
-            'doctor_evaluation.min.js' => m_asset('evaluation:js/doctor_evaluation.min.js'),
-        ]);
-        $this->assetPipeline->requireJs('doctor-investigations.js');
-        $this->assetPipeline->requireJs('doctor-treatment.js');
-        $this->assetPipeline->requireJs('nurse_eye_preliminary.js');
-        $this->assetPipeline->requireJs('doctor_evaluation.min.js');
+        ];
+        foreach ($assets as $key => $asset) {
+            $this->assetManager->addAssets([$key => $asset]);
+            $this->assetPipeline->requireJs($key);
+        }
     }
 
 }

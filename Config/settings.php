@@ -15,9 +15,14 @@ return [
         'view' => 'checkbox',
         'hint' => 'This will allow you to perform eye examination in doctor evaluation'
     ],
-    'receipt_prefix' => [
-        'description' => 'Receipt Prefix',
-        'view' => 'text',
-        'hint' => 'A 3-digit code added to receipt-number'
+    'op_notes' => [
+        'description' => 'Enable OP notes',
+        'view' => 'checkbox',
+        'hint' => 'Enable the OP Notes section in doctors section'
+    ],
+    'drawings' => [
+        'description' => 'Enable Drawings',
+        'view' => 'checkbox',
+        'hint' => 'Enable the Drawings section in doctors section'
     ],
 ];

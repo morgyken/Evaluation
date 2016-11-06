@@ -8,6 +8,7 @@
 
 <div class="row">
     {!! Form::open(['id'=>'eye_preview_form']) !!}
+    {!! Form::hidden('visit',$visit->id) !!}
     <div class="col-md-12">
         <table class="table table-condensed">
             <thead>

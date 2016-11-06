@@ -9,6 +9,7 @@ $op_notes = get_visit_data($visit, 'op_notes');
 <div class="row">
     <div class="col-md-12">
         {!! Form::open(['id'=>'opnotes'])!!}
+        {!! Form::hidden('visit',$visit->id) !!}
         <div class="form-horizontal">
             <div class="col-md-6">
                 <div class="form-group">

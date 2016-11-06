@@ -22,8 +22,12 @@ extract($data);
                     <li><a href="#doctor" data-toggle="tab">Doctors' notes</a></li>
                     <li><a href="#treatment" data-toggle="tab">Treatment</a></li>
                     <li><a href="#investigations" data-toggle="tab">Investigations</a></li>
+                    @if(m_setting('evaluation.op_notes'))
                     <li><a href="#op" data-toggle="tab">OP Notes</a></li>
+                    @endif
+                    @if(m_setting('evaluation.drawings'))
                     <li><a href="#drawings" data-toggle="tab">Drawings</a></li>
+                    @endif
                     <li><a href="#documents" data-toggle="tab">Documents</a></li>
                     <li><a href="#history" data-toggle="tab">History</a></li>
                 </ul>
@@ -53,11 +57,13 @@ extract($data);
                             @include('evaluation::partials.doctor.treatment')
                         </div>
                     </div>
+                    @if(m_setting('evaluation.op_notes'))
                     <div class="tab-pane" id="op">
                         <div>
                             @include('evaluation::partials.doctor.op_notes')
                         </div>
                     </div>
+                    @endif
                     <div class="tab-pane" id="documents">
                         <div>
                             @include('evaluation::partials.common.documents_list')
@@ -69,9 +75,11 @@ extract($data);
                             @include('evaluation::partials.common.history')
                         </div>
                     </div>
+                    @if(m_setting('evaluation.drawings'))
                     <div class="tab-pane" id="drawings">
-                        include('evaluation::partials.doctor.drawings')
+                        @include('evaluation::partials.doctor.drawings')
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

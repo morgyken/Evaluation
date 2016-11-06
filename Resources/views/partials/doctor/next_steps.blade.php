@@ -14,6 +14,7 @@ $meta = get_visit_meta($visit);
                 <h4 class="box-title">Follow-up plan *</h4>
             </div>
             {!! Form::open(['id'=>'next_steps'])!!}
+            {!! Form::hidden('visit',$visit->id) !!}
             <div class="box-body">
                 <div class="checkbox">
                     <label><input type="checkbox" value="1" name="call" /> Call patient for follow up</label>

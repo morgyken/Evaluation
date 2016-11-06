@@ -11,6 +11,7 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 {!! Form::open(['id'=>'sickoff','route' => 'evaluation.reports.sick_off','target'=>"_blank"])!!}
+                {!! Form::hidden('visit',$visit->id) !!}
                 <div class="box-header with-border">
                     <h4 class="box-title">Sickoff notes</h4>
                 </div>

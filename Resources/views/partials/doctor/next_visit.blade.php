@@ -11,6 +11,7 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 {!! Form::open(['id'=>'next_visit'])!!}
+                {!! Form::hidden('visit',$visit->id) !!}
                 <div class="box-body">
                     <input type="hidden" name="patient" value="{{$visit->patient}}"/>
                     <div class="form-group">

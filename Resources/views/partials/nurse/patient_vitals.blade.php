@@ -8,6 +8,7 @@ $form = vitals_for_visit($visit);
 ?>
 <div class="row">
     {!! Form::open(['id'=>'vitals_form']) !!}
+    {!! Form::hidden('visit',$visit->id) !!}
     <div class="col-md-12">
         <div class="col-md-4">
             <div class="form-group req">

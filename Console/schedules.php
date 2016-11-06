@@ -9,4 +9,4 @@
  *
  * =============================================================================
  */
-$schedule->command('queue:work --queue=evaluation')->everyMinute();
+//$schedule->command('queue:work --queue=evaluation')->everyMinute();

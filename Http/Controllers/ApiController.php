@@ -2,8 +2,6 @@
 
 namespace Ignite\Evaluation\Http\Controllers;
 
-use Ignite\Evaluation\Entities\InvestigationResult;
-use Ignite\Evaluation\Entities\PatientDiagnosis;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Nwidart\Modules\Routing\Controller;
 use Illuminate\Http\Request;

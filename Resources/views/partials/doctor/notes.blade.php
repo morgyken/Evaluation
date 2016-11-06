@@ -6,10 +6,13 @@
  */
 $notes = get_patient_doctor_notes($visit);
 ?>
+{!! Form::open(['id'=>'notes_form']) !!}
+{!! Form::hidden('visit',$visit->id) !!}
 <div>
     <div class="form-group req">
         <label>Presenting Complaints</label>
-        <textarea name='presenting_complaints' class="form-control" rows='3'>{{$notes->presenting_complaints}}</textarea>
+        <textarea name='presenting_complaints' class="form-control"
+                  rows='3'>{{$notes->presenting_complaints}}</textarea>
     </div>
     <div class="form-group">
         <label>Past Medical History</label>
@@ -19,9 +22,9 @@ $notes = get_patient_doctor_notes($visit);
         <label>Examination</label>
         <textarea name='examination' class="form-control" rows='3'>{{$notes->examination}}</textarea>
     </div>
-    <?php if (Setting::get('evaluation::eye_exam')): ?>
+    @if(m_setting('evaluation.eye_exam'))
         @include('evaluation::partials.eye_diagnosis')
-    <?php endif; ?>
+    @endif
     <div class="form-group req">
         <label>Investigations</label>
         <textarea name='investigations' class="form-control" rows='3'>{{$notes->examination}}</textarea>
@@ -40,7 +43,7 @@ $notes = get_patient_doctor_notes($visit);
         <button type="submit" class="btn btn-primary">Save Doctor's Notes</button>
     </div>
 </div>
-
+{!! Form::close() !!}
 <script>
     $(document).ready(function () {
         $('.diagnosis_auto').select2({

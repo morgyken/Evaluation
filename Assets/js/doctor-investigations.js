@@ -12,6 +12,11 @@
 
 /* global DIAGNOSIS_URL, USER_ID, VISIT_ID */
 $(function () {
+
+
+    //mock hide this
+    $('.instructions').hide();
+
     $('#diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
         show_selection_investigation();
     });
