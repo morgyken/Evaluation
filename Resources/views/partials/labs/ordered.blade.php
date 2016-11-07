@@ -12,7 +12,7 @@
 $diagnoses = $visit->investigations->where('type', 'laboratory');
 ?>
 @if(!$diagnoses->isEmpty())
-{!! Form::open(['id'=>'laboratory_form','files'=>true]) !!}
+{!! Form::open(['id'=>'results_form','files'=>true]) !!}
 <div class="accordion">
     @foreach($diagnoses as $item)
     <?php $active = $item->has_result ? 'disabled' : ''; ?>

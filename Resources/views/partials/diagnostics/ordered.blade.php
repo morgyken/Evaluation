@@ -12,7 +12,7 @@
 $diagnoses = $visit->investigations->where('type', 'diagnosis');
 ?>
 @if(!$diagnoses->isEmpty())
-{!! Form::open(['id'=>'diagnosis_form','files'=>true]) !!}
+{!! Form::open(['id'=>'results_form','files'=>true]) !!}
 {!! Form::hidden('visit',$visit->id)!!}
 <div class="accordion">
     @foreach($diagnoses as $item)
@@ -23,7 +23,7 @@ $diagnoses = $visit->investigations->where('type', 'diagnosis');
             <div class="form-group">
                 <label>Results</label>
                 <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" {{$active}}/>
-                <textarea name="results{{$item->id}}" class="form-control" {{$active}}></textarea>
+                <textarea name="results{{$item->id}}" class="form-control editor" {{$active}}></textarea>
             </div>
         </div>
         <div class="col-md-4 col-md-offset-2">
@@ -43,3 +43,12 @@ $diagnoses = $visit->investigations->where('type', 'diagnosis');
 @else
 <p>No diagnostics tests ordered for this patient</p>
 @endif
+<script type="text/javascript">
+    $(function () {
+        /*
+         CKEDITOR.editorConfig = function (config) {
+         config.toolbar = [];
+         };
+         CKEDITOR.replaceAll('editor');*/
+    });
+</script>

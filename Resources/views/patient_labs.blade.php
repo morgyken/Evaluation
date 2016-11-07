@@ -42,27 +42,6 @@ extract($data);
 <script type="text/javascript">
     var VISIT_ID = "{{ $visit->id }}";
     var SAVE_URL = "{{route('api.evaluation.investigation_result')}}";
-    $(document).ready(function () {
-        $('.accordion').accordion({heightStyle: "content"});
-        $('#laboratory_form').submit(function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: SAVE_URL,
-                type: $(this).attr("method"),
-                //dataType: "JSON",
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                success: function (data, status)
-                {
-                    location.reload();
-                },
-                error: function (xhr, desc, err)
-                {
-                    alert(err);
-                }
-            });
-        });
-    });
 </script>
+<script src="{{m_asset('evaluation:js/results.min.js')}}"></script>
 @endsection
