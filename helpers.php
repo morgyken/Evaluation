@@ -24,7 +24,10 @@ use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\PatientDocuments;
 use Ignite\Reception\Entities\Patients;
 use Ignite\Settings\Entities\Clinics;
-use Ignite\Inventory\Entities\InventoryProducts;
+use Illuminate\Http\Request;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 if (!function_exists('get_patient_queue')) {
 
@@ -339,6 +342,58 @@ if (!function_exists('visit_destination')) {
             $build[] = 'Parmacy';
         }
         return $build;
+    }
+
+}
+
+
+if (!function_exists('exportSickOff')) {
+
+    /**
+     * @param Request $request
+     * @param int $patient
+     * @return mixed
+     */
+    function exportSickOff(Request $request, $patient) {
+        $defaultFont = ['name' => 'Times New Roman', 'size' => 12];
+        $date = (new Date())->format('j/m/Y');
+        $runtext = "The above named was attended at our clinic and diagnosed to have a medical/ surgically condition. Please allow sickoff for a period of ";
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        //headers
+        $header = $section->addHeader();
+        $header->firstPage();
+        $table = $header->addTable();
+        $table->addRow();
+        $cell = $table->addCell(4500);
+        $textrun = $cell->addTextRun();
+        $textrun->addText(htmlspecialchars(config('practice.name'), ENT_COMPAT, 'UTF-8'), ['name' => 'Times New Roman', 'size' => 18, 'bold' => true]);
+        $table->addRow();
+        $cell2 = $table->addCell(4500);
+        $location = $cell2->addTextRun();
+        $location->addText('P.O BOX ' . config('practice.address') . '  ' . config('practice.town') . ' Mobile: ' . config('practice.mobile'), $defaultFont);
+        // $table->addCell(4500)->addImage('img/logo.png', array('width' => 100, 'height' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
+        $header->addLine(['weight' => 1, 'width' => 400, 'height' => 0, 'color' => 635552]);
+
+
+        // Adding Text element with font customized inline...
+        $story = $section->addTextRun();
+        $story->addText(htmlspecialchars('Name:    '), ['bold' => true]);
+        $story->addText($patient->full_name);
+        $story->addText(htmlspecialchars('             Date:   '), ['bold' => true, 'alignment' => Jc::END]);
+        $story->addText($date);
+        $part = $section->addTextRun();
+        $part->addText(htmlspecialchars($runtext), $defaultFont);
+        $part->addText(htmlspecialchars($request->period . '.'), ['underline' => true, 'bold' => true]);
+        $review = $section->addTextRun();
+        $review->addText(htmlspecialchars("Review on"));
+        //   $review_on = (new Date($request->review_on))->format('j/m/Y');
+        $review->addText(htmlspecialchars(" $request->review_on"), ['underline' => true, 'bold' => true]);
+        $section->addText(htmlspecialchars(auth()->user()->profile->full_name));
+        $section->addText(htmlspecialchars("For " . config('practice.name')));
+
+        // Saving the document as OOXML file...
+        return IOFactory::createWriter($phpWord, 'Word2007');
     }
 
 }
