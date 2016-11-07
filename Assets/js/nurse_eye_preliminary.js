@@ -20,7 +20,17 @@ $(function () {
         save_eye_preview();
     });
     function save_eye_preview() {
-        $.ajax({type: "POST", url: PRELIMINARY_EXAMINATION, data: $('#eye_preview_form').serialize()});
+        $.ajax({
+            type: "POST",
+            url: PRELIMINARY_EXAMINATION,
+            data: $('#eye_preview_form').serialize(),
+            success: function () {
+                alertify.success('<i class="fa fa-check-circle"></i> Eye preliminary information saved');
+            },
+            error: function () {
+                alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
+            }
+        });
     }
 }
 );

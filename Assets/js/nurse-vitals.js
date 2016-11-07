@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global VITALS_URL */
+/* global VITALS_URL, alertify */
 
 $(function () {
     $('.wh').keyup(function () {
@@ -67,7 +67,16 @@ $(function () {
         save_vitals();
     });
     function save_vitals() {
-        $.ajax({type: "POST", url: VITALS_URL, data: $('#vitals_form').serialize()});
+        $.ajax({type: "POST",
+            url: VITALS_URL,
+            data: $('#vitals_form').serialize(),
+            success: function () {
+                alertify.success('<i class="fa fa-check-circle"></i> Vitals saved');
+            },
+            error: function () {
+                alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
+            }
+        });
     }
 });
 

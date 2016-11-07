@@ -10,7 +10,7 @@
  * Treatment URL
  * =========================================================================
  */
-/* global TREAT_URL, VISIT_ID, USER_ID, DIAGNOSIS_URL */
+/* global TREAT_URL, VISIT_ID, USER_ID, DIAGNOSIS_URL, alertify */
 
 $(function () {
     $('#treatment_form input').blur(function () {
@@ -48,8 +48,17 @@ $(function () {
         save_treatment();
     });
     function save_treatment() {
-        $.ajax({type: "POST", url: DIAGNOSIS_URL, data: $('#treatment_form').serialize()});
-        $('#selected_treatment').hide();
+        $.ajax({
+            type: "POST",
+            url: DIAGNOSIS_URL,
+            data: $('#treatment_form').serialize(),
+            success: function () {
+                alertify.success('<i class="fa fa-check-circle"></i> Selected procedures saved');
+            },
+            error: function () {
+                alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
+            }});
+        //  $('#selected_treatment').hide();
         location.reload();
     }
     $('#treatment_form').find('input:radio, input:checkbox').prop('checked', false);

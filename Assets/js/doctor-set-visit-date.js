@@ -1,4 +1,4 @@
-/* global SET_DATE_URL */
+/* global SET_DATE_URL, alertify */
 
 $(function () {
     /*
@@ -14,8 +14,15 @@ $(function () {
         set_visit_date();
     });
     function set_visit_date() {
-        $.ajax({type: "POST", url: SET_DATE_URL, data: $('#visit_date_form').serialize(), success: function () {
-                $('#visitdate').html("<i class='fa fa-check-circle'></i> Visit date set");
+        $.ajax({
+            type: "POST",
+            url: SET_DATE_URL,
+            data: $('#visit_date_form').serialize(),
+            success: function () {
+                alertify.success('<i class="fa fa-check-circle"></i> Next visit date set');
+            },
+            error: function () {
+                alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
             }
         });
     }

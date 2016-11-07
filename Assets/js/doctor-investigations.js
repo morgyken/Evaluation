@@ -10,10 +10,8 @@
  * =========================================================================
  * */
 
-/* global DIAGNOSIS_URL, USER_ID, VISIT_ID */
+/* global DIAGNOSIS_URL, USER_ID, VISIT_ID, alertify */
 $(function () {
-
-
     //mock hide this
     $('.instructions').hide();
 
@@ -65,10 +63,16 @@ $(function () {
     }
     $('#saveDiagnosis').click(function (e) {
         e.preventDefault();
-        $.ajax({type: "POST", url: DIAGNOSIS_URL, data: $('#diagnosis_form, #laboratory_form').serialize()});
-        // If reload location - no need for this
-        /*$('#diagnosis_form input:checkbox').removeAttr('checked');
-         $('#diagnosisInfo > tbody > tr').remove();*/
+        $.ajax({type: "POST",
+            url: DIAGNOSIS_URL,
+            data: $('#diagnosis_form, #laboratory_form').serialize(),
+            success: function () {
+                alertify.success('i class="fa fa-check-circle"></i> Patient evaluation updated');
+            },
+            error: function () {
+                alertify.error('<i class="fa fa-check-warning"></i> Could not save evalaution');
+            }
+        });
         location.reload();
     });
     //sick of this

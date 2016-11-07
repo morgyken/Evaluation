@@ -3,7 +3,7 @@
  * OP NOTES
  * =========================================================================
  */
-/* global OPNOTES_URL */
+/* global OPNOTES_URL, alertify */
 
 $(function () {
     $('.date').datepicker({dateFormat: 'yy-mm-dd', minDate: 0});
@@ -16,6 +16,15 @@ $(function () {
         save_opnotes();
     });
     function save_opnotes() {
-        $.ajax({type: "POST", url: OPNOTES_URL, data: $('#opnotes').serialize()});
+        $.ajax({
+            type: "POST",
+            url: OPNOTES_URL,
+            data: $('#opnotes').serialize(),
+            success: function () {
+                alertify.success('<i class="fa fa-check-circle"></i> Your OP notes saved');
+            },
+            error: function () {
+                alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
+            }});
     }
 });

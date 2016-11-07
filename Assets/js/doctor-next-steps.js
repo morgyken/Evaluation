@@ -1,4 +1,4 @@
-/* global VISIT_METAS_URL */
+/* global VISIT_METAS_URL, alertify */
 
 $(function () {
     //next steps
@@ -6,17 +6,15 @@ $(function () {
         save_metas();
     });
     function save_metas() {
-        var result = $('#next_steps_result');
-        result.hide();
         $.ajax({
             type: "POST",
             url: VISIT_METAS_URL,
             data: $('#next_steps').serialize(),
-            success: function (data) {
-                if (data) {
-                    result.html('<br/><i class="fa fa-check-circle"></i> Next steps saved');
-                    result.show();
-                }
+            success: function () {
+                alertify.success('<i class="fa fa-check-circle"></i> Next steps saved');
+            },
+            error: function () {
+                alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
             }
         });
     }

@@ -23,11 +23,12 @@ $(function () {
                 var method = $("#prescription_form select[name=method] option:selected").text();
                 var shower = dose + ' ' + whereto + ' ' + method;
                 $('#prescribed_drugs > tbody').append('<tr><td>' + drug + '</td><td>' + shower + '</td><td>' + duration + '</td></tr>');
-                alertify.success('Prescription added');
+                alertify.success('<i class="fa fa-check-circle"></i> Prescription added');
                 $('#prescription_form').trigger("reset");
             },
             error: function () {
-                alertify.error('An error occured prescribing drug');
-            }});
+                alertify.error('<i class="fa fa-check-warning"></i> An error occured prescribing drug');
+            }
+        });
     }
 });
