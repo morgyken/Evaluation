@@ -47,8 +47,8 @@ class Prescriptions extends Model {
     }
 
     public function getDoseAttribute() {
-        return $this->take . ' ' . config('system.prescription_whereto.' . $this->whereto) . ' '
-                . config('system.prescription_method.' . $this->method);
+        return $this->take . ' ' . mconfig('evaluation.options.prescription_whereto.' . $this->whereto) . ' '
+                . mconfig('evaluation.options.prescription_method.' . $this->method);
     }
 
     public function getSubAttribute() {

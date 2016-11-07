@@ -67,7 +67,7 @@ $(function () {
             url: DIAGNOSIS_URL,
             data: $('#diagnosis_form, #laboratory_form').serialize(),
             success: function () {
-                alertify.success('i class="fa fa-check-circle"></i> Patient evaluation updated');
+                alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
             },
             error: function () {
                 alertify.error('<i class="fa fa-check-warning"></i> Could not save evalaution');

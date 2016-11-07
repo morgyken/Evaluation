@@ -41,26 +41,26 @@ $history = patient_visits($visit->patient);
                     <div class="col-md-4">
                         <div class="box box-default">
                             <div class="box-header">
-                                <h3 class="box-title">Treatment</h3>
+                                <h3 class="box-title">Prescriptions</h3>
                             </div>
                             <div class="box-body">
-                                @if(!empty($_visit->treatments) && !$_visit->treatments->isEmpty())
+                                @if(!empty($_visit->prescriptions) && !$_visit->prescriptions->isEmpty())
                                 <table class="table table-condensed">
                                     <thead>
                                         <tr>
-                                            <th>Procedure</th>
-                                            <th>Cost</th>
-                                            <th>No.</th>
-                                            <th>Payment</th>
+                                            <th>Drug</th>
+                                            <th>Dose</th>
+                                            <th>Duration</th>
+                                            <th>Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($_visit->treatments as $item)
+                                        @foreach($_visit->prescriptions as $item)
                                         <tr>
-                                            <td>{{str_limit($item->procedures->name,20,'...')}}</td>
-                                            <td>{{$item->price}}</td>
-                                            <td>{{$item->no_performed}}</td>
-                                            <td>{{$item->is_paid?'Paid':'Not Paid'}}</td>
+                                            <td>{{$item->drug}}</td>
+                                            <td>{{$item->dose}}</td>
+                                            <td>{{$item->duration}}</td>
+                                            <td>{{smart_date($item->created_at)}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>

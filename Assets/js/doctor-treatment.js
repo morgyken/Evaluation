@@ -53,7 +53,7 @@ $(function () {
             url: DIAGNOSIS_URL,
             data: $('#treatment_form').serialize(),
             success: function () {
-                alertify.success('<i class="fa fa-check-circle"></i> Selected procedures saved');
+                alertify.success('<i class="fa fa-check-circle"></i> Selected treatment procedures saved');
             },
             error: function () {
                 alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
