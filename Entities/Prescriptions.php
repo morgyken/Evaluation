@@ -36,10 +36,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Prescriptions extends Model {
 
+    public $table = 'evaluation_prescriptions';
     protected $casts = ['allow_substitution' => 'boolean'];
     public $primaryKey = 'visit';
     public $incrementing = false;
-    public $table = 'evaluation_prescriptions';
+    protected $guarded = [];
 
     public function visits() {
         return $this->belongsTo(Visit::class, 'visit');

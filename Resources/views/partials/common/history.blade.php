@@ -28,7 +28,7 @@ $history = patient_visits($visit->patient);
                                 <p><strong>Examination</strong><br/>
                                     {{$_visit->notes->examination}}</p>
                                 <p><strong>Diagnosis</strong><br/>
-                                    {{implode(', ',unserialize($_visit->notes->diagnosis))}}</p>
+                                    {{$_visit->notes->diagnosis}}</p>
                                 <p><strong>Treatment Plan</strong><br/>
                                     {{$_visit->notes->treatment_plan}}</p>
                                 @else

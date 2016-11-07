@@ -18,6 +18,7 @@ class CreatePatientDoctorNotesTable extends Migration {
             $column->longText('past_medical_history')->nullable();
             $column->longText('examination')->nullable();
             $column->longText('diagnosis')->nullable();
+            $column->longText('investigations')->nullable();
             $column->longText('treatment_plan')->nullable();
             $column->integer('user')->unsigned()->nullable();
             $column->timestamps();

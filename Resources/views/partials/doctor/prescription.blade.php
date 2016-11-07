@@ -28,10 +28,10 @@
                                 <input type="text" name="take" id="Take" class="form-control"/>
                             </div>
                             <div class="col-md-4">
-                                {!! Form::select('prescription_whereto',mconfig('evaluation.options.prescription_whereto'),null,['class'=>'form-control'])!!}
+                                {!! Form::select('whereto',mconfig('evaluation.options.prescription_whereto'),null,['class'=>'form-control'])!!}
                             </div>
                             <div class="col-md-4">
-                                {!! Form::select('prescription_method',mconfig('evaluation.options.prescription_method'),null,['class'=>'form-control'])!!}
+                                {!! Form::select('method',mconfig('evaluation.options.prescription_method'),null,['class'=>'form-control'])!!}
                             </div>
                         </div>
                     </div>
@@ -50,8 +50,8 @@
                         </button>
                     </div>
 
-                    @if(!$visit->prescriptions->isEmpty())
-                    <table id="prescribed" class="table table-borderless">
+
+                    <table id="prescribed_drugs" class="table table-borderless">
                         <thead>
                             <tr>
                                 <th>Drug</th>
@@ -60,6 +60,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if(!$visit->prescriptions->isEmpty())
                             @foreach($visit->prescriptions as $pres)
                             <tr>
                                 <td>{{$pres->drug}}</td>
@@ -67,16 +68,21 @@
                                 <td>{{$pres->duration}}</td>
                             </tr>
                             @endforeach
+                            @else
+                            <tr>
+                                <td colspan="3">
+                                    <i class="fa fa-info-circle"></i> No previously administered prescriptions</td>
+                            </tr>
+                            @endif
                         </tbody>
                     </table>
                     <span class="pull-right">
                         <a class="btn btn-primary btn-xs"
-                           href="{{route('system.print.print_prescriptions',$data['visit'])}}" target="_blank">
+                           href="{{route('evaluation.print.prescription',$visit->id)}}" target="_blank">
                             <i class="fa fa-print"></i> Print</a>
                     </span>
-                    @else
-                    <i class="fa fa-info-circle"></i> No previously administered prescriptions
-                    @endif
+
+
                 </div>
 
             </div>

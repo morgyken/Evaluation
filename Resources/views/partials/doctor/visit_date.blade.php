@@ -16,8 +16,10 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Set Visit Date: </label>
                         <div class="col-md-8">
-                            <input type="text" id="visit_date" value="{{(new Date($visit->created_at))->format('Y-m-d')}}" name="visit_date" class="form-control"/>
-                            <div class="help-block"> <span class="text-success" id="visitdate"></span></div>
+                            <input type="text" id="visit_date"
+                                   value="{{(new Date($visit->created_at))->format('Y-m-d')}}" name="visit_date"
+                                   class="form-control"/>
+                            <div class="help-block"><span class="text-success" id="visitdate"></span></div>
                         </div>
                     </div>
                 </div>

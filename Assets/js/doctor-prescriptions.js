@@ -1,4 +1,4 @@
-/* global PRESCRIPTION_URL */
+/* global PRESCRIPTION_URL, alertify */
 
 $(function () {
     /*
@@ -11,11 +11,23 @@ $(function () {
         save_prescription();
     });
     function save_prescription() {
-        var drug = $('#prescription input[name=drug]').val();
-        var duration = $('#prescription input[name=duration]').val();
-        var dose = $('#prescription input[name=take]').val();
-        $('#prescribed > tbody').append('<tr><td>' + drug + '</td><td>' + dose + '</td><td>' + duration + '</td></tr>');
-        $.ajax({type: "POST", url: PRESCRIPTION_URL, data: $('#prescription').serialize()});
-        $("#prescription").find("input[type=text]").val("");
+        $.ajax({
+            type: "POST",
+            url: PRESCRIPTION_URL,
+            data: $('#prescription_form').serialize(),
+            success: function () {
+                var drug = $('#prescription_form input[name=drug]').val();
+                var duration = $('#prescription_form input[name=duration]').val();
+                var dose = $('#prescription_form input[name=take]').val();
+                var whereto = $("#prescription_form select[name=whereto] option:selected").text();
+                var method = $("#prescription_form select[name=method] option:selected").text();
+                var shower = dose + ' ' + whereto + ' ' + method;
+                $('#prescribed_drugs > tbody').append('<tr><td>' + drug + '</td><td>' + shower + '</td><td>' + duration + '</td></tr>');
+                alertify.success('Prescription added');
+                $('#prescription_form').trigger("reset");
+            },
+            error: function () {
+                alertify.error('An error occured prescribing drug');
+            }});
     }
 });

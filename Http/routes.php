@@ -38,7 +38,7 @@ $router->get('patients/evaluate/{visit}/pharmacy', ['uses' => 'EvaluationControl
 $router->get('patients/waiting/theatre', ['uses' => 'EvaluationController@waiting_theatre', 'as' => 'waiting_theatre']);
 $router->get('patients/theatre/evaluate/{visit}', ['uses' => 'EvaluationController@theatre', 'as' => 'evaluate.theatre']);
 
-$router->group(['prefix' => 'reports', 'as' => 'reports.'], function(Router $router) {
+$router->group(['prefix' => 'reports', 'as' => 'reports.'], function (Router $router) {
     $router->post('patients/sick_off/notes', ['uses' => 'ReportsController@sick_off', 'as' => 'sick_off']);
 });
 
@@ -53,6 +53,12 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
     $router->post('procedure_cat/save', ['as' => 'procedure_cat.save', 'uses' => 'SetupController@save_procedure_cat']);
 });
 
-$router->group(['prefix' => 'report', 'as' => 'report.'], function(Router $router) {
+$router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $router) {
     $router->post('pay/{patient?}', ['as' => 'pay_receipt', 'uses' => 'ReportsController@payment_receipt']);
+});
+
+
+//printables
+$router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router) {
+    $router->get('prescription/{visit}', ['uses' => 'ReportController@print_prescription', 'as' => 'prescription']);
 });

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $past_medical_history
  * @property string $examination
  * @property string $diagnosis
+ * @property string $investigations
  * @property string $treatment_plan
  * @property integer $user
  * @property \Carbon\Carbon $created_at
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes wherePastMedicalHistory($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereExamination($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereDiagnosis($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereInvestigations($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereTreatmentPlan($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereUser($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereCreatedAt($value)

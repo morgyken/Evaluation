@@ -183,23 +183,10 @@ class EvaluationFunctions implements EvaluationRepository {
      * @param
      */
     public function save_notes() {
-        dd($this->input);
-        return DoctorNotes::updateOrCreate(['visit' => $this->visit], $this->input);
-        dd($notes);
-//$notes->investigation = $this->request->investigations;
-        $notes->diagnosis = serialize($this->request->diagnosis);
-//$notes->professional_history = $this->request->professional_history;
-        $notes->visit = $this->request->visit;
-        $notes->presenting_complaints = $this->request->presenting_complaints;
-        $notes->past_medical_history = $this->request->past_medical_history;
-//$notes->treatment_history = $this->request->drug_history;
-        $notes->examination = $this->request->examination;
-        $notes->treatment_plan = $this->request->treatment_plan;
-        $notes->user = $this->request->user;
-        $notes->save();
         if ($this->request->has('option')) {
             $this->save_eye_exam($this->request);
         }
+        return DoctorNotes::updateOrCreate(['visit' => $this->visit], $this->input);
     }
 
     public function save_eye_exam() {
@@ -276,24 +263,11 @@ class EvaluationFunctions implements EvaluationRepository {
      * @return bool
      */
     public function save_prescriptions() {
-        dd($this->input);
+        // dd($this->request->all());
         if (empty($this->request->drug)) {
             return false;
         }
         Prescriptions::create($this->input);
-        /*
-          $prescribe = new Prescriptions;
-          $prescribe->drug = strtoupper($this->request->drug);
-          $prescribe->take = $this->request->take;
-          $prescribe->whereto = $this->request->prescription_whereto;
-          $prescribe->method = $this->request->prescription_method;
-          $prescribe->duration = $this->request->duration;
-          $prescribe->visit = $this->request->visit;
-          $prescribe->user = $this->request->user;
-          if ($this->request->has('allow_substitution')) {
-          $prescribe->allow_substitution = true;
-          }
-          return $prescribe->save(); */
     }
 
     /**
@@ -425,8 +399,8 @@ class EvaluationFunctions implements EvaluationRepository {
         foreach ($this->input['entity'] as $key => $entity) {
             Preliminary::updateOrCreate(
                     [
-                'entity' => $entity, 'visit' => $this->visit], ['left' => $this->input['left'][$key] ? : 0,
-                'right' => $this->input['right'][$key] ? : 0,
+                'entity' => $entity, 'visit' => $this->visit], ['left' => $this->input['left'][$key] ?: 0,
+                'right' => $this->input['right'][$key] ?: 0,
                 'user' => $this->user, 'remarks' => str_random()]);
         }
         return true;
