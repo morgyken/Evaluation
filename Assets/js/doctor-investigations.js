@@ -68,12 +68,13 @@ $(function () {
             data: $('#diagnosis_form, #laboratory_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
+                location.reload();
             },
             error: function () {
                 alertify.error('<i class="fa fa-check-warning"></i> Could not save evalaution');
             }
         });
-        location.reload();
+        //location.reload();
     });
     //sick of this
     $('#laboratory_form').find('input:radio, input:checkbox').prop('checked', false);

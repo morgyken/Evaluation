@@ -230,6 +230,9 @@ class EvaluationFunctions implements EvaluationRepository {
             case 'laboratory':
                 $visit->laboratory = true;
                 break;
+            case 'pharmacy':
+                $visit->pharmacy = true;
+                break;
             default :
                 return;
         }
@@ -263,11 +266,11 @@ class EvaluationFunctions implements EvaluationRepository {
      * @return bool
      */
     public function save_prescriptions() {
-        // dd($this->request->all());
         if (empty($this->request->drug)) {
             return false;
         }
-        Prescriptions::create($this->input);
+        $this->check_in_at('pharmacy');
+        return Prescriptions::create($this->input);
     }
 
     /**
@@ -378,8 +381,8 @@ class EvaluationFunctions implements EvaluationRepository {
      */
     public function order_evaluation($type) {
         foreach ($this->__get_selected_stack() as $index) {
-            $item = 'proc_item' . $index;
-            $price = 'proc_price' . $index;
+            $item = 'item' . $index;
+            $price = 'price' . $index;
             Investigations::create([
                 'visit' => $this->visit,
                 'type' => $type,

@@ -54,12 +54,13 @@ $(function () {
             data: $('#treatment_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Selected treatment procedures saved');
+                location.reload();
             },
             error: function () {
                 alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
             }});
         //  $('#selected_treatment').hide();
-        location.reload();
+        //
     }
     $('#treatment_form').find('input:radio, input:checkbox').prop('checked', false);
     $('#selected_treatment').hide();
