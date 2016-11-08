@@ -2,9 +2,10 @@
 
 namespace Ignite\Evaluation\Http\Controllers;
 
+use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
-use Nwidart\Modules\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
 
 class ApiController extends Controller {
@@ -84,6 +85,18 @@ class ApiController extends Controller {
             $build[] = ['text' => $val['name'], 'id' => $val['id'], 'price' => $val['cash_charge']];
         }
         return json_encode(['results' => $build]);
+    }
+
+    public function pharmacy_cancel_prescription(Request $request) {
+        $pres = Prescriptions::find($request->id);
+        if ($pres->delete()) {
+            echo '
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    ×</button>
+               <span class="glyphicon glyphicon-ok"></span> <strong>Prescription Cancelled.</strong>
+            </div>';
+        }
     }
 
 }

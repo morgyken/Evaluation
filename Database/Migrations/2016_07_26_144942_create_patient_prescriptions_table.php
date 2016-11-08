@@ -20,6 +20,7 @@ class CreatePatientPrescriptionsTable extends Migration {
             $column->integer('method');
             $column->string('duration');
             $column->boolean('allow_substitution')->default(false);
+            $column->integer('time_measure')->unsigned()->nullable();
 
             $column->integer('user')->unsigned()->nullable();
             $column->timestamps();

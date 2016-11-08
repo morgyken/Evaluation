@@ -18,8 +18,8 @@ extract($data);
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#ordered" data-toggle="tab">Ordered Prescriptions</a></li>
-                    <li><a href="#new" data-toggle="tab">Order new prescriptions</a> </li>
-                    <li><a href="#disp" data-toggle="tab">Dispense Drugs</a> </li>
+                    <li><a href="#new" data-toggle="tab">Order new procedures</a> </li>
+                    <li><a href="#disp" data-toggle="tab">Order new drugs</a> </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active " id="ordered">

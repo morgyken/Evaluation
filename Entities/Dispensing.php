@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dispensing extends Model {
 
     public $table = 'inventory_evaluation_dispensing';
-    protected $fillable = ['visit', 'user', 'batch'];
+    protected $fillable = ['visit', 'user'];
 
     public function visits() {
         return $this->belongsTo(Visit::class, 'visit');

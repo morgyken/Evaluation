@@ -34,6 +34,9 @@ $router->get('patients/evaluate/{visit}/diagnostics', ['uses' => 'EvaluationCont
 //waiting pharmacy
 $router->get('patients/waiting/pharmacy', ['uses' => 'EvaluationController@waiting_pharmacy', 'as' => 'waiting_pharmacy']);
 $router->get('patients/evaluate/{visit}/pharmacy', ['uses' => 'EvaluationController@pharmacy', 'as' => 'evaluate.pharmacy']);
+$router->post('patients/evaluate/pharmacy/prescription', ['uses' => 'EvaluationController@pharmacy_prescription', 'as' => 'evaluate.pharmacy.prescription']);
+$router->post('patients/evaluate/pharmacy/dispense', ['uses' => 'EvaluationController@pharmacy_dispense', 'as' => 'pharmacy.dispense']);
+$router->get('patients/evaluate/pharmacy/prescription/cancel', ['uses' => 'ApiController@pharmacy_cancel_prescription', 'as' => 'pharmacy.prescription.cancel']);
 //waiting theatre
 $router->get('patients/waiting/theatre', ['uses' => 'EvaluationController@waiting_theatre', 'as' => 'waiting_theatre']);
 $router->get('patients/theatre/evaluate/{visit}', ['uses' => 'EvaluationController@theatre', 'as' => 'evaluate.theatre']);
