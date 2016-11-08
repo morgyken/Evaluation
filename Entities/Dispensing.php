@@ -10,14 +10,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property integer $visit
  * @property integer $user
- * @property integer $batch
+ * @property boolean $payment_status
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Dispensing whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Dispensing whereVisit($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Dispensing whereUser($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Dispensing whereBatch($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Dispensing wherePaymentStatus($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Dispensing whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Dispensing whereUpdatedAt($value)
  * @mixin \Eloquent
