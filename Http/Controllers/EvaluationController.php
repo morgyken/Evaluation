@@ -145,12 +145,18 @@ class EvaluationController extends AdminBaseController {
         if ($this->evaluationRepository->save_prescriptions()) {
             flash('Prescription saved');
             return back();
+        } else {
+            flash('Prescription could not be saved', 'warning');
+            return back();
         }
     }
 
     public function pharmacy_dispense() {
         if ($this->evaluationRepository->dispense()) {
             flash('Drugs dispensed, thank you');
+            return back();
+        } else {
+            flash('Drug(s) could not be dispensed', 'warning');
             return back();
         }
     }
