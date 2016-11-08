@@ -15,10 +15,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $method
  * @property string $duration
  * @property boolean $allow_substitution
+ * @property integer $time_measure
  * @property integer $user
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
+ * @property-read \Ignite\Inventory\Entities\InventoryProducts $drugs
+ * @property-read \Ignite\Users\Entities\User $users
  * @property-read mixed $dose
  * @property-read mixed $sub
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereId($value)
@@ -29,6 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereMethod($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereDuration($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereAllowSubstitution($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereTimeMeasure($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereUser($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereUpdatedAt($value)
