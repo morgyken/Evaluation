@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Ignite\Users\Entities\User $doctors
  * @property-read \Ignite\Evaluation\Entities\InvestigationResult $results
  * @property-read \Ignite\Finance\Entities\EvaluationPaymentsDetails $payments
+ * @property-read mixed $pesa
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereVisit($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereType($value)
@@ -90,5 +91,7 @@ class Investigations extends Model {
     public function payments() {
         return $this->hasOne(EvaluationPaymentsDetails::class, 'investigation');
     }
-
+    public function getPesaAttribute(){
+        return 'Ksh '.number_format($this->price,2);
+    }
 }

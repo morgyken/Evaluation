@@ -28,6 +28,14 @@
                 <label>File</label>
                 <input type="file" class="form-control" name="file{{$item->id}}"/>
             </div>
+            <hr/>
+            <dl class="dl-horizontal">
+                <dt>Requested By:</dt><dd>{{$item->doctors->profile->full_name}}</dd>
+                <dt>Instructions:</dt><dd><p>{{$item->instructions ?? 'Not provided'}}</p></dd>
+                <dt>Charges:</dt><dd>{{$item->pesa}}</dd>
+                <dt>Date:</dt><dd>{{smart_date_time($item->created_at)}}</dd>
+            </dl>
+            <hr/>
         </div>
         <div class="pull-right">
             <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save"></i> Save</button>
@@ -40,3 +48,8 @@
 @else
 <p>No laboratory tests ordered for this patient</p>
 @endif
+<script type="text/javascript">
+    $(function () {
+        CKEDITOR.replaceAll();
+    });
+</script>
