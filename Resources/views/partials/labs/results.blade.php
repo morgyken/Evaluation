@@ -9,19 +9,33 @@
  * =============================================================================
  */
 ?>
-<div class="row">
+<div class="row" id="stripper">
+    @foreach($results as $item)
     <div class="col-md-12">
-        @foreach($results as $item)
-        <div class="row">
-            <div class="col-md-12">
-                <strong>{{$item->procedures->name}}</strong>
-                <p>{{$item->results->results}}</p>
-                @if($item->results->documents)
-                <a href="{{route('reception.view_document',$item->results->documents->id)}}" target="_blank">
-                    {{$item->results->documents->filename}}</a>
-                @endif
-            </div>
+        <h4>Laboratory test #{{$loop->iteration}}: {{$item->procedures->name}}</h4>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>Procedure</dt><dd>{{$item->procedures->name}}</dd>
+                <dt>Requested By:</dt><dd>{{$item->doctors->profile->full_name}}</dd>
+                <dt>Instructions:</dt><dd><p>{{$item->instructions ?? 'Not provided'}}</p></dd>
+                <dt>Charges:</dt><dd>{{$item->pesa}}</dd>
+                <dt>Date:</dt><dd>{{smart_date_time($item->created_at)}}</dd>
+            </dl>
         </div>
-        @endforeach
+        <div class="col-md-6">
+            <h5>Results</h5>
+            <div>{!!$item->results->results!!}</div>
+            @if($item->results->documents)
+            Uploaded File -
+            <a href="{{route('reception.view_document',$item->results->documents->id)}}" target="_blank">
+                <i class="fa fa-file"></i> {{$item->results->documents->filename}}</a>
+            @endif
+        </div>
     </div>
+    @endforeach
 </div>
+<style>
+    #striper > div:nth-of-type(odd) {
+        background: #e0e0e0;
+    }
+</style>
