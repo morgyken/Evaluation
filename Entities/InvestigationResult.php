@@ -2,6 +2,7 @@
 
 namespace Ignite\Evaluation\Entities;
 
+use Ignite\Reception\Entities\PatientDocuments;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Ignite\Evaluation\Entities\Investigations $investigations
+ * @property-read \Ignite\Reception\Entities\PatientDocuments $documents
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereInvestigation($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereUser($value)
@@ -35,6 +37,10 @@ class InvestigationResult extends Model {
 
     public function investigations() {
         return $this->belongsTo(Investigations::class, 'investigation');
+    }
+
+    public function documents(){
+        return $this->belongsTo(PatientDocuments::class,'file');
     }
 
 }
