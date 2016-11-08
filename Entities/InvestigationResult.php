@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $user
  * @property string $instructions
  * @property string $results
- * @property mixed $file
+ * @property integer $file
  * @property integer $status
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at

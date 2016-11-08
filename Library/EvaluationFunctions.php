@@ -28,6 +28,7 @@ use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\Vitals;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Reception\Entities\Appointments;
+use Ignite\Reception\Entities\PatientDocuments;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -108,17 +109,37 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     /**
+     * Save a patient document from here
+     * @param $file
+     * @return PatientDocuments
+     */
+    private function upload_patient_doc($file) {
+        return PatientDocuments::create([
+                    'patient' => Visit::find($this->visit)->patient,
+                    'document' => base64_encode(file_get_contents($file->getRealPath())),
+                    'filename' => $file->getClientOriginalName(),
+                    'mime' => $file->getClientMimeType(),
+                    'document_type' => 'investigation',
+                    'description' => $file->getSize(),
+                    'user' => $this->user
+        ]);
+    }
+
+    /**
      * @return int|null
      */
     public function save_results_investigations() {
         $set = $this->__get_selected_stack();
         foreach ($set as $item) {
-            if (empty($this->input['results' . $item]))
+            if (empty($this->input['results' . $item])) {
                 continue;
+            }
             $__in = InvestigationResult::firstOrNew(['investigation' => $item]);
             $__in->results = $this->input['results' . $item];
             if ($this->request->hasFile('file' . $item)) {
-                $__in->file = base64_encode(file_get_contents($this->request->file['file' . $item]->getRealPath()));
+                $temp = "file$item";
+                $file = $this->upload_patient_doc($this->request->$temp);
+                $__in->file = $file->id;
             }
             $__in->user = $this->user;
             $__in->save();

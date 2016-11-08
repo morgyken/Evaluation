@@ -8,8 +8,6 @@
  *
  * =============================================================================
  */
-
-$diagnoses = $visit->investigations->where('type', 'diagnosis');
 ?>
 @if(!$diagnoses->isEmpty())
 {!! Form::open(['id'=>'results_form','files'=>true]) !!}

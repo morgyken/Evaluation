@@ -8,11 +8,10 @@
  *
  * =============================================================================
  */
-$diagnoses = $visit->investigations->where('type', 'laboratory');
 ?>
 <div class="row">
     <div class="col-md-12">
-        @foreach($diagnoses as $item)
+        @foreach($results as $item)
         <div class="row">
             <div class="col-md-12">
                 <strong>{{$item->procedures->name}}</strong>

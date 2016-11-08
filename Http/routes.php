@@ -40,6 +40,8 @@ $router->get('patients/theatre/evaluate/{visit}', ['uses' => 'EvaluationControll
 
 //new orders
 $router->post('order/new/{type}', ['as' => 'order', 'uses' => 'InvestigationsController']);
+//results
+$router->post('evaluation/results', ['uses' => 'EvaluationController@investigation_result', 'as' => 'investigation_result']);
 
 //settings
 $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router) {

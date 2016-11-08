@@ -170,6 +170,16 @@ class EvaluationController extends AdminBaseController {
         return view('evaluation::patient_visits', ['data' => $this->data]);
     }
 
+    public function investigation_result() {
+        $story = $this->evaluationRepository->save_results_investigations();
+        if ($story) {
+            flash('Investigation result posted', 'success');
+        } else {
+            flash('Uh, Oh. Something wrong happened, retry');
+        }
+        return back();
+    }
+
     private function __require_assets() {
         $assets = [
             'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations.min.js'),

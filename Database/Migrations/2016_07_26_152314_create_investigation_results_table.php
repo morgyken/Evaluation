@@ -17,6 +17,7 @@ class CreateInvestigationResultsTable extends Migration {
             $table->integer('user')->unsigned()->nullable();
             $table->longText('instructions')->nullable();
             $table->longText('results')->nullable()->nullable();
+            $table->integer('file')->unsigned()->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
 
@@ -28,8 +29,10 @@ class CreateInvestigationResultsTable extends Migration {
             $table->foreign('user')->references('id')->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
+            $table->foreign('file')->references('id')->on('reception_patient_documents')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
         });
-        DB::statement("ALTER TABLE evaluation_investigation_results ADD file LONGBLOB AFTER results");
     }
 
     /**

@@ -5,6 +5,8 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 extract($data);
+$diagnoses = $visit->investigations->where('type', 'diagnosis')->where('has_result', false);
+$results = $visit->investigations->where('type', 'diagnosis')->where('has_result', true);
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation | Diagnostics')
@@ -18,9 +20,12 @@ extract($data);
             <div class="col-md-12">
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#ordered" data-toggle="tab">Ordered Tests</a></li>
-                        <li><a href="#new" data-toggle="tab">Order new tests</a> </li>
-                        <li><a href="#results" data-toggle="tab">Results</a> </li>
+                        <li class="active"><a href="#ordered" data-toggle="tab">
+                                Ordered Tests <span class="badge alert-info">{{$diagnoses->count()}}</span></a></li>
+                        <li><a href="#new" data-toggle="tab">
+                                Order Diagnostics <span class="badge alert-success">new</span></a> </li>
+                        <li><a href="#results" data-toggle="tab">
+                                Results <span class="badge alert-success">{{$results->count()}}</span></a> </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active " id="ordered">
