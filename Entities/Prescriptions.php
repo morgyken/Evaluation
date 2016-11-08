@@ -21,11 +21,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $user
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read mixed $dose
+ * @property-read mixed $sub
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @property-read \Ignite\Inventory\Entities\InventoryProducts $drugs
  * @property-read \Ignite\Users\Entities\User $users
- * @property-read mixed $dose
- * @property-read mixed $sub
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereVisit($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereDrug($value)
@@ -47,6 +47,16 @@ class Prescriptions extends Model {
     public $incrementing = false;
     protected $guarded = [];
 
+    public function getDoseAttribute() {
+        return $this->take . ' ' . mconfig('evaluation.options.prescription_whereto.' . $this->whereto) . ' '
+                . mconfig('evaluation.options.prescription_method.' . $this->method) . ' '
+                . $this->duration . ' ' . mconfig('evaluation.options.prescription_duration.' . $this->time_measure);
+    }
+
+    public function getSubAttribute() {
+        return $this->allow_substitution ? 'Yes' : 'No';
+    }
+
     public function visits() {
         return $this->belongsTo(Visit::class, 'visit');
     }
@@ -57,16 +67,6 @@ class Prescriptions extends Model {
 
     public function users() {
         return $this->belongsTo(User::class, 'user');
-    }
-
-    public function getDoseAttribute() {
-        return $this->take . ' ' . mconfig('evaluation.options.prescription_whereto.' . $this->whereto) . ' '
-                . mconfig('evaluation.options.prescription_method.' . $this->method) . ' '
-                . $this->duration . ' ' . mconfig('evaluation.options.prescription_duration.' . $this->time_measure);
-    }
-
-    public function getSubAttribute() {
-        return $this->allow_substitution ? 'Yes' : 'No';
     }
 
 }

@@ -35,7 +35,7 @@
             <b>{{$item->drugs->name}}</b><br>
             <code>Price:{{number_format($price,2)}}</code><br><br>
             <input type="hidden" value="{{$price}}" name="prc{{$item->id}}" id="prc{{$item->id}}">
-            Dispensable Units: {{$item->drugs->stocks?$item->drugs->stocks->quantity:''}}<br>
+            Dispensable Units: {{$item->drugs->stocks->quantity ?? ''}}<br>
             Qty Given:<input name="qty{{$item->id}}" onkeyup="bill(<?php echo $item->id; ?>)" class="qty{{$item->id}}" value="1" size="4" type="text" autocomplete="off">
             <br clear="all">
             <p class="sub_total_text{{$item->id}}"></p>

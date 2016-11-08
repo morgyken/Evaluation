@@ -15,14 +15,14 @@ class CreatePatientPrescriptionsTable extends Migration {
             $column->increments('id');
             $column->integer('visit')->unsigned();
             $column->string('drug');
-            $column->string('take');
+            $column->integer('take');
             $column->integer('whereto');
             $column->integer('method');
-            $column->string('duration');
+            $column->integer('duration');
             $column->boolean('allow_substitution')->default(false);
-            $column->integer('time_measure')->unsigned()->nullable();
+            $column->integer('time_measure')->unsigned()->default(1);
 
-            $column->integer('user')->unsigned()->nullable();
+            $column->integer('user')->unsigned();
             $column->timestamps();
             $column->foreign('visit')
                     ->references('id')
