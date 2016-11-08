@@ -27,6 +27,7 @@ use Ignite\Evaluation\Entities\VisitMeta;
 use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\Vitals;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
+use Ignite\Inventory\Repositories\InventoryRepository;
 use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\PatientDocuments;
 use Ignite\Reception\Entities\Patients;
@@ -79,8 +80,9 @@ class EvaluationFunctions implements EvaluationRepository {
     /**
      * EvaluationFunctions constructor.
      * @param Request $request
+     * @param InventoryRepository $repo
      */
-    public function __construct(Request $request, \Ignite\Inventory\Repositories\InventoryRepository $repo) {
+    public function __construct(Request $request, InventoryRepository $repo) {
         $this->request = $request;
         $this->repo = $repo;
         $this->input = $this->request->all();
@@ -147,6 +149,7 @@ class EvaluationFunctions implements EvaluationRepository {
             $__in->user = $this->user;
             $__in->save();
         }
+
         return true;
     }
 

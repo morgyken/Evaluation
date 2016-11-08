@@ -339,7 +339,7 @@ if (!function_exists('visit_destination')) {
             $build[] = 'Radiology';
         }
         if ($visit->pharmacy) {
-            $build[] = 'Parmacy';
+            $build[] = 'Pharmacy';
         }
         return $build;
     }

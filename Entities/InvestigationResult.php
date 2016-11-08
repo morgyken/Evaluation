@@ -3,6 +3,7 @@
 namespace Ignite\Evaluation\Entities;
 
 use Ignite\Reception\Entities\PatientDocuments;
+use Ignite\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -39,8 +40,12 @@ class InvestigationResult extends Model {
         return $this->belongsTo(Investigations::class, 'investigation');
     }
 
-    public function documents(){
-        return $this->belongsTo(PatientDocuments::class,'file');
+    public function documents() {
+        return $this->belongsTo(PatientDocuments::class, 'file');
+    }
+
+    public function users() {
+        return $this->belongsTo(User::class, 'user');
     }
 
 }
