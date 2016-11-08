@@ -1,8 +1,6 @@
 {!! Form::open(['class'=>'form-horizontal', 'route'=>'evaluation.evaluate.pharmacy.prescription']) !!}
-<input type="hidden" name="pharmacy" value="1">
-<input type="hidden" name="payment_mode" value="{{$visit->mode}}">
+<!--<input type="hidden" name="payment_mode" value="{{$visit->mode}}"> -->
 <input type="hidden" name="visit" value="{{$visit->id}}">
-<input type="hidden" name="patient_id" value="{{$patient->id?$patient->id:''}}">
 <table class="items table  table-striped table-condensed" id="tab_logic">
     <thead>
         <tr>
@@ -16,12 +14,12 @@
     <tbody>
         <tr id='addr0'>
             <td>
-                <select name="item0"   id="item_0" class="select2-single" style="width: 100%" required=""></select>
+                <select name="drug"   id="item_0" class="select2-single" style="width: 100%" required=""></select>
             </td>
             <td>
                 <input type="text" name="take" id="Take" class="form-control"/>
-                {!! Form::select('prescription_whereto',mconfig('evaluation.options.prescription_whereto'),null,['class'=>'form-control'])!!}
-                {!! Form::select('prescription_method',mconfig('evaluation.options.prescription_method'),null,['class'=>'form-control'])!!}
+                {!! Form::select('whereto',mconfig('evaluation.options.prescription_whereto'),null,['class'=>'form-control'])!!}
+                {!! Form::select('method',mconfig('evaluation.options.prescription_method'),null,['class'=>'form-control'])!!}
                 <span id="fb0"></span>
             </td>
             <td class="text-center">
