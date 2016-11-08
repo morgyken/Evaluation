@@ -78,7 +78,7 @@
                             </tr>
                             @endforeach
                             @else
-                            <tr>
+                            <tr id="hide-this">
                                 <td colspan="3">
                                     <i class="fa fa-info-circle"></i> No previously administered prescriptions</td>
                             </tr>
@@ -110,6 +110,7 @@ if (is_module_enabled('Inventory')):
     <script src="{!! m_asset('evaluation:js/prescription.min.js') !!}"></script>
 
     <?php
+
 
 
 
