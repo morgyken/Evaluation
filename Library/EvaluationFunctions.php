@@ -135,6 +135,7 @@ class EvaluationFunctions implements EvaluationRepository {
      */
     public function save_results_investigations() {
         $set = $this->__get_selected_stack();
+        $user = null;
         foreach ($set as $item) {
             if (empty($this->input['results' . $item])) {
                 continue;
@@ -148,8 +149,9 @@ class EvaluationFunctions implements EvaluationRepository {
             }
             $__in->user = $this->user;
             $__in->save();
+            $user = $__in->investigations->user;
         }
-
+        send_notification($user, 'Investigation results', 'Results have been added');
         return true;
     }
 
