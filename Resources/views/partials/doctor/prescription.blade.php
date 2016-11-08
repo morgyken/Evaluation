@@ -18,7 +18,11 @@
                     <div class="form-group">
                         <label class="control-label col-md-4">Drug</label>
                         <div class="col-md-8">
+                            @if(is_module_enabled('Inventory'))
+                            <select name="drug"   id="item_0" class="select2-single form-control" style="width: 100%"></select>
+                            @else
                             <input id="drug" type="text" name='drug' class="form-control"/>
+                            @endif
                         </div>
                     </div>
                     <div class="form-group">
@@ -38,7 +42,12 @@
                     <div class="form-group">
                         <label class="control-label col-md-4">Duration</label>
                         <div class="col-md-8" >
-                            <input type="text" name="duration" placeholder="e.g 3 days" class='form-control'/>
+                            <div class="col-md-6">
+                                <input type="text" name="duration" placeholder="e.g 3" class='form-control'/>
+                            </div>
+                            <div class="col-md-6">
+                                {!! Form::select('time_measure',mconfig('evaluation.options.prescription_duration'),null,['class'=>'form-control'])!!}
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -69,7 +78,7 @@
                             </tr>
                             @endforeach
                             @else
-                            <tr>
+                            <tr id="hide-this">
                                 <td colspan="3">
                                     <i class="fa fa-info-circle"></i> No previously administered prescriptions</td>
                             </tr>
@@ -90,3 +99,19 @@
         </div>
     </div>
 </div>
+<?php
+if (is_module_enabled('Inventory')):
+    ?>
+    <script>
+        var INSURANCE = false;
+        var STOCK_URL = "{{route('api.inventory.getstock')}}";
+        var PRODUCTS_URL = "{{route('api.inventory.get.products')}}";
+    </script>
+    <script src="{!! m_asset('evaluation:js/prescription.min.js') !!}"></script>
+
+    <?php
+
+
+
+
+endif;

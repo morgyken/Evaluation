@@ -17,13 +17,18 @@ $(function () {
             data: $('#prescription_form').serialize(),
             success: function () {
                 var drug = $('#prescription_form input[name=drug]').val();
+                if (drug == null) {
+                    drug = $('#prescription_form select[name=drug]').val();
+                }
                 var duration = $('#prescription_form input[name=duration]').val();
                 var dose = $('#prescription_form input[name=take]').val();
                 var whereto = $("#prescription_form select[name=whereto] option:selected").text();
                 var method = $("#prescription_form select[name=method] option:selected").text();
+                var measure = $("#prescription_form select[name=time_measure] option:selected").text();
                 var shower = dose + ' ' + whereto + ' ' + method;
-                $('#prescribed_drugs > tbody').append('<tr><td>' + drug + '</td><td>' + shower + '</td><td>' + duration + '</td></tr>');
+                $('#prescribed_drugs > tbody').append('<tr><td>' + drug + '</td><td>' + shower + '</td><td>' + duration + ' ' + measure + '</td></tr>');
                 alertify.success('<i class="fa fa-check-circle"></i> Prescription added');
+                $('#hide-this').hide();
                 $('#prescription_form').trigger("reset");
             },
             error: function () {

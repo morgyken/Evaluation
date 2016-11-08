@@ -8,41 +8,8 @@
  *
  * =============================================================================
  */
-
-$diagnoses = $visit->investigations->where('type', 'laboratory');
 ?>
 <div id="feedback-box"></div>
-@if(!$diagnoses->isEmpty())
-{!! Form::open(['id'=>'laboratory_form','files'=>true]) !!}
-<div class="accordion">
-    @foreach($diagnoses as $item)
-    <?php $active = $item->has_result ? 'disabled' : ''; ?>
-    <h4>{{$item->procedures->name}}</h4>
-    <div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Results</label>
-                <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" {{$active}}/>
-                <textarea name="results{{$item->id}}" class="form-control" {{$active}}></textarea>
-            </div>
-        </div>
-        <div class="col-md-4 col-md-offset-2">
-            <div class="form-group">
-                <label>File</label>
-                <input type="file" class="form-control" name="file{{$item->id}}" {{$active}}/>
-            </div>
-        </div>
-        <div class="pull-right">
-            <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save"></i> Save</button>
-            <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
-        </div>
-    </div>
-    @endforeach
-</div>
-{!! Form::close()!!}
-@else
-<p>No procedures ordered for this patient</p>
-@endif
 
 
 @if(!$drug_prescriptions->isEmpty())
@@ -68,19 +35,19 @@ $diagnoses = $visit->investigations->where('type', 'laboratory');
             <b>{{$item->drugs->name}}</b><br>
             <code>Price:{{number_format($price,2)}}</code><br><br>
             <input type="hidden" value="{{$price}}" name="prc{{$item->id}}" id="prc{{$item->id}}">
-            Dispensable Units: {{$item->drugs->stocks?$item->drugs->stocks->quantity:''}}<br>
+            Dispensable Units: {{$item->drugs->stocks->quantity ?? ''}}<br>
             Qty Given:<input name="qty{{$item->id}}" onkeyup="bill(<?php echo $item->id; ?>)" class="qty{{$item->id}}" value="1" size="4" type="text" autocomplete="off">
             <br clear="all">
             <p class="sub_total_text{{$item->id}}"></p>
             <input type="hidden" name="item_subtotal{{$item->id}}" class="sub_total{{$item->id}}">
         </td>
-        <td>{{$item->take}} {{mconfig('evaluation.options.prescription_whereto.'.$item->whereto)}}
-            <p>{{mconfig('evaluation.options.prescription_method.'.$item->method)}} {{$item->duration}} {{mconfig('evaluation.options.prescription_duration.'.$item->time_measure)}}
-                <br><b>Date: </b>{{date("F jS, Y", strtotime($item->created_at))}}<br>
-                <b>Time: </b>{{date('h:i A', strtotime($item->created_at))}}<br/>
-                <b>Prescribed By: </b> {{$item->users->username}} <br>
+        <td>
+            <dl class="dl-horizontal">
+                <dt>Dose:</dt><dd>{{$item->dose}}</dd>
+                <dt>Date:</dt><dd>{{smart_date_time($item->created_at)}}</dd>
+                <dt>Prescribed By: </dt><dd> {{$item->users->profile->full_name}} </dd>
                 <!-- <b>Payment Mode: </b> Cash<br> -->
-            </p>
+            </dl>
         </td>
         <td>
             <!-- <br clear="all">NOT PAID<br> -->

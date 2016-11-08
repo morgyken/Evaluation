@@ -2,6 +2,8 @@
 
 namespace Ignite\Evaluation\Entities;
 
+use Ignite\Inventory\Entities\InventoryProducts;
+use Ignite\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -10,20 +12,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property integer $visit
  * @property string $drug
- * @property string $take
+ * @property integer $take
  * @property integer $whereto
  * @property integer $method
- * @property string $duration
+ * @property integer $duration
  * @property boolean $allow_substitution
  * @property integer $time_measure
  * @property integer $user
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read mixed $dose
+ * @property-read mixed $sub
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @property-read \Ignite\Inventory\Entities\InventoryProducts $drugs
  * @property-read \Ignite\Users\Entities\User $users
- * @property-read mixed $dose
- * @property-read mixed $sub
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereVisit($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereDrug($value)
@@ -42,29 +44,29 @@ class Prescriptions extends Model {
 
     public $table = 'evaluation_prescriptions';
     protected $casts = ['allow_substitution' => 'boolean'];
-    //public $primaryKey = 'visit';
     public $incrementing = false;
     protected $guarded = [];
+
+    public function getDoseAttribute() {
+        return $this->take . ' ' . mconfig('evaluation.options.prescription_whereto.' . $this->whereto) . ' '
+                . mconfig('evaluation.options.prescription_method.' . $this->method) . ' '
+                . $this->duration . ' ' . mconfig('evaluation.options.prescription_duration.' . $this->time_measure);
+    }
+
+    public function getSubAttribute() {
+        return $this->allow_substitution ? 'Yes' : 'No';
+    }
 
     public function visits() {
         return $this->belongsTo(Visit::class, 'visit');
     }
 
     public function drugs() {
-        return $this->belongsTo(\Ignite\Inventory\Entities\InventoryProducts::class, 'id');
+        return $this->belongsTo(InventoryProducts::class, 'drug');
     }
 
     public function users() {
-        return $this->belongsTo(\Ignite\Users\Entities\User::class, 'id');
-    }
-
-    public function getDoseAttribute() {
-        return $this->take . ' ' . mconfig('evaluation.options.prescription_whereto.' . $this->whereto) . ' '
-                . mconfig('evaluation.options.prescription_method.' . $this->method);
-    }
-
-    public function getSubAttribute() {
-        return $this->allow_substitution ? 'Yes' : 'No';
+        return $this->belongsTo(User::class, 'user');
     }
 
 }

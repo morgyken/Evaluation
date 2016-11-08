@@ -293,6 +293,7 @@ class EvaluationFunctions implements EvaluationRepository {
         if (empty($this->request->drug)) {
             return false;
         }
+        $this->input['user'] = $this->user;
         $this->check_in_at('pharmacy');
         return Prescriptions::create($this->input);
     }
@@ -455,8 +456,8 @@ class EvaluationFunctions implements EvaluationRepository {
         foreach ($this->input['entity'] as $key => $entity) {
             Preliminary::updateOrCreate(
                     [
-                'entity' => $entity, 'visit' => $this->visit], ['left' => $this->input['left'][$key] ? : 0,
-                'right' => $this->input['right'][$key] ? : 0,
+                'entity' => $entity, 'visit' => $this->visit], ['left' => $this->input['left'][$key] ?: 0,
+                'right' => $this->input['right'][$key] ?: 0,
                 'user' => $this->user, 'remarks' => str_random()]);
         }
         return true;
