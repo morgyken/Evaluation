@@ -2,6 +2,8 @@
 
 namespace Ignite\Evaluation\Entities;
 
+use Ignite\Inventory\Entities\InventoryProducts;
+use Ignite\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -42,7 +44,6 @@ class Prescriptions extends Model {
 
     public $table = 'evaluation_prescriptions';
     protected $casts = ['allow_substitution' => 'boolean'];
-    //public $primaryKey = 'visit';
     public $incrementing = false;
     protected $guarded = [];
 
@@ -51,16 +52,17 @@ class Prescriptions extends Model {
     }
 
     public function drugs() {
-        return $this->belongsTo(\Ignite\Inventory\Entities\InventoryProducts::class, 'id');
+        return $this->belongsTo(InventoryProducts::class, 'drug');
     }
 
     public function users() {
-        return $this->belongsTo(\Ignite\Users\Entities\User::class, 'id');
+        return $this->belongsTo(User::class, 'user');
     }
 
     public function getDoseAttribute() {
         return $this->take . ' ' . mconfig('evaluation.options.prescription_whereto.' . $this->whereto) . ' '
-                . mconfig('evaluation.options.prescription_method.' . $this->method);
+                . mconfig('evaluation.options.prescription_method.' . $this->method) . ' '
+                . $this->duration . ' ' . mconfig('evaluation.options.prescription_duration.' . $this->time_measure);
     }
 
     public function getSubAttribute() {

@@ -1,11 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-
 /* global PRODUCTS_URL, SCHEMES_URL, PHONE_URL, STOCK_URL, CREDIT_URL, INSURANCE */
 
 $('table').hide();

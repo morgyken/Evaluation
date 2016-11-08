@@ -137,7 +137,7 @@ class EvaluationController extends AdminBaseController {
         $this->data['visit'] = $v = Visit::find($id);
         $this->data['patient'] = Patients::find($v->patient);
         $this->data['section'] = 'pharmacy';
-        $this->data['drug_prescriptions'] = Prescriptions::where('visit', '=', $id)->get();
+        $this->data['drug_prescriptions'] = Prescriptions::whereVisit($id)->get();
         return view('evaluation::patient_pharmacy', ['data' => $this->data]);
     }
 
