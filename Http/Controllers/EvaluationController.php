@@ -3,6 +3,7 @@
 namespace Ignite\Evaluation\Http\Controllers;
 
 use Ignite\Core\Http\Controllers\AdminBaseController;
+use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Reception\Entities\Patients;
@@ -136,7 +137,22 @@ class EvaluationController extends AdminBaseController {
         $this->data['visit'] = $v = Visit::find($id);
         $this->data['patient'] = Patients::find($v->patient);
         $this->data['section'] = 'pharmacy';
+        $this->data['drug_prescriptions'] = Prescriptions::where('visit', '=', $id)->get();
         return view('evaluation::patient_pharmacy', ['data' => $this->data]);
+    }
+
+    public function pharmacy_prescription() {
+        if ($this->evaluationRepository->save_prescriptions()) {
+            flash('Prescription saved');
+            return back();
+        }
+    }
+
+    public function pharmacy_dispense() {
+        if ($this->evaluationRepository->dispense()) {
+            flash('Drugs dispensed, thank you');
+            return back();
+        }
     }
 
     public function sign_out(Request $request, $visit_id, $section) {

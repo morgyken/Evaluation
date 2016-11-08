@@ -68,6 +68,12 @@ return [
         24 => 'alternate day',
         25 => 'morning',
     ],
+    'prescription_duration' => [
+        1 => 'day(s)',
+        2 => 'week(s)',
+        3 => 'month(s)',
+        4 => 'year(s)',
+    ],
     'prescription_whereto' => [
         1 => 'Per Oris',
         2 => 'Per Rectum',

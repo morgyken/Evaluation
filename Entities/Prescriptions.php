@@ -37,12 +37,20 @@ use Illuminate\Database\Eloquent\Model;
 class Prescriptions extends Model {
 
     protected $casts = ['allow_substitution' => 'boolean'];
-    public $primaryKey = 'visit';
+    //public $primaryKey = 'visit';
     public $incrementing = false;
     public $table = 'evaluation_prescriptions';
 
     public function visits() {
         return $this->belongsTo(Visit::class, 'visit');
+    }
+
+    public function drugs() {
+        return $this->belongsTo(\Ignite\Inventory\Entities\InventoryProducts::class, 'id');
+    }
+
+    public function users() {
+        return $this->belongsTo(\Ignite\Users\Entities\User::class, 'id');
     }
 
     public function getDoseAttribute() {

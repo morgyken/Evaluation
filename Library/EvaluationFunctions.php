@@ -29,6 +29,8 @@ use Ignite\Evaluation\Entities\Vitals;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\Patients;
+use Ignite\Evaluation\Entities\Dispensing;
+use Ignite\Evaluation\Entities\DispensingDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -77,8 +79,9 @@ class EvaluationFunctions implements EvaluationRepository {
      * EvaluationFunctions constructor.
      * @param Request $request
      */
-    public function __construct(Request $request) {
+    public function __construct(Request $request, \Ignite\Inventory\Repositories\InventoryRepository $repo) {
         $this->request = $request;
+        $this->repo = $repo;
         $this->input = $this->request->all();
         if ($this->request->has('visit')) {
             $this->visit = $this->request->visit;
@@ -276,24 +279,56 @@ class EvaluationFunctions implements EvaluationRepository {
      * @return bool
      */
     public function save_prescriptions() {
-        dd($this->input);
-        if (empty($this->request->drug)) {
-            return false;
-        }
-        Prescriptions::create($this->input);
+        // dd($this->input);
         /*
-          $prescribe = new Prescriptions;
-          $prescribe->drug = strtoupper($this->request->drug);
-          $prescribe->take = $this->request->take;
-          $prescribe->whereto = $this->request->prescription_whereto;
-          $prescribe->method = $this->request->prescription_method;
-          $prescribe->duration = $this->request->duration;
-          $prescribe->visit = $this->request->visit;
-          $prescribe->user = $this->request->user;
-          if ($this->request->has('allow_substitution')) {
-          $prescribe->allow_substitution = true;
-          }
-          return $prescribe->save(); */
+          if (empty($this->request->drug)) {
+          return false;
+          } */
+        //Prescriptions::create($this->input);
+        $prescribe = new Prescriptions;
+        $prescribe->drug = strtoupper($this->request->item0);
+        $prescribe->take = $this->request->take;
+        $prescribe->whereto = $this->request->prescription_whereto;
+        $prescribe->method = $this->request->prescription_method;
+        $prescribe->duration = $this->request->duration;
+        $prescribe->time_measure = $this->request->time_measure;
+        $prescribe->visit = $this->request->visit;
+        $prescribe->user = \Auth::user()->id;
+        if ($this->request->has('allow_substitution')) {
+            $prescribe->allow_substitution = true;
+        } else {
+            $prescribe->allow_substitution = FALSE;
+        }
+        return $prescribe->save();
+    }
+
+    /**
+     * Save diagnosis
+     * @return array
+     */
+    public function dispense() {
+        $dis = new Dispensing;
+        $dis->visit = $this->request->visit;
+        $dis->user = \Auth::user()->id;
+        $dis->save();
+        foreach ($this->__get_selected_stack() as $index) {
+            $item = 'item' . $index;
+            if ($this->request->$item == 'on') {
+                $drug = 'drug' . $index;
+                $qty = 'qty' . $index;
+                $price = 'prc' . $index;
+
+                $details = new DispensingDetails;
+                $details->batch = $dis->id;
+                $details->product = $this->request->$drug;
+                $details->quantity = $this->request->$qty;
+                $details->price = $this->request->$price;
+                $details->save();
+                //adj stock
+                $this->repo->take_dispensed_products($details);
+            }
+        }
+        return true;
     }
 
     /**

@@ -17,10 +17,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Drawings whereId($value)
  * @mixin \Eloquent
  */
-class Dispensing extends Model {
+class DispensingDetails extends Model {
 
-    public $table = 'inventory_evaluation_dispensing';
-    protected $fillable = ['visit', 'user'];
+    public $table = 'evaluation_dispensing_details';
+    protected $fillable = ['batch', 'product', 'quantity', 'price'];
 
     public function visits() {
         return $this->belongsTo(Visit::class, 'visit');
