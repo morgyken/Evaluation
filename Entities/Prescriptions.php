@@ -12,10 +12,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property integer $visit
  * @property string $drug
- * @property string $take
+ * @property integer $take
  * @property integer $whereto
  * @property integer $method
- * @property string $duration
+ * @property integer $duration
  * @property boolean $allow_substitution
  * @property integer $time_measure
  * @property integer $user

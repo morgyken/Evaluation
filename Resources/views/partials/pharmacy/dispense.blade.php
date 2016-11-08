@@ -23,7 +23,7 @@
                 <span id="fb0"></span>
             </td>
             <td class="text-center">
-                <input type="text" name="duration" placeholder="e.g 3 days" class='form-control'/>
+                <input type="text" name="duration" placeholder="e.g 3" class='form-control'/>
                 {!! Form::select('time_measure',mconfig('evaluation.options.prescription_duration'),null,['class'=>'form-control'])!!}
             </td>
             <td>
