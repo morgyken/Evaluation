@@ -77,7 +77,13 @@ $performed_diagnosis = get_investigations($visit, ['laboratory', 'diagnosis']);
                                 <td>{{$item->type}}</td>
                                 <td>{{$item->price}}</td>
                                 <td>{!! payment_label($item->is_paid) !!}</td>
-                                <td>{{$item->has_result?'Yes':'No'}}</td>
+                                @if($item->has_result)
+                                <td><a href="{{route('evaluation.view_result',$item->visit)}}" class="btn btn-xs btn-success" target="_blank">
+                                        <i class="fa fa-external-link"></i> View Result
+                                    </a></td>
+                                @else
+                                <td><span class="text-warning"><i class="fa fa-warning"></i> Pending</span></td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>

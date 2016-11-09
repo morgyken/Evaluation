@@ -202,6 +202,12 @@ class EvaluationController extends AdminBaseController {
         return back();
     }
 
+    public function view_result($visit) {
+        $this->data['visit'] = Visit::find($visit);
+        $this->data['results'] = Visit::find($visit)->investigations->where('has_result', true);
+        return view('evaluation::partials.doctor.results', ['data' => $this->data]);
+    }
+
     private function __require_assets() {
         $assets = [
             'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations.min.js'),
