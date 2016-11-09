@@ -45,6 +45,7 @@ $router->get('patients/theatre/evaluate/{visit}', ['uses' => 'EvaluationControll
 $router->post('order/new/{type}', ['as' => 'order', 'uses' => 'InvestigationsController']);
 //results
 $router->post('evaluation/results', ['uses' => 'EvaluationController@investigation_result', 'as' => 'investigation_result']);
+$router->get('evaluation/show/{visit}/results', ['uses' => 'EvaluationController@view_result', 'as' => 'view_result']);
 
 //settings
 $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router) {
@@ -58,7 +59,6 @@ $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $rout
     $router->post('pay/{patient?}', ['as' => 'pay_receipt', 'uses' => 'ReportsController@payment_receipt']);
     $router->post('patients/sick_off/notes', ['uses' => 'ReportsController@sick_off', 'as' => 'sick_off']);
 });
-
 
 //printables
 $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router) {

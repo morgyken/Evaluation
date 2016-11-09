@@ -288,9 +288,9 @@ if (!function_exists('payment_label')) {
     function payment_label($paid = null) {
         $fanc = '';
         if ($paid) {
-            $fanc = "<span class='label label-success'><i class='fa fa-check-circle-o'></i> Paid</span>";
+            $fanc = "<span class='text-success'><i class='fa fa-check-circle-o'></i> Paid</span>";
         } else {
-            $fanc = "<span class='label label-warning'><i class='fa fa-refresh fa-spin'></i> Pending</span>";
+            $fanc = "<span class='text-warning'><i class='fa fa-refresh fa-spin'></i> Pending</span>";
         }
         return $fanc;
     }

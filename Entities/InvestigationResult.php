@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property-read \Ignite\Evaluation\Entities\Investigations $investigations
  * @property-read \Ignite\Reception\Entities\PatientDocuments $documents
+ * @property-read \Ignite\Users\Entities\User $users
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereInvestigation($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereUser($value)
