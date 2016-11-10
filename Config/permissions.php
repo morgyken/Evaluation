@@ -10,13 +10,21 @@
  * =============================================================================
  */
 return [
-    'Evaluation' => [
-        'Doctor',
-        'Theatre',
-        'Laboratory',
-        'Diagnostics',
-        'Radiology',
-        'Nurse',
-        'Review'
+    'evaluation.examination' => [
+        'preliminary' => 'Nursing and preliminary',
+        'doctor' => 'Doctor Evaluation',
+        'theatre' => 'Theatre Evaluation',
+        'laboratory' => 'Laboratory Evaluation',
+        'diagnostics' => 'Diagnostics Evaluation',
+        'radiology' => 'Radiology Evaluation',
+        'pharmacy' => 'Pharmacy Evaluation',
+        'review' => 'Review patient information',
+    ],
+    'evaluation.settings' => [
+        'view_procedure_cat' => 'View procedures categories',
+        'manage_procedures_cat' => 'Manage procedure categories',
+        //
+        'view_procedures' => 'View procedures',
+        'manage_procedures' => 'Manage procedures',
     ]
 ];
