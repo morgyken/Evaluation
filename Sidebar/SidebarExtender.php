@@ -16,13 +16,14 @@ use Maatwebsite\Sidebar\Group;
 use Maatwebsite\Sidebar\Item;
 use Ignite\Core\Contracts\Authentication;
 use Maatwebsite\Sidebar\Menu;
+use Maatwebsite\Sidebar\SidebarExtender as Panda;
 
 /**
  * Description of SidebarExtender
  *
  * @author Samuel Dervis <samueldervis@gmail.com>
  */
-class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
+class SidebarExtender implements Panda {
 
     /**
      * @var Authentication
@@ -41,47 +42,48 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
         $menu->group('Dashboard', function (Group $group) {
             $group->item('Evaluation', function (Item $item) {
                 $item->weight(2);
+                $item->authorize($this->auth->hasAccess('evaluation.*'));
                 $item->icon('fa fa-heartbeat');
+
                 $item->item('Preliminary Examinations', function (Item $item) {
                     $item->icon('fa fa-wheelchair');
                     $item->route('evaluation.waiting_nurse');
-                    $item->authorize($this->auth->hasAccess('Evaluation.Nurse'));
-                    $item->isActiveWhen(route('evaluation.nursing_manage', null, false));
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.preliminary'));
                 });
                 $item->item('Doctor\'s queue', function (Item $item) {
                     $item->icon('fa fa-wheelchair-alt');
                     $item->route('evaluation.waiting_doctor');
-                    $item->authorize($this->auth->hasAccess('Evaluation.Doctor'));
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.doctor'));
                 });
                 $item->item('Radiology Queue', function (Item $item) {
                     $item->icon('fa fa-braille');
                     $item->route('evaluation.waiting_radiology');
-                    $item->authorize($this->auth->hasAccess('Evaluation.Radiology'));
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.radiology'));
                 });
                 $item->item('Diagnostics Queue', function (Item $item) {
                     $item->icon('fa fa-hotel');
                     $item->route('evaluation.waiting_diagnostics');
-                    $item->authorize($this->auth->hasAccess('Evaluation.Diagnostics'));
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.diagnostics'));
                 });
                 $item->item('Laboratory Queue', function (Item $item) {
                     $item->icon('fa fa-diamond');
                     $item->route('evaluation.waiting_laboratory');
-                    $item->authorize($this->auth->hasAccess('Evaluation.Laboratory'));
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                 });
                 $item->item('Theatre Queue', function (Item $item) {
                     $item->icon('fa fa-heartbeat');
                     $item->route('evaluation.waiting_theatre');
-                    $item->authorize($this->auth->hasAccess('Evaluation.Theatre'));
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.theatre'));
                 });
                 $item->item('Pharmacy Queue', function (Item $item) {
                     $item->icon('fa fa-tablet');
                     $item->route('evaluation.waiting_pharmacy');
-                    $item->authorize($this->auth->hasAccess('Evaluation.Pharmacy'));
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.pharmacy'));
                 });
                 $item->item('Review Visits', function (Item $item) {
                     $item->icon('fa fa-deaf');
                     $item->route('evaluation.review');
-                    $item->authorize($this->auth->hasAccess('Evaluation.Review'));
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.review'));
                 });
             });
 
@@ -89,11 +91,13 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
                 $item->item('Procedure Categories', function(Item $item) {
                     $item->icon('fa fa-wpforms');
                     $item->route('evaluation.setup.procedure_cat');
+                    $item->authorize($this->auth->hasAccess('evaluation.settings.view_procedure_cat'));
                     $item->weight(4);
                 });
                 $item->item('Procedures', function(Item $item) {
                     $item->icon('fa fa-hourglass-1');
                     $item->route('evaluation.setup.procedures');
+                    $item->authorize($this->auth->hasAccess('evaluation.settings.view_procedures'));
                     $item->weight(4);
                 });
             });
