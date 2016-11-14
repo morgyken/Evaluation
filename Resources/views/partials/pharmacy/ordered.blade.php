@@ -54,7 +54,9 @@ $diagnoses = $visit->investigations->where('type', 'laboratory');
     $stock = 0;
     foreach ($item->drugs->prices as $p) {
         if ($p->selling > $price) {
-            $price = $p->selling;
+            $price = $p->price;
+            $cash_price = ceil(($item->drugs->categories->cash_markup ? $item->drugs->categories->cash_markup + 100 : $price) / 100 * $price); //$item->prices->credit_price
+            $credit_price = ceil(($item->drugs->categories->credit_markup ? $item->drugs->categories->credit_markup + 100 : $price) / 100 * $price);
         }
     }
     ?>
@@ -66,7 +68,16 @@ $diagnoses = $visit->investigations->where('type', 'laboratory');
         </td>
         <td colspan="2">
             <b>{{$item->drugs->name}}</b><br>
-            <code>Price:{{number_format($price,2)}}</code><br><br>
+            Price: {{$price}}
+            Credit: {{$credit_price}}
+            Cash: {{$cash_price}}
+            <?php if (preg_match('/Insurance/', $visit->mode)) { ?>
+                <code>Price:{{number_format($credit_price,2)}}</code><br><br>
+            <?php } else { ?>
+                <code>Price:{{number_format($cash_price,2)}}</code><br><br>
+                <?php
+            }
+            ?>
             <input type="hidden" value="{{$price}}" name="prc{{$item->id}}" id="prc{{$item->id}}">
             Dispensable Units: {{$item->drugs->stocks?$item->drugs->stocks->quantity:''}}<br>
             Qty Given:<input name="qty{{$item->id}}" onkeyup="bill(<?php echo $item->id; ?>)" class="qty{{$item->id}}" value="1" size="4" type="text" autocomplete="off">
