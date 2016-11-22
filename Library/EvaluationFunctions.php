@@ -306,23 +306,30 @@ class EvaluationFunctions implements EvaluationRepository {
         $dis->visit = $this->request->visit;
         $dis->user = \Auth::user()->id;
         $dis->save();
+
+        $amount = 0;
         foreach ($this->__get_selected_stack() as $index) {
             $item = 'item' . $index;
             if ($this->request->$item == 'on') {
                 $drug = 'drug' . $index;
                 $qty = 'qty' . $index;
                 $price = 'prc' . $index;
-
                 $details = new DispensingDetails;
                 $details->batch = $dis->id;
                 $details->product = $this->request->$drug;
                 $details->quantity = $this->request->$qty;
                 $details->price = $this->request->$price;
                 $details->save();
+                $sub_total = $details->quantity * $details->price;
+                $amount+=$sub_total;
                 //adj stock
                 $this->repo->take_dispensed_products($details);
             }
         }
+        //Update Amount
+        $disp = Dispensing::find($dis->id);
+        $disp->amount = $amount;
+        $disp->save();
         return true;
     }
 
