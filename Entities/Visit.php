@@ -96,7 +96,10 @@ class Visit extends Model {
     public $table = 'evaluation_visits';
 
     public function getUnpaidAmountAttribute() {
-        return $this->investigations->where('is_paid', 0)->sum('price');
+        $amount = 0;
+        $amount+= $this->dispensing->where('payment_status', 0)->sum('amount');
+        $amount+= $this->investigations->where('is_paid', 0)->sum('price');
+        return $amount;
     }
 
     public function getVisitDestinationAttribute() {
@@ -151,6 +154,10 @@ class Visit extends Model {
 
     public function investigations() {
         return $this->hasMany(Investigations::class, 'visit');
+    }
+
+    public function dispensing() {
+        return $this->hasMany(Dispensing::class, 'visit');
     }
 
     public function opnotes() {

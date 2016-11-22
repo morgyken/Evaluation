@@ -35,18 +35,21 @@
         </td>
         <td colspan="2">
             <b>{{$item->drugs->name}}</b><br>
-            Price: {{$price}}
-            Credit: {{$credit_price}}
-            Cash: {{$cash_price}}
-            <?php if (preg_match('/Insurance/', $visit->mode)) { ?>
+            <?php
+            if (preg_match('/Insurance/', $visit->mode)) {
+                $price = $credit_price;
+                ?>
                 <code>Price:{{number_format($credit_price,2)}}</code><br><br>
-            <?php } else { ?>
+                <?php
+            } else {
+                $price = $cash_price;
+                ?>
                 <code>Price:{{number_format($cash_price,2)}}</code><br><br>
                 <?php
             }
             ?>
             <input type="hidden" value="{{$price}}" name="prc{{$item->id}}" id="prc{{$item->id}}">
-            Dispensable Units: {{$item->drugs->stocks->quantity ?? ''}}<br>
+            Dispensable Units: {{ $item->drugs->stocks?$item->drugs->stocks->quantity>0?$item->drugs->stocks->quantity:0:0}}<br>
             Qty Given:<input name="qty{{$item->id}}" onkeyup="bill(<?php echo $item->id; ?>)" class="qty{{$item->id}}" value="1" size="4" type="text" autocomplete="off">
             <br clear="all">
             <p class="sub_total_text{{$item->id}}"></p>
