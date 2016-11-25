@@ -64,3 +64,6 @@ $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $rout
 $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router) {
     $router->get('prescription/{visit}', ['uses' => 'ReportController@print_prescription', 'as' => 'prescription']);
 });
+//bikas
+$router->get('bika/view', ['uses' => 'BikaController@view']);
+$router->get('bika/create', ['uses' => 'BikaController@create']);
