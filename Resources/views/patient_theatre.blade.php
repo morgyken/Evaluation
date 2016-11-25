@@ -4,19 +4,16 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-
-$patient = $data['patient'];
-$data['docs'] = \Dervis\Modules\Reception\Entities\PatientDocuments::wherePatient($patient->patient_id)->get();
-$data['section'] = 'theatre';
+extract($data);
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation')
 @section('content_description','Patient evaluation | Theatre')
 
 @section('content')
+@include('evaluation::partials.common.patient_details')
 <div class="box box-info">
     <div class="box-body">
-        @include('evaluation::partials.patient_details')
         <div class="form-horizontal">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -26,12 +23,12 @@ $data['section'] = 'theatre';
                 <div class="tab-content">
                     <div class="tab-pane active" id="theatre">
                         <div>
-                            @include('evaluation::partials.theatre')
+                            @include('evaluation::partials.theatre.theatre')
                         </div>
                     </div>
                     <div class="tab-pane" id="theatre_operations">
                         <div>
-                            @include('evaluation::partials.theatre-templates')
+                            @include('evaluation::partials.theatre.theatre-templates')
                         </div>
                     </div>
                 </div>
@@ -39,17 +36,6 @@ $data['section'] = 'theatre';
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    var USER_ID = parseInt("{{ Auth::user()->user_id }}");
-    var VISIT_ID = parseInt("{{ $data['visit'] }}");
-    var VITALS_URL = "{{route('api.evaluation.save_vitals')}}";
-    var NOTES_URL = "{{route('api.evaluation.save_notes')}}";
-    var PRESCRIPTION_URL = "{{route('api.evaluation.save_prescription')}}";
-    var SET_DATE_URL = "{{route('api.evaluation.set_visit_date')}}";
-    var DIAGNOSIS_URL = "{{route('api.evaluation.save_diagnosis')}}";
-    var OPNOTES_URL = "{{route('api.evaluation.save_opnotes')}}";
-    var TREAT_URL = "{{route('api.evaluation.save_treatment')}}";
-    var DRAWINGS_URL = "{{route('api.evaluation.save_drawings')}}";
-</script>
+@include('evaluation::routes')
 <script src="{{asset('js/doctor_evaluation.min.js')}}"></script>
 @endsection
