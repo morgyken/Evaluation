@@ -36,7 +36,7 @@ class BikaController extends AdminBaseController {
         $url .= ':' . mconfig('evaluation.bika.port');
         $url .= '/' . mconfig('evaluation.bika.top_level_url');
         // $url .= '/@@API/read?portal_type=Client';
-        $url .= '/@@API/read?portal_type=Client';
+        $url .= '/@@API/create?obj_path=/Plone/clients&obj_type=Client&Name=Vini+Yulet+Wendi&ClientID=10734&EmailAddress=gas@gmail.com&Phone=254716482013';
         $resutls = $this->bika->execute($url);
         dd(json_decode($resutls));
     }
