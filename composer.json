@@ -18,6 +18,9 @@
         "collabmed/core-module": "1.0.*",
         "collabmed/reception-module": "1.0.*"
     },
+    "suggest": {
+        "collabmed/analytics-module": "he Business Intelligence and Analytics module."
+    },
     "autoload": {
         "psr-4": {
             "Ignite\\Evaluation\\": ""
