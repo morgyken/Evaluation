@@ -9,8 +9,7 @@ use Ignite\Evaluation\Repositories\BikaRepository;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Illuminate\Support\ServiceProvider;
 
-class EvaluationServiceProvider extends ServiceProvider
-{
+class EvaluationServiceProvider extends ServiceProvider {
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -24,8 +23,7 @@ class EvaluationServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
+    public function boot() {
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
@@ -37,16 +35,14 @@ class EvaluationServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         $this->registerCommands();
     }
 
     /**
      * Register my bindings
      */
-    public function registerBindings()
-    {
+    public function registerBindings() {
         $this->app->bind(EvaluationRepository::class, EvaluationFunctions::class);
         // $this->app->bind(EvaluationFinanceRepository::class,EvaluationFinanceFunctions::class);
         $this->app->bind(BikaRepository::class, BikaFunctions::class);
@@ -57,13 +53,12 @@ class EvaluationServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerConfig()
-    {
+    protected function registerConfig() {
         $this->publishes([
             __DIR__ . '/../Config/config.php' => config_path('evaluation.php'),
         ]);
         $this->mergeConfigFrom(
-            __DIR__ . '/../Config/config.php', 'evaluation'
+                __DIR__ . '/../Config/config.php', 'evaluation'
         );
     }
 
@@ -72,8 +67,7 @@ class EvaluationServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerViews()
-    {
+    public function registerViews() {
         $viewPath = base_path('resources/views/modules/evaluation');
 
         $sourcePath = __DIR__ . '/../Resources/views';
@@ -83,8 +77,8 @@ class EvaluationServiceProvider extends ServiceProvider
         ]);
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/evaluation';
-        }, \Config::get('view.paths')), [$sourcePath]), 'evaluation');
+                            return $path . '/modules/evaluation';
+                        }, \Config::get('view.paths')), [$sourcePath]), 'evaluation');
     }
 
     /**
@@ -92,8 +86,7 @@ class EvaluationServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerTranslations()
-    {
+    public function registerTranslations() {
         $langPath = base_path('resources/lang/modules/evaluation');
 
         if (is_dir($langPath)) {
@@ -108,13 +101,11 @@ class EvaluationServiceProvider extends ServiceProvider
      *
      * @return array
      */
-    public function provides()
-    {
-        return array();
+    public function provides() {
+        return [];
     }
 
-    private function registerCommands()
-    {
+    private function registerCommands() {
         $this->commands([AutoCheckout::class]);
     }
 
