@@ -61,8 +61,9 @@ $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $rout
 });
 
 //printables
+
 $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router) {
-    $router->get('prescription/{visit}', ['uses' => 'ReportController@print_prescription', 'as' => 'prescription']);
+    $router->get('prescription/{visit}', ['uses' => 'ReportsController@print_prescription', 'as' => 'prescription']);
 });
 //bikas
 $router->get('bika/view', ['uses' => 'BikaController@view']);
