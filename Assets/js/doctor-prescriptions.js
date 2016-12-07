@@ -17,8 +17,9 @@ $(function () {
             data: $('#prescription_form').serialize(),
             success: function () {
                 var drug = $('#prescription_form input[name=drug]').val();
-                if (drug === null) {
-                    drug = $('#prescription_form select[name=drug]').val();
+                if (!drug) {
+                    drug = $("#prescription_form select[name=drug] option:selected").text();
+                    // drug = $('#prescription_form select[name=drug]').val();
                 }
                 var duration = $('#prescription_form input[name=duration]').val();
                 var dose = $('#prescription_form input[name=take]').val();

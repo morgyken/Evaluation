@@ -123,10 +123,8 @@ $(document).ready(function () {
             success: function (data) {
                 $("#suggesstion-box").show();
                 $("#suggesstion-box").html(data);
-
                 $("#suggesstion-box1").show();
-                $("#suggesstion-box1").html(data)
-
+                $("#suggesstion-box1").html(data);
                 $("#phone").css("background", "#FFF");
             }
         });

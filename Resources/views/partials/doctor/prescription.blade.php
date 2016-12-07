@@ -72,8 +72,8 @@
                             @if(!$visit->prescriptions->isEmpty())
                             @foreach($visit->prescriptions as $pres)
                             <tr>
-                                <td>{{$pres->drug}}</td>
-                                <td>{{$pres->take}}</td>
+                                <td>{{$pres->drugs->name}}</td>
+                                <td>{{$pres->dose}}</td>
                                 <td>{{$pres->duration}}</td>
                             </tr>
                             @endforeach
@@ -110,6 +110,8 @@ if (is_module_enabled('Inventory')):
     <script src="{!! m_asset('evaluation:js/prescription.min.js') !!}"></script>
 
     <?php
+
+
 
 
 
