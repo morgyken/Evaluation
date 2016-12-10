@@ -23,6 +23,7 @@ use Ignite\Evaluation\Entities\Preliminary;
 use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
+use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Entities\VisitMeta;
 use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\Vitals;
@@ -327,7 +328,7 @@ class EvaluationFunctions implements EvaluationRepository {
                 $details->price = $this->request->$price;
                 $details->save();
                 $sub_total = $details->quantity * $details->price;
-                $amount+=$sub_total;
+                $amount += $sub_total;
                 //adj stock
                 $this->repo->take_dispensed_products($details);
             }
@@ -408,9 +409,10 @@ class EvaluationFunctions implements EvaluationRepository {
      * Checkout patient
      * @param null $data
      * @return bool
+     * @deprecated Use checkout_patient instead
      */
     public function checkout($data = null) {
-        $id = $section = null;
+       $section = null;
         if ($this->request->ajax()) {
             $id = $this->request->id;
             $section = $this->request->from;
@@ -422,6 +424,11 @@ class EvaluationFunctions implements EvaluationRepository {
         $where = $section . '_out';
         $visit->$where = new Date();
         return $visit->save();
+    }
+
+    public function checkout_patient() {
+       return  VisitDestinations::updateOrCreate(['visit'=>$this->request->id,'department'=>$this->request->from],
+            ['checkout'=>true,'finish_at'=>Date::now()]);
     }
 
     /**

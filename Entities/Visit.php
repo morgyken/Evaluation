@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer $user
  * @property string $payment_mode
  * @property integer $scheme
- * @property string $status
  * @property integer $next_appointment
  * @property string $deleted_at
  * @property \Carbon\Carbon $created_at
@@ -51,7 +50,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereUser($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePaymentMode($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereScheme($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereStatus($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereNextAppointment($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereCreatedAt($value)
@@ -81,8 +79,10 @@ class Visit extends Model {
     }
 
     public function scopeCheckedAt($query, $destination) {
-        $out_build = $destination . '_out';
-        return $query->where($destination, true)->whereNull($out_build);
+        return $query->whereHas('destinations',function($query) use ($destination){
+          $query->whereDepartment($destination);
+          $query->whereCheckout(false);
+        });
     }
 
     public function getModeAttribute() {

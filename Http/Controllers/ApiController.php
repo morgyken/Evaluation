@@ -67,6 +67,10 @@ class ApiController extends Controller {
         $this->evaluationRepository->save_preliminary_eye();
     }
 
+    public function checkout_patient() {
+        $this->evaluationRepository->checkout_patient();
+    }
+
     public function get_procedures(Request $request, $type) {
         $term = $request->term['term'];
         $build = [];

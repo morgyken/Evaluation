@@ -33,6 +33,7 @@ class CreateVisitDestinationsTable extends Migration {
             $column->dateTime('finish_at')->nullable();
             $column->softDeletes();
             $column->timestamps();
+            $column->unique(['visit','department']);
             $column->foreign('visit')
                     ->references('id')
                     ->on('evaluation_visits')

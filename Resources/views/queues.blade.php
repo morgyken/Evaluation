@@ -1,14 +1,19 @@
 <?php
 /*
+ * =============================================================================
+ *
  * Collabmed Solutions Ltd
- * Project: iClinic
+ * Project: Collabmed Health Platform
  * Author: Samuel Okoth <sodhiambo@collabmed.com>
+ *
+ * =============================================================================
  */
 extract($data);
+$section = strtolower($department);
 ?>
 @extends('layouts.app')
-@section('content_title','Patients Awaiting Doctor')
-@section('content_description','Doctor Queue')
+@section('content_title',"Patients Awaiting $department")
+@section('content_description',"$department Queue")
 
 @section('content')
 <div class="box box-info">
@@ -21,8 +26,9 @@ extract($data);
                     <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
                     <td>{{$visit->visit_destination}}</td>
                     <td>
-                        <a href="{{route('evaluation.evaluate',$visit->id)}}" class="btn btn-xs btn-primary">
-                            <i class="fa fa-ellipsis-h"></i> Evaluate</a>
+                        <a href="{{route('evaluation.preview',[$visit->id,$section])}}" class="btn btn-xs btn-primary">
+                            <i class="fa fa-ellipsis-h"></i> Manage</a>
+
                         <button value='{{$visit->id}}' class="btn btn-warning btn-xs checkout">
                             <i class="fa fa-sign-out"></i> Checkout</button>
                     </td>
@@ -61,37 +67,8 @@ extract($data);
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        var to_checkout = null;
-        var SIGN_OUT = "{{route('api.evaluation.checkout_patient')}}";
-        var FROM = 'evaluation';
-        $('.checkout').click(function () {
-            to_checkout = $(this).val();
-            $('#myModal').modal('show');
-        });
-        $('#checkout').click(function () {
-            if (!to_checkout) {
-                return;
-            }
-            id = to_checkout;
-            $.ajax({
-                type: 'GET',
-                url: SIGN_OUT,
-                data: {'id': id, 'from': FROM},
-                success: function () {
-                    $("#row_id" + id).remove();
-                },
-                error: function (data) {
-                    // console.log(data);
-                }
-            });
-            $("#myModal").modal('hide');
-        });
-        try {
-            $('table').DataTable();
-        } catch (e) {
-            //console.error(e);
-        }
-    });
+    var SIGN_OUT = "{{route('api.evaluation.checkout_patient')}}";
+    var FROM = "<?php echo $section; ?>";
 </script>
+<script src="{{m_asset('evaluation:js/queues.min.js')}}" type="text/javascript"></script>
 @endsection
