@@ -247,26 +247,22 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     /**
-     * Check in patient to another section
-     * @param $section
+     * New way to checkin patient
+     * @param $visit
+     * @param $place
      * @return bool
      */
-    private function check_in_at($section) {
-        $visit = Visit::find($this->visit);
-        switch ($section) {
-            case 'diagnosis':
-                $visit->diagnostics = true;
-                break;
-            case 'laboratory':
-                $visit->laboratory = true;
-                break;
-            case 'pharmacy':
-                $visit->pharmacy = true;
-                break;
-            default :
-                return;
+    private function check_in_at($place) {
+        $department = $place;
+        $destination = NULL;
+        if (intval($place) > 0) {
+            $destination = (int) $department;
+            $department = 'doctor';
         }
-        return $visit->save();
+        $destinations = VisitDestinations::firstOrNew(['visit' => $this->visit, 'department' => ucwords($department)]);
+        $destinations->destination = $destination;
+        $destinations->user = $this->request->user()->id;
+        return $destinations->save();
     }
 
     /**
@@ -412,7 +408,7 @@ class EvaluationFunctions implements EvaluationRepository {
      * @deprecated Use checkout_patient instead
      */
     public function checkout($data = null) {
-       $section = null;
+        $section = null;
         if ($this->request->ajax()) {
             $id = $this->request->id;
             $section = $this->request->from;
@@ -427,8 +423,7 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     public function checkout_patient() {
-       return  VisitDestinations::updateOrCreate(['visit'=>$this->request->id,'department'=>$this->request->from],
-            ['checkout'=>true,'finish_at'=>Date::now()]);
+        return VisitDestinations::updateOrCreate(['visit' => $this->request->id, 'department' => $this->request->from], ['checkout' => true, 'finish_at' => Date::now()]);
     }
 
     /**

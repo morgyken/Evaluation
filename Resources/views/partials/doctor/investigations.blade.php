@@ -4,7 +4,7 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$performed_diagnosis = get_investigations($visit, ['laboratory', 'diagnosis']);
+$performed_diagnosis = get_investigations($visit, ['laboratory', 'diagnostics']);
 ?>
 <div>
     <div class="row">
