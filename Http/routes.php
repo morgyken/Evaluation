@@ -2,7 +2,10 @@
 
 use Illuminate\Routing\Router;
 
-$router->get('/', ['uses' => 'EvaluationController@index', 'as' => 'index']);
+$router->get('patients/queue/{department}', ['uses' => 'EvaluationController@queues', 'as' => 'queues']);
+$router->get('patients/visits/{visit}/preview/{department}', ['uses' => 'EvaluationController@preview', 'as' => 'preview']);
+$router->get('patients/visit/{visit}/evaluate/{department}',['uses'=>'EvaluationController@evaluate','as'=>'evaluate']);
+
 //examinations
 $router->get('patients/preliminary_examinations/{patient}', ['uses' => 'EvaluationController@preliminary_examinations', 'as' => 'preliminary_examinations']);
 //wait list
@@ -12,10 +15,8 @@ $router->get('patients/waiting/doctor', ['uses' => 'EvaluationController@waiting
 $router->get('patients/visits/preliminary/{patient}/{flag?}', ['uses' => 'EvaluationController@preliminary_examinations', 'as' => 'patient_preview']);
 $router->get('patients/visits/manage/{patient}/{flag?}', ['uses' => 'EvaluationController@nurse_manage', 'as' => 'nurse_manage']);
 $router->get('patients/visits/reviews/{patient}', ['uses' => 'EvaluationController@patient_visits', 'as' => 'patient_visits']);
-//new visit
-$router->get('patients/visit/new/{patient?}', ['uses' => 'EvaluationController@new_visit', 'as' => 'new_visit']);
 //evaluate
-$router->get('patients/visits/evaluate/{visit}', ['uses' => 'EvaluationController@patient_evaluation', 'as' => 'evaluate']);
+$router->get('patients/visits/evaluate/{visit}', ['uses' => 'EvaluationController@patient_evaluation', 'as' => 'evaluates']);
 $router->get('patients/visits/nursing/{visit}', ['uses' => 'EvaluationController@patient_nursing', 'as' => 'nursing_manage']);
 //signout
 $router->get('patients/visit/checkout/{visit}/{section}', ['uses' => 'EvaluationController@sign_out', 'as' => 'sign_out']);

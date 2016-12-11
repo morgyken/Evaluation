@@ -17,27 +17,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer $clinic
  * @property integer $patient
  * @property integer $purpose
- * @property integer $destination
- * @property boolean $nurse
- * @property string $nurse_out
- * @property boolean $theatre
- * @property string $theatre_out
- * @property boolean $diagnostics
- * @property string $diagnostics_out
- * @property boolean $evaluation
- * @property string $evaluation_out
- * @property boolean $laboratory
- * @property string $laboratory_out
- * @property boolean $radiology
- * @property string $radiology_out
- * @property boolean $pharmacy
- * @property string $pharmacy_out
- * @property boolean $optical
- * @property string $optical_out
  * @property integer $user
  * @property string $payment_mode
  * @property integer $scheme
- * @property string $status
  * @property integer $next_appointment
  * @property string $deleted_at
  * @property \Carbon\Carbon $created_at
@@ -59,32 +41,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Ignite\Reception\Entities\Appointments $appointments
  * @property-read \Ignite\Users\Entities\User $doctors
  * @property-read \Ignite\Reception\Entities\PatientInsurance $patient_scheme
- * @property-read \Ignite\Evaluation\Entities\VisitMeta $meta
+ * @property-read \Ignite\Evaluation\Entities\VisitMeta $metas
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\VisitDestinations[] $destinations
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereClinic($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePatient($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePurpose($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereDestination($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereNurse($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereNurseOut($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereTheatre($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereTheatreOut($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereDiagnostics($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereDiagnosticsOut($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereEvaluation($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereEvaluationOut($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereLaboratory($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereLaboratoryOut($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereRadiology($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereRadiologyOut($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePharmacy($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePharmacyOut($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereOptical($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereOpticalOut($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereUser($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePaymentMode($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereScheme($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereStatus($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereNextAppointment($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereCreatedAt($value)
@@ -106,7 +71,7 @@ class Visit extends Model {
     }
 
     public function getVisitDestinationAttribute() {
-        return implode(' | ', visit_destination($this));
+        return implode(' | ',  $this->destinations->pluck('department')->toArray());
     }
 
     public function getSignedOutAttribute() {
@@ -114,8 +79,10 @@ class Visit extends Model {
     }
 
     public function scopeCheckedAt($query, $destination) {
-        $out_build = $destination . '_out';
-        return $query->where($destination, true)->whereNull($out_build);
+        return $query->whereHas('destinations',function($query) use ($destination){
+          $query->whereDepartment($destination);
+          $query->whereCheckout(false);
+        });
     }
 
     public function getModeAttribute() {
@@ -179,8 +146,11 @@ class Visit extends Model {
         return $this->belongsTo(PatientInsurance::class, 'scheme');
     }
 
-    public function meta() {
+    public function metas() {
         return $this->hasOne(VisitMeta::class, 'visit');
     }
 
+    public function destinations(){
+        return $this->hasMany(VisitDestinations::class,'visit');
+    }
 }

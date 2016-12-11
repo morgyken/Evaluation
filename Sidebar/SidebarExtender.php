@@ -47,37 +47,37 @@ class SidebarExtender implements Panda {
 
                 $item->item('Preliminary Examinations', function (Item $item) {
                     $item->icon('fa fa-wheelchair');
-                    $item->route('evaluation.waiting_nurse');
+                    $item->route('evaluation.queues','nurse');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.preliminary'));
                 });
                 $item->item('Doctor\'s queue', function (Item $item) {
                     $item->icon('fa fa-wheelchair-alt');
-                    $item->route('evaluation.waiting_doctor');
+                       $item->route('evaluation.queues','doctor');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.doctor'));
                 });
                 $item->item('Radiology Queue', function (Item $item) {
                     $item->icon('fa fa-braille');
-                    $item->route('evaluation.waiting_radiology');
+                    $item->route('evaluation.queues','radiology');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.radiology'));
                 });
                 $item->item('Diagnostics Queue', function (Item $item) {
                     $item->icon('fa fa-hotel');
-                    $item->route('evaluation.waiting_diagnostics');
+                      $item->route('evaluation.queues','diagnostics');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.diagnostics'));
                 });
                 $item->item('Laboratory Queue', function (Item $item) {
                     $item->icon('fa fa-diamond');
-                    $item->route('evaluation.waiting_laboratory');
+                       $item->route('evaluation.queues','laboratory');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                 });
                 $item->item('Theatre Queue', function (Item $item) {
                     $item->icon('fa fa-heartbeat');
-                    $item->route('evaluation.waiting_theatre');
+                     $item->route('evaluation.queues','theatre');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.theatre'));
                 });
                 $item->item('Pharmacy Queue', function (Item $item) {
                     $item->icon('fa fa-tablet');
-                    $item->route('evaluation.waiting_pharmacy');
+                      $item->route('evaluation.queues','pharmacy');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.pharmacy'));
                 });
                 $item->item('Review Visits', function (Item $item) {

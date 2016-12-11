@@ -26,6 +26,27 @@ class EvaluationController extends AdminBaseController {
         $this->__require_assets();
     }
 
+    public function queues($department) {
+        $this->data['all'] = Visit::checkedAt($department)->get();
+        $this->data['department'] = ucwords($department);
+        return view('evaluation::queues', ['data' => $this->data]);
+    }
+
+    public function preview($visit, $department) {
+        $this->data['visit'] = Visit::find($visit);
+        $this->data['patient'] = $this->data['visit']->patients;
+        $this->data['department'] = $department;
+        $this->data['history'] = Visit::wherePatient($this->data['patient']->id)->where('id', '<>', $visit)->get();
+        return view('evaluation::preview', ['data' => $this->data]);
+    }
+
+    public function evaluate($visit, $section) {
+        $this->data['all'] = Visit::checkedAt('diagnostics')->get();
+        $this->data['visit'] = Visit::find($visit);
+        $this->data['section'] = $section;
+        return view("evaluation::patient_$section", ['data' => $this->data]);
+    }
+
     /**
      * Nursing queue
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
