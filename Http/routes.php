@@ -6,43 +6,10 @@ $router->get('patients/queue/{department}', ['uses' => 'EvaluationController@que
 $router->get('patients/visits/{visit}/preview/{department}', ['uses' => 'EvaluationController@preview', 'as' => 'preview']);
 $router->get('patients/visit/{visit}/evaluate/{department}',['uses'=>'EvaluationController@evaluate','as'=>'evaluate']);
 
-//examinations
-$router->get('patients/preliminary_examinations/{patient}', ['uses' => 'EvaluationController@preliminary_examinations', 'as' => 'preliminary_examinations']);
-//wait list
-$router->get('patients/waiting/nurse', ['uses' => 'EvaluationController@waiting_nurse', 'as' => 'waiting_nurse']);
-$router->get('patients/waiting/doctor', ['uses' => 'EvaluationController@waiting_doctor', 'as' => 'waiting_doctor']);
-//visit  management
-$router->get('patients/visits/preliminary/{patient}/{flag?}', ['uses' => 'EvaluationController@preliminary_examinations', 'as' => 'patient_preview']);
-$router->get('patients/visits/manage/{patient}/{flag?}', ['uses' => 'EvaluationController@nurse_manage', 'as' => 'nurse_manage']);
-$router->get('patients/visits/reviews/{patient}', ['uses' => 'EvaluationController@patient_visits', 'as' => 'patient_visits']);
-//evaluate
-$router->get('patients/visits/evaluate/{visit}', ['uses' => 'EvaluationController@patient_evaluation', 'as' => 'evaluates']);
-$router->get('patients/visits/nursing/{visit}', ['uses' => 'EvaluationController@patient_nursing', 'as' => 'nursing_manage']);
-//signout
-$router->get('patients/visit/checkout/{visit}/{section}', ['uses' => 'EvaluationController@sign_out', 'as' => 'sign_out']);
-//patient review
-$router->get('patients/review/all', ['uses' => 'EvaluationController@review', 'as' => 'review']);
-$router->get('patients/review/{patient}', ['uses' => 'EvaluationController@review_patient', 'as' => 'review_patient']);
-//waiting radiology
-$router->get('patients/waiting/radiology', ['uses' => 'EvaluationController@waiting_radiology', 'as' => 'waiting_radiology']);
-$router->get('patients/radiology/evaluate/{visit}', ['uses' => 'EvaluationController@radiology', 'as' => 'evaluate.radiology']);
-//waiting labs
-$router->get('patients/waiting/labs', ['uses' => 'EvaluationController@waiting_labs', 'as' => 'waiting_laboratory']);
-$router->get('patients/evaluate/{visit}/laboratory', ['uses' => 'EvaluationController@labs', 'as' => 'evaluate.laboratory']);
-//waiting diagnostics
-$router->get('patients/waiting/diagnostics', ['uses' => 'EvaluationController@waiting_diagnostics', 'as' => 'waiting_diagnostics']);
-$router->get('patients/evaluate/{visit}/diagnostics', ['uses' => 'EvaluationController@diagnostics', 'as' => 'evaluate.diagnostics']);
-//waiting pharmacy
-$router->get('patients/waiting/pharmacy', ['uses' => 'EvaluationController@waiting_pharmacy', 'as' => 'waiting_pharmacy']);
-$router->get('patients/evaluate/{visit}/pharmacy', ['uses' => 'EvaluationController@pharmacy', 'as' => 'evaluate.pharmacy']);
 $router->post('patients/evaluate/pharmacy/prescription', ['uses' => 'EvaluationController@pharmacy_prescription', 'as' => 'evaluate.pharmacy.prescription']);
 $router->post('patients/evaluate/pharmacy/dispense', ['uses' => 'EvaluationController@pharmacy_dispense', 'as' => 'pharmacy.dispense']);
 $router->get('patients/evaluate/pharmacy/prescription/cancel', ['uses' => 'ApiController@pharmacy_cancel_prescription', 'as' => 'pharmacy.prescription.cancel']);
-//waiting theatre
-$router->get('patients/waiting/theatre', ['uses' => 'EvaluationController@waiting_theatre', 'as' => 'waiting_theatre']);
-$router->get('patients/theatre/evaluate/{visit}', ['uses' => 'EvaluationController@theatre', 'as' => 'evaluate.theatre']);
 
-//new orders
 $router->post('order/new/{type}', ['as' => 'order', 'uses' => 'InvestigationsController']);
 //results
 $router->post('evaluation/results', ['uses' => 'EvaluationController@investigation_result', 'as' => 'investigation_result']);

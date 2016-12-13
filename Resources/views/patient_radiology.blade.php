@@ -4,17 +4,16 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$patient = $data['visits']->patients;
-$data['section'] = 'radiology';
+extract($data);
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation | Radiology')
 @section('content_description','Patient evaluation | Radiology')
 
 @section('content')
+@include('evaluation::partials.common.patient_details')
 <div class="box box-info">
     <div class="box-body">
-        @include('reception::partials.patient_details')
         <div class="form-horizontal">
             <div class="col-md-12">
                 @if(!empty($data['visit']->investigations))

@@ -47,113 +47,6 @@ class EvaluationController extends AdminBaseController {
         return view("evaluation::patient_$section", ['data' => $this->data]);
     }
 
-    /**
-     * Nursing queue
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function waiting_nurse() {
-        $this->data['all'] = Visit::checkedAt('nurse')->get();
-        return view('evaluation::queue_nurse', ['data' => $this->data]);
-    }
-
-    public function preliminary_examinations($patient_visit, $flag = null) {
-        $this->data['route'] = 'preliminary_examinations';
-        $this->data = array_merge($this->data, patient_management($patient_visit, $flag));
-        return view('evaluation::preliminary_section', ['data' => $this->data]);
-    }
-
-    /**
-     * @param $visit
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function patient_nursing($visit) {
-        $this->data['visit'] = Visit::find($visit);
-        $this->data['section'] = 'nurse';
-        return view('evaluation::patient_nurse', ['data' => $this->data]);
-    }
-
-    /**
-     * Queue for doctor
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function waiting_doctor() {
-        $this->data['all'] = Visit::checkedAt('evaluation')->get();
-        return view('evaluation::queue_doctor', ['data' => $this->data]);
-    }
-
-    /**
-     * Doctor evaluate patient
-     * @param $visit
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
-     */
-    public function patient_evaluation($visit) {
-        $this->data['visit'] = $v = Visit::find($visit);
-        return view('evaluation::patient_doctor', ['data' => $this->data]);
-    }
-
-    public function waiting_radiology() {
-        $this->data['all'] = Visit::checkedAt('radiology')->get();
-        return view('evaluation::queue_radiology', ['data' => $this->data]);
-    }
-
-    public function radiology($id) {
-        $this->data['visits'] = Visit::find($id);
-        $this->data['visit'] = $id;
-        return view('evaluation::radiology', ['data' => $this->data]);
-    }
-
-    /**
-     * @todo Optimize this
-     * @return type
-     */
-    public function waiting_diagnostics() {
-        $this->data['all'] = Visit::checkedAt('diagnostics')->get();
-        return view('evaluation::queue_diagnostics', ['data' => $this->data]);
-    }
-
-    /**
-     *
-     * @param int $id
-     * @return type
-     * @todo Improve diagnostics
-     */
-    public function diagnostics($id) {
-        $this->data['visit'] = Visit::find($id);
-        return view('evaluation::patient_diagnostics', ['data' => $this->data]);
-    }
-
-    public function waiting_labs() {
-        $this->data['all'] = Visit::checkedAt('laboratory')->get();
-        return view('evaluation::queue_labs', ['data' => $this->data]);
-    }
-
-    /**
-     * @todo Work on labs later
-     * @param int $id
-     * @return type
-     */
-    public function labs($visit) {
-        $this->data['visit'] = Visit::find($visit);
-        $this->data['section'] = 'laboratory';
-        return view('evaluation::patient_labs', ['data' => $this->data]);
-    }
-
-    public function waiting_theatre() {
-        $this->data['all'] = Visit::checkedAt('theatre')->get();
-        return view('evaluation::queue_theatre', ['data' => $this->data]);
-    }
-
-    public function theatre($id) {
-        $this->data['visit'] = $v = Visit::find($id);
-        $this->data['patient'] = Patients::find($v->patient);
-        return view('evaluation::patient_theatre', ['data' => $this->data]);
-    }
-
-    public function waiting_pharmacy() {
-        $this->data['all'] = Visit::checkedAt('pharmacy')->get();
-        return view('evaluation::queue_pharmacy', ['data' => $this->data]);
-    }
-
     public function pharmacy($id) {
         $this->data['visit'] = $v = Visit::find($id);
         $this->data['patient'] = Patients::find($v->patient);
@@ -165,21 +58,19 @@ class EvaluationController extends AdminBaseController {
     public function pharmacy_prescription() {
         if ($this->evaluationRepository->save_prescriptions()) {
             flash('Prescription saved');
-            return back();
         } else {
             flash('Prescription could not be saved', 'warning');
-            return back();
         }
+        return back();
     }
 
     public function pharmacy_dispense() {
         if ($this->evaluationRepository->dispense()) {
-            flash('Drugs dispensed, thank you');
-            return back();
+            flash('Drugs dispensed, thank you', 'success');
         } else {
             flash('Drug(s) could not be dispensed', 'warning');
-            return back();
         }
+        return back();
     }
 
     public function sign_out(Request $request, $visit_id, $section) {
@@ -207,9 +98,9 @@ class EvaluationController extends AdminBaseController {
         return view('evaluation::patient_review', ['data' => $this->data]);
     }
 
-    public function patient_visits($patient_id) {
-        $this->data['visits'] = Visit::wherePatient($patient_id)->get();
-        $this->data['patient'] = Patients::find($patient_id);
+    public function patient_visits($id) {
+        $this->data['visits'] = Visit::wherePatient($id)->get();
+        $this->data['patient'] = Patients::find($id);
         return view('evaluation::patient_visits', ['data' => $this->data]);
     }
 
