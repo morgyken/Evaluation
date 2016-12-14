@@ -17,6 +17,8 @@ $router->get('evaluation/show/{visit}/results', ['uses' => 'EvaluationController
 //patient review
 $router->get('patients/review/all', ['uses' => 'EvaluationController@review', 'as' => 'review']);
 $router->get('patients/review/{patient}', ['uses' => 'EvaluationController@review_patient', 'as' => 'review_patient']);
+//signout
+$router->get('patients/visit/checkout/{visit}/{section}', ['uses' => 'EvaluationController@sign_out', 'as' => 'sign_out']);
 //settings
 $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router) {
     $router->get('procedures/show/{procedure?}', ['as' => 'procedures', 'uses' => 'SetupController@procedures']);
