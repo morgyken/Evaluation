@@ -4,7 +4,7 @@ use Illuminate\Routing\Router;
 
 $router->get('patients/queue/{department}', ['uses' => 'EvaluationController@queues', 'as' => 'queues']);
 $router->get('patients/visits/{visit}/preview/{department}', ['uses' => 'EvaluationController@preview', 'as' => 'preview']);
-$router->get('patients/visit/{visit}/evaluate/{department}',['uses'=>'EvaluationController@evaluate','as'=>'evaluate']);
+$router->get('patients/visit/{visit}/evaluate/{department}', ['uses' => 'EvaluationController@evaluate', 'as' => 'evaluate']);
 
 $router->post('patients/evaluate/pharmacy/prescription', ['uses' => 'EvaluationController@pharmacy_prescription', 'as' => 'evaluate.pharmacy.prescription']);
 $router->post('patients/evaluate/pharmacy/dispense', ['uses' => 'EvaluationController@pharmacy_dispense', 'as' => 'pharmacy.dispense']);
@@ -14,7 +14,9 @@ $router->post('order/new/{type}', ['as' => 'order', 'uses' => 'InvestigationsCon
 //results
 $router->post('evaluation/results', ['uses' => 'EvaluationController@investigation_result', 'as' => 'investigation_result']);
 $router->get('evaluation/show/{visit}/results', ['uses' => 'EvaluationController@view_result', 'as' => 'view_result']);
-
+//patient review
+$router->get('patients/review/all', ['uses' => 'EvaluationController@review', 'as' => 'review']);
+$router->get('patients/review/{patient}', ['uses' => 'EvaluationController@review_patient', 'as' => 'review_patient']);
 //settings
 $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router) {
     $router->get('procedures/show/{procedure?}', ['as' => 'procedures', 'uses' => 'SetupController@procedures']);
@@ -33,6 +35,3 @@ $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $rout
 $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router) {
     $router->get('prescription/{visit}', ['uses' => 'ReportsController@print_prescription', 'as' => 'prescription']);
 });
-//bikas
-$router->get('bika/view', ['uses' => 'BikaController@view']);
-$router->get('bika/create', ['uses' => 'BikaController@create']);
