@@ -44,6 +44,12 @@ class EvaluationController extends AdminBaseController {
         $this->data['all'] = Visit::checkedAt('diagnostics')->get();
         $this->data['visit'] = Visit::find($visit);
         $this->data['section'] = $section;
+        $this->data['v1_hst'] = \Ignite\Evaluation\Entities\V1_History::query()
+                ->where('patient', '=', $this->data['visit']->patient)
+                ->get();
+        $this->data['v1_cmplnts'] = \Ignite\Evaluation\Entities\v1_complaint::query()
+                ->where('patient', '=', $this->data['visit']->patient)
+                ->get();
         return view("evaluation::patient_$section", ['data' => $this->data]);
     }
 

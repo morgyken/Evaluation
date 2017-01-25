@@ -191,6 +191,21 @@ $history = patient_visits($visit->patient);
                             </div>
                         </div>
                     </div>
+                    {!! Form::open(['id'=>'sickoff','route' => 'evaluation.print.patient_notes_specific','target'=>"_blank"])!!}
+                    <input type="hidden" name="patient" value="{{$visit->patient}}"/>
+                    <input type="hidden" name="visit" value="{{$_visit->id}}"/>
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-file-word-o"></i> Print</button>
+                    </div>
+                    {!! Form::close()!!}
+
+                    {!! Form::open(['id'=>'sickoff','route' => 'evaluation.print.to_word_specific','target'=>"_blank"])!!}
+                    <input type="hidden" name="patient" value="{{$visit->patient}}"/>
+                    <input type="hidden" name="visit" value="{{$_visit->id}}"/>
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-file-word-o"></i> Save to Word</button>
+                    </div>
+                    {!! Form::close()!!}
                 </div>
             </div>
             @endforeach

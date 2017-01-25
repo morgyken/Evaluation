@@ -125,7 +125,7 @@ if (!function_exists('patient_visits')) {
      * @return array|\Illuminate\Database\Eloquent\Collection|static[]
      */
     function patient_visits($patient_id) {
-        return Visit::wherePatient($patient_id)->get();
+        return Visit::query()->where('patient', '=', $patient_id)->get();
     }
 
 }
@@ -394,6 +394,219 @@ if (!function_exists('exportSickOff')) {
 
         // Saving the document as OOXML file...
         return IOFactory::createWriter($phpWord, 'Word2007');
+    }
+
+    function exportPatientNotes($patient, $visit) {
+        $history = patient_visits($patient->id);
+        $vst = Visit::find($visit);
+        if (empty($vst)) {
+            return redirect()->back();
+        }
+
+        $patient = Patients::find($vst->patient);
+
+        $defaultFont = ['name' => 'Times New Roman', 'size' => 12];
+        $date = (new Date())->format('j/m/Y');
+        $runtext = "";
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section1 = $phpWord->addSection();
+        //headers
+        $header = $section1->addHeader();
+        $header->firstPage();
+        $table = $header->addTable();
+        $table->addRow();
+        $cell = $table->addCell(4500);
+        $textrun = $cell->addTextRun();
+        $textrun->addText(htmlspecialchars(config('practice.name'), ENT_COMPAT, 'UTF-8'), ['name' => 'Times New Roman', 'size' => 18, 'bold' => true]);
+        $table->addRow();
+        $cell2 = $table->addCell(4500);
+        $location = $cell2->addTextRun();
+        $location->addText('P.O BOX ' . config('practice.address') . '  ' . config('practice.town') . ' Mobile: ' . config('practice.mobile'), $defaultFont);
+        // $table->addCell(4500)->addImage('img/logo.png', array('width' => 100, 'height' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
+        $header->addLine(['weight' => 1, 'width' => 400, 'height' => 0, 'color' => 635552]);
+
+        // Adding Text element with font customized inline...
+        $story = $section1->addTextRun();
+        $story->addText(htmlspecialchars('Name: '), ['bold' => true]);
+        $story->addText($patient->full_name);
+        $story->addText(htmlspecialchars('Date: '), ['bold' => true, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END]);
+        $story->addText($date);
+
+        foreach ($history as $v) {
+            $section = $phpWord->addSection();
+            $section->addText('Date:', ['bold' => true]);
+            $date = (new Date($v->created_at))->format('j/m/Y');
+            $section->addText($date);
+
+            $section->addText(htmlspecialchars('Doctor\'s Notes', ENT_COMPAT, 'UTF-8'), ['name' => 'Times New Roman', 'size' => 16, 'bold' => true]);
+            if (!empty($v->notes)) {
+                $section->addText(htmlspecialchars('Presenting Complaints'), ['bold' => true]);
+                $section->addText($v->notes->presenting_complaints);
+                $section->addText(htmlspecialchars('Past Medical History'), ['bold' => true]);
+                $section->addText($v->notes->past_medical_history);
+                $section->addText(htmlspecialchars('Examination'), ['bold' => true]);
+                $section->addText($v->notes->examination);
+                $section->addText(htmlspecialchars('Diagnosis'), ['bold' => true]);
+                $section->addText(implode(', ', unserialize($v->notes->diagnosis)));
+                $section->addText(htmlspecialchars('Treatment Plan'), ['bold' => true]);
+                $section->addText($v->notes->treatment_plan);
+            } else {
+                $section->addText("No records to show");
+            }
+
+
+            $section->addText(htmlspecialchars('Treatment', ENT_COMPAT, 'UTF-8'), ['name' => 'Times New Roman', 'size' => 16, 'bold' => true]);
+            $table = $section->addTable();
+            $table->addRow();
+            $c = $table->addCell(900);
+            $c->addText('#');
+            $c = $table->addCell(2000);
+            $c->addText('Procedure');
+            $c = $table->addCell(2000);
+            $c->addText('Cost');
+            $c = $table->addCell(2000);
+            $c->addText('NO');
+            $c = $table->addCell(2000);
+            $c->addText('Payment');
+            $n = 0;
+            if (isset($vst->treatments)) {
+                foreach ($vst->treatments as $item) {
+                    $table->addRow();
+                    $c = $table->addCell(900);
+                    $c->addText($n+=1);
+                    $c = $table->addCell(2000);
+                    $c->addText(empty($item->procedures) ? '-' : str_limit($item->procedures->name, 20, '...'));
+                    $c = $table->addCell(2000);
+                    $c->addText($item->price);
+                    $c = $table->addCell(2000);
+                    $c->addText($item->no_performed);
+                    $c = $table->addCell(2000);
+                    $c->addText($item->is_paid ? 'Paid' : 'Not Paid');
+                }
+            }
+
+            $section->addText(htmlspecialchars('OP Notes', ENT_COMPAT, 'UTF-8'), ['name' => 'Times New Roman', 'size' => 16, 'bold' => true]);
+            if (isset($v->opnotes)) {
+                $section->addText(htmlspecialchars('Surgery Indications'), ['bold' => true]);
+                $section->addText($v->opnotes->surgery_indication);
+                $section->addText(htmlspecialchars('Implants'), ['bold' => true]);
+                $section->addText($v->opnotes->implants);
+                $section->addText(htmlspecialchars('Post OP'), ['bold' => true]);
+                $section->addText($v->opnotes->postop);
+                $section->addText(htmlspecialchars('Indication + procedure'), ['bold' => true]);
+                $section->addText($v->opnotes->indication);
+            } else {
+                $section->addText("No records to show");
+            }
+        }
+// Saving the document as OOXML file...
+        return \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+    }
+
+    function exportPatientNotesDate($patient, $visit) {
+        $history = patient_visits($patient);
+        $v = Visit::find($visit);
+        if (empty($v)) {
+            return redirect()->back();
+        }
+
+        $patient = Patients::find($v->patient);
+
+        $defaultFont = ['name' => 'Times New Roman', 'size' => 12];
+        $date = (new Date())->format('j/m/Y');
+        $runtext = "";
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section1 = $phpWord->addSection();
+        //headers
+        $header = $section1->addHeader();
+        $header->firstPage();
+        $table = $header->addTable();
+        $table->addRow();
+        $cell = $table->addCell(4500);
+        $textrun = $cell->addTextRun();
+        $textrun->addText(htmlspecialchars(config('practice.name'), ENT_COMPAT, 'UTF-8'), ['name' => 'Times New Roman', 'size' => 18, 'bold' => true]);
+        $table->addRow();
+        $cell2 = $table->addCell(4500);
+        $location = $cell2->addTextRun();
+        $location->addText('P.O BOX ' . config('practice.address') . '  ' . config('practice.town') . ' Mobile: ' . config('practice.mobile'), $defaultFont);
+        // $table->addCell(4500)->addImage('img/logo.png', array('width' => 100, 'height' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
+        $header->addLine(['weight' => 1, 'width' => 400, 'height' => 0, 'color' => 635552]);
+
+        // Adding Text element with font customized inline...
+        $story = $section1->addTextRun();
+        $story->addText(htmlspecialchars('Name: '), ['bold' => true]);
+        $story->addText($patient->full_name);
+        $story->addText(htmlspecialchars('Date: '), ['bold' => true, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END]);
+        $story->addText($date);
+
+        // foreach ($history as $v) {
+        $section = $phpWord->addSection();
+        $section->addText('Date:', ['bold' => true]);
+        $date = (new Date($v->created_at))->format('j/m/Y');
+        $section->addText($date);
+
+        $section->addText(htmlspecialchars('Doctor\'s Notes', ENT_COMPAT, 'UTF-8'), ['name' => 'Times New Roman', 'size' => 16, 'bold' => true]);
+        if (!empty($v->notes)) {
+            $section->addText(htmlspecialchars('Presenting Complaints'), ['bold' => true]);
+            $section->addText($v->notes->presenting_complaints);
+            $section->addText(htmlspecialchars('Past Medical History'), ['bold' => true]);
+            $section->addText($v->notes->past_medical_history);
+            $section->addText(htmlspecialchars('Examination'), ['bold' => true]);
+            $section->addText($v->notes->examination);
+            $section->addText(htmlspecialchars('Diagnosis'), ['bold' => true]);
+            $section->addText(implode(', ', unserialize($v->notes->diagnosis)));
+            $section->addText(htmlspecialchars('Treatment Plan'), ['bold' => true]);
+            $section->addText($v->notes->treatment_plan);
+        } else {
+            $section->addText("No records to show");
+        }
+
+        $section->addText(htmlspecialchars('Treatment', ENT_COMPAT, 'UTF-8'), ['name' => 'Times New Roman', 'size' => 16, 'bold' => true]);
+        $table = $section->addTable();
+        $table->addRow();
+        $c = $table->addCell(900);
+        $c->addText('#');
+        $c = $table->addCell(2000);
+        $c->addText('Procedure');
+        $c = $table->addCell(2000);
+        $c->addText('Cost');
+        $c = $table->addCell(2000);
+        $c->addText('NO');
+        $c = $table->addCell(2000);
+        $c->addText('Payment');
+        $n = 0;
+        if (isset($v->treatments)) {
+            foreach ($v->treatments as $item) {
+                $table->addRow();
+                $c = $table->addCell(900);
+                $c->addText($n+=1);
+                $c = $table->addCell(2000);
+                $c->addText(empty($item->procedures) ? '-' : str_limit($item->procedures->name, 20, '...'));
+                $c = $table->addCell(2000);
+                $c->addText($item->price);
+                $c = $table->addCell(2000);
+                $c->addText($item->no_performed);
+                $c = $table->addCell(2000);
+                $c->addText($item->is_paid ? 'Paid' : 'Not Paid');
+            }
+        }
+
+        $section->addText(htmlspecialchars('OP Notes', ENT_COMPAT, 'UTF-8'), ['name' => 'Times New Roman', 'size' => 16, 'bold' => true]);
+        if (isset($v->opnotes)) {
+            $section->addText(htmlspecialchars('Surgery Indications'), ['bold' => true]);
+            $section->addText($v->opnotes->surgery_indication);
+            $section->addText(htmlspecialchars('Implants'), ['bold' => true]);
+            $section->addText($v->opnotes->implants);
+            $section->addText(htmlspecialchars('Post OP'), ['bold' => true]);
+            $section->addText($v->opnotes->postop);
+            $section->addText(htmlspecialchars('Indication + procedure'), ['bold' => true]);
+            $section->addText($v->opnotes->indication);
+        } else {
+            $section->addText("No records to show");
+        }
+        //  }
+// Saving the document as OOXML file...
+        return \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
     }
 
 }

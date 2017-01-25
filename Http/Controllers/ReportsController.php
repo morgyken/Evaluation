@@ -8,6 +8,7 @@ use Ignite\Finance\Entities\InsuranceInvoice;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Ignite\Evaluation\Entities\Visit;
 
 class ReportsController extends Controller {
 
@@ -70,6 +71,86 @@ class ReportsController extends Controller {
         $this->data['invoice'] = InsuranceInvoice::find($invoice);
         $pdf = \PDF::loadView('system.prints.invoice', ['data' => $this->data]);
         return $pdf->stream('invoice.pdf');
+    }
+
+    public function pn_specific(Request $request) {
+        $visit = $request->visit;
+        $this->data['visits'] = $v = Visit::find($visit);
+        if (empty($v)) {
+            return redirect()->back();
+        }
+        $this->data['visit'] = $v;
+        $this->data['patient'] = Patients::find($v->patient);
+        $pdf = \PDF::loadView('evaluation::prints.patient_notes_specific', ['data' => $this->data]);
+        $pdf->setPaper('A5', 'Landscape');
+        return $pdf->stream('patient_notes_summary.pdf');
+    }
+
+    public function pn_towrd_specific(Request $request) {
+        $visit = $request->visit;
+        $this->data['visits'] = $v = Visit::find($visit);
+        if (empty($v)) {
+            return redirect()->back();
+        }
+        $this->data['visit'] = $visit;
+        $this->data['patient'] = $patient = Patients::find($v->patient);
+
+        $name = 'Patient Notes ' . $patient->full_name . '.docx';
+
+        $exported = exportPatientNotesDate($v->patient, $visit);
+        $exported->save($temp_file = tempnam(sys_get_temp_dir(), 'PHPWord'));
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $name . '"');
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($temp_file));
+        flush();
+        readfile($temp_file); // or echo file_get_contents($temp_file);
+        unlink($temp_file);  // remove temp file
+        echo "<script>window.close();</script>";
+    }
+
+    public function patient_notes($visit) {
+        $this->data['visits'] = $v = Visit::find($visit);
+        if (empty($v)) {
+            return redirect()->back();
+        }
+        $this->data['visit'] = $visit;
+        $this->data['patient'] = Patients::find($v->patient);
+        $pdf = \PDF::loadView('evaluation::prints.patient_notes', ['data' => $this->data]);
+        $pdf->setPaper('A5', 'Landscape');
+        return $pdf->stream('patient_notes.pdf');
+    }
+
+    public function patient_notes_to_word($visit) {
+        $this->data['visits'] = $v = Visit::find($visit);
+        if (empty($v)) {
+            return redirect()->back();
+        }
+        $this->data['visit'] = $visit;
+        $this->data['patient'] = $patient = Patients::find($v->patient);
+
+        $name = 'Patient Notes ' . $patient->full_name . '.docx';
+
+        $exported = exportPatientNotes($patient, $visit);
+        $exported->save($temp_file = tempnam(sys_get_temp_dir(), 'PHPWord'));
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $name . '"');
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($temp_file));
+        flush();
+        readfile($temp_file); // or echo file_get_contents($temp_file);
+        unlink($temp_file);  // remove temp file
+        echo "<script>window.close();</script>";
     }
 
 }
