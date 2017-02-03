@@ -71,7 +71,7 @@ class Visit extends Model {
     }
 
     public function getVisitDestinationAttribute() {
-        return implode(' | ',  $this->destinations->pluck('department')->toArray());
+        return implode(' | ', $this->destinations->pluck('department')->toArray());
     }
 
     public function getSignedOutAttribute() {
@@ -79,10 +79,10 @@ class Visit extends Model {
     }
 
     public function scopeCheckedAt($query, $destination) {
-        return $query->whereHas('destinations',function($query) use ($destination){
-          $query->whereDepartment($destination);
-          $query->whereCheckout(false);
-        });
+        return $query->whereHas('destinations', function($query) use ($destination) {
+                    $query->whereDepartment($destination);
+                    $query->whereCheckout(false);
+                });
     }
 
     public function getModeAttribute() {
@@ -139,7 +139,7 @@ class Visit extends Model {
     }
 
     public function doctors() {
-        return $this->belongsTo(User::class, 'user');
+        return $this->belongsTo(User::class, 'destination');
     }
 
     public function patient_scheme() {
@@ -150,7 +150,8 @@ class Visit extends Model {
         return $this->hasOne(VisitMeta::class, 'visit');
     }
 
-    public function destinations(){
-        return $this->hasMany(VisitDestinations::class,'visit');
+    public function destinations() {
+        return $this->hasMany(VisitDestinations::class, 'visit');
     }
+
 }

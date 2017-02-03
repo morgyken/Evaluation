@@ -36,4 +36,8 @@ $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $rout
 
 $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router) {
     $router->get('prescription/{visit}', ['uses' => 'ReportsController@print_prescription', 'as' => 'prescription']);
+    Route::get('patient/notes/{no}', ['uses' => 'ReportsController@patient_notes', 'as' => 'patient_notes']);
+    Route::get('patient/notes/toword/{no}', ['uses' => 'ReportsController@patient_notes_to_word', 'as' => 'to_word']);
+    Route::post('patient/notes/specific/', ['uses' => 'ReportsController@pn_specific', 'as' => 'patient_notes_specific']);
+    Route::post('patient/notes/toword/specific/', ['uses' => 'ReportsController@pn_towrd_specific', 'as' => 'to_word_specific']);
 });
