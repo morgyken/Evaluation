@@ -113,7 +113,7 @@ $_visit = $data['visit'];
                                         </tr>
                                         <tr>
                                             <td><strong>Diagnosis</strong></td>
-                                            <td>{{implode(', ',unserialize($_visit->notes->diagnosis))}}</td>
+                                            <td><?php //echo implode(', ', unserialize($_visit->notes->diagnosis))  ?></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Treatment Plan</strong></td>
