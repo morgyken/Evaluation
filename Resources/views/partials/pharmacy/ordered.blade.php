@@ -19,11 +19,15 @@
     <?php
     $price = 0;
     $stock = 0;
+    $cash_price = 0;
+    $credit_price = 0;
     foreach ($item->drugs->prices as $p) {
         if ($p->selling > $price) {
             $price = $p->price;
-            $cash_price = ceil(($item->drugs->categories->cash_markup ? $item->drugs->categories->cash_markup + 100 : $price) / 100 * $price); //$item->prices->credit_price
-            $credit_price = ceil(($item->drugs->categories->credit_markup ? $item->drugs->categories->credit_markup + 100 : $price) / 100 * $price);
+            $cp = ceil(($item->drugs->categories->cash_markup ? $item->drugs->categories->cash_markup + 100 : $price) / 100 * $price); //$item->prices->credit_price
+            $crp = ceil(($item->drugs->categories->credit_markup ? $item->drugs->categories->credit_markup + 100 : $price) / 100 * $price);
+            $cash_price+=$cp;
+            $credit_price+=$crp;
         }
     }
     ?>
