@@ -4,9 +4,9 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$payment = $info;
-$patient = Collabmed\Model\Reception\Patients::find($payment->patient);
-$pays = paymentFor($payment->description);
+$payment = $data;
+$patient = Ignite\Reception\Entities\Patients::find($payment->patient);
+$pays = paymentFor($payment);
 ?>
 <style>
     #items {

@@ -34,8 +34,8 @@ class ReportsController extends Controller {
     }
 
     public function payment_receipt(Request $request) {
-        $info = EvaluationPayments::find($request->payment);
-        $pdf = \PDF::loadView('system.prints.assad', ['data' => $info]);
+        $info = \Ignite\Finance\Entities\EvaluationPayments::find($request->payment);
+        $pdf = \PDF::loadView('evaluation::prints.print_receipts', ['data' => $info]);
         $pdf->setPaper('a4');
         return $pdf->download($info->receipt . '.pdf');
     }
