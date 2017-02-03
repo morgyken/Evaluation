@@ -50,6 +50,8 @@ class EvaluationController extends AdminBaseController {
         $this->data['v1_cmplnts'] = \Ignite\Evaluation\Entities\v1_complaint::query()
                 ->where('patient', '=', $this->data['visit']->patient)
                 ->get();
+
+        $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
         return view("evaluation::patient_$section", ['data' => $this->data]);
     }
 
