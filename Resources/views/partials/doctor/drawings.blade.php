@@ -47,7 +47,7 @@ $(document).ready(function () {
     if (typeof setting !== 'undefined') {
         try {
             sketchpad = new Sketchpad(setting);
-<?php if (!empty($data['visits']->drawings)): ?>
+<?php if (isset($data['visits']->drawings)): ?>
                 $("#sketchpad").css("background-image", "url('data:image/jpeg;base64,{{$data['visits']->drawings->background}}')");
 <?php endif;
 ?>
