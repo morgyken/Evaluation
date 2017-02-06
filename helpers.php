@@ -609,4 +609,14 @@ if (!function_exists('exportSickOff')) {
         return \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
     }
 
+    function paymentFor($procedures) {
+        $stat = unserialize($procedures);
+        $build = collect();
+        foreach ($stat as $key => $procedure) {
+            $samd = Investigations::where('visit', $procedure['visit'])->where('procedure', $procedure['procedure']);
+            $build->prepend($samd->first());
+        }
+        return $build;
+    }
+
 }

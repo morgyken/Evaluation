@@ -6,6 +6,7 @@
  */
 
 extract($data);
+$department = 'doctor';
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Reviews')
@@ -31,7 +32,7 @@ extract($data);
                     <td>{{$visit->clinics->name}}</td>
                     <td>{{$visit->visit_destination}}</td>
                     <td>{{smart_date_time($visit->created_at)}}</td>
-                    <td><a href="{{route('evaluation.evaluate',$visit->id)}}" class="btn btn-xs btn-success">Review</a></td>
+                    <td><a href="{{route('evaluation.evaluate',[$visit->id,$department])}}" class="btn btn-xs btn-success">Review</a></td>
                 </tr>
                 @endforeach
             </tbody>
