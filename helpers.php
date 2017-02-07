@@ -328,6 +328,19 @@ if (!function_exists('get_patients_with_pharm')) {
 
 }
 
+if (!function_exists('get_patients_from_pos')) {
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    function get_patients_from_pos() {
+        return Patients::whereHas('drug_purchases', function ($query) {
+                    $query->wherePaid(0);
+                })->get();
+    }
+
+}
+
 if (!function_exists('visit_destination')) {
 
     /**
