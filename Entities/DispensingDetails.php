@@ -19,4 +19,8 @@ class DispensingDetails extends Model {
         return $this->belongsTo(Visit::class, 'visit');
     }
 
+    public function drug() {
+        return $this->belongsTo(\Ignite\Inventory\Entities\InventoryProducts::class, 'product');
+    }
+
 }

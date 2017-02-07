@@ -330,9 +330,11 @@ class EvaluationFunctions implements EvaluationRepository {
             }
         }
         //Update Amount
+
         $disp = Dispensing::find($dis->id);
         $disp->amount = $amount;
         $disp->save();
+
         return true;
     }
 
