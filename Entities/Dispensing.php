@@ -31,4 +31,8 @@ class Dispensing extends Model {
         return $this->belongsTo(Visit::class, 'visit');
     }
 
+    public function details() {
+        return $this->hasMany(DispensingDetails::class, 'batch');
+    }
+
 }

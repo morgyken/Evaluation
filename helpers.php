@@ -311,6 +311,23 @@ if (!function_exists('get_patients_with_bills')) {
     }
 
 }
+
+if (!function_exists('get_patients_with_pharm')) {
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    function get_patients_with_pharm() {
+        return Patients::whereHas('visits', function ($query) {
+                    $query->wherePaymentMode('cash');
+                    $query->whereHas('dispensing', function ($q) {
+                        $q->wherePayment_status(0);
+                    });
+                })->get();
+    }
+
+}
+
 if (!function_exists('visit_destination')) {
 
     /**
