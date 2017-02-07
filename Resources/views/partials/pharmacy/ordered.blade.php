@@ -22,7 +22,7 @@
     $cash_price = 0;
     $credit_price = 0;
     foreach ($item->drugs->prices as $p) {
-        if ($p->selling > $price) {
+        if ($p->price > $price) {
             $price = $p->price;
             $cp = ceil(($item->drugs->categories->cash_markup ? $item->drugs->categories->cash_markup + 100 : $price) / 100 * $price); //$item->prices->credit_price
             $crp = ceil(($item->drugs->categories->credit_markup ? $item->drugs->categories->credit_markup + 100 : $price) / 100 * $price);
