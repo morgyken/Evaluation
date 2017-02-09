@@ -254,7 +254,7 @@ function unBill(id) {
 function cancelPrescription(key) {
     $.ajax({
         type: "get",
-        url: prescURL,
+        url: prescUR,
         data: {id: key},
         success: function (data) {
             $("#" + key + "row").fadeOut();

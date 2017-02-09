@@ -155,7 +155,7 @@ class Visit extends Model {
     }
 
     public function drug_purchases() {
-        return $this->hasMany(\Ignite\Inventory\Entities\InventoryBatchProductSales::class, 'visit');
+        return $this->hasMany(\Ignite\Inventory\Entities\InventoryBatchProductSales::class, 'id', 'visit');
     }
 
 }

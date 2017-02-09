@@ -17,21 +17,31 @@ extract($data);
         <div class="form-horizontal">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#ordered" data-toggle="tab">
-                            Ordered Prescriptions <span class="badge alert-info">{{$drug_prescriptions->count()}}</span>
-                        </a></li>
-                    <li><a href="#disp" data-toggle="tab">Order new drugs</a> </li>
+                    <li class="active">
+                        <a href="#disp" data-toggle="tab">
+                            Order new drugs
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#ordered" data-toggle="tab">
+                            Ordered Prescriptions
+                            <span class="badge alert-info">
+                                {{$drug_prescriptions->count()}}
+                            </span>
+                        </a>
+                    </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane active " id="ordered">
-                        @include('evaluation::partials.pharmacy.ordered')
-                    </div>
-                    <div class="tab-pane" id="disp">
+                    <div class="tab-pane active" id="disp">
                         @include('evaluation::partials.pharmacy.dispense')
+                    </div>
+                    <div class="tab-pane" id="ordered">
+                        @include('evaluation::partials.pharmacy.ordered')
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@include('evaluation::routes')
 @endsection

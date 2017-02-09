@@ -33,7 +33,6 @@
     ?>
     <tr id="{{$item->id}}row">
         <td>
-            <small>check me</small><br>
             <input type="hidden" name="drug{{$item->id}}" value="{{$item->drugs->id}}">
             <input type="checkbox" id="check{{$item->id}}" onclick="bill(<?php echo $item->id; ?>)" name="item{{$item->id}}">
         </td>
