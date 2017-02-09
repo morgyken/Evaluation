@@ -29,6 +29,7 @@ class EvaluationController extends AdminBaseController {
     public function queues($department) {
         $this->data['all'] = Visit::checkedAt($department)->get();
         $this->data['department'] = ucwords($department);
+        $destination = \Auth::user()->id;
         return view('evaluation::queues', ['data' => $this->data]);
     }
 

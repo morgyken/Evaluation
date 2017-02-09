@@ -82,12 +82,12 @@ extract($data);
                             @include('evaluation::partials.common.history')
                         </div>
                     </div>
-
-                    <div class="tab-pane" id="v1_history">
-                        <div>
-                            @include('evaluation::partials.doctor.v1_hist')
-                        </div>
-                    </div>
+                    <!--
+                                        <div class="tab-pane" id="v1_history">
+                                            <div>
+                                                @include('evaluation::partials.doctor.v1_hist')
+                                            </div>
+                                        </div> -->
 
                     @if(m_setting('evaluation.drawings'))
                     <div class="tab-pane" id="drawings">
