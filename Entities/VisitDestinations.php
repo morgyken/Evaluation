@@ -36,4 +36,8 @@ class VisitDestinations extends Model {
     public $table = 'evaluation_visit_destinations';
     protected $guarded = [];
 
+    public function visits() {
+        return $this->hasMany(Visit::class, 'id', 'visit');
+    }
+
 }
