@@ -11,15 +11,18 @@
 extract($data);
 $section = strtolower($department);
 ?>
+
 @extends('layouts.app')
 @section('content_title',"Patients Awaiting $department")
 @section('content_description',"$department Queue")
 
 @section('content')
+Dr. {{\Auth::user()->username}}<br/>
 <div class="box box-info">
     <div class="box-body">
         <table class="table table-striped">
             <tbody>
+                @if(!isset($doc))
                 @foreach($all as $visit)
                 <tr id="row_id{{$visit->id}}">
                     <td>{{$visit->patients->full_name}}</td>
@@ -34,6 +37,24 @@ $section = strtolower($department);
                     </td>
                 </tr>
                 @endforeach
+                @else
+                @foreach($myq as $item)
+                @foreach($item->visits as $visit)
+                <tr id="row_id{{$visit->id}}">
+                    <td>{{$visit->patients->full_name}}</td>
+                    <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
+                    <td>{{$visit->visit_destination}}</td>
+                    <td>
+                        <a href="{{route('evaluation.preview',[$visit->id,$section])}}" class="btn btn-xs btn-primary">
+                            <i class="fa fa-ellipsis-h"></i> Manage</a>
+
+                        <button value='{{$visit->id}}' class="btn btn-warning btn-xs checkout">
+                            <i class="fa fa-sign-out"></i> Checkout</button>
+                    </td>
+                </tr>
+                @endforeach
+                @endforeach
+                @endif
             </tbody>
             <thead>
                 <tr>

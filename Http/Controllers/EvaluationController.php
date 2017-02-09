@@ -5,6 +5,7 @@ namespace Ignite\Evaluation\Http\Controllers;
 use Ignite\Core\Http\Controllers\AdminBaseController;
 use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\Visit;
+use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Http\Request;
@@ -29,7 +30,12 @@ class EvaluationController extends AdminBaseController {
     public function queues($department) {
         $this->data['all'] = Visit::checkedAt($department)->get();
         $this->data['department'] = ucwords($department);
-        $destination = \Auth::user()->id;
+        $user = \Auth::user()->id;
+        if ($department == 'doctor') {
+            $this->data['doc'] = 1;
+        }
+        $this->data['myq'] = VisitDestinations::whereDestination($user)
+                ->get();
         return view('evaluation::queues', ['data' => $this->data]);
     }
 
