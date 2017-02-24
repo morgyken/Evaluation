@@ -40,4 +40,8 @@ class VisitDestinations extends Model {
         return $this->hasMany(Visit::class, 'id', 'visit');
     }
 
+    public function medics() {
+        return $this->belongsTo(\Ignite\Users\Entities\User::class, 'destination');
+    }
+
 }

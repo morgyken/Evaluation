@@ -14,7 +14,20 @@
 
 @if(!$drug_prescriptions->isEmpty())
 {!! Form::open(['route'=>'evaluation.pharmacy.dispense']) !!}
-<table class="table table-striped">
+
+
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>Drug</th>
+        <th>Prescription</th>
+        <th>Price</th>
+        <th>Discount</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>Action</th>
+    </tr>
     @foreach($drug_prescriptions as $item)
     <?php
     $price = 0;
@@ -31,32 +44,20 @@
         }
     }
     ?>
-    <tr id="{{$item->id}}row">
+    <tr>
         <td>
+            <input type="hidden" name="presc{{$item->id}}" value="{{$item->id}}">
             <input type="hidden" name="drug{{$item->id}}" value="{{$item->drugs->id}}">
-            <input type="checkbox" id="check{{$item->id}}" onclick="bill(<?php echo $item->id; ?>)" name="item{{$item->id}}">
+            <!-- <input type="checkbox" id="check{{$item->id}}" onclick="bill(<?php echo $item->id; ?>)" name="item{{$item->id}}"> -->
+            @if($item->status===1)
+            <input type="checkbox" id="check{{$item->id}}" name="item{{$item->id}}" disabled="">
+            @else
+            <input type="checkbox" id="check{{$item->id}}" name="item{{$item->id}}">
+            @endif
         </td>
-        <td colspan="2">
-            <b>{{$item->drugs->name}}</b><br>
-            <?php
-            if (preg_match('/Insurance/', $visit->mode)) {
-                $price = $credit_price;
-                ?>
-                <code>Price:{{number_format($credit_price,2)}}</code><br><br>
-                <?php
-            } else {
-                $price = $cash_price;
-                ?>
-                <code>Price:{{number_format($cash_price,2)}}</code><br><br>
-                <?php
-            }
-            ?>
-            <input type="hidden" value="{{$price}}" name="prc{{$item->id}}" id="prc{{$item->id}}">
-            Dispensable Units: {{ $item->drugs->stocks?$item->drugs->stocks->quantity>0?$item->drugs->stocks->quantity:0:0}}<br>
-            Qty Given:<input name="qty{{$item->id}}" onkeyup="bill(<?php echo $item->id; ?>)" class="qty{{$item->id}}" value="1" size="4" type="text" autocomplete="off">
-            <br clear="all">
-            <p class="sub_total_text{{$item->id}}"></p>
-            <input type="hidden" name="item_subtotal{{$item->id}}" class="sub_total{{$item->id}}">
+        <td>
+            {{$item->drugs->name}}<br>
+            <i>{{ $item->drugs->stocks?$item->drugs->stocks->quantity>0?$item->drugs->stocks->quantity:0:0}} in store</i>
         </td>
         <td>
             <dl class="dl-horizontal">
@@ -67,25 +68,83 @@
             </dl>
         </td>
         <td>
-            <!-- <br clear="all">NOT PAID<br> -->
-            <a href="#" onclick="cancelPrescription(<?php echo $item->id; ?>)" class="btn btn-warning btn-xs">Cancel</a>
+            <?php
+            if (preg_match('/Insurance/', $visit->mode)) {
+                $price = $credit_price;
+                ?>
+                <code>{{number_format($credit_price,2)}}</code>
+                <?php
+            } else {
+                $price = $cash_price;
+                ?>
+                <code>{{number_format($cash_price,2)}}</code>
+                <?php
+            }
+            ?>
+            <input type="hidden" value="{{$price}}" name="prc{{$item->id}}" id="prc{{$item->id}}">
         </td>
+        <td><input size="5" class="discount" id="discount{{$item->id}}" type="text" onkeyup="getTotal(<?php echo $item->id; ?>)" name="discount{{$item->id}}" value="0" /></td>
+        <td>
+            <input name="qty{{$item->id}}" id="quantity{{$item->id}}" onkeyup="getTotal(<?php echo $item->id; ?>)" class="qty{{$item->id}}" value="1" size="4" type="text" autocomplete="off"></td>
+        <td>
+            <input class="txt" size="10" readonly=""id="total{{$item->id}}" type="text" name="txt" />
+        </td>
+        <td><a href="#" onclick="cancelPrescription(<?php echo $item->id; ?>)" class="btn btn-danger btn-xs">Cancel</a></td>
     </tr>
     @endforeach
-    <tr>
+    <tr id="summation">
+        <td  colspan ="6" align="right">
+            Sum :
+        </td>
         <td>
-            Total Bill:<input type="text" value="0" name="total_bill" class="total_bill">
+            <input type="text" id='sum1' name="input" />
             <input type="hidden" name="visit" value="{{$visit->id}}">
+            <!-- Total Bill:<input type="text" value="0" name="total_bill" class="total_bill"> -->
         </td>
         <td>
-            <button type="submit" class="btn btn-xs btn-info"> <i class="fa fa-hand-o-right"></i>Dispense Selected Drugs</button>
-        </td>
-        <td>
-
+            <button type="submit" class="btn btn-xs btn-primary">
+                <i class="fa fa-hand-o-right"></i>
+                Dispense
+            </button>
         </td>
     </tr>
 </table>
+
 <script>
+    $(document).ready(function () {
+        //this calculates values automatically
+        calculateSum();
+        $(".txt").on("keydown keyup", function () {
+            calculateSum();
+        });
+    });
+
+    function calculateSum() {
+        var sum = 0;
+        //iterate through each textboxes and add the values
+        $(".txt").each(function () {
+            //add only if the value is number
+            if (!isNaN(this.value) && this.value.length != 0) {
+                sum += parseFloat(this.value);
+                $(this).css("background-color", "#FEFFB0");
+            } else if (this.value.length != 0) {
+                $(this).css("background-color", "red");
+            }
+        });
+
+        $("input#sum1").val(sum.toFixed(2));
+    }
+
+    function getTotal(i) {
+        var price = parseFloat($("#prc" + i).val());
+        var quantity = parseFloat($("#quantity" + i).val());
+        var discount = parseFloat($("#discount" + i).val());
+        var total = (price * quantity) - ((discount / 100) * (price * quantity));
+        $("#total" + i).val(total)
+        //alert(total);
+        calculateSum();
+    }
+
     var prescURL = "{{route('evaluation.pharmacy.prescription.cancel')}}";
 </script>
 {!! Form::close()!!}

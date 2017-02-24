@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class DispensingDetails extends Model {
 
-    public $table = 'evaluation_dispensing_details';
+    public $table = 'inventory_evaluation_dispensing_details'; //'evaluation_dispensing_details';
     protected $fillable = ['batch', 'product', 'quantity', 'price'];
 
     public function visits() {
