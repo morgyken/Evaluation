@@ -21,6 +21,7 @@ class CreatePatientVisitsTable extends Migration {
             $column->string('payment_mode')->default('cash');
             $column->integer('scheme')->unsigned()->nullable();
             $column->integer('next_appointment')->unsigned()->nullable();
+            $column->string('status')->nullable();
             $column->softDeletes();
             $column->timestamps();
 

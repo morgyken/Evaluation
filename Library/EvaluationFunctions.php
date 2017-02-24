@@ -317,16 +317,20 @@ class EvaluationFunctions implements EvaluationRepository {
                 $drug = 'drug' . $index;
                 $qty = 'qty' . $index;
                 $price = 'prc' . $index;
+                $presc = 'presc' . $index;
+                $disc = 'discount' . $index;
                 $details = new DispensingDetails;
                 $details->batch = $dis->id;
                 $details->product = $this->request->$drug;
                 $details->quantity = $this->request->$qty;
                 $details->price = $this->request->$price;
+                $details->discount = $this->request->$disc;
                 $details->save();
                 $sub_total = $details->quantity * $details->price;
                 $amount += $sub_total;
                 //adj stock
                 $this->repo->take_dispensed_products($details);
+                $this->updatePresc($this->request->$presc);
             }
         }
         //Update Amount
@@ -335,7 +339,15 @@ class EvaluationFunctions implements EvaluationRepository {
         $disp->amount = $amount;
         $disp->save();
 
+
+
         return true;
+    }
+
+    public function updatePresc($id) {
+        $presc = Prescriptions::find($id);
+        $presc->status = 1;
+        $presc->save();
     }
 
     /**

@@ -17,7 +17,6 @@ $section = strtolower($department);
 @section('content_description',"$department Queue")
 
 @section('content')
-Dr. {{\Auth::user()->username}}<br/>
 <div class="box box-info">
     <div class="box-body">
         <table class="table table-striped">

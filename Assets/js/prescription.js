@@ -224,12 +224,14 @@ function bill(id) {
     if ($('#check' + id).is(':checked')) {
         var price = $('#prc' + id).val();
         var qty = $('.qty' + id).val();
-        var sub_total = qty * price;
+        var dis = $('#discount' + id).val();
+        var sub_total = (qty * price) - ((dis / 100) * (qty * price));
         var t = parseInt($('.total_bill').val());
         t += sub_total;
 
         $('.sub_total' + id).val(sub_total);
         $('.total_bill').val(t);
+        $("input#sum1").val(t.toFixed(2));
         $('.sub_total_text' + id).html('<b>Amount:</b> ' + sub_total);
     } else {
         unBill(id);
