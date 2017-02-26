@@ -66,8 +66,8 @@ $history = patient_visits($patient->id);
             {{config('practice.telephone')?'Call Us:- '.config('practice.telephone'):''}}<br/>
             {{config('practice.email')?'Email:- '.config('practice.email'):''}}
         </p>
-        <strong>Name:</strong><span class="content"> {{$patient->full_name}}</span><br/>
-        <strong>Date:</strong><span class="content"> {{(new Date())->format('j/m/Y H:i')}}</span><br/>
+        <strong>Patient:</strong><span class="content"> {{$patient->full_name}}</span><br/>
+        <strong>Date:</strong><span class="content"> {{(new Date())->format('j/m/Y H:i')}}</span><br/><br/>
     </div>
     <div class="right">
         <img src="{{realpath(base_path('/public/logo.png'))}}"/>
@@ -76,117 +76,117 @@ $history = patient_visits($patient->id);
     <div class="content">
         <div id="content">
             <div class="box-body">
-                @foreach($history as $_visit)
-                <h3 style="background-color:#eee">{{(new Date($_visit->created_at))->format('dS M y')}} <span
-                        class="pull-right">{{$_visit->clinics->name}}</span></h3>
-                <div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="box box-default">
-                                <div class="box-header">
-                                    <h3 class="box-title">Doctor's Notes</h3>
-                                </div>
-                                @if(!empty($_visit->notes))
-                                <table class="table table-borderless">
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>Presenting Complaints</strong></td>
-                                            <td> {{$_visit->notes->presenting_complaints}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Past Medical History</strong></td>
-                                            <td>{{$_visit->notes->past_medical_history}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Examination</strong></td>
-                                            <td>{{$_visit->notes->examination}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Diagnosis</strong></td>
-                                            <td>{{implode(', ',unserialize($_visit->notes->diagnosis))}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Treatment Plan</strong></td>
-                                            <td>{{$_visit->notes->treatment_plan}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                @else
-                                <p class="text-warning"><i class="fa fa-info-circle"></i> Notes not available
-                                </p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="box box-default">
-                                <div class="box-header">
-                                    <h3 class="box-title">Treatment</h3>
-                                </div>
-                                <div class="box-body">
-                                    @if(!empty($_visit->treatments) && !$_visit->treatments->isEmpty())
-                                    <table class="table table-condensed">
-                                        <thead>
-                                            <tr>
-                                                <th>Procedure</th>
-                                                <th>Cost</th>
-                                                <th>No.</th>
-                                                <th>Payment</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($_visit->treatments as $item)
-                                            <tr>
-                                                <td>{{empty($item->procedures)?'-':str_limit($item->procedures->name,20,'...')}}</td>
-                                                <td>{{$item->price}}</td>
-                                                <td>{{$item->no_performed}}</td>
-                                                <td>{{$item->is_paid?'Paid':'Not Paid'}}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    @else
-                                    <p class="text-warning"><i class="fa fa-info-circle"></i> No treatment records
-                                        available</p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="box box-default">
-                                <div class="box-header">
-                                    <h3 class="box-title">OP Notes</h3>
-                                </div>
-                                <div class="box-body">
-                                    @if(!empty($_visit->opnotes))
-                                    <table class="table table-condensed">
-                                        <tbody>
-                                            <tr>
-                                                <td><strong>Surgery Indications</strong></td>
-                                                <td> {{$_visit->opnotes->surgery_indication}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Implants</strong></td>
-                                                <td>{{$_visit->opnotes->implants}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Post OP</td>
-                                                <td>{{$_visit->opnotes->postop}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Indication + procedure</strong></td>
-                                                <td>{{$_visit->opnotes->indication}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    @else
-                                    <p><i class="fa fa-info-circle"></i> No records</p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
+                <table>
+                    @foreach($history as $_visit)
+                    <tr>
+                        <th>
+                            Visit
+                        </th>
+                        <th>
+                            Doctor's Notes
+                        </th>
+                        <th>
+                            Prescriptions
+                        </th>
+                        <th>
+                            Vitals
+                        </th>
+                        <th>
+                            Treatment
+                        </th>
+                        <th>
+                            Diagnosis
+                        </th>
+                        <th>
+                            Lab
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{(new Date($_visit->created_at))->format('dS M y')}} {{$_visit->clinics->name}}
+                        </td>
+                        <td>
+                            @if(!empty($_visit->notes))
+                            <p>
+                                <strong>Presenting Complaints</strong>:<br>
+                                {{$_visit->notes->presenting_complaints}}<br>
+                            </p>
+
+                            <p>
+                                <strong>Past Medical History</strong>:<br>
+                                {{$_visit->notes->past_medical_history}}<br>
+                            </p>
+
+                            <p>
+                                <strong>Examination</strong>:<br>
+                                {{$_visit->notes->examination}}<br>
+                            </p>
+
+                            <p>
+                                <strong>Diagnosis</strong><br>
+                                {{$_visit->notes->diagnosis}}
+                                <br>
+                            </p>
+
+                            <p>
+                                <strong>Treatment Plan</strong><br>
+                                {{$_visit->notes->treatment_plan}}
+                            </p>
+                            @else
+                            <p class="text-warning"><i class="fa fa-info-circle"></i> Notes not available
+                            </p>
+                            @endif
+
+                        </td>
+                        <td>
+                            @if(!empty($_visit->prescriptions) && !$_visit->prescriptions->isEmpty())
+                            @foreach($_visit->prescriptions as $item)
+                            <p>
+                                Drug: {{$item->drug}}<br>
+                                Dose:{{$item->dose}}<br>
+                                Duration:{{$item->duration}}
+                            </p>
+                            @endforeach
+                            @else
+                            <p class="text-warning"><i class="fa fa-info-circle"></i> No treatment records
+                                available</p>
+                            @endif
+                        </td>
+                        <td>
+                            @if(!empty($_visit->vitals))
+                            <p>
+                                Weight:{{$_visit->vitals->weight }}<br>
+                                Height:{{$_visit->vitals->height}}
+                            </p>
+                            @endif
+                        </td>
+                        <td>
+                            @foreach($_visit->investigations->where('type','treatment') as $item)
+                            <p>{{str_limit($item->procedures->name,20,'...')}}
+                            </p>
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach($_visit->investigations->where('type','diagnosis') as $item)
+                            <p>
+                                Procedure:{{str_limit($item->procedures->name,20,'...')}}
+                                Price: {{$item->price}}
+                                Status: {!! payment_label($item->is_paid) !!}
+                            </p>
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach($_visit->investigations->where('type','laboratory') as $item)
+                            <p>
+                                {{str_limit($item->procedures->name,20,'...')}}
+                                {{$item->price}}
+                                {!! payment_label($item->is_paid) !!}
+                            </p>
+                            @endforeach
+                        </td>
+                    </tr>
+                    @endforeach
+                </table>
                 <br/>
             </div>
         </div>
