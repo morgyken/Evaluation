@@ -74,6 +74,12 @@ $procedure = $data['procedure'];
                         {!! $errors->first('status', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
+                <div class="form-group {{ $errors->has('status') ? ' has-error' : '' }}">
+                    {!! Form::label('precharge', 'Charge at Reception',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        <input type="checkbox" name="precharge" value="1">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="box-footer">

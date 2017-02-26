@@ -426,14 +426,17 @@ class EvaluationFunctions implements EvaluationRepository {
         if ($this->request->ajax()) {
             $id = $this->request->id;
             $section = $this->request->from;
-        } else {
-            $id = $data['id'];
-            $section = $data['from'];
-        }
-        $visit = Visit::find($id);
-        $where = $section . '_out';
-        $visit->$where = new Date();
-        return $visit->save();
+        }/* else {
+          $id = $data['id'];
+          $section = $data['from'];
+          } */
+        $id = $this->request->visit;
+        $section = $this->request->section;
+
+        //$visit = Visit::find($id);
+        $destination = VisitDestinations::whereVisit($id)->whereDepartment(ucfirst($section))->first();
+        $destination->checkout = 1;
+        return $destination->update();
     }
 
     public function checkout_patient() {

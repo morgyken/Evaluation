@@ -493,8 +493,8 @@ if (!function_exists('exportSickOff')) {
                 $section->addText($v->notes->past_medical_history);
                 $section->addText(htmlspecialchars('Examination'), ['bold' => true]);
                 $section->addText($v->notes->examination);
-                $section->addText(htmlspecialchars('Diagnosis'), ['bold' => true]);
-                $section->addText(implode(', ', unserialize($v->notes->diagnosis)));
+                //$section->addText(htmlspecialchars('Diagnosis'), ['bold' => true]);
+                //$section->addText(implode(', ', unserialize($v->notes->diagnosis)));
                 $section->addText(htmlspecialchars('Treatment Plan'), ['bold' => true]);
                 $section->addText($v->notes->treatment_plan);
             } else {

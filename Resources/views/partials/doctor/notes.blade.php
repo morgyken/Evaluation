@@ -23,7 +23,7 @@ $notes = get_patient_doctor_notes($visit);
         <textarea name='examination' class="form-control" rows='3'>{{$notes->examination}}</textarea>
     </div>
     @if(m_setting('evaluation.eye_exam'))
-        @include('evaluation::partials.eye_diagnosis')
+    @include('evaluation::partials.eye_diagnosis')
     @endif
     <div class="form-group req">
         <label>Investigations</label>
@@ -31,9 +31,7 @@ $notes = get_patient_doctor_notes($visit);
     </div>
     <div class="form-group req">
         <label>Diagnosis</label><br/>
-        <select multiple class="diagnosis_auto form-control" name="diagnosis[]" id="diagnosis_auto">
-
-        </select>
+        <select multiple class="diagnosis_auto form-control" name="diagnosis[]" id="diagnosis_auto">s</select>
     </div>
     <div class="form-group req">
         <label>Plan of Treatment / Management</label>

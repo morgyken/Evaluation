@@ -27,12 +27,11 @@ class SetupController extends AdminBaseController {
 
     public function save_procedure(ProcedureRequest $request) {
         if ($this->evaluationRepository->add_procedure()) {
-           flash()->success('Procedure saved');
+            flash()->success('Procedure saved');
+        } else {
+            flash('Could not save that one', 'danger');
         }
-        else{
-            flash('Could not save that one','danger');
-        }
-        return redirect()->route('evaluation.procedures');
+        return redirect()->route('evaluation.setup.procedures');
     }
 
     public function procedures($id = null) {
@@ -47,7 +46,7 @@ class SetupController extends AdminBaseController {
         } else {
             flash('There was an error', 'danger');
         }
-        return redirect()->route('evaluation.procedure_cat');
+        return redirect()->route('evaluation.setup.procedure_cat');
     }
 
     public function procedure_cat($id = null) {

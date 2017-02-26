@@ -92,7 +92,7 @@ class EvaluationController extends AdminBaseController {
         if ($section == 'evaluation') {
             $section = 'doctor';
         }
-        return redirect()->route('evaluation.waiting_' . $section);
+        return redirect()->back();
     }
 
     public function review() {

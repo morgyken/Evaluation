@@ -19,6 +19,7 @@ class CreateProceduresTable extends Migration {
             $column->integer('template')->unsigned()->nullable();
             $column->decimal('cash_charge', 10, 2); //cash amount charged
             $column->boolean('charge_insurance')->default(false); //cash charge applies to insurance
+            $column->boolean('precharge')->default(false); //cash charge applies to insurance
             $column->text('description')->nullable();
             $column->boolean('status')->default(true);
             $column->foreign('template')
