@@ -46,18 +46,18 @@ class DoctorNotes extends Model {
 
     public function getCodesAttribute() {
         $_code = '';
-        try {
-            if (isset($this->diagnosis)) {
+        if (isset($this->diagnosis)) {
+            try {
                 foreach (json_decode($this->diagnosis) as $key => $value) {
                     $dcode = DiagnosisCodes::find($value);
-                    $_code.='<span class="label label-info">' . $dcode->name . '</span> ';
+                    $_code.='<span class="label label-default">' . $dcode->name . '</span> ';
                 }
-                echo "Initial diagnoses:" . $_code;
-            } else {
-                'None selected';
+                echo "Initial diagnoses:-<br/>" . $_code;
+            } catch (\Exception $e) {
+                return 'Invalid format';
             }
-        } catch (\Exception $e) {
-            return 'Invalid format';
+        } else {
+            'None selected';
         }
     }
 

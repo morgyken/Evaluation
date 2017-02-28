@@ -32,7 +32,7 @@ $notes = get_patient_doctor_notes($visit);
     <div class="form-group req">
         <label>Diagnosis</label><br/>
         <select multiple class="diagnosis_auto form-control" name="diagnosis[]" id="diagnosis_auto">s</select>
-        {{$notes->codes}}
+        <br>{{$notes->codes}}
     </div>
     <div class="form-group req">
         <label>Plan of Treatment / Management</label>

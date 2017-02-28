@@ -31,7 +31,9 @@
     </tbody>
     <tfoot>
         <tr>
-            <th><button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button></th>
+            <th>
+                <input type="submit" class="btn btn-success" value="Save" name="Save">
+            </th>
         </tr>
     </tfoot>
 </table>

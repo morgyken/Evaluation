@@ -27,6 +27,10 @@ $results = $visit->investigations->where('type', 'laboratory')->where('has_resul
                                 Order labs   <span class="badge alert-success">new</span></a> </li>
                         <li><a href="#results" data-toggle="tab">
                                 Lab Results <span class="badge alert-success">{{$results->count()}}</span></a> </li>
+                        @if($results->count()>0)
+                        <li><a target="blank" href="{{route('evaluation.print.print_lab', $visit)}}">
+                                Print Results<span class="badge alert-success"></span></a></li>
+                        @endif
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active " id="ordered">

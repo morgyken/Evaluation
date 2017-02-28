@@ -7,217 +7,138 @@
 $patient = $data['patient'];
 $_visit = $data['visit'];
 ?>
-<style>
-    table{
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    table th{
-        border: 1px solid #ddd;
-        text-align: left;
-        padding: 1px;
-    }
-
-    table tr:nth-child(even){background-color: #f2f2f2}
-
-    table tr:hover {background-color: #ddd;}
-
-    table th{
-        padding-top: 1px;
-        padding-bottom: 1px;
-        background-color: /*#4CAF50*/ #BBBBBB;
-        color: white;
-    }
-    .left{
-        width: 60%;
-        float: left;
-    }
-    .right{
-        float: left;
-        width: 40%;
-    }
-    .clear{
-        clear: both;
-    }
-    img{
-        width:50%;
-        height: 50%/*auto*/;
-        float: right;
-    }
-    td{
-        font-size: 70%;
-    }
-    div #footer{
-        font-size: 70%;
-    }
-    th{
-        font-size: 80%;
-    }
-</style>
-<div class="box box-info">
-    <center>
-        <img src="{{realpath(base_path('/public/images/logo.png'))}}"/>
-    </center>
-    <div class="left">
-        <p>
-            <strong>{{config('practice.name')}}</strong><br/>
-            {{config('practice.building')}},
-            {{config('practice.street')?config('practice.street').',':''}}<br/>
-            {{config('practice.town')}}<br>
-            {{config('practice.telephone')?'Call Us:- '.config('practice.telephone'):''}}<br/>
-            {{config('practice.email')?'Email:- '.config('practice.email'):''}}
-        </p>
-        <strong>Patient:</strong><span class="content"> {{$patient->full_name}}</span><br/>
-        <strong>Date:</strong><span class="content"> {{(new Date())->format('j/m/Y H:i')}}</span><br/>
-    </div>
-    <div class="clear"></div>
-    <div class="content">
-        <div id="content">
-            <div class="box-body">
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                Patient visit details
-                            </th>
-                            <th>
-                                {{(new Date($_visit->created_at))->format('dS M y')}} -
-                                {{$_visit->clinics->name}}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td>
-                            Doctor's Notes
-                        </td>
+@include('evaluation::prints.partials.head')
+<strong>Patient:</strong><span class="content"> {{$patient->full_name}}</span><br/>
+<strong>Date:</strong><span class="content"> {{(new Date())->format('j/m/Y H:i')}}</span><br/><br/>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Patient visit details
+            </th>
+            <th>
+                {{(new Date($_visit->created_at))->format('dS M y')}} -
+                {{$_visit->clinics->name}}
+            </th>
+        </tr>
+    </thead>
+    <tr>
+        <td>
+            Doctor's Notes
+        </td>
 
 
-                        <td>
-                            @if(!empty($_visit->notes))
-                            <p>
-                                <strong>Presenting Complaints</strong>:<br>
-                                {{$_visit->notes->presenting_complaints}}<br>
-                            </p>
-
-                            <p>
-                                <strong>Past Medical History</strong>:<br>
-                                {{$_visit->notes->past_medical_history}}<br>
-                            </p>
-
-                            <p>
-                                <strong>Examination</strong>:<br>
-                                {{$_visit->notes->examination}}<br>
-                            </p>
-
-                            <p>
-                                <strong>Diagnosis</strong><br>
-                                {{$_visit->notes->diagnosis}}
-                                <br>
-                            </p>
-
-                            <p>
-                                <strong>Treatment Plan</strong><br>
-                                {{$_visit->notes->treatment_plan}}
-                            </p>
-                            @else
-                            <p class="text-warning"><i class="fa fa-info-circle"></i> Notes not available
-                            </p>
-                            @endif
-
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td>
-                            Prescriptions
-                        </td>
-                        <td>
-                            @if(!empty($_visit->prescriptions) && !$_visit->prescriptions->isEmpty())
-                            @foreach($_visit->prescriptions as $item)
-                            <p>
-                                Drug: {{$item->drug}}<br>
-                                Dose:{{$item->dose}}<br>
-                                Duration:{{$item->duration}}
-                            </p>
-                            @endforeach
-                            @else
-                            <p class="text-warning"><i class="fa fa-info-circle"></i> No treatment records
-                                available</p>
-                            @endif
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Vitals
-                        </td>
-                        <td>
-                            @if(!empty($_visit->vitals))
-                            <p>
-                                Weight:{{$_visit->vitals->weight }}<br>
-                                Height:{{$_visit->vitals->height}}
-                            </p>
-                            @endif
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Treatment
-                        </td>
-                        <td>
-                            @foreach($_visit->investigations->where('type','treatment') as $item)
-                            <p>{{str_limit($item->procedures->name,20,'...')}}
-                            </p>
-                            @endforeach
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Diagnosis
-                        </td>
-                        <td>
-                            @foreach($_visit->investigations->where('type','diagnosis') as $item)
-                            <p>
-                                Procedure:{{str_limit($item->procedures->name,20,'...')}}
-                                Price: {{$item->price}}
-                                Status: {!! payment_label($item->is_paid) !!}
-                            </p>
-                            @endforeach
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Lab
-                        </td>
-                        <td>
-                            @foreach($_visit->investigations->where('type','laboratory') as $item)
-                            <p>
-                                {{str_limit($item->procedures->name,20,'...')}}
-                                {{$item->price}}
-                                {!! payment_label($item->is_paid) !!}
-                            </p>
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr></tr>
-                </table>
-            </div>
-        </div>
-        <div id="footer">
+        <td>
+            @if(!empty($_visit->notes))
             <p>
-                <strong>{{config('practice.name')}}</strong><br/>
-                {{config('practice.building')}},
-                {{config('practice.street')?config('practice.street').',':''}}<br/>
-                {{config('practice.town')}}<br>
-                {{config('practice.telephone')?'Call Us:- '.config('practice.telephone'):''}}<br/>
-                {{config('practice.email')?'Email:- '.config('practice.email'):''}}
+                <strong>Presenting Complaints</strong>:<br>
+                {{$_visit->notes->presenting_complaints}}<br>
             </p>
-        </div>
-    </div>
+
+            <p>
+                <strong>Past Medical History</strong>:<br>
+                {{$_visit->notes->past_medical_history}}<br>
+            </p>
+
+            <p>
+                <strong>Examination</strong>:<br>
+                {{$_visit->notes->examination}}<br>
+            </p>
+
+            <p>
+                <strong>Diagnosis</strong><br>
+                {{$_visit->notes->diagnosis}}
+                <br>
+            </p>
+
+            <p>
+                <strong>Treatment Plan</strong><br>
+                {{$_visit->notes->treatment_plan}}
+            </p>
+            @else
+            <p class="text-warning"><i class="fa fa-info-circle"></i> Notes not available
+            </p>
+            @endif
+
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>
+            Prescriptions
+        </td>
+        <td>
+            @if(!empty($_visit->prescriptions) && !$_visit->prescriptions->isEmpty())
+            @foreach($_visit->prescriptions as $item)
+            <p>
+                Drug: {{$item->drug}}<br>
+                Dose:{{$item->dose}}<br>
+                Duration:{{$item->duration}}
+            </p>
+            @endforeach
+            @else
+            <p class="text-warning"><i class="fa fa-info-circle"></i> No treatment records
+                available</p>
+            @endif
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Vitals
+        </td>
+        <td>
+            @if(!empty($_visit->vitals))
+            <p>
+                Weight:{{$_visit->vitals->weight }}<br>
+                Height:{{$_visit->vitals->height}}
+            </p>
+            @endif
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Treatment
+        </td>
+        <td>
+            @foreach($_visit->investigations->where('type','treatment') as $item)
+            <p>{{str_limit($item->procedures->name,20,'...')}}
+            </p>
+            @endforeach
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Diagnosis
+        </td>
+        <td>
+            @foreach($_visit->investigations->where('type','diagnosis') as $item)
+            <p>
+                Procedure:{{str_limit($item->procedures->name,20,'...')}}
+                Price: {{$item->price}}
+                Status: {!! payment_label($item->is_paid) !!}
+            </p>
+            @endforeach
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Lab
+        </td>
+        <td>
+            @foreach($_visit->investigations->where('type','laboratory') as $item)
+            <p>
+                {{str_limit($item->procedures->name,20,'...')}}
+                {{$item->price}}
+                {!! payment_label($item->is_paid) !!}
+            </p>
+            @endforeach
+        </td>
+    </tr>
+    <tr></tr>
+</table>
+@include('evaluation::prints.partials.footer')
