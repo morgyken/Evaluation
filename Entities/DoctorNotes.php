@@ -2,6 +2,7 @@
 
 namespace Ignite\Evaluation\Entities;
 
+use Ignite\Evaluation\Entities\DiagnosisCodes;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -41,6 +42,23 @@ class DoctorNotes extends Model {
 
     public function visits() {
         return $this->belongsTo(Visit::class, 'visit');
+    }
+
+    public function getCodesAttribute() {
+        $_code = '';
+        try {
+            if (isset($this->diagnosis)) {
+                foreach (json_decode($this->diagnosis) as $key => $value) {
+                    $dcode = DiagnosisCodes::find($value);
+                    $_code.='<span class="label label-info">' . $dcode->name . '</span> ';
+                }
+                echo "Initial diagnoses:" . $_code;
+            } else {
+                'None selected';
+            }
+        } catch (\Exception $e) {
+            return 'Invalid format';
+        }
     }
 
 }

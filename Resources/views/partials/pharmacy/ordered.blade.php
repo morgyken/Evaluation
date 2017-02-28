@@ -37,12 +37,23 @@
     foreach ($item->drugs->prices as $p) {
         if ($p->price > $price) {
             $price = $p->price;
-            $cp = ceil(($item->drugs->categories->cash_markup ? $item->drugs->categories->cash_markup + 100 : $price) / 100 * $price); //$item->prices->credit_price
-            $crp = ceil(($item->drugs->categories->credit_markup ? $item->drugs->categories->credit_markup + 100 : $price) / 100 * $price);
-            $cash_price+=$cp;
-            $credit_price+=$crp;
         }
     }
+
+    if (isset($item->drugs->categories->cash_markup)) {
+        $cp = (($item->drugs->categories->cash_markup + 100) * $price) / 100;
+    } else {
+        $cp = $price;
+    }
+
+    if (isset($item->drugs->categories->credit_markup)) {
+        $crp = (($item->drugs->categories->credit_markup + 100) * $price) / 100;
+    } else {
+        $crp = $price;
+    }
+
+    $cash_price += $cp;
+    $credit_price += $crp;
     ?>
     <tr>
         <td>
@@ -85,7 +96,7 @@
         </td>
         <td><input size="5" class="discount" id="discount{{$item->id}}" type="text" onkeyup="getTotal(<?php echo $item->id; ?>)" name="discount{{$item->id}}" value="0" /></td>
         <td>
-            <input name="qty{{$item->id}}" id="quantity{{$item->id}}" onkeyup="getTotal(<?php echo $item->id; ?>)" class="qty{{$item->id}}" value="1" size="4" type="text" autocomplete="off"></td>
+            <input name="qty{{$item->id}}" id="quantity{{$item->id}}" onkeyup="getTotal(<?php echo $item->id; ?>)" class="qty{{$item->id}}" value="0" size="4" type="text" autocomplete="off"></td>
         <td>
             <input class="txt" size="10" readonly=""id="total{{$item->id}}" type="text" name="txt" />
         </td>

@@ -216,7 +216,16 @@ class EvaluationFunctions implements EvaluationRepository {
         if ($this->request->has('option')) {
             $this->save_eye_exam($this->request);
         }
-        return DoctorNotes::updateOrCreate(['visit' => $this->visit], $this->input);
+        $notes = DoctorNotes::findOrNew(['visit' => $this->visit]);
+        DoctorNotes::updateOrCreate(
+                ['visit' => $this->visit], ['presenting_complaints' => $this->request->presenting_complaints,
+            'past_medical_history' => $this->request->past_medical_history,
+            'examination' => $this->request->examination,
+            'investigations' => $this->request->investigations,
+            'treatment_plan' => $this->request->treatment_plan,
+            'diagnosis' => json_encode($this->request->diagnosis)
+        ]);
+        return true; //DoctorNotes::updateOrCreate(['visit' => $this->visit], $this->input);
     }
 
     public function save_eye_exam() {
