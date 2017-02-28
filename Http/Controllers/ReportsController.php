@@ -60,11 +60,38 @@ class ReportsController extends Controller {
      * @param int $visit_id
      * @return \Illuminate\Http\Response
      */
-    public function prescription($visit_id) {
-        $this->data['prescription'] = Prescriptions::whereVisit($visit_id)->get();
-        $pdf = \PDF::loadView('system.prints.prescriptions', ['data' => $this->data]);
-        $pdf->setPaper('A5', 'Landscape');
-        return $pdf->stream('prescription.pdf');
+    public function print_prescription(Request $request) {
+        try {
+            $this->data['prescription'] = Prescriptions::whereVisit($request->visit)->get();
+            $this->data['visit'] = Visit::find($request->visit);
+            $pdf = \PDF::loadView('evaluation::prints.prescriptions', ['data' => $this->data]);
+            $pdf->setPaper('A5', 'Landscape');
+            return $pdf->stream('prescription.pdf');
+        } catch (\Exception $ex) {
+            return back();
+        }
+    }
+
+    public function print_lab(Request $request) {
+        try {
+            $this->data['visit'] = Visit::find($request->visit);
+            $pdf = \PDF::loadView('evaluation::prints.lab.results', ['data' => $this->data]);
+            $pdf->setPaper('A5', 'Landscape');
+            return $pdf->stream('LabResults.pdf');
+        } catch (\Exception $exc) {
+            return back();
+        }
+    }
+
+    public function print_lab_one(Request $request) {
+        try {
+            $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
+            $pdf = \PDF::loadView('evaluation::prints.lab.one_lab', ['data' => $this->data]);
+            $pdf->setPaper('A5', 'Landscape');
+            return $pdf->stream('LabResult.pdf');
+        } catch (\Exception $ex) {
+            return back();
+        }
     }
 
     public function invoice($invoice) {

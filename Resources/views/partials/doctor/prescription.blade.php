@@ -86,11 +86,9 @@
                         </tbody>
                     </table>
                     <span class="pull-right">
-                        <!--
                         <a class="btn btn-primary btn-xs"
                            href="{{route('evaluation.print.prescription',$visit->id)}}" target="_blank">
                             <i class="fa fa-print"></i> Print</a>
-                        -->
                     </span>
 
 
@@ -123,6 +121,7 @@ if (is_module_enabled('Inventory')):
     <script src="{!! m_asset('evaluation:js/prescription.min.js') !!}"></script>
 
     <?php
+
 
 
 

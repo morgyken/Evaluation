@@ -5,7 +5,7 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 $prescriptions = $data['prescription'];
-$patient = $prescriptions->first()->visits->patients;
+$patient = $data['visit']->patients;
 ?>
 <style>
     #items {
@@ -57,7 +57,9 @@ $patient = $prescriptions->first()->visits->patients;
     }
 </style>
 <div class="box box-info">
+    <img src="{{realpath(base_path('/public/logo.jpg'))}}"/>
     <div class="left">
+
         <p>
             <strong>{{config('practice.name')}}</strong><br/>
             {{config('practice.building')}},
@@ -68,9 +70,6 @@ $patient = $prescriptions->first()->visits->patients;
         </p>
         <strong>Name:</strong><span class="content"> {{$patient->full_name}}</span><br/>
         <strong>Date:</strong><span class="content"> {{(new Date())->format('j/m/Y H:i')}}</span><br/>
-    </div>
-    <div class="right">
-        <img src="{{realpath(base_path('/public/img/image.jpg'))}}"/>
     </div>
     <div class="clear"></div>
     <div class="content">
@@ -88,7 +87,7 @@ $patient = $prescriptions->first()->visits->patients;
                     <tbody>
                         @foreach($prescriptions as $prescription)
                         <tr>
-                            <td>{{$prescription->drug}}</td>
+                            <td>{{$prescription->drugs->name}}</td>
                             <td>{{$prescription->dose}}</td>
                             <td>{{$prescription->duration}}</td>
                             <td>{{$prescription->sub}}</td>
