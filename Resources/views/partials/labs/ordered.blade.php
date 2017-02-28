@@ -38,18 +38,21 @@
             <hr/>
         </div>
         <div class="pull-right">
-            <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save"></i> Save</button>
+            <button type="submit" class="btn btn-xs btn-success">
+                <i class="fa fa-save"></i>
+                Save</button>
             <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
         </div>
     </div>
     @endforeach
 </div>
 {!! Form::close()!!}
-@else
-<p>No laboratory tests ordered for this patient</p>
-@endif
 <script type="text/javascript">
     $(function () {
         CKEDITOR.replaceAll();
     });
 </script>
+@else
+<p>No laboratory tests ordered for this patient</p>
+@endif
+

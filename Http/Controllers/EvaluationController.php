@@ -8,6 +8,9 @@ use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Reception\Entities\Patients;
+use Ignite\Evaluation\Entities\DoctorNotes;
+use Ignite\Evaluation\Entities\DiagnosisCodes;
+use Ignite\Evaluation\Entities\Procedures;
 use Illuminate\Http\Request;
 
 class EvaluationController extends AdminBaseController {
@@ -51,7 +54,7 @@ class EvaluationController extends AdminBaseController {
         $this->data['all'] = Visit::checkedAt('diagnostics')->get();
         $this->data['visit'] = Visit::find($visit);
         $this->data['section'] = $section;
-
+        $this->data['nursing_procedures'] = Procedures::whereCategory(6)->get();
         $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
         return view("evaluation::patient_$section", ['data' => $this->data]);
     }
@@ -92,6 +95,7 @@ class EvaluationController extends AdminBaseController {
         if ($section == 'evaluation') {
             $section = 'doctor';
         }
+
         return redirect()->back();
     }
 

@@ -19,6 +19,7 @@ extract($data);
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#vitals" data-toggle="tab">Vitals</a></li>
                     <li><a href="#doctor" data-toggle="tab">Preliminary Examination</a></li>
+                    <li><a href="#treatment" data-toggle="tab">Treatment</a></li>
                     @if($visit->theatre)
                     <li><a href="#thetre" data-toggle="tab">Theatre</a></li>
                     @endif
@@ -33,6 +34,11 @@ extract($data);
                     <div class="tab-pane" id="doctor">
                         <div>
                             @include('evaluation::partials.nurse.eye')
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="treatment">
+                        <div>
+                            @include('evaluation::partials.nurse.treatment')
                         </div>
                     </div>
                     <div class="tab-pane" id="thetre">
