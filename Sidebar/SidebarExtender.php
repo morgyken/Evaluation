@@ -80,10 +80,10 @@ class SidebarExtender implements Panda {
                     $item->route('evaluation.queues', 'pharmacy');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.pharmacy'));
                 });
-                $item->item('Psychotherapy Queue', function (Item $item) {
-                    $item->icon('fa fa-tablet');
-                    $item->route('evaluation.queues', 'pharmacy');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.pharmacy'));
+                $item->item('Physiotherapy Queue', function (Item $item) {
+                    $item->icon('fa fa-openid');
+                    $item->route('evaluation.queues', 'physio');
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.physio'));
                 });
                 $item->item('Review Visits', function (Item $item) {
                     $item->icon('fa fa-deaf');
@@ -95,14 +95,14 @@ class SidebarExtender implements Panda {
             $group->item('Setup', function (Item $item) {
                 $item->item('Procedure Categories', function(Item $item) {
                     $item->icon('fa fa-wpforms');
-                    $item->route('evaluation.setup.procedure_cat');
-                    $item->authorize($this->auth->hasAccess('evaluation.settings.view_procedure_cat'));
+                    $item->route('evaluation.setup.procedure_cat', 'procedure_categories');
+                    $item->authorize($this->auth->hasAccess('evaluation.settings.procedure_categories'));
                     $item->weight(4);
                 });
                 $item->item('Procedures', function(Item $item) {
                     $item->icon('fa fa-hourglass-1');
-                    $item->route('evaluation.setup.procedures');
-                    $item->authorize($this->auth->hasAccess('evaluation.settings.view_procedures'));
+                    $item->route('evaluation.setup.procedures', 'procedures');
+                    $item->authorize($this->auth->hasAccess('evaluation.settings.procedures'));
                     $item->weight(4);
                 });
             });

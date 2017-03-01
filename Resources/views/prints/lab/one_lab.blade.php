@@ -9,7 +9,7 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
     </tr>
     <tr>
         <td style="width: 50%">
-            <h4>Laboratory Test: {{$item->procedures->name}}</h4>
+            <h4>Procedure: {{$item->procedures->name}}</h4>
             <p>Requested By:<br> {{$item->doctors->profile->full_name}}</p>
             <p>Instructions:<br> {{$item->instructions ?? 'Not provided'}}</p>
             <p>Charges:<br> {{$item->pesa}}</p>

@@ -60,6 +60,15 @@ if (!function_exists('get_procedures_for')) {
             case 'diagnostics':
                 $to_fetch = 7;
                 break;
+            case 'nurse':
+                $to_fetch = 5;
+                break;
+            case 'radiology':
+                $to_fetch = 4;
+                break;
+            case 'physio':
+                $to_fetch = 9;
+                break;
             default :
                 dd("Undefined section");
                 break;
@@ -388,6 +397,9 @@ if (!function_exists('visit_destination')) {
         if ($visit->pharmacy) {
             $build[] = 'Pharmacy';
         }
+        if ($visit->pharmacy) {
+            $build[] = 'Physiotherapy';
+        }
         return $build;
     }
 
@@ -516,6 +528,7 @@ if (!function_exists('exportSickOff')) {
             $c = $table->addCell(2000);
             $c->addText('Payment');
             $n = 0;
+
             if (isset($vst->treatments)) {
                 foreach ($vst->treatments as $item) {
                     $table->addRow();
