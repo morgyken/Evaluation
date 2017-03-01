@@ -10,7 +10,7 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
     @foreach($results as $item)
     <tr>
         <td style="width: 50%">
-            <h4>Laboratory test #{{$loop->iteration}}: {{$item->procedures->name}}</h4>
+            <h4>Procedure #{{$loop->iteration}}: {{$item->procedures->name}}</h4>
             <p>Requested By:<br> {{$item->doctors->profile->full_name}}</p>
             <p>Instructions:<br> {{$item->instructions ?? 'Not provided'}}</p>
             <p>Charges:<br> {{$item->pesa}}</p>

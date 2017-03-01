@@ -24,7 +24,7 @@ $section = strtolower($department);
                 @if(!isset($doc))
                 @foreach($all as $visit)
                 <tr id="row_id{{$visit->id}}">
-                    <td>{{$visit->patients->full_name}}</td>
+                    <td>{{$visit->patients?$visit->patients->full_name:'-'}}</td>
                     <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
                     <td>{{$visit->visit_destination}}</td>
                     <td>

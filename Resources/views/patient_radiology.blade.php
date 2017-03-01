@@ -5,6 +5,8 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 extract($data);
+$tests = $visit->investigations->where('type', 'radiology')->where('has_result', false);
+$results = $visit->investigations->where('type', 'radiology')->where('has_result', true);
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation | Radiology')
@@ -12,44 +14,40 @@ extract($data);
 
 @section('content')
 @include('evaluation::partials.common.patient_details')
-<div class="box box-info">
+<div class="box box-default">
     <div class="box-body">
         <div class="form-horizontal">
             <div class="col-md-12">
-                @if(!empty($data['visit']->investigations))
-                <div class="accordion">
-                    @foreach($data['visit']->investigations as $item)
-                    <h4>{{$item->procedures->name}}</h4>
-                    <div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Results</label>
-                                <textarea name="" class="form-control"></textarea>
-                            </div>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#ordered" data-toggle="tab">
+                                Ordered Procedures<span class="badge alert-info">{{$tests->count()}}</span></a></li>
+                        <li><a href="#new" data-toggle="tab">
+                                New Procedures  <span class="badge alert-success">new</span></a> </li>
+                        <li><a href="#results" data-toggle="tab">
+                                Results <span class="badge alert-success">{{$results->count()}}</span></a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active " id="ordered">
+                            @include('evaluation::partials.radio.ordered')
                         </div>
-                        <div class="col-md-4 col-md-offset-2">
-                            <div class="form-group">
-                                <label>File</label>
-                                <input type="file" class="form-control"/>
-                            </div>
+                        <div class="tab-pane" id="new">
+                            @include('evaluation::partials.radio.new')
                         </div>
-                        <div class="pull-right">
-                            <button>Cancel</button>
-                            <button type="submit">Save</button>
+                        <div class="tab-pane" id="results">
+                            @include('evaluation::partials.radio.results')
                         </div>
                     </div>
-                    @endforeach
                 </div>
-                @endif
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    var visit = "{{ $data['visit'] }}";
-    $(document).ready(function () {
-        $('.accordion').accordion({heightStyle: "content"});
-    });
-</script>
 
+<script type="text/javascript">
+    var VISIT_ID = "{{ $visit->id }}";
+    var SAVE_URL = "{{route('api.evaluation.investigation_result')}}";
+</script>
+<script src="{{m_asset('evaluation:js/results.min.js')}}"></script>
 @endsection

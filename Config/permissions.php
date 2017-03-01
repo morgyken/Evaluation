@@ -18,13 +18,14 @@ return [
         'diagnostics' => 'Diagnostics Evaluation',
         'radiology' => 'Radiology Evaluation',
         'pharmacy' => 'Pharmacy Evaluation',
+        'physio' => 'Physiotherapy Queue',
         'review' => 'Review patient information',
     ],
     'evaluation.settings' => [
-        'view_procedure_cat' => 'View procedures categories',
+        'procedure_categories' => 'View procedures categories',
         'manage_procedures_cat' => 'Manage procedure categories',
         //
-        'view_procedures' => 'View procedures',
+        'procedures' => 'View procedures',
         'manage_procedures' => 'Manage procedures',
     ]
 ];

@@ -35,7 +35,7 @@ class ProceduresTableSeeder extends Seeder {
           15 => ['name' => 'Theatre', 'applies_to' => 8],
           ]; */
         $procedures = [
-            ['name' => 'Consultation', 'code' => 'CONS', 'cash_charge' => '3000.00'],
+            ['name' => 'Consultation', 'code' => 'CONS', 'precharge' => '1', 'cash_charge' => '3000.00'],
             ['name' => 'TBC(Total Blood Count) or FBC(Full Blood Count){Hb,RBC,PCV,MCV,MCH,MCHC, WBC,PLT,}', 'code' => 'C0044', 'cash_charge' => '1000.00'],
             ['name' => 'Hb(Haemoglobin)', 'code' => 'H0069', 'cash_charge' => '400.00'],
             ['name' => 'PCV(Packed Cell Volume)', 'code' => 'P0029', 'cash_charge' => '450.00'],
