@@ -38,9 +38,11 @@
             <hr/>
         </div>
         <div class="pull-right">
+            <!--
             <button type="submit" class="btn btn-xs btn-success">
                 <i class="fa fa-save"></i>
-                Save</button>
+                Save</button> -->
+            <input type="submit" value="Save" class="btn btn-xs btn-success">
             <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
         </div>
     </div>
