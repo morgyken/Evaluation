@@ -24,8 +24,11 @@
                 {!! Form::label('doc', 'File',['class'=>'control-label col-md-4']) !!}
                 <div class="col-md-8">
                     <div id="tags">
-                        {!! Form::file('doc', ['class' => 'form-control']) !!}
+                        {!! Form::file('doc', ['class' => 'file form-control']) !!}
                         {!! $errors->first('doc', '<span class="help-block">:message</span>') !!}
+                        <span class="img">
+                            <input type="hidden" class="imgsrc" name="imagesrc" value="">
+                        </span>
                     </div>
                 </div>
             </div>
@@ -46,18 +49,53 @@
             <table class="table table-condensed" id="documents-tbl">
                 <tbody>
                     @foreach($visit->patients->documents as $doc)
-                    <tr id="row_id{{$doc->document_id}}">
-                        <td><a href="{{route('reception.view_document',$doc->id)}}" target="_blank">
-                                {{$doc->filename}}</a>
+                    <tr id="row_id{{$doc->id}}">
+                        <td>
+                            @if(strpos($doc->mime, 'image') !== false)
+                            <a href="#" data-toggle="modal" data-target="#image_{{$doc->id}}">
+                                {{substr($doc->filename, 0, 50)}}
+                            </a>
+                            @else
+                            <a href="{{route('reception.view_document',$doc->id)}}" target="_blank">
+                                {{substr($doc->filename, 0, 50)}}
+                            </a>
+                            @endif
                         </td>
                         <td>{{mconfig('reception.options.document_types.'.$doc->document_type)}}</td>
                         <td>{{number_format($doc->description/1024,2)}} KiB</td>
                         <td>{{$doc->mime}}</td>
                         <td>{{$doc->users->profile->full_name}}</td>
                         <td>{{smart_date_time($doc->created_at)}}</td>
-                        <td><a href="{{route('reception.view_document',$doc->id)}}" target="_blank">
+                        <td>
+
+                            @if(strpos($doc->mime, 'image') !== false)
+                            <a href="#" data-toggle="modal" data-target="#image_{{$doc->id}}">
+                                <i class="fa fa-eye"></i>View
+                            </a>
+                            <!-- Modal -->
+                            <div class="modal fade" id="image_{{$doc->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">{{$doc->filename}}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="{{$doc->document}}"  alt="Patient Image" height="300px"/>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @else
+                            <a href="{{route('reception.view_document',$doc->id)}}" target="_blank">
                                 <i class="fa fa-eye"></i> View
                             </a>
+                            @endif
                             <button class="btn btn-xs btn-danger trash" value="{{$doc->id}}">
                                 <i class="fa fa-trash-o "></i> Delete</button></td>
                     </tr>
@@ -128,5 +166,53 @@
             $('#documents-tbl').DataTable();
         } catch (e) {
         }
+
+
+        $('.file').change(function (e) {
+            var fileInput = $(this);
+            if (fileInput.length && fileInput[0].files && fileInput[0].files.length) {
+                var url = window.URL || window.webkitURL;
+                var image = new Image();
+                image.onload = function () {
+                    // alert('Valid Image');
+                    var image_path = URL.createObjectURL(e.target.files[0]);
+                    $('#thephoto').attr("src", image_path);
+                    toDataUrl(image_path, function (base64Img) {
+                        IMAGE_SRC = base64Img;
+                        $('.imgsrc').val(IMAGE_SRC);
+                    });
+                };
+                image.onerror = function () {
+                    $('.imgsrc').val('not_image');
+                };
+                image.src = url.createObjectURL(fileInput[0].files[0]);
+            }
+        });
+
+        /*
+         $('#photo').change(function (e) {
+         var image_path = URL.createObjectURL(e.target.files[0]);
+         $('#thephoto').attr("src", image_path);
+         toDataUrl(image_path, function (base64Img) {
+         IMAGE_SRC = base64Img;
+         });
+         }); */
+
+        function toDataUrl(src, callback) {
+            var img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.onload = function () {
+                var canvas = document.createElement('CANVAS');
+                var ctx = canvas.getContext('2d');
+                var dataURL;
+                canvas.height = this.height;
+                canvas.width = this.width;
+                ctx.drawImage(this, 0, 0);
+                dataURL = canvas.toDataURL('image/png');
+                callback(dataURL);
+            };
+            img.src = src;
+        }
+
     });
 </script>
