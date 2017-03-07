@@ -142,6 +142,17 @@ class Visit extends Model {
         return $this->belongsTo(User::class, 'destination');
     }
 
+    public function getDoctorAttribute() {
+        foreach ($this->destinations as $d) {
+            if ($d->destination > 0) {
+                return $d->medics->profile->name;
+            } else {
+                return '';
+            }
+        }
+        //return $doc;
+    }
+
     public function patient_scheme() {
         return $this->belongsTo(PatientInsurance::class, 'scheme');
     }
