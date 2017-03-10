@@ -74,12 +74,27 @@ $procedure = $data['procedure'];
                         {!! $errors->first('status', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
-                <div class="form-group {{ $errors->has('status') ? ' has-error' : '' }}">
+                <div class="form-group {{ $errors->has('precharge') ? ' has-error' : '' }}">
                     {!! Form::label('precharge', 'Charge at Reception',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
                         <input type="checkbox" name="precharge" value="1">
                     </div>
                 </div>
+
+                <div class="form-group {{ $errors->has('inventory_items') ? ' has-error' : '' }}">
+                    {!! Form::label('inventory_items', 'Consumes Inventory Items?',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        <input type="checkbox" id="has_items" name="has_items" value="1">
+                    </div>
+                </div>
+
+                <div id="items" class="form-group {{ $errors->has('inventory_items') ? ' has-error' : '' }}">
+                    {!! Form::label('inventory_items', 'Select Items Consumed',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        @include('evaluation::setup.partials.inventory_items')
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="box-footer">
@@ -95,7 +110,7 @@ $procedure = $data['procedure'];
         <h3 class="box-title">Procedure Categories</h3>
     </div>
     <div class="box-body">
-        <table class="table table-responsive table-condensed">
+        <table id="data" class="table table-responsive table-condensed">
             <tbody>
                 @foreach($data['procedures'] as $procedure)
                 <tr>
@@ -126,12 +141,7 @@ $procedure = $data['procedure'];
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        try {
-            $('table').DataTable();
-        } catch (e) {
-
-        }
-    });
+    var PRODUCTS_URL = "{{route('api.inventory.get_products')}}";
 </script>
+<script src="{!! m_asset('evaluation:js/inventory_items.js') !!}"></script>
 @endsection

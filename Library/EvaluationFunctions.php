@@ -12,6 +12,7 @@
 
 namespace Ignite\Evaluation\Library;
 
+use Ignite\Evaluation\Entities\ProcedureInventoryItem;
 use Ignite\Evaluation\Entities\DiagnosisCodes;
 use Ignite\Evaluation\Entities\DoctorNotes;
 use Ignite\Evaluation\Entities\Drawings;
@@ -94,6 +95,8 @@ class EvaluationFunctions implements EvaluationRepository {
             $this->user = $this->request->user()->id;
         }
         $this->prepareInput($this->input);
+
+        $this->inventoryRepository = $repo;
     }
 
     /**
@@ -465,7 +468,55 @@ class EvaluationFunctions implements EvaluationRepository {
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function add_procedure() {
-        return Procedures::updateOrCreate(['id' => $this->id], $this->input);
+        DB::transaction(function () {
+            $stack = self::order_item_stack(array_keys($this->request->all()));
+            if ($this->request->id == "") {
+                $procedure = new Procedures();
+            } else {
+                $procedure = Procedures::findOrNew($this->request->id);
+            }
+
+            $procedure->name = $this->request->name;
+            $procedure->code = $this->request->code;
+            $procedure->category = $this->request->category;
+            $procedure->description = $this->request->description;
+            $procedure->cash_charge = $this->request->cash_charge;
+            if ($this->request->cash_charge_insurance > 0) {
+                $procedure->charge_insurance = 1;
+            }
+            if (isset($this->request->precharge)) {
+                $procedure->precharge = true;
+            }
+            $procedure->status = $this->request->status;
+            $procedure->save();
+
+            foreach ($stack as $index) {
+                $item = 'item' . $index;
+                $quantity = 'qty' . $index;
+                $pr_items = new ProcedureInventoryItem();
+                $pr_items->procedure = $procedure->id;
+                $pr_items->item = $this->request->$item;
+                $pr_items->units = $this->request->$quantity;
+                $pr_items->save();
+            }
+        });
+
+        return true;
+    }
+
+    /**
+     * Build an index of items in dynamic LPO
+     * @param $keys
+     * @return array
+     */
+    private function order_item_stack($keys) {
+        $stack = [];
+        foreach ($keys as $one) {
+            if (substr($one, 0, 4) == 'item') {
+                $stack[] = substr($one, 4);
+            }
+        }
+        return $stack;
     }
 
     /**
@@ -477,6 +528,7 @@ class EvaluationFunctions implements EvaluationRepository {
         foreach ($this->__get_selected_stack() as $index) {
             $item = 'item' . $index;
             $price = 'price' . $index;
+
             Investigations::create([
                 'visit' => $this->visit,
                 'type' => $type,
@@ -484,6 +536,22 @@ class EvaluationFunctions implements EvaluationRepository {
                 'procedure' => $this->input[$item],
                 'price' => $this->input[$price],
             ]);
+
+            $procedure = Procedures::find($this->input[$item]);
+            if (!$procedure->items->isEmpty()) {
+                foreach ($procedure->items as $item) {
+                    $adj = new \Ignite\Inventory\Entities\InventoryStockAdjustment;
+                    $adj->quantity = $item->units;
+                    $adj->user = \Auth::user()->id;
+                    $adj->method = '-';
+                    $adj->type = 'procedure_consumption';
+                    $adj->reason = $type . ":-" . $procedure->name;
+                    $adj->product = $item->inventory->id;
+                    $adj->opening_qty = $this->inventoryRepository->openingStock($item->inventory->id);
+                    $adj->save();
+                    $this->inventoryRepository->adjust_stock($adj);
+                }
+            }
         }
         return true;
     }

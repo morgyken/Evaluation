@@ -23,8 +23,17 @@ $results = $visit->investigations->where('type', 'laboratory')->where('has_resul
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#ordered" data-toggle="tab">
                                 Ordered Labs<span class="badge alert-info">{{$labs->count()}}</span></a></li>
+
                         <li><a href="#new" data-toggle="tab">
                                 Order labs   <span class="badge alert-success">new</span></a> </li>
+
+                        <!--
+                        <li>
+                            <a href="#_new" data-toggle="tab">
+                                Order labs (2)   <span class="badge alert-success">new</span></a>
+                        </li>
+                        -->
+
                         <li><a href="#results" data-toggle="tab">
                                 Lab Results <span class="badge alert-success">{{$results->count()}}</span></a> </li>
                         @if($results->count()>0)
@@ -38,6 +47,9 @@ $results = $visit->investigations->where('type', 'laboratory')->where('has_resul
                         </div>
                         <div class="tab-pane" id="new">
                             @include('evaluation::partials.labs.new')
+                        </div>
+                        <div class="tab-pane" id="_new">
+                            @include('evaluation::partials.labs.labs')
                         </div>
                         <div class="tab-pane" id="results">
                             @include('evaluation::partials.labs.results')
@@ -54,4 +66,5 @@ $results = $visit->investigations->where('type', 'laboratory')->where('has_resul
     var SAVE_URL = "{{route('api.evaluation.investigation_result')}}";
 </script>
 <script src="{{m_asset('evaluation:js/results.min.js')}}"></script>
+@include('evaluation::routes')
 @endsection
