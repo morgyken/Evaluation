@@ -2,7 +2,7 @@
 /*
  * Collabmed Solutions Ltd
  * Project: iClinic
- *  Author: Samuel Okoth <sodhiambo@collabmed.com>
+ *  Author: Bravo Kiptoo <bkiptoo@collabmed.com>
  *///$diagnosis=
 
 $labs = get_procedures_for('laboratory');
@@ -30,7 +30,7 @@ $labs = get_procedures_for('laboratory');
                     @if(!$procedure->items->isEmpty())
                     <hr>
                     <h5>Inventory Item(s) Consumed</h5>
-                    <table class="table">
+                    <table class="table table-condensed">
                         <tr>
                             <th>Item</th>
                             <th>Units Consumed</th>
@@ -38,7 +38,7 @@ $labs = get_procedures_for('laboratory');
                         @foreach($procedure->items as $item)
                         <tr>
                             <td>{{$item->inventory->name}}</td>
-                            <td><input type="text" name="units" class="form-control" ></td>
+                            <td><input type="text" value="{{$item->units}}"></td>
                         </tr>
                         @endforeach
                     </table>

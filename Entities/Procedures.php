@@ -29,23 +29,24 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereStatus($value)
  * @mixin \Eloquent
  */
-class Procedures extends Model
-{
+class Procedures extends Model {
+
     public $table = 'evaluation_procedures';
     protected $guarded = [];
     protected $appends = ['price'];
     protected $hidden = ['cah_charge'];
     public $timestamps = false;
 
-    public function getPriceAttribute()
-    {
+    public function getPriceAttribute() {
         return (int) ceil($this->cash_charge);
     }
 
-    public function categories()
-    {
+    public function categories() {
         return $this->belongsTo(ProcedureCategories::class, 'category');
     }
 
+    public function items() {
+        return $this->hasMany(ProcedureInventoryItem::class, 'procedure');
+    }
 
 }
