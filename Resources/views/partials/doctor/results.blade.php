@@ -38,7 +38,13 @@ extract($data);
             </div>
             <div class="col-md-6">
                 <h4>Test Results</h4>
-                <div class="well well-sm">{!!$item->results->results!!}</div>
+                <div class="well well-sm">
+                    <?php $results = json_decode($item->results->results); ?>
+                    @foreach ($results as $r)
+                    <strong>{{$r[0]}}</strong>
+                    {{$r[1]}}<br>
+                    @endforeach
+                </div>
                 @if($item->results->documents)
                 Uploaded File -
                 <a href="{{route('reception.view_document',$item->results->documents->id)}}" target="_blank">

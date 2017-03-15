@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $code
  * @property integer $category
  * @property integer $template
- * @property float $cash_charge
- * @property boolean $charge_insurance
  * @property string $description
  * @property boolean $status
  * @property-read mixed $price
@@ -29,28 +27,21 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereStatus($value)
  * @mixin \Eloquent
  */
-class Procedures extends Model {
+class SubProcedures extends Model {
 
-    public $table = 'evaluation_procedures';
+    public $table = 'evaluation_subprocedures';
     protected $guarded = [];
-    protected $appends = ['price'];
-    protected $hidden = ['cah_charge'];
-    public $timestamps = false;
 
-    public function getPriceAttribute() {
-        return (int) ceil($this->cash_charge);
+    public function subProcedureCategories() {
+        return $this->belongsTo(LabtestCategories::class, 'category');
     }
 
-    public function categories() {
-        return $this->belongsTo(ProcedureCategories::class, 'category');
+    public function _procedure() {
+        return $this->belongsTo(Procedures::class, 'procedure');
     }
 
-    public function items() {
-        return $this->hasMany(ProcedureInventoryItem::class, 'procedure');
-    }
-
-    public function children() {
-        return $this->hasMany(SubProcedures::class, 'parent');
+    public function _parent() {
+        return $this->belongsTo(Procedures::class, 'parent');
     }
 
 }

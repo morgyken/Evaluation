@@ -4,7 +4,8 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$performed_diagnosis = get_investigations($visit, ['laboratory', 'diagnostics']);
+$performed_diagnosis = get_investigations($visit, ['diagnostics']);
+$performed_labs = get_investigations($visit, ['laboratory']);
 ?>
 <div>
     <div class="row">
@@ -54,7 +55,7 @@ $performed_diagnosis = get_investigations($visit, ['laboratory', 'diagnostics'])
     </div>
     <div class="row">
         <div class="col-md-12">
-            @if(!$performed_diagnosis->isEmpty())
+
             <div class="box box-success">
                 <div class="box-header">
                     <h4 class="box-title">Previously ordered tests</h4>
@@ -71,6 +72,7 @@ $performed_diagnosis = get_investigations($visit, ['laboratory', 'diagnostics'])
                             </tr>
                         </thead>
                         <tbody>
+                            @if(!$performed_diagnosis->isEmpty())
                             @foreach($performed_diagnosis as $item)
                             <tr>
                                 <td>{{str_limit($item->procedures->name,20,'...')}}</td>
@@ -86,11 +88,32 @@ $performed_diagnosis = get_investigations($visit, ['laboratory', 'diagnostics'])
                                 @endif
                             </tr>
                             @endforeach
+                            @endif
+
+                            @if(!$performed_labs->isEmpty())
+                            @foreach($performed_labs as $item)
+                            @if($item->has_result)
+                            @if($item->results->status ==1)
+                            <tr>
+                                <td>{{str_limit($item->procedures->name,20,'...')}}</td>
+                                <td>{{$item->type}}</td>
+                                <td>{{$item->price}}</td>
+                                <td>{!! payment_label($item->is_paid) !!}</td>
+                                <td>
+                                    <a href="{{route('evaluation.view_result',$item->visit)}}" class="btn btn-xs btn-success" target="_blank">
+                                        <i class="fa fa-external-link"></i> View Result
+                                    </a>
+                                </td>
+                            </tr>
+                            @endif
+                            @endif
+                            @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
             </div>
-            @endif
+
         </div>
     </div>
 </div>

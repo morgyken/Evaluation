@@ -15,6 +15,17 @@ $(document).ready(function () {
         show_items();
     });
 
+    $("#labs").hide();
+
+    $("#category").change(function () {
+        var selected = parseInt(this.value);
+        if (selected === 4) {
+            $("#labs").show();
+        } else {
+            $("#labs").hide();
+        }
+    });
+
 
     function show_items() {
         var status = $("#has_items").is(':checked');

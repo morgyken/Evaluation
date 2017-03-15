@@ -1,5 +1,6 @@
 <?php
 
+use Ignite\Core\Contracts\Authentication;
 use Illuminate\Routing\Router;
 
 $router->get('patients/queue/{department}', ['uses' => 'EvaluationController@queues', 'as' => 'queues']);
@@ -25,11 +26,19 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
     $router->post('procedures/save', ['as' => 'procedures.save', 'uses' => 'SetupController@save_procedure']);
     $router->get('procedure_cat/show/{cat?}', ['as' => 'procedure_cat', 'uses' => 'SetupController@procedure_cat']);
     $router->post('procedure_cat/save', ['as' => 'procedure_cat.save', 'uses' => 'SetupController@save_procedure_cat']);
+
+    $router->get('sub-procedures/show/{procedure?}', ['as' => 'subprocedures', 'uses' => 'SetupController@subprocedures']);
+    $router->post('sub-procedures/save', ['as' => 'subprocedures.save', 'uses' => 'SetupController@savesubprocedure']);
+    $router->get('temp', ['as' => 'temp', 'uses' => 'SetupController@temp']);
 });
 
 $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $router) {
     $router->post('pay/{patient?}', ['as' => 'pay_receipt', 'uses' => 'ReportsController@payment_receipt']);
     $router->post('patients/sick_off/notes', ['uses' => 'ReportsController@sick_off', 'as' => 'sick_off']);
+});
+
+$router->group(['prefix' => 'lab', 'as' => 'lab.'], function (Router $router) {
+    $router->get('lab/result/approve/{result?}', ['as' => 'approve_result', 'uses' => 'EvaluationController@ApproveLabResult']);
 });
 
 //printables
