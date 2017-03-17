@@ -27,6 +27,7 @@ $section = strtolower($department);
                     <td>{{$visit->patients?$visit->patients->full_name:'-'}}</td>
                     <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
                     <td>{{$visit->visit_destination}}</td>
+                    <td>{{$visit->doctor}}</td>
                     <td>
                         <a href="{{route('evaluation.preview',[$visit->id,$section])}}" class="btn btn-xs btn-primary">
                             <i class="fa fa-ellipsis-h"></i> Manage</a>
@@ -43,6 +44,7 @@ $section = strtolower($department);
                     <td>{{$visit->patients->full_name}}</td>
                     <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
                     <td>{{$visit->visit_destination}}</td>
+                    <td>{{$visit->doctor}}</td>
                     <td>
                         <a href="{{route('evaluation.preview',[$visit->id,$section])}}" class="btn btn-xs btn-primary">
                             <i class="fa fa-ellipsis-h"></i> Manage</a>
@@ -60,6 +62,7 @@ $section = strtolower($department);
                     <th>Name</th>
                     <th>Date / Time</th>
                     <th>Destination</th>
+                    <th>Doctor</th>
                     <th>Actions</th>
                 </tr>
             </thead>

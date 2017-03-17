@@ -17,14 +17,32 @@
     <h4>{{$item->procedures->name}}</h4>
     <div>
         <div class="col-md-6">
-            <!--
-            <div class="form-group">
-                <label>Results</label>
-                <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
-                <textarea name="results{{$item->id}}" class="form-control" ></textarea>
-            </div>
-            -->
+            <!-- Main Test Section -->
             <h4>Results</h4>
+            <!-- Main Test Section -->
+            <div class="form-group">
+                <?php
+                $_type = $item->procedures->this_test->lab_result_type;
+                ?>
+                <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
+                <input type="hidden" name="test{{$item->id}}[]" value="{{$item->procedures->this_test->procedure}}" />
+                @if ($_type == 'number')
+                <input type="number" name="results{{$item->id}}[]" class="form-control">
+                @elseif ($_type == 'select')
+                <select name="results{{$item->id}}[]" class="form-control">
+                    <?php $_options = json_decode($item->procedures->this_test->lab_result_options) ?>
+                    @if(isset($_options))
+                    @foreach ($_options as $option) {
+                    <option value="{{$option}}">{{$option}}</option>
+                    @endforeach
+                    @endif
+                </select>
+                @else
+                <textarea rows="5" name="results{{$item->id}}[]" class="form-control"></textarea>
+                @endif
+            </div>
+            <br><!-- End of main test section -->
+
             @foreach($item->procedures->children as $test)
             <div class="form-group">
                 <label class="col-md-4">

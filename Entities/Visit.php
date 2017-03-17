@@ -145,7 +145,7 @@ class Visit extends Model {
     public function getDoctorAttribute() {
         foreach ($this->destinations as $d) {
             if ($d->destination > 0) {
-                return $d->medics->profile->name;
+                return 'Dr. ' . $d->medics->profile->name;
             } else {
                 return '';
             }

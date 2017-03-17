@@ -43,6 +43,9 @@
         </tr>
         <?php $results = json_decode($item->results->results); ?>
         @foreach ($results as $r)
+        <?php
+        // $test = Ignite\Evaluation\Entities\Procedures::whereName($r[0])->get();
+        ?>
         <tr>
             <td>{{$r[0]}}</td>
             <td>{{$r[1]}}</td>

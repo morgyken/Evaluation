@@ -49,6 +49,10 @@ class Procedures extends Model {
         return $this->hasMany(ProcedureInventoryItem::class, 'procedure');
     }
 
+    public function this_test() {
+        return $this->belongsTo(SubProcedures::class, 'id', 'procedure');
+    }
+
     public function children() {
         return $this->hasMany(SubProcedures::class, 'parent');
     }
