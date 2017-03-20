@@ -40,9 +40,6 @@ $procedure = $data['procedure'];
                         {!! $errors->first('category', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
-
-                @include('evaluation::partials.labs.labtests')
-
                 <div class="form-group {{ $errors->has('description') ? ' has-error' : '' }}">
                     {!! Form::label('description', 'Description',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
@@ -119,7 +116,7 @@ $procedure = $data['procedure'];
                 <tr>
                     <td>{{$procedure->name}}</td>
                     <td>{{$procedure->categories->name}}</td>
-                    <td>{{$procedure->code?$procedure->code:''}}</td>
+                    <td>{{$procedure->code}}</td>
                     <td>{{$procedure->cash_charge}}</td>
                     <td>
                         <a class="btn btn-primary btn-xs"

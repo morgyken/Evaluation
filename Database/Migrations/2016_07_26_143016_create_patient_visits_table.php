@@ -16,6 +16,7 @@ class CreatePatientVisitsTable extends Migration {
             $column->integer('clinic')->unsigned();
             $column->integer('patient')->unsigned();
             $column->integer('purpose')->nullable()->unsigned();
+            $column->integer('requesting_institution')->nullable()->unsigned();
             //payments
             $column->integer('user')->unsigned();
             $column->string('payment_mode')->default('cash');
@@ -41,6 +42,10 @@ class CreatePatientVisitsTable extends Migration {
                     ->onUpdate('cascade');
             $column->foreign('scheme')->references('id')
                     ->on('reception_patient_schemes')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+            $column->foreign('requesting_institution')->references('id')
+                    ->on('evaluation_lab_partner_institutions')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
         });

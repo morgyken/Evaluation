@@ -145,7 +145,16 @@ class EvaluationFunctions implements EvaluationRepository {
                 continue;
             }
             $__in = InvestigationResult::firstOrNew(['investigation' => $item]);
-            $__in->results = $this->input['results' . $item];
+
+            $test_result = array();
+            $res_array = $this->input['results' . $item];
+            foreach ($this->input['test' . $item] as $key => $value) {
+                $test_result[] = array($value, $res_array[$key]);
+            }
+
+            $result_array = \GuzzleHttp\json_encode($test_result);
+            $__in->results = $result_array;
+
             if ($this->request->hasFile('file' . $item)) {
                 $temp = "file$item";
                 $file = $this->upload_patient_doc($this->request->$temp);
@@ -481,14 +490,20 @@ class EvaluationFunctions implements EvaluationRepository {
             $procedure->category = $this->request->category;
             $procedure->description = $this->request->description;
             $procedure->cash_charge = $this->request->cash_charge;
+
             if ($this->request->cash_charge_insurance > 0) {
                 $procedure->charge_insurance = 1;
             }
+
             if (isset($this->request->precharge)) {
                 $procedure->precharge = true;
             }
             $procedure->status = $this->request->status;
             $procedure->save();
+
+            if ($this->request->category == 4) {
+                $this->saveSubProcedure($procedure->id, $this->request);
+            }
 
             foreach ($stack as $index) {
                 $item = 'item' . $index;
@@ -502,6 +517,30 @@ class EvaluationFunctions implements EvaluationRepository {
         });
 
         return true;
+    }
+
+    public function saveSubProcedure($procedure, $request) {
+        $s = new \Ignite\Evaluation\Entities\SubProcedures;
+        $s->procedure = $procedure;
+        if ($request->parent > 0) {
+            $s->parent = $request->parent;
+        }
+        if ($request->lab_category > 0) {
+            $s->category = $request->lab_category;
+        }
+
+        $s->lab_result_type = $request->result_type;
+        $s->lab_sample_type = $request->sample_type;
+        if ($request->min_range <> 0) {
+            $s->lab_min_range = $request->min_range;
+        }
+        if ($request->max_range <> 0) {
+            $s->lab_max_range = $request->max_range;
+        }
+        $s->lab_result_options = \GuzzleHttp\json_encode($request->result_options);
+        $s->lab_ordered_independently = $request->ordered_independently;
+        $s->lab_multiple_orders_allowed = $request->multiple_orders_allowed;
+        return $s->save();
     }
 
     /**
@@ -583,6 +622,27 @@ class EvaluationFunctions implements EvaluationRepository {
             }
         }
         return $stack;
+    }
+
+    /**
+     * Add a partner institution to the database
+     * @param Request $request
+     * @param int|null $id
+     * @return bool
+     */
+    public function SavePartnerInstitution() {
+        $partner = \Ignite\Evaluation\Entities\PartnerInstitution::findOrNew($this->request->id);
+        $partner->name = ucfirst($this->request->name);
+        $partner->address = $this->request->address;
+        $partner->telephone = $this->request->telephone;
+        $partner->mobile = $this->request->mobile;
+        $partner->post_code = $this->request->post_code;
+        $partner->email = $this->request->email;
+        $partner->building = $this->request->building;
+        $partner->fax = $this->request->fax;
+        $partner->street = $this->request->street;
+        $partner->town = $this->request->town;
+        return $partner->save();
     }
 
 }

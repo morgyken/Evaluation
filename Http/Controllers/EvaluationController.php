@@ -158,4 +158,17 @@ class EvaluationController extends AdminBaseController {
         }
     }
 
+    public function ApproveLabResult(Request $request) {
+        try {
+            $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
+            $result->status = 1;
+            $result->save();
+            flash('Result status has been updated... thank you', 'success');
+            return back();
+        } catch (\Exception $exc) {
+            flash('Result status could not be updated... please try again', 'danger');
+            return back();
+        }
+    }
+
 }

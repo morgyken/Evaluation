@@ -145,7 +145,7 @@ class Visit extends Model {
     public function getDoctorAttribute() {
         foreach ($this->destinations as $d) {
             if ($d->destination > 0) {
-                return $d->medics->profile->name;
+                return 'Dr. ' . $d->medics->profile->name;
             } else {
                 return '';
             }
@@ -155,6 +155,10 @@ class Visit extends Model {
 
     public function patient_scheme() {
         return $this->belongsTo(PatientInsurance::class, 'scheme');
+    }
+
+    public function requesting_institutions() {
+        return $this->belongsTo(PartnerInstitution::class, 'requesting_institution');
     }
 
     public function metas() {
