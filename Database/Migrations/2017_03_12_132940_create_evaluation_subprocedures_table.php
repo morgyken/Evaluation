@@ -22,6 +22,25 @@ class CreateEvaluationSubproceduresTable extends Migration {
             $table->string('lab_result_options')->nullable();
             $table->float('lab_min_range')->nullable();
             $table->float('lab_max_range')->nullable();
+
+            $table->float('0_3d_minrange')->nullable();
+            $table->float('0_3d_maxrange')->nullable();
+
+            $table->float('4_30d_minrange')->nullable();
+            $table->float('4_30d_maxrange')->nullable();
+
+            $table->float('1_24m_minrange')->nullable();
+            $table->float('1_24m_maxrange')->nullable();
+
+            $table->float('25_60m_minrange')->nullable();
+            $table->float('25_60m_maxrange')->nullable();
+
+            $table->float('5_19y_minrange')->nullable();
+            $table->float('5_19y_maxrange')->nullable();
+
+            $table->float('adult_minrange')->nullable();
+            $table->float('adult_maxrange')->nullable();
+
             $table->boolean('lab_default')->nullable()->default(true);
             $table->boolean('lab_ordered_independently')->nullable()->default(false);
             $table->boolean('lab_multiple_orders_allowed')->nullable()->default(false);
