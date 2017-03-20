@@ -157,6 +157,10 @@ class Visit extends Model {
         return $this->belongsTo(PatientInsurance::class, 'scheme');
     }
 
+    public function requesting_institutions() {
+        return $this->belongsTo(PartnerInstitution::class, 'requesting_institution');
+    }
+
     public function metas() {
         return $this->hasOne(VisitMeta::class, 'visit');
     }

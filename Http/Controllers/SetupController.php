@@ -9,6 +9,8 @@ use Ignite\Evaluation\Http\Requests\ProcedureCategoriesRequest;
 use Ignite\Evaluation\Http\Requests\ProcedureRequest;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Evaluation\Entities\LabtestCategories;
+use Ignite\Evaluation\Entities\PartnerInstitution;
+use Illuminate\Http\Request;
 
 class SetupController extends AdminBaseController {
 
@@ -70,6 +72,32 @@ class SetupController extends AdminBaseController {
         $this->data['procedure'] = Procedures::findOrNew($id);
         $this->data['procedures'] = Procedures::all();
         return view('evaluation::setup.subprocedures', ['data' => $this->data]);
+    }
+
+    /*
+      public function SavePartnerInstitution(Request $request) {
+      if ($this->evaluationRepository->SavePartnerInstitution()) {
+      flash("Patner Institution Saved");
+      return redirect()->route('evaluation.setup.partners');
+      }
+      } */
+
+    public function ManagePartnerInstitutions(Request $request) {
+        //dd($request);
+        if ($request->isMethod('post')) {
+            $this->evaluationRepository->SavePartnerInstitution();
+            flash("Patner Institution Saved");
+            return redirect()->route('evaluation.setup.partners');
+        } else {
+            $this->data['partner'] = PartnerInstitution::findOrNew($request->id);
+            return view('evaluation::setup.manage_partners', ['data' => $this->data]);
+        }
+    }
+
+    public function partnerInstitutions($id = null) {
+        $this->data['partner'] = PartnerInstitution::findOrNew($id);
+        $this->data['partners'] = PartnerInstitution::all();
+        return view('evaluation::setup.lab_partners', ['data' => $this->data]);
     }
 
     public function temp() {

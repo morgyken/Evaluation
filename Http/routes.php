@@ -14,6 +14,7 @@ $router->get('patients/evaluate/pharmacy/prescription/cancel', ['uses' => 'ApiCo
 $router->post('order/new/{type}', ['as' => 'order', 'uses' => 'InvestigationsController']);
 //results
 $router->post('evaluation/results', ['uses' => 'EvaluationController@investigation_result', 'as' => 'investigation_result']);
+//$router->get('evaluation/results', ['uses' => 'EvaluationController@investigation_result', 'as' => 'investigation_result']);
 $router->get('evaluation/show/{visit}/results', ['uses' => 'EvaluationController@view_result', 'as' => 'view_result']);
 //patient review
 $router->get('patients/review/all', ['uses' => 'EvaluationController@review', 'as' => 'review']);
@@ -30,6 +31,9 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
     $router->get('sub-procedures/show/{procedure?}', ['as' => 'subprocedures', 'uses' => 'SetupController@subprocedures']);
     $router->post('sub-procedures/save', ['as' => 'subprocedures.save', 'uses' => 'SetupController@savesubprocedure']);
     $router->get('temp', ['as' => 'temp', 'uses' => 'SetupController@temp']);
+
+    $router->match(['post', 'get'], 'partners/manage/{id?}', ['uses' => 'SetupController@ManagePartnerInstitutions', 'as' => 'manage_partners']);
+    $router->get('partners/{id?}', ['uses' => 'SetupController@partnerInstitutions', 'as' => 'partners']);
 });
 
 $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $router) {

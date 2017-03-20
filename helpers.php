@@ -312,14 +312,16 @@ if (!function_exists('get_patients_with_bills')) {
      */
     function get_patients_with_bills() {
         return Patients::whereHas('visits', function ($query) {
-                    $query->wherePaymentMode('cash');
-                    $query->whereHas('investigations', function ($q3) {
-                        //$q3->where('is_paid', false);
-                    });
-                    $query->orWhereHas('dispensing', function ($q) {
-                        $q->wherePayment_status(0);
-                    });
-                })->get();
+                            $query->wherePaymentMode('cash');
+                            $query->whereHas('investigations', function ($q3) {
+                                //$q3->where('is_paid', false);
+                            });
+                            $query->orWhereHas('dispensing', function ($q) {
+                                $q->wherePayment_status(0);
+                            });
+                        })
+                        ->orderBy('created_at', 'desc')
+                        ->get();
     }
 
 }

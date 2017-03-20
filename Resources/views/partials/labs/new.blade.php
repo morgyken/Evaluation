@@ -40,5 +40,6 @@
 {!! Form::close()!!}
 <script>
     var PROCEDURE_URL = "{{route('api.evaluation.get_procedures','laboratory')}}";
+    var ORDERING = true;
 </script>
 <script src="{{m_asset('evaluation:js/order_investigation.min.js')}}"></script>

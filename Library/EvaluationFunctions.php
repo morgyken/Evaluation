@@ -624,4 +624,25 @@ class EvaluationFunctions implements EvaluationRepository {
         return $stack;
     }
 
+    /**
+     * Add a partner institution to the database
+     * @param Request $request
+     * @param int|null $id
+     * @return bool
+     */
+    public function SavePartnerInstitution() {
+        $partner = \Ignite\Evaluation\Entities\PartnerInstitution::findOrNew($this->request->id);
+        $partner->name = ucfirst($this->request->name);
+        $partner->address = $this->request->address;
+        $partner->telephone = $this->request->telephone;
+        $partner->mobile = $this->request->mobile;
+        $partner->post_code = $this->request->post_code;
+        $partner->email = $this->request->email;
+        $partner->building = $this->request->building;
+        $partner->fax = $this->request->fax;
+        $partner->street = $this->request->street;
+        $partner->town = $this->request->town;
+        return $partner->save();
+    }
+
 }

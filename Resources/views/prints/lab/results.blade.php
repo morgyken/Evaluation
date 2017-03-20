@@ -3,7 +3,7 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
 ?>
 @include('evaluation::prints.partials.head')
 <strong>Patient:</strong>{{$data['visit']->patients->full_name}}<br>
-<strong>Age:</strong><br>
+<strong>Age:{{$data['visit']->patients->age}}</strong><br>
 <strong>Sex:</strong> {{$data['visit']->patients->sex}}<br>
 @foreach($results as $item)
 <table class="table table-stripped">
@@ -35,15 +35,29 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
         <th>Units</th>
         <th>Flag</th>
         <th>Ref Range</th>
-    </tr>
-    <?php $results = json_decode($item->results->results); ?>
+    </tr>    <?php
+    $results = json_decode($item->results->results);
+    ?>
     @foreach ($results as $r)
+    <?php
+    $p = Ignite\Evaluation\Entities\Procedures::find($r[0]);
+    ?>
     <tr>
-        <td>{{$r[0]}}</td>
+        <td>{{$p->name}}</td>
         <td>{{$r[1]}}</td>
         <td></td>
-        <td></td>
-        <td></td>
+        <td>
+            @if(isset($p->this_test->lab_min_range))
+            @if($r[1]<$p->this_test->lab_min_range)
+            <span style="background-color:yellow;">Low</span>
+            @elseif($r[1]>$p->this_test->lab_max_range)
+            <span style="color: red;">High</span>
+            @else
+            <span style="color: green;">Normal</span>
+            @endif
+            @endif
+        </td>
+        <td>{{$p->this_test->lab_min_range}} - {{$p->this_test->lab_max_range}}</td>
     </tr>
     @endforeach
 </table>
