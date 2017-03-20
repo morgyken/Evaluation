@@ -23,20 +23,20 @@ class CreateEvaluationSubproceduresTable extends Migration {
             $table->float('lab_min_range')->nullable();
             $table->float('lab_max_range')->nullable();
 
-            $table->float('0_3d_minrange')->nullable();
-            $table->float('0_3d_maxrange')->nullable();
+            $table->float('_0_3d_minrange')->nullable();
+            $table->float('_0_3d_maxrange')->nullable();
 
-            $table->float('4_30d_minrange')->nullable();
-            $table->float('4_30d_maxrange')->nullable();
+            $table->float('_4_30d_minrange')->nullable();
+            $table->float('_4_30d_maxrange')->nullable();
 
-            $table->float('1_24m_minrange')->nullable();
-            $table->float('1_24m_maxrange')->nullable();
+            $table->float('_1_24m_minrange')->nullable();
+            $table->float('_1_24m_maxrange')->nullable();
 
-            $table->float('25_60m_minrange')->nullable();
-            $table->float('25_60m_maxrange')->nullable();
+            $table->float('_25_60m_minrange')->nullable();
+            $table->float('_25_60m_maxrange')->nullable();
 
-            $table->float('5_19y_minrange')->nullable();
-            $table->float('5_19y_maxrange')->nullable();
+            $table->float('_5_19y_minrange')->nullable();
+            $table->float('_5_19y_maxrange')->nullable();
 
             $table->float('adult_minrange')->nullable();
             $table->float('adult_maxrange')->nullable();
