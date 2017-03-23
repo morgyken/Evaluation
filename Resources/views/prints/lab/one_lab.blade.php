@@ -31,26 +31,55 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
     $results = json_decode($item->results->results);
     ?>
     @foreach ($results as $r)
+    @if($r[1]!=='')
     <?php
     $p = Ignite\Evaluation\Entities\Procedures::find($r[0]);
+    $min_range = $max_range = null;
+    try {
+        if ($age_days < 4) {
+            $min_range = $p->this_test->_0_3d_minrange;
+            $max_range = $p->this_test->_0_3d_maxrange;
+        } elseif ($age_days >= 4 && $age_days <= 30) {
+            $min_range = $p->this_test->_4_30d_minrange;
+            $max_range = $p->this_test->_4_30d_maxrange;
+        } elseif ($age_days > 30 && $age_days <= 730) {
+            $min_range = $p->this_test->_1_24m_minrange;
+            $max_range = $p->this_test->_1_24m_maxrange;
+        } elseif ($age_days > 730 && $age_days <= 1825) {
+            $min_range = $p->this_test->_25_60m_minrange;
+            $max_range = $p->this_test->_25_60m_maxrange;
+        } else {
+            if ($age_years > 4 && $age_years <= 19) {
+                $min_range = $p->this_test->_5_19y_minrange;
+                $max_range = $p->this_test->_5_19y_maxrange;
+            } else {
+                $min_range = $p->this_test->adult_minrange;
+                $max_range = $p->this_test->adult_maxrange;
+            }
+        }
+    } catch (\Exception $e) {
+        $min_range = $p->this_test->lab_min_range;
+        $max_range = $p->this_test->lab_max_range;
+    }
     ?>
     <tr>
         <td>{{$p->name}}</td>
         <td>{{$r[1]}}</td>
         <td></td>
         <td>
-            @if(isset($p->this_test->lab_min_range))
-            @if($r[1]<$p->this_test->lab_min_range)
-            <span style="background-color:yellow;">Low</span>
-            @elseif($r[1]>$p->this_test->lab_max_range)
-            <span style="color: red;">High</span>
+            @if(isset($min_range) && isset($max_range))
+            @if($r[1]<$min_range)
+            <span style="color: greenyellow;"><i class="fa fa-flag"></i></span>Low
+            @elseif($r[1]>$max_range)
+            <span style="color: red;"><i class="fa fa-flag"></i></span>High
             @else
-            <span style="color: green;">Normal</span>
+            <span style="color: green;"><i class="fa fa-flag"></i></span>Normal
             @endif
             @endif
         </td>
-        <td>{{$p->this_test->lab_min_range}} - {{$p->this_test->lab_max_range}}</td>
+        <td>{{$min_range}} - {{$max_range}}</td>
     </tr>
+    @endif
     @endforeach
 </table>
 @include('evaluation::prints.partials.footer')

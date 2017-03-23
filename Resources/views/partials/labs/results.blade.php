@@ -66,6 +66,7 @@ $age_years = $dob->age;
                     $results = json_decode($item->results->results);
                     ?>
                     @foreach ($results as $r)
+                    @if($r[1]!=='')
                     <?php
                     $p = Ignite\Evaluation\Entities\Procedures::find($r[0]);
                     $min_range = $max_range = null;
@@ -113,6 +114,7 @@ $age_years = $dob->age;
                         </td>
                         <td>{{$min_range}} - {{$max_range}}</td>
                     </tr>
+                    @endif
                     @endforeach
                 </table>
             </div>
