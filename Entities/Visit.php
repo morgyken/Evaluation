@@ -153,6 +153,17 @@ class Visit extends Model {
         //return $doc;
     }
 
+    public function getDoctorIDAttribute() {
+        foreach ($this->destinations as $d) {
+            if ($d->destination > 0) {
+                return $d->medics->id;
+            } else {
+                return '';
+            }
+        }
+        //return $doc;
+    }
+
     public function patient_scheme() {
         return $this->belongsTo(PatientInsurance::class, 'scheme');
     }

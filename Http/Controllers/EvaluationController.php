@@ -31,13 +31,18 @@ class EvaluationController extends AdminBaseController {
     }
 
     public function queues($department) {
-        $this->data['all'] = Visit::checkedAt($department)->get();
+        $this->data['all'] = Visit::checkedAt($department)
+                ->whereHas('destinations', function ($query) {
+                    $query->whereCheckout(0);
+                })
+                ->get();
         $this->data['department'] = ucwords($department);
         $user = \Auth::user()->id;
         if ($department == 'doctor') {
             $this->data['doc'] = 1;
         }
         $this->data['myq'] = VisitDestinations::whereDestination($user)
+                ->whereCheckout(0)
                 ->get();
         return view('evaluation::queues', ['data' => $this->data]);
     }
