@@ -168,6 +168,12 @@ class EvaluationController extends AdminBaseController {
             $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
             $result->status = 1;
             $result->save();
+
+            $publication = new \Ignite\Evaluation\Entities\InvestigationResultPublication;
+            $publication->user = auth()->id();
+            $publication->result = $request->result;
+            $publication->save();
+
             flash('Result status has been updated... thank you', 'success');
             return back();
         } catch (\Exception $exc) {

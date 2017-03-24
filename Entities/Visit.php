@@ -184,4 +184,8 @@ class Visit extends Model {
         return $this->hasMany(\Ignite\Inventory\Entities\InventoryBatchProductSales::class, 'id', 'visit');
     }
 
+    public function external_doctors() {
+        return $this->belongsTo(User::class, 'external_doctor');
+    }
+
 }

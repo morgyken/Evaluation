@@ -24,12 +24,12 @@ $age_years = $dob->age;
                     <td>{{$item->procedures->name}}</td>
                 </tr>
                 <tr>
-                    <td><strong>Requested By:</strong></td>
+                    <td><strong>Conducted By:</strong></td>
                     <td>{{$item->doctors->profile->full_name}}</td>
                 </tr>
                 <tr>
                     <td><strong>Instructions:</strong></td>
-                    <td>{{$item->instructions ?? 'Not provided'}}</td>
+                    <td>{{$item->results->instructions ?? 'Not provided'}}</td>
                 </tr>
                 <tr>
                     <td><strong>Charges:</strong></td>
@@ -43,10 +43,13 @@ $age_years = $dob->age;
                     <td><strong>Result Date:</strong></td>
                     <td>{{smart_date_time($item->results->create_at)}}</td>
                 </tr>
-                @if(isset($item->visits->requesting_institutions->name))
+                @if(isset($item->visits->external_doctors))
                 <tr>
-                    <td><strong>Requesting Institution:</strong></td>
-                    <td>{{$item->visits->requesting_institutions->name}}</td>
+                    <td><strong>Request By:</strong></td>
+                    <td>
+                        {{$item->visits->external_doctors?$item->visits->external_doctors->profile->full_name:''}}
+                        ({{$item->visits->external_doctors?$item->visits->external_doctors->profile->partnerInstitution->name:''}})
+                    </td>
                 </tr>
                 @endif
             </table>
@@ -59,7 +62,7 @@ $age_years = $dob->age;
                         <th>Test</th>
                         <th>Result</th>
                         <th>Units</th>
-                        <th>Flag</th>
+                        <th style="text-align:center"><i class="fa fa-flag"></i>Flag</th>
                         <th>Ref Range</th>
                     </tr>
                     <?php
@@ -101,14 +104,14 @@ $age_years = $dob->age;
                         <td>{{$p->name}}</td>
                         <td>{{$r[1]}}</td>
                         <td></td>
-                        <td>
+                        <td style="text-align:center">
                             @if(isset($min_range) && isset($max_range))
                             @if($r[1]<$min_range)
-                            <span style="color: greenyellow;"><i class="fa fa-flag"></i></span>Low
+                            <span style="color: greenyellow;"> L</span>
                             @elseif($r[1]>$max_range)
-                            <span style="color: red;"><i class="fa fa-flag"></i></span>High
+                            <span style="color: red;"> H</span>
                             @else
-                            <span style="color: green;"><i class="fa fa-flag"></i></span>Normal
+                            <span style="color: green;"> N</span>
                             @endif
                             @endif
                         </td>
@@ -116,10 +119,29 @@ $age_years = $dob->age;
                     </tr>
                     @endif
                     @endforeach
+                    <tr>
+                        <td><strong>Comments:</strong></td>
+                        <td colspan="4">
+                            {{$item->results->comments ?? 'Not provided'}}
+                        </td>
+                    </tr>
                 </table>
             </div>
-            <a target="blank" href="{{route('evaluation.print.print_lab.one', $item->id)}}">
-                Print<span class="badge alert-success"></span></a>
+            <!--Action Pane -->
+            <a class="btn btn-info btn-xs" target="blank" href="{{route('evaluation.print.print_lab.one', ['id'=>$item->id,'visit'=>$data['visit']->id])}}">
+                Print<i class="fa fa-print"></i>
+            </a>
+
+            @if($item->results->status==0)
+            <a class="btn btn-primary btn-xs" href="{{route('evaluation.lab.approve_result', $item->results->id)}}">
+                Verify and Publish<i class="fa fa-send"></i>
+            </a>
+            @else
+            <span class="btn btn-success btn-xs">
+                <i class="fa fa-check"></i>Published
+            </span>
+            @endif
+
             @if($item->results->documents)
             Uploaded File -
             <a href="{{route('reception.view_document',$item->results->documents->id)}}" target="_blank">
