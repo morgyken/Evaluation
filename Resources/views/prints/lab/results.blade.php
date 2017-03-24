@@ -1,4 +1,8 @@
 <?php
+$patient = $data['visit']->patients;
+$dob = \Carbon\Carbon::parse($patient->dob);
+$age_days = $dob->diffInDays();
+$age_years = $dob->age;
 $results = $data['visit']->investigations->where('type', 'laboratory')->where('has_result', true);
 ?>
 @include('evaluation::prints.partials.head')
@@ -15,25 +19,24 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
             {{$item->pesa}}
         </th>
         <th colspan="3">
-            <strong>Doctor:</strong>
+            <strong>Ordered By:</strong>
             {{$item->doctors->profile->full_name}}<br>
-            <strong>Lab Tech:</strong>
+            <strong>Conducted By:</strong>
             {{$item->results->users->profile->full_name}}<br>
             <strong>Date:</strong>
-            {{smart_date_time($item->results->create_at)}}
+            {{smart_date_time($item->results->create_at)}}<br>
+            @if(isset($item->visits->external_doctors))
+            <strong>Request From:</strong>
+            {{$item->visits->external_doctors->profile->full_name}}<br>
+            ({{$item->visits->external_doctors->profile->partnerInstitution->name}})
+            @endif
         </th>
-    </tr>
-    <tr>
-        <td>Instructions:</td>
-        <td colspan="4">
-            <p>{{$item->instructions ?? 'Not provided'}}</p>
-        </td>
     </tr>
     <tr>
         <th>Test</th>
         <th>Results</th>
         <th>Units</th>
-        <th>Flag</th>
+        <th style="text-align:center">Flag</th>
         <th>Ref Range</th>
     </tr>
     <?php
@@ -75,14 +78,14 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
         <td>{{$p->name}}</td>
         <td>{{$r[1]}}</td>
         <td></td>
-        <td>
+        <td style="text-align:center">
             @if(isset($min_range) && isset($max_range))
             @if($r[1]<$min_range)
-            <span style="color: greenyellow;"><i class="fa fa-flag"></i></span>Low
+            <span style="color: greenyellow; float: center;">L</span>
             @elseif($r[1]>$max_range)
-            <span style="color: red;"><i class="fa fa-flag"></i></span>High
+            <span style="color: red;float: center;">H</span>
             @else
-            <span style="color: green;"><i class="fa fa-flag"></i></span>Normal
+            <span style="color: green;float: center;">N</span>
             @endif
             @endif
         </td>
@@ -90,6 +93,12 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
     </tr>
     @endif
     @endforeach
+    <tr>
+        <td colspan="5">
+            <strong>Comments:</strong>
+            <p>{{$item->results->comments ?? 'Not provided'}}</p>
+        </td>
+    </tr>
 </table>
 <hr>
 @endforeach

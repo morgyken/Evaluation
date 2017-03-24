@@ -51,7 +51,8 @@
                         </div>
                     </div>
                     @endforeach
-
+                    <label>Comments</label>
+                    <textarea rows="5" name="comments{{$item->id}}" class="form-control"></textarea>
                 </div>
             </div>
             @else
@@ -84,6 +85,8 @@
                     @else
                     <textarea rows="5" name="results{{$item->id}}[]" class="form-control"></textarea>
                     @endif
+                    <label>Comments</label>
+                    <textarea rows="5" name="comments{{$item->id}}" class="form-control"></textarea>
                 </div>
             </div>
             @endif

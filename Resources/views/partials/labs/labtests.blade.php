@@ -15,7 +15,7 @@
 
 
     <div class="form-group {{ $errors->has('lab_category') ? ' has-error' : '' }}">
-        {!! Form::label('lab_category', 'Category (Lab)',['class'=>'control-label col-md-4']) !!}
+        {!! Form::label('lab_category', 'Category (Lab)',[' required class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
             <select class="form-control" name="lab_category">
                 <option>None</option>
@@ -56,21 +56,98 @@
     </div>
 
     <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
-        {!! Form::label('min_range', 'Minimum Range',['class'=>'control-label col-md-4']) !!}
-        <div class="col-md-8">
-            <input type="text" name="min_range" class="form-control">
+        {!! Form::label('min_range', 'Default Range',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-4">
+            <input type="text" placeholder="Minimum"  name="min_range" class="form-control">
             {!! $errors->first('min_range', '<span class="help-block">:message</span>') !!}
         </div>
-    </div>
-
-
-    <div class="form-group {{ $errors->has('max_range') ? ' has-error' : '' }}">
-        {!! Form::label('max_range', 'Maximum Range',['class'=>'control-label col-md-4']) !!}
-        <div class="col-md-8">
-            <input type="text" name="max_range" class="form-control">
+        <div class="col-md-4">
+            <input type="text" placeholder="Maximum" name="max_range" class="form-control">
             {!! $errors->first('max_range', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
+
+
+    <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
+        {!! Form::label('min_range', 'O-3 Days Range',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-4">
+            <input type="text" placeholder="Minimum"  name="_0_3d_minrange" class="form-control">
+            {!! $errors->first('min_range', '<span class="help-block">:message</span>') !!}
+        </div>
+        <div class="col-md-4">
+            <input type="text" placeholder="Maximum" name="_0_3d_maxrange" class="form-control">
+            {!! $errors->first('max_range', '<span class="help-block">:message</span>') !!}
+        </div>
+    </div>
+
+    <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
+        {!! Form::label('min_range', '4-30 Days Range',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-4">
+            <input type="text" placeholder="Minimum"  name="_4_30d_minrange" class="form-control">
+            {!! $errors->first('min_range', '<span class="help-block">:message</span>') !!}
+        </div>
+        <div class="col-md-4">
+            <input type="text" placeholder="Maximum" name="_4_30d_maxrange" class="form-control">
+            {!! $errors->first('max_range', '<span class="help-block">:message</span>') !!}
+        </div>
+    </div>
+
+
+    <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
+        {!! Form::label('min_range', '1-24 Months Range',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-4">
+            <input type="text" placeholder="Minimum"  name="_1_24m_minrange" class="form-control">
+            {!! $errors->first('min_range', '<span class="help-block">:message</span>') !!}
+        </div>
+        <div class="col-md-4">
+            <input type="text" placeholder="Maximum" name="_1_24m_maxrange" class="form-control">
+            {!! $errors->first('max_range', '<span class="help-block">:message</span>') !!}
+        </div>
+    </div>
+
+
+    <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
+        {!! Form::label('min_range', '25-60 Months Range',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-4">
+            <input type="text" placeholder="Minimum"  name="_25_60m_minrange" class="form-control">
+            {!! $errors->first('min_range', '<span class="help-block">:message</span>') !!}
+        </div>
+        <div class="col-md-4">
+            <input type="text" placeholder="Maximum" name="_25_60m_maxrange" class="form-control">
+            {!! $errors->first('max_range', '<span class="help-block">:message</span>') !!}
+        </div>
+    </div>
+
+
+    <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
+        {!! Form::label('min_range', '5-19 Years Range',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-4">
+            <input type="text" placeholder="Minimum"  name="_5_19y_minrange" class="form-control">
+            {!! $errors->first('min_range', '<span class="help-block">:message</span>') !!}
+        </div>
+        <div class="col-md-4">
+            <input type="text" placeholder="Maximum" name="_5_19y_maxrange" class="form-control">
+            {!! $errors->first('max_range', '<span class="help-block">:message</span>') !!}
+        </div>
+    </div>
+
+
+    <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
+        {!! Form::label('min_range', 'Adult Range',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-4">
+            <input type="text" placeholder="Minimum"  name="adult_minrange" class="form-control">
+            {!! $errors->first('min_range', '<span class="help-block">:message</span>') !!}
+        </div>
+        <div class="col-md-4">
+            <input type="text" placeholder="Maximum" name="adult_maxrange" class="form-control">
+            {!! $errors->first('max_range', '<span class="help-block">:message</span>') !!}
+        </div>
+    </div>
+
+
+
+
+
 
     <div class="col-md-12">
         <div class="insured form-group {{ $errors->has('ordered_independently') ? ' has-error' : '' }}">

@@ -2,5 +2,6 @@
 <auxiliary-configuration xmlns="http://www.netbeans.org/ns/auxiliary-configuration/1">
     <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
         <word>dd</word>
+        <word>endif</word>
     </spellchecker-wordlist>
 </auxiliary-configuration>

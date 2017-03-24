@@ -54,5 +54,5 @@ $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router
     Route::post('patient/notes/specific/', ['uses' => 'ReportsController@pn_specific', 'as' => 'patient_notes_specific']);
     Route::post('patient/notes/toword/specific/', ['uses' => 'ReportsController@pn_towrd_specific', 'as' => 'to_word_specific']);
     Route::get('lab/results/{visit}', ['uses' => 'ReportsController@print_lab', 'as' => 'print_lab']);
-    Route::get('lab/results/one/{id}', ['uses' => 'ReportsController@print_lab_one', 'as' => 'print_lab.one']);
+    Route::get('lab/results/one/{id}/{visit}', ['uses' => 'ReportsController@print_lab_one', 'as' => 'print_lab.one']);
 });

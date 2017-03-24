@@ -160,6 +160,8 @@ class EvaluationFunctions implements EvaluationRepository {
                 $file = $this->upload_patient_doc($this->request->$temp);
                 $__in->file = $file->id;
             }
+            $comment = "comments" . $item;
+            $__in->comments = $this->request->$comment;
             $__in->user = $this->user;
             $__in->save();
             $user = $__in->investigations->user;
@@ -537,6 +539,49 @@ class EvaluationFunctions implements EvaluationRepository {
         if ($request->max_range <> 0) {
             $s->lab_max_range = $request->max_range;
         }
+        //1.
+        if ($request->_0_3d_minrange <> 0) {
+            $s->_0_3d_minrange = $request->_0_3d_minrange;
+        }
+        if ($request->_0_3d_maxrange <> 0) {
+            $s->_0_3d_maxrange = $request->_0_3d_maxrange;
+        }
+        //2.
+        if ($request->_4_30d_minrange <> 0) {
+            $s->_4_30d_minrange = $request->_4_30d_minrange;
+        }
+        if ($request->_4_30d_maxrange <> 0) {
+            $s->_4_30d_maxrange = $request->_4_30d_maxrange;
+        }
+        //3.
+        if ($request->_1_24m_minrange <> 0) {
+            $s->_1_24m_minrange = $request->_1_24m_minrange;
+        }
+        if ($request->_1_24m_maxrange <> 0) {
+            $s->_1_24m_maxrange = $request->_1_24m_maxrange;
+        }
+        //4.
+        if ($request->_25_60m_minrange <> 0) {
+            $s->_25_60m_minrange = $request->_25_60m_minrange;
+        }
+        if ($request->_25_60m_maxrange <> 0) {
+            $s->_25_60m_maxrange = $request->_25_60m_maxrange;
+        }
+        //5.
+        if ($request->_5_19y_minrange <> 0) {
+            $s->_5_19y_minrange = $request->_5_19y_minrange;
+        }
+        if ($request->_5_19y_maxrange <> 0) {
+            $s->_5_19y_maxrange = $request->_5_19y_maxrange;
+        }
+        //6.
+        if ($request->adult_minrange <> 0) {
+            $s->adult_minrange = $request->adult_minrange;
+        }
+        if ($request->adult_maxrange <> 0) {
+            $s->adult_maxrange = $request->adult_maxrange;
+        }
+
         $s->lab_result_options = \GuzzleHttp\json_encode($request->result_options);
         $s->lab_ordered_independently = $request->ordered_independently;
         $s->lab_multiple_orders_allowed = $request->multiple_orders_allowed;
@@ -592,6 +637,7 @@ class EvaluationFunctions implements EvaluationRepository {
                 }
             }
         }
+
         return true;
     }
 

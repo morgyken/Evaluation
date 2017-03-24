@@ -85,6 +85,7 @@ class ReportsController extends Controller {
 
     public function print_lab_one(Request $request) {
         try {
+            $this->data['visit'] = Visit::find($request->visit);
             $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
             $pdf = \PDF::loadView('evaluation::prints.lab.one_lab', ['data' => $this->data]);
             $pdf->setPaper('A5', 'potrait');
