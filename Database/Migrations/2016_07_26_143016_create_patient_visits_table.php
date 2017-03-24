@@ -16,7 +16,7 @@ class CreatePatientVisitsTable extends Migration {
             $column->integer('clinic')->unsigned();
             $column->integer('patient')->unsigned();
             $column->integer('purpose')->nullable()->unsigned();
-            //$column->integer('external_doctor')->nullable()->unsigned();
+            $column->integer('external_doctor')->nullable()->unsigned();
             //payments
             $column->integer('user')->unsigned();
             $column->string('payment_mode')->default('cash');
@@ -25,6 +25,12 @@ class CreatePatientVisitsTable extends Migration {
             $column->string('status')->nullable();
             $column->softDeletes();
             $column->timestamps();
+
+            $column->foreign('external_doctor')
+                    ->references('id')
+                    ->on('users')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
             $column->foreign('user')->references('id')->on('users')
                     ->onUpdate('cascade')
