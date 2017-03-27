@@ -35,6 +35,7 @@ class EvaluationController extends AdminBaseController {
                 ->whereHas('destinations', function ($query) {
                     $query->whereCheckout(0);
                 })
+                ->orderBy('created_at', 'asc')
                 ->get();
         $this->data['department'] = ucwords($department);
         $user = \Auth::user()->id;
@@ -43,6 +44,7 @@ class EvaluationController extends AdminBaseController {
         }
         $this->data['myq'] = VisitDestinations::whereDestination($user)
                 ->whereCheckout(0)
+                ->orderBy('created_at', 'asc')
                 ->get();
         return view('evaluation::queues', ['data' => $this->data]);
     }
