@@ -314,7 +314,7 @@ if (!function_exists('get_patients_with_bills')) {
         return Patients::whereHas('visits', function ($query) {
                             $query->wherePaymentMode('cash');
                             $query->whereHas('investigations', function ($q3) {
-                                // $q3->without('payments');
+                                $q3->doesntHave('payments');
                             });
                             $query->orWhereHas('dispensing', function ($q) {
                                 $q->wherePayment_status(0);

@@ -68,57 +68,84 @@ $age_years = $dob->age;
                     <?php
                     $results = json_decode($item->results->results);
                     ?>
+                    @if(is_array($results))<!-- Check if result is array -->
                     @foreach ($results as $r)
                     @if($r[1]!=='')
                     <?php
                     $p = Ignite\Evaluation\Entities\Procedures::find($r[0]);
-                    $min_range = $max_range = null;
-                    try {
-                        if ($age_days < 4) {
-                            $min_range = $p->this_test->_0_3d_minrange;
-                            $max_range = $p->this_test->_0_3d_maxrange;
-                        } elseif ($age_days >= 4 && $age_days <= 30) {
-                            $min_range = $p->this_test->_4_30d_minrange;
-                            $max_range = $p->this_test->_4_30d_maxrange;
-                        } elseif ($age_days > 30 && $age_days <= 730) {
-                            $min_range = $p->this_test->_1_24m_minrange;
-                            $max_range = $p->this_test->_1_24m_maxrange;
-                        } elseif ($age_days > 730 && $age_days <= 1825) {
-                            $min_range = $p->this_test->_25_60m_minrange;
-                            $max_range = $p->this_test->_25_60m_maxrange;
-                        } else {
-                            if ($age_years > 4 && $age_years <= 19) {
-                                $min_range = $p->this_test->_5_19y_minrange;
-                                $max_range = $p->this_test->_5_19y_maxrange;
+                    if ($p->this_test) {
+                        ?>
+                        <?php
+                        $min_range = $max_range = null;
+                        try {
+                            if ($age_days < 4) {
+                                $min_range = $p->this_test->_0_3d_minrange;
+                                $max_range = $p->this_test->_0_3d_maxrange;
+                            } elseif ($age_days >= 4 && $age_days <= 30) {
+                                $min_range = $p->this_test->_4_30d_minrange;
+                                $max_range = $p->this_test->_4_30d_maxrange;
+                            } elseif ($age_days > 30 && $age_days <= 730) {
+                                $min_range = $p->this_test->_1_24m_minrange;
+                                $max_range = $p->this_test->_1_24m_maxrange;
+                            } elseif ($age_days > 730 && $age_days <= 1825) {
+                                $min_range = $p->this_test->_25_60m_minrange;
+                                $max_range = $p->this_test->_25_60m_maxrange;
                             } else {
-                                $min_range = $p->this_test->adult_minrange;
-                                $max_range = $p->this_test->adult_maxrange;
+                                if ($age_years > 4 && $age_years <= 19) {
+                                    $min_range = $p->this_test->_5_19y_minrange;
+                                    $max_range = $p->this_test->_5_19y_maxrange;
+                                } else {
+                                    $min_range = $p->this_test->adult_minrange;
+                                    $max_range = $p->this_test->adult_maxrange;
+                                }
                             }
+                        } catch (\Exception $e) {
+                            $min_range = $p->this_test->lab_min_range;
+                            $max_range = $p->this_test->lab_max_range;
                         }
-                    } catch (\Exception $e) {
-                        $min_range = $p->this_test->lab_min_range;
-                        $max_range = $p->this_test->lab_max_range;
+                        ?>
+                        <tr>
+                            <td>{{$p->name}}</td>
+                            <td>{{$r[1]}}</td>
+                            <td></td>
+                            <td style="text-align:center">
+                                @if(isset($min_range) && isset($max_range))
+                                @if($r[1]<$min_range)
+                                <span style="color: greenyellow;"> L</span>
+                                @elseif($r[1]>$max_range)
+                                <span style="color: red;"> H</span>
+                                @else
+                                <span style="color: green;"> N</span>
+                                @endif
+                                @endif
+                            </td>
+                            <td>{{$min_range}} - {{$max_range}}</td>
+                        </tr>
+                        <?php
+                    } else {
+                        ?>
+                        <tr>
+                            <td>{{$p->name}}</td>
+                            <td>{{ strip_tags($r[1])}}</td>
+                            <td></td>
+                            <td style="text-align:center"></td>
+                            <td></td>
+                        </tr>
+                        <?php
                     }
                     ?>
-                    <tr>
-                        <td>{{$p->name}}</td>
-                        <td>{{$r[1]}}</td>
-                        <td></td>
-                        <td style="text-align:center">
-                            @if(isset($min_range) && isset($max_range))
-                            @if($r[1]<$min_range)
-                            <span style="color: greenyellow;"> L</span>
-                            @elseif($r[1]>$max_range)
-                            <span style="color: red;"> H</span>
-                            @else
-                            <span style="color: green;"> N</span>
-                            @endif
-                            @endif
-                        </td>
-                        <td>{{$min_range}} - {{$max_range}}</td>
-                    </tr>
                     @endif
                     @endforeach
+
+                    @else <!-- Just Display it if it is not an array -->
+                    <tr>
+                        <td>{{$item->procedures->name}}</td>
+                        <td>{{ strip_tags($item->results->results)}}</td>
+                        <td></td>
+                        <td style="text-align:center"></td>
+                        <td></td>
+                    </tr>
+                    @endif <!--End of  is_array If Statement -->
                     <tr>
                         <td><strong>Comments:</strong></td>
                         <td colspan="4">
