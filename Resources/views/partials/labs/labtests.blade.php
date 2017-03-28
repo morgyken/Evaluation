@@ -41,9 +41,21 @@
     </div>
 
     <div class="form-group {{ $errors->has('result_options') ? ' has-error' : '' }}">
-        {!! Form::label('result_options', 'Result Options',['class'=>'control-label col-md-4']) !!}
+        {!! Form::label('result_options', 'Drop-down Options (If result type is select)',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            <input type="text" class="form-control" name="result_options[]" multiple>
+            <input type="text" placeholder="option 1" name="result_options[]"><br>
+            <input type="text" placeholder="option 2" name="result_options[]"><br>
+            <a href="#" onclick="add()">More</a><br/>
+            <div id="options">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group {{ $errors->has('result_type') ? ' has-error' : '' }}">
+        {!! Form::label('result_type', 'Unit of measure',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-8">
+            <input type="text" placeholder="mm, g, % etc." name="units" class="form-control">
+            {!! $errors->first('unit', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
 
@@ -189,3 +201,16 @@
     </div>
 
 </div>
+<script>
+    var numAdd = 1;
+    var add = function () {
+        if (numAdd >= 10)
+            return;
+        $('#options').append('<div><input type="text"  name="result_options[]"><a href="#" onclick="del(this)">Delete</a></div>');
+        numAdd++;
+    };
+
+    var del = function (btn) {
+        $(btn).parent().remove();
+    };
+</script>

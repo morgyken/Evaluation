@@ -2,6 +2,7 @@
 $patient = $data['visit']->patients;
 $dob = \Carbon\Carbon::parse($patient->dob);
 $age_days = $dob->diffInDays();
+$age_str = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');
 $age_years = $dob->age;
 $item = $data['results']; //->investigations->where('type', 'laboratory')->where('has_result', true);
 ?>
@@ -10,7 +11,7 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
     <tr>
         <td>
             <strong>Patient:</strong>{{$item->visits->patients->full_name}}<br>
-            <strong>Age:</strong>{{$item->visits->patients->age}}<br>
+            <strong>Age:</strong>{{$age_str}}<br>
             <strong>Sex:</strong> {{$item->visits->patients->sex}}<br>
         </td>
         <td colspan="4">
@@ -76,15 +77,15 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
         <tr>
             <td>{{$p->name}}</td>
             <td>{{$r[1]}}</td>
-            <td></td>
+            <td>{{$p->this_test->units}}</td>
             <td style="text-align:center">
                 @if(isset($min_range) && isset($max_range))
                 @if($r[1]<$min_range)
-                <span style="color: greenyellow;">L</span>
+                <span style="color: red;">L</span>
                 @elseif($r[1]>$max_range)
                 <span style="color: red;">H</span>
                 @else
-                <span style="color: green;">N</span>
+                <span>N</span>
                 @endif
                 @endif
             </td>

@@ -20,6 +20,7 @@ class CreateEvaluationSubproceduresTable extends Migration {
             $table->string('lab_sample_type')->nullable();
             $table->string('lab_result_type')->nullable();
             $table->string('lab_result_options')->nullable();
+            $table->string('units')->nullable();
             $table->float('lab_min_range')->nullable();
             $table->float('lab_max_range')->nullable();
 

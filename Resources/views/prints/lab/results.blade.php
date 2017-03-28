@@ -2,12 +2,13 @@
 $patient = $data['visit']->patients;
 $dob = \Carbon\Carbon::parse($patient->dob);
 $age_days = $dob->diffInDays();
+$age_str = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');
 $age_years = $dob->age;
 $results = $data['visit']->investigations->where('type', 'laboratory')->where('has_result', true);
 ?>
 @include('evaluation::prints.partials.head')
 <strong>Patient:</strong>{{$data['visit']->patients->full_name}}<br>
-<strong>Age:{{$data['visit']->patients->age}}</strong><br>
+<strong>Age: {{$age_str}}</strong><br>
 <strong>Sex:</strong> {{$data['visit']->patients->sex}}<br>
 @foreach($results as $item)
 <table class="table table-stripped">
@@ -81,15 +82,15 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
         <tr>
             <td>{{$p->name}}</td>
             <td>{{$r[1]}}</td>
-            <td></td>
+            <td>{{$p->this_test->units}}</td>
             <td style="text-align:center">
                 @if(isset($min_range) && isset($max_range))
                 @if($r[1]<$min_range)
-                <span style="color: greenyellow; float: center;">L</span>
+                <span style="color: red; float: center;">L</span>
                 @elseif($r[1]>$max_range)
                 <span style="color: red;float: center;">H</span>
                 @else
-                <span style="color: green;float: center;">N</span>
+                <span>N</span>
                 @endif
                 @endif
             </td>

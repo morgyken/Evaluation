@@ -62,7 +62,7 @@ $age_years = $dob->age;
                         <th>Test</th>
                         <th>Result</th>
                         <th>Units</th>
-                        <th style="text-align:center"><i class="fa fa-flag"></i>Flag</th>
+                        <th style="text-align:center"><i class="fa fa-flag"></i> Flag</th>
                         <th>Ref Range</th>
                     </tr>
                     <?php
@@ -107,15 +107,15 @@ $age_years = $dob->age;
                         <tr>
                             <td>{{$p->name}}</td>
                             <td>{{$r[1]}}</td>
-                            <td></td>
+                            <td>{{$p->this_test->units}}</td>
                             <td style="text-align:center">
                                 @if(isset($min_range) && isset($max_range))
                                 @if($r[1]<$min_range)
-                                <span style="color: greenyellow;"> L</span>
+                                <span style="color: red;"> L</span>
                                 @elseif($r[1]>$max_range)
                                 <span style="color: red;"> H</span>
                                 @else
-                                <span style="color: green;"> N</span>
+                                N
                                 @endif
                                 @endif
                             </td>
@@ -127,23 +127,22 @@ $age_years = $dob->age;
                         <tr>
                             <td>{{$p->name}}</td>
                             <td>{{ strip_tags($r[1])}}</td>
-                            <td></td>
+                            <td> - </td>
                             <td style="text-align:center"></td>
-                            <td></td>
+                            <td> - </td>
                         </tr>
                         <?php
                     }
                     ?>
                     @endif
                     @endforeach
-
                     @else <!-- Just Display it if it is not an array -->
                     <tr>
                         <td>{{$item->procedures->name}}</td>
                         <td>{{ strip_tags($item->results->results)}}</td>
-                        <td></td>
-                        <td style="text-align:center"></td>
-                        <td></td>
+                        <td> - </td>
+                        <td style="text-align:center"> - </td>
+                        <td> - </td>
                     </tr>
                     @endif <!--End of  is_array If Statement -->
                     <tr>
@@ -161,11 +160,18 @@ $age_years = $dob->age;
 
             @if($item->results->status==0)
             <a class="btn btn-primary btn-xs" href="{{route('evaluation.lab.approve_result', $item->results->id)}}">
-                Verify and Publish<i class="fa fa-send"></i>
+                Verify<i class="fa fa-send"></i>
             </a>
-            @else
+            <a title="Note this will delete these results and revert back to test phase" class="btn btn-danger btn-xs" href="{{route('evaluation.lab.reject_result', $item->results->id)}}">
+                Revert<i class="fa fa-trash"></i>
+            </a>
+            @elseif($item->results->status==1)
             <span class="btn btn-success btn-xs">
-                <i class="fa fa-check"></i>Published
+                <i class="fa fa-check"></i>Verified
+            </span>
+            @elseif($item->results->status==2)
+            <span class="btn btn-danger btn-xs">
+                <i class="fa fa-trash"></i>Rejected
             </span>
             @endif
 

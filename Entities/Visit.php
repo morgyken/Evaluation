@@ -81,7 +81,7 @@ class Visit extends Model {
     public function scopeCheckedAt($query, $destination) {
         return $query->whereHas('destinations', function($query) use ($destination) {
                     $query->whereDepartment($destination);
-                    $query->whereCheckout(false);
+                    $query->whereCheckout(0);
                 });
     }
 

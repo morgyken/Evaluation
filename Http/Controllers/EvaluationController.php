@@ -32,11 +32,9 @@ class EvaluationController extends AdminBaseController {
 
     public function queues($department) {
         $this->data['all'] = Visit::checkedAt($department)
-                ->whereHas('destinations', function ($query) {
-                    $query->whereCheckout(0);
-                })
                 ->orderBy('created_at', 'asc')
                 ->get();
+
         $this->data['department'] = ucwords($department);
         $user = \Auth::user()->id;
         if ($department == 'doctor') {
@@ -175,6 +173,22 @@ class EvaluationController extends AdminBaseController {
             $publication->user = auth()->id();
             $publication->result = $request->result;
             $publication->save();
+
+            flash('Result status has been updated... thank you', 'success');
+            return back();
+        } catch (\Exception $exc) {
+            flash('Result status could not be updated... please try again', 'danger');
+            return back();
+        }
+    }
+
+    public function RejectLabResult(Request $request) {
+        try {
+            $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
+            //$result->status = 2;
+            $result->delete();
+            //dd($result);
+            //$result->save();
 
             flash('Result status has been updated... thank you', 'success');
             return back();

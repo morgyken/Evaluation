@@ -533,6 +533,7 @@ class EvaluationFunctions implements EvaluationRepository {
 
         $s->lab_result_type = $request->result_type;
         $s->lab_sample_type = $request->sample_type;
+        $s->units = $request->units;
         if ($request->min_range <> 0) {
             $s->lab_min_range = $request->min_range;
         }
