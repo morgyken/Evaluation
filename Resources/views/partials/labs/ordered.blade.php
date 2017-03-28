@@ -36,9 +36,10 @@
                         </label>
                         <div class="col-md-8">
                             @if ($test->lab_result_type == 'number')
-                            <input type="number" name="results{{$item->id}}[]" class="form-control">
+                            <input type="number"  step="any" name="results{{$item->id}}[]" class="form-control">
                             @elseif ($test->lab_result_type == 'select')
                             <select name="results{{$item->id}}[]" class="form-control">
+                                <option></option>
                                 <?php $options = json_decode($test->lab_result_options) ?>
                                 @if(isset($options))
                                 @foreach ($options as $option) {
@@ -69,10 +70,11 @@
                     <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
                     <input type="hidden" name="test{{$item->id}}[]" value="{{$item->procedures->id}}" />
                     @if ($_type == 'number')
-                    <input type="number" name="results{{$item->id}}[]" class="form-control">
+                    <input type="number" step="any" name="results{{$item->id}}[]" class="form-control">
                     @elseif ($_type == 'select')
                     @if(isset($item->procedures->this_test->lab_result_options))
                     <select name="results{{$item->id}}[]" class="form-control">
+                        <option></option>
                         <?php $_options = json_decode($item->procedures->this_test->lab_result_options) ?>
                         @if(isset($_options))
                         @foreach ($_options as $option) {
@@ -116,8 +118,6 @@
             </div>
         </div>
         @else
-
-
         <h4>{{$item->procedures->name}}</h4>
         <div>
             <div class="col-md-6">
@@ -149,7 +149,6 @@
                 <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
             </div>
         </div>
-
         @endif
         {!!Form::close()!!}
         @endforeach
