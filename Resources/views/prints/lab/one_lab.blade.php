@@ -77,7 +77,13 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
         <tr>
             <td>{{$p->name}}</td>
             <td>{{$r[1]}}</td>
-            <td>{{$p->this_test->units}}</td>
+            <td>
+                @if(strpos($p->name, '%'))
+                %
+                @else
+                {{$p->this_test->units}}
+                @endif
+            </td>
             <td style="text-align:center">
                 @if(isset($min_range) && isset($max_range))
                 @if($r[1]<$min_range)
@@ -96,7 +102,13 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
         <tr>
             <td>{{$p->name}}</td>
             <td>{{ strip_tags($r[1])}}</td>
-            <td>N/A</td>
+            <td>
+                @if(strpos($p->name, '%'))
+                %
+                @else
+                -
+                @endif
+            </td>
             <td style="text-align:center">N/A</td>
             <td>N/A</td>
         </tr>
@@ -109,7 +121,13 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
     <tr>
         <td>{{$item->procedures->name}}</td>
         <td>{{ strip_tags($item->results->results)}}</td>
-        <td>N/A</td>
+        <td>
+            @if(strpos($item->procedures->name, '%'))
+            %
+            @else
+            -
+            @endif
+        </td>
         <td style="text-align:center">N/A</td>
         <td>N/A</td>
     </tr>

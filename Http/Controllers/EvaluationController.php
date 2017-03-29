@@ -163,17 +163,43 @@ class EvaluationController extends AdminBaseController {
         }
     }
 
-    public function ApproveLabResult(Request $request) {
+    public function VerifyLabResult(Request $request) {
+        try {
+            $this->updateResultStatus($request, 1, 'Verification');
+            flash('Result status has been updated... thank you', 'success');
+            return back();
+        } catch (\Exception $e) {
+            flash('Result status could not be updated... please try again', 'danger');
+            return back();
+        }
+    }
+
+    public function PublishLabResult(Request $request) {
+        try {
+            $this->updateResultStatus($request, 2, 'Publication');
+            flash('Result status has been updated... thank you', 'success');
+            return back();
+        } catch (\Exception $e) {
+            flash('Result status could not be updated... please try again', 'danger');
+            return back();
+        }
+    }
+
+    public function SendLabResult(Request $request) {
+        try {
+            $this->updateResultStatus($request, 3, 'Sent');
+            flash('Test Result has been marked as sent... thank you', 'success');
+            return back();
+        } catch (\Exception $e) {
+            flash('Result could not be sent... please try again', 'danger');
+            return back();
+        }
+    }
+
+    public function RejectLabResult(Request $request) {
         try {
             $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
-            $result->status = 1;
-            $result->save();
-
-            $publication = new \Ignite\Evaluation\Entities\InvestigationResultPublication;
-            $publication->user = auth()->id();
-            $publication->result = $request->result;
-            $publication->save();
-
+            $result->delete(); //send back to test phase literally
             flash('Result status has been updated... thank you', 'success');
             return back();
         } catch (\Exception $exc) {
@@ -182,13 +208,19 @@ class EvaluationController extends AdminBaseController {
         }
     }
 
-    public function RejectLabResult(Request $request) {
+    public function updateResultStatus(Request $request, $flag, $type) {
         try {
             $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
-            //$result->status = 2;
-            $result->delete();
-            //dd($result);
-            //$result->save();
+            $result->status = $flag;
+            $result->save();
+
+            $status_change = new \Ignite\Evaluation\Entities\LabResultStatusChange;
+            $status_change->user = auth()->id();
+            $status_change->result = $request->result;
+            $status_change->result = $request->result;
+            $status_change->type = $type;
+            $status_change->reason = $request->reason ? $request->reason : '';
+            $status_change->save();
 
             flash('Result status has been updated... thank you', 'success');
             return back();

@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Ignite\Users\Entities\User $users
  * @mixin \Eloquent
  */
-class InvestigationResultPublication extends Model {
+class LabResultStatusChange extends Model {
 
     protected $fillable = [];
     public $table = 'evaluation_investigation_results_publications';

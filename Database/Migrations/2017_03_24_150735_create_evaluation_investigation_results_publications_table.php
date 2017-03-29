@@ -15,6 +15,8 @@ class CreateEvaluationInvestigationResultsPublicationsTable extends Migration {
         Schema::create('evaluation_investigation_results_publications', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('result')->unsigned();
+            $table->string('type')->nullable();
+            $table->string('reason')->nullable();
             $table->integer('user')->unsigned();
             $table->timestamps();
 
