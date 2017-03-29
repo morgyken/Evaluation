@@ -107,7 +107,13 @@ $age_years = $dob->age;
                         <tr>
                             <td>{{$p->name}}</td>
                             <td>{{$r[1]}}</td>
-                            <td>{{$p->this_test->units}}</td>
+                            <td>
+                                @if(strpos($p->name, '%'))
+                                %
+                                @else
+                                {{$p->this_test->units}}
+                                @endif
+                            </td>
                             <td style="text-align:center">
                                 @if(isset($min_range) && isset($max_range))
                                 @if($r[1]<$min_range)
@@ -127,7 +133,12 @@ $age_years = $dob->age;
                         <tr>
                             <td>{{$p->name}}</td>
                             <td>{{ strip_tags($r[1])}}</td>
-                            <td> - </td>
+                            <td>
+                                @if(strpos($p->name, '%'))
+                                %
+                                @else
+                                -
+                                @endif</td>
                             <td style="text-align:center"></td>
                             <td> - </td>
                         </tr>
@@ -140,7 +151,11 @@ $age_years = $dob->age;
                     <tr>
                         <td>{{$item->procedures->name}}</td>
                         <td>{{ strip_tags($item->results->results)}}</td>
-                        <td> - </td>
+                        <td>
+                            @if(strpos($item->procedures->name, '%'))
+                            %
+                            @else
+                            @endif</td>
                         <td style="text-align:center"> - </td>
                         <td> - </td>
                     </tr>
@@ -154,25 +169,34 @@ $age_years = $dob->age;
                 </table>
             </div>
             <!--Action Pane -->
+            @if($item->results->status==0) <!--pending -->
+            <a class="btn btn-primary btn-xs" href="{{route('evaluation.lab.verify', $item->results->id)}}">
+                Verify<i class="fa fa-send"></i>
+            </a>
+            <a title="Note this will delete these results and revert back to test phase" class="btn btn-danger btn-xs" href="{{route('evaluation.lab.revert', $item->results->id)}}">
+                Revert<i class="fa fa-trash"></i>
+            </a>
+            @elseif($item->results->status==1)<!--verified -->
+            <a class="btn btn-success btn-xs" href="{{route('evaluation.lab.publish', $item->results->id)}}">
+                Accept and Publish <i class="fa fa-send"></i>
+            </a>
+            @elseif($item->results->status==2)<!--accepted and published -->
+            <span class="btn btn-success btn-xs">
+                <i class="fa fa-check"></i>Published
+            </span>
             <a class="btn btn-info btn-xs" target="blank" href="{{route('evaluation.print.print_lab.one', ['id'=>$item->id,'visit'=>$data['visit']->id])}}">
                 Print<i class="fa fa-print"></i>
             </a>
-
-            @if($item->results->status==0)
-            <a class="btn btn-primary btn-xs" href="{{route('evaluation.lab.approve_result', $item->results->id)}}">
-                Verify<i class="fa fa-send"></i>
+            <a class="btn btn-warning btn-xs" href="{{route('evaluation.lab.send', $item->results->id)}}">
+                Send <i class="fa fa-send"></i>
             </a>
-            <a title="Note this will delete these results and revert back to test phase" class="btn btn-danger btn-xs" href="{{route('evaluation.lab.reject_result', $item->results->id)}}">
-                Revert<i class="fa fa-trash"></i>
-            </a>
-            @elseif($item->results->status==1)
+            @elseif($item->results->status==3)<!--sent -->
             <span class="btn btn-success btn-xs">
-                <i class="fa fa-check"></i>Verified
+                <i class="fa fa-send"></i>Sent
             </span>
-            @elseif($item->results->status==2)
-            <span class="btn btn-danger btn-xs">
-                <i class="fa fa-trash"></i>Rejected
-            </span>
+            <a class="btn btn-info btn-xs" target="blank" href="{{route('evaluation.print.print_lab.one', ['id'=>$item->id,'visit'=>$data['visit']->id])}}">
+                Print<i class="fa fa-print"></i>
+            </a>
             @endif
 
             @if($item->results->documents)

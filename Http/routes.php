@@ -42,8 +42,10 @@ $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $rout
 });
 
 $router->group(['prefix' => 'lab', 'as' => 'lab.'], function (Router $router) {
-    $router->get('lab/result/approve/{result?}', ['as' => 'approve_result', 'uses' => 'EvaluationController@ApproveLabResult']);
-    $router->get('lab/result/reject/{result?}', ['as' => 'reject_result', 'uses' => 'EvaluationController@RejectLabResult']);
+    $router->get('result/verify/{result?}', ['as' => 'verify', 'uses' => 'EvaluationController@VerifyLabResult']);
+    $router->get('result/revert/{result?}', ['as' => 'revert', 'uses' => 'EvaluationController@RejectLabResult']);
+    $router->get('result/publish/{result?}', ['as' => 'publish', 'uses' => 'EvaluationController@PublishLabResult']);
+    $router->get('result/send/{result?}', ['as' => 'send', 'uses' => 'EvaluationController@SendLabResult']);
 });
 
 //printables

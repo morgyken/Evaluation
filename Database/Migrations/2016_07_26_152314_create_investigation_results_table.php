@@ -19,7 +19,7 @@ class CreateInvestigationResultsTable extends Migration {
             $table->longText('results')->nullable()->nullable();
             $table->longText('comments')->nullable();
             $table->integer('file')->unsigned()->nullable();
-            $table->integer('status')->default(0);
+            $table->integer('status')->default(0); //0-pending, verified-1, published-2, sent-3
             $table->timestamps();
 
             $table->foreign('investigation')
