@@ -76,6 +76,11 @@ $age_years = $dob->age;
                     if ($p->this_test) {
                         ?>
                         <?php
+                        $unit_str = $p->this_test->result_type_details;
+                        preg_match("/\(([^\)]*)\)/", $unit_str, $matches);
+                        if ($matches) {
+                            $unit = $matches[1];
+                        }
                         $min_range = $max_range = null;
                         try {
                             if ($age_days < 4) {
@@ -110,6 +115,10 @@ $age_years = $dob->age;
                             <td>
                                 @if(strpos($p->name, '%'))
                                 %
+                                @elseif($matches)
+                                <?php
+                                echo html_entity_decode($unit)
+                                ?>
                                 @else
                                 {{$p->this_test->units}}
                                 @endif
@@ -125,7 +134,11 @@ $age_years = $dob->age;
                                 @endif
                                 @endif
                             </td>
-                            <td>{{$min_range}} - {{$max_range}}</td>
+                            <td>
+                                @if(isset($min_range) && isset($max_range))
+                                {{$min_range}} - {{$max_range}}
+                                @endif
+                            </td>
                         </tr>
                         <?php
                     } else {
@@ -136,9 +149,8 @@ $age_years = $dob->age;
                             <td>
                                 @if(strpos($p->name, '%'))
                                 %
-                                @else
-                                -
-                                @endif</td>
+                                @endif
+                            </td>
                             <td style="text-align:center"></td>
                             <td> - </td>
                         </tr>
@@ -154,8 +166,8 @@ $age_years = $dob->age;
                         <td>
                             @if(strpos($item->procedures->name, '%'))
                             %
-                            @else
-                            @endif</td>
+                            @endif
+                        </td>
                         <td style="text-align:center"> - </td>
                         <td> - </td>
                     </tr>

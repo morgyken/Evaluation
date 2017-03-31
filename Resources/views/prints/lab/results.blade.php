@@ -52,6 +52,11 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
         ?>
         <?php
         $min_range = $max_range = null;
+        $unit_str = $p->this_test->result_type_details;
+        preg_match("/\(([^\)]*)\)/", $unit_str, $matches);
+        if ($matches) {
+            $unit = $matches[1];
+        }
         try {
             if ($age_days < 4) {
                 $min_range = $p->this_test->_0_3d_minrange;
@@ -82,7 +87,17 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
         <tr>
             <td>{{$p->name}}</td>
             <td>{{$r[1]}}</td>
-            <td>{{$p->this_test->units}}</td>
+            <td>
+                @if(strpos($p->name, '%'))
+                %
+                @elseif($matches)
+                <?php
+                echo html_entity_decode($unit)
+                ?>
+                @else
+                {{$p->this_test->units}}
+                @endif
+            </td>
             <td style="text-align:center">
                 @if(isset($min_range) && isset($max_range))
                 @if($r[1]<$min_range)
@@ -94,7 +109,11 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
                 @endif
                 @endif
             </td>
-            <td>{{$min_range}} - {{$max_range}}</td>
+            <td>
+                @if(isset($min_range) && isset($max_range))
+                {{$min_range}} - {{$max_range}}
+                @endif
+            </td>
         </tr>
     <?php } else { ?>
         <tr>
