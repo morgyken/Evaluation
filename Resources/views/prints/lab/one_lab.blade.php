@@ -47,6 +47,11 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
     $p = Ignite\Evaluation\Entities\Procedures::find($r[0]);
     if ($p->this_test) {
         $min_range = $max_range = null;
+        $unit_str = $p->this_test->result_type_details;
+        preg_match("/\(([^\)]*)\)/", $unit_str, $matches);
+        if ($matches) {
+            $unit = $matches[1];
+        }
         try {
             if ($age_days < 4) {
                 $min_range = $p->this_test->_0_3d_minrange;
@@ -80,6 +85,10 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
             <td>
                 @if(strpos($p->name, '%'))
                 %
+                @elseif($matches)
+                <?php
+                echo html_entity_decode($unit)
+                ?>
                 @else
                 {{$p->this_test->units}}
                 @endif
@@ -95,7 +104,11 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
                 @endif
                 @endif
             </td>
-            <td>{{$min_range}} - {{$max_range}}</td>
+            <td>
+                @if(isset($min_range) && isset($max_range))
+                {{$min_range}} - {{$max_range}}
+                @endif
+            </td>
         </tr>
     <?php } else {
         ?>
