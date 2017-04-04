@@ -93,5 +93,5 @@ $section = strtolower($department);
     var SIGN_OUT = "{{route('api.evaluation.checkout_patient')}}";
     var FROM = "<?php echo $section; ?>";
 </script>
-<script src="{{m_asset('evaluation:js/queues.min.js')}}" type="text/javascript"></script>
+<script src="{{m_asset('evaluation:js/queues.js')}}" type="text/javascript"></script>
 @endsection

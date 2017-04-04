@@ -16,7 +16,8 @@ class CreateEvaluationSubproceduresTable extends Migration {
             $table->increments('id');
             $table->integer('procedure')->unsigned();
             $table->integer('parent')->nullable()->unsigned();
-            $table->integer('category')->unsigned();
+            $table->integer('category')->unsigned()->nullable();
+            $table->string('titles')->nullable();
             $table->string('lab_sample_type')->nullable();
             $table->string('lab_result_type')->nullable();
             $table->string('lab_result_options')->nullable();

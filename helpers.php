@@ -684,4 +684,110 @@ if (!function_exists('exportSickOff')) {
         return $build;
     }
 
+    if (!function_exists('get_min_range')) {
+
+        /**
+         * Get Minimum lab range depending on patient age
+         * @param $procedure, $age_days, $age_years
+         * @return $range
+         */
+        function get_min_range($p, $age_days, $age_years) {
+            try {
+                if ($age_days < 4) {
+                    return $p->this_test->_0_3d_minrange;
+                } elseif ($age_days >= 4 && $age_days <= 30) {
+                    return $p->this_test->_4_30d_minrange;
+                } elseif ($age_days > 30 && $age_days <= 730) {
+                    return $p->this_test->_1_24m_minrange;
+                } elseif ($age_days > 730 && $age_days <= 1825) {
+                    return $p->this_test->_25_60m_minrange;
+                } else {
+                    if ($age_years > 4 && $age_years <= 19) {
+                        return $p->this_test->_5_19y_minrange;
+                    } else {
+                        return $p->this_test->adult_minrange;
+                    }
+                }
+            } catch (\Exception $e) {
+
+            }
+        }
+
+    }
+
+    if (!function_exists('get_max_range')) {
+
+        /**
+         * Get Maximum lab range depending on patient age
+         * @param $procedure, $age_days, $age_years
+         * @return $range
+         */
+        function get_max_range($p, $age_days, $age_years) {
+            $max_range = null;
+            try {
+                if ($age_days < 4) {
+                    $max_range = $p->this_test->_0_3d_maxrange;
+                } elseif ($age_days >= 4 && $age_days <= 30) {
+                    $max_range = $p->this_test->_4_30d_maxrange;
+                } elseif ($age_days > 30 && $age_days <= 730) {
+                    $max_range = $p->this_test->_1_24m_maxrange;
+                } elseif ($age_days > 730 && $age_days <= 1825) {
+                    $max_range = $p->this_test->_25_60m_maxrange;
+                } else {
+                    if ($age_years > 4 && $age_years <= 19) {
+                        $max_range = $p->this_test->_5_19y_maxrange;
+                    } else {
+                        $max_range = $p->this_test->adult_maxrange;
+                    }
+                }
+                return $max_range;
+            } catch (\Exception $e) {
+                return $p->this_test->lab_max_range;
+            }
+        }
+
+    }
+
+    if (!function_exists('getUnit')) {
+
+        /**
+         * Get Lab test unit
+         * @param $procedure/test
+         * @return $unit
+         */
+        function getUnit($p) {
+            $unit_str = $p->this_test->result_type_details;
+            preg_match("/\(([^\)]*)\)/", $unit_str, $matches);
+            if ($matches) {
+                $unit = $matches[1];
+            }
+            if (strpos($p->name, '%')) {
+                return '%';
+            } elseif ($matches) {
+                return html_entity_decode($unit);
+            } else {
+                return $p->this_test->units;
+            }
+        }
+
+    }
+
+
+    if (!function_exists('getFlag')) {
+
+        /**
+         * Get Appropriate flag for lab result
+         * @param $result, $min_range, $max_range
+         * @return $flag
+         */
+        function getFlag($r, $min_range, $max_range) {
+            if ($r < $min_range) {
+                return "<span style = 'color: red;'> L</span>";
+            } elseif ($r > $max_range) {
+                return "<span style = 'color: red;'> H</span>";
+            } else
+                return "N";
+        }
+
+    }
 }

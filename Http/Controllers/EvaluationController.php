@@ -32,7 +32,7 @@ class EvaluationController extends AdminBaseController {
 
     public function queues($department) {
         $this->data['all'] = Visit::checkedAt($department)
-                ->orderBy('created_at', 'asc')
+                ->oldest()
                 ->get();
 
         $this->data['department'] = ucwords($department);
@@ -42,7 +42,7 @@ class EvaluationController extends AdminBaseController {
         }
         $this->data['myq'] = VisitDestinations::whereDestination($user)
                 ->whereCheckout(0)
-                ->orderBy('created_at', 'asc')
+                ->oldest()
                 ->get();
         return view('evaluation::queues', ['data' => $this->data]);
     }
