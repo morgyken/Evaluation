@@ -68,97 +68,108 @@ $age_years = $dob->age;
                     <?php
                     $results = json_decode($item->results->results);
                     ?>
-                    @if(is_array($results))<!-- Check if result is array -->
-                    @foreach ($results as $r)
-                    @if($r[1]!=='')
+                    @if(is_array($results))
+                    <!-- Check if result is array -->
                     <?php
-                    $p = Ignite\Evaluation\Entities\Procedures::find($r[0]);
-                    if ($p->this_test) {
-                        ?>
-                        <?php
-                        $unit_str = $p->this_test->result_type_details;
-                        preg_match("/\(([^\)]*)\)/", $unit_str, $matches);
-                        if ($matches) {
-                            $unit = $matches[1];
-                        }
-                        $min_range = $max_range = null;
-                        try {
-                            if ($age_days < 4) {
-                                $min_range = $p->this_test->_0_3d_minrange;
-                                $max_range = $p->this_test->_0_3d_maxrange;
-                            } elseif ($age_days >= 4 && $age_days <= 30) {
-                                $min_range = $p->this_test->_4_30d_minrange;
-                                $max_range = $p->this_test->_4_30d_maxrange;
-                            } elseif ($age_days > 30 && $age_days <= 730) {
-                                $min_range = $p->this_test->_1_24m_minrange;
-                                $max_range = $p->this_test->_1_24m_maxrange;
-                            } elseif ($age_days > 730 && $age_days <= 1825) {
-                                $min_range = $p->this_test->_25_60m_minrange;
-                                $max_range = $p->this_test->_25_60m_maxrange;
-                            } else {
-                                if ($age_years > 4 && $age_years <= 19) {
-                                    $min_range = $p->this_test->_5_19y_minrange;
-                                    $max_range = $p->this_test->_5_19y_maxrange;
-                                } else {
-                                    $min_range = $p->this_test->adult_minrange;
-                                    $max_range = $p->this_test->adult_maxrange;
+                    // try {//For procedures with titles
+                    if ($item->procedures->this_test) {
+                        #if this procedure has a subprocedure
+                        $titles = json_decode($item->procedures->this_test->titles);
+                        if (isset($titles)) {#only if titles is not null
+                            foreach ($titles as $key => $value) {
+                                $title = \Ignite\Evaluation\Entities\HaemogramTitle::find($value);
+                                ?>
+                                <tr>
+                                    <td style="background:#9999CC" colspan="5">
+                                        <strong>{{strtoupper($title->name)}}</strong>
+                                    </td>
+                                </tr>
+                                <?php
+                                $all_tests = array();
+                                $their_result = array();
+                                foreach ($results as $_r) {
+                                    $all_tests[] = $_r[0];
+                                    $their_result[] = $_r[1];
+                                }
+                                $test_res = array_combine($all_tests, $their_result);
+                                foreach ($title->tests as $_t) {
+                                    $u = getUnit($_t->_procedure);
+                                    $min_range = get_min_range($_t->_procedure, $age_days, $age_years);
+                                    $max_range = get_max_range($_t->_procedure, $age_days, $age_years);
+                                    ?>
+                                    <tr>
+                                        <td>{{$_t->_procedure->name}}</td>
+                                        <td>{{$test_res[$_t->procedure]}}</td>
+                                        <td><?php echo $u ?></td>
+                                        <td>
+                                            @if(isset($min_range) && isset($max_range))
+                                            <?php echo getFlag($test_res[$_t->procedure], $min_range, $max_range) ?>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if(isset($min_range) && isset($max_range))
+                                            {{$min_range}} - {{$max_range}}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <?php
                                 }
                             }
-                        } catch (\Exception $e) {
-                            $min_range = $p->this_test->lab_min_range;
-                            $max_range = $p->this_test->lab_max_range;
-                        }
-                        ?>
-                        <tr>
-                            <td>{{$p->name}}</td>
-                            <td>{{$r[1]}}</td>
-                            <td>
-                                @if(strpos($p->name, '%'))
-                                %
-                                @elseif($matches)
-                                <?php
-                                echo html_entity_decode($unit)
+                            ?>
+                            <?php
+                        } else {//This is a normal procedure without fucking titles
+                            ?>
+                            @foreach ($results as $___r)
+                            @if($___r[1]!=='')
+                            <?php
+                            $p = Ignite\Evaluation\Entities\Procedures::find($___r[0]);
+                            if ($p->this_test) {
                                 ?>
-                                @else
-                                {{$p->this_test->units}}
-                                @endif
-                            </td>
-                            <td style="text-align:center">
-                                @if(isset($min_range) && isset($max_range))
-                                @if($r[1]<$min_range)
-                                <span style="color: red;"> L</span>
-                                @elseif($r[1]>$max_range)
-                                <span style="color: red;"> H</span>
-                                @else
-                                N
-                                @endif
-                                @endif
-                            </td>
-                            <td>
-                                @if(isset($min_range) && isset($max_range))
-                                {{$min_range}} - {{$max_range}}
-                                @endif
-                            </td>
-                        </tr>
-                        <?php
-                    } else {
-                        ?>
-                        <tr>
-                            <td>{{$p->name}}</td>
-                            <td>{{ strip_tags($r[1])}}</td>
-                            <td>
-                                @if(strpos($p->name, '%'))
-                                %
-                                @endif
-                            </td>
-                            <td style="text-align:center"></td>
-                            <td> - </td>
-                        </tr>
-                        <?php
-                    }
+                                <?php
+                                $min_range = get_min_range($p, $age_days, $age_years);
+                                $max_range = get_max_range($p, $age_days, $age_years);
+                                ?>
+                                <tr>
+                                    <td>{{$p->name}}</td>
+                                    <td>{{$___r[1]}}</td>
+                                    <td><?php echo getUnit($p) ?></td>
+                                    <td style="text-align:center">
+                                        @if(isset($min_range) && isset($max_range))
+                                        <?php echo getFlag($___r[1], $min_range, $max_range) ?>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($min_range) && isset($max_range))
+                                        {{$min_range}} - {{$max_range}}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <?php
+                            } else {
+                                ?>
+                                <tr>
+                                    <td>{{$p->name}}</td>
+                                    <td>{{ strip_tags($___r[1])}}</td>
+                                    <td>
+                                        @if(strpos($p->name, '%'))
+                                        %
+                                        @endif
+                                    </td>
+                                    <td style="text-align:center"></td>
+                                    <td> - </td>
+                                </tr>
+                                <?php
+                            }##end of else
+                            ?>
+                            @endif
+                            @endforeach
+                            <?php
+                        }# end of else
+                    }#end of if this procedure has a subprocedure
+                    //  } catch (\Exception $e) {
+                    //catch and sip your coffee
+                    //  }#end of try catch for procedure with titles
                     ?>
-                    @endif
-                    @endforeach
                     @else <!-- Just Display it if it is not an array -->
                     <tr>
                         <td>{{$item->procedures->name}}</td>

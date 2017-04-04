@@ -24,5 +24,9 @@ $(function () {
         });
         $("#myModal").modal('hide');
     });
-    $('table').DataTable();
+    //$('table').DataTable();
+
+    $('table').DataTable({
+        "aaSorting": []
+    })//.draw();
 });
