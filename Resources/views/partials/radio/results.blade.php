@@ -28,8 +28,7 @@
         <div class="col-md-6">
             <h4>Radiology Results</h4>
             <div class="well well-sm">{!!$item->results->results!!}</div>
-            <a target="blank" href="{{route('evaluation.print.print_lab.one', $item->id)}}">
-                Print<span class="badge alert-success"></span></a>
+
             @if($item->results->documents)
             Uploaded File -
             <a href="{{route('reception.view_document',$item->results->documents->id)}}" target="_blank">

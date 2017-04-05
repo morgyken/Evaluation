@@ -5,6 +5,7 @@
  * Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 $procedure = $data['procedure'];
+$companies = \Ignite\Settings\Entities\Insurance::all();
 ?>
 
 @extends('layouts.app')
@@ -98,6 +99,30 @@ $procedure = $data['procedure'];
                     </div>
                 </div>
 
+
+                <div class="form-group {{ $errors->has('price_for_company') ? ' has-error' : '' }}">
+                    {!! Form::label('price_for_company', 'Special Price for Insurance Company(s)',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        <input type="checkbox" id="special_price" name="special_price" value="1">
+                    </div>
+                </div>
+
+                <div id="_firm_prices" class="form-group {{ $errors->has('price_for_company') ? ' has-error' : '' }}">
+                    {!! Form::label('price_for_company', 'Select Insurance Company(s)',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        <select name="companies[]">
+                            <option value="">Select Company</option>
+                            @foreach($companies as $c)
+                            <option value="{{$c->id}}">{{$c->name}}</option>
+                            @endforeach
+                        </select>
+                        <input type="text" name="prices[]" >
+
+                        <a href="#" onclick="more_firms()">More</a><br/><br>
+                        <div id="_more_firms"></div><br>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="box-footer">
@@ -110,7 +135,7 @@ $procedure = $data['procedure'];
 </div>
 <div class="box box-info">
     <div class="box-header">
-        <h3 class="box-title">Procedure Categories</h3>
+        <h3 class="box-title">Procedures</h3>
     </div>
     <div class="box-body">
         <table id="data" class="table table-responsive table-condensed">
@@ -143,8 +168,28 @@ $procedure = $data['procedure'];
         </table>
     </div>
 </div>
-<script type="text/javascript">
-    var PRODUCTS_URL = "{{route('api.inventory.get_products')}}";
+
+<script>
+    var n = 1;
+    var more_firms = function () {
+        if (n >= 10)
+            return;
+        $('#_more_firms').append("\<div>\n\
+<select name='companies[]'><option value=''>Select Company</option>\n\<?php
+foreach ($companies as $c) {
+    echo '<option value=' . $c->id . '>' . $c->name . '</option>';
+}
+?>< /select>\n\
+<input type='text' name='prices[]' >\n\
+<a href='#' onclick ='del(this)' > Delete </a></div><br/>");
+        n++;
+    };
+    var del = function (btn) {
+        $(btn).parent().remove();
+    };
 </script>
+
+<script type="text/javascript">
+    var PRODUCTS_URL = "{{route('api.inventory.get_products')}}";</script>
 <script src="{!! m_asset('evaluation:js/inventory_items.js') !!}"></script>
 @endsection

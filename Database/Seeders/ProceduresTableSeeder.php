@@ -410,6 +410,7 @@ class ProceduresTableSeeder extends Seeder {
             7 => ['name' => 'UltraSound', 'applies_to' => 6],
             8 => ['name' => 'Diagnostics', 'applies_to' => 7],
             9 => ['name' => 'Theatre', 'applies_to' => 8],
+            9 => ['name' => 'Physiotherapy', 'applies_to' => 9],
         ];
 
         DB::transaction(function() use ($procedure_categories, $procedures) {
@@ -425,7 +426,9 @@ class ProceduresTableSeeder extends Seeder {
                 $p = new Procedures;
                 $p->name = $procedure['name'];
                 $p->code = $procedure['code'];
-
+                if (isset($procedure['precharge'])) {
+                    $p->precharge = $procedure['precharge'];
+                }
                 $p->category = $faker->randomElement(array_keys($procedure_categories));
                 $p->cash_charge = $procedure['cash_charge'];
                 $p->charge_insurance = $faker->randomElement([true, false]);

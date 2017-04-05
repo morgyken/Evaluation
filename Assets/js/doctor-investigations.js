@@ -15,10 +15,10 @@ $(function () {
     //mock hide this
     $('.instructions').hide();
 
-    $('#diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
+    $('#radiology_form input,#radilogy_form textarea, #diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
         show_selection_investigation();
     });
-    $('#laboratory_form .check,#diagnosis_form .check').click(function () {
+    $('#radiology_form .check,#laboratory_form .check,#diagnosis_form .check').click(function () {
         var elements = $(this).parent().parent().find('input');
         var texts = $(this).parent().parent().find('textarea');
         if ($(this).is(':checked')) {
@@ -52,6 +52,16 @@ $(function () {
             total += parseInt(cost);
             $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + cost + '</td></tr>');
         });
+
+
+        //for radiology
+        $("#radiology_form input:checkbox:checked").each(function () {
+            var procedure_id = $(this).val();
+            var name = $('#name' + procedure_id).html();
+            var cost = $('#cost' + procedure_id).val();
+            total += parseInt(cost);
+            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + cost + '</td></tr>');
+        });
         if (total) {
             $('#diagnosisInfo > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
         }
@@ -65,7 +75,7 @@ $(function () {
         e.preventDefault();
         $.ajax({type: "POST",
             url: DIAGNOSIS_URL,
-            data: $('#diagnosis_form, #laboratory_form').serialize(),
+            data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
                 location.reload();
@@ -79,5 +89,6 @@ $(function () {
     //sick of this
     $('#laboratory_form').find('input:radio, input:checkbox').prop('checked', false);
     $('#diagnosis_form').find('input:radio, input:checkbox').prop('checked', false);
+    $('#radiology_form').find('input:radio, input:checkbox').prop('checked', false);
     $('#show_selection').hide();
 });

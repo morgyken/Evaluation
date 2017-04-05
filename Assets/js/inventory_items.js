@@ -26,6 +26,9 @@ $(document).ready(function () {
         }
     });
 
+    $("#has_items").click(function () {
+        show_items();
+    });
 
     function show_items() {
         var status = $("#has_items").is(':checked');
@@ -35,6 +38,19 @@ $(document).ready(function () {
             $("#items").addClass('hidden');
     }
     show_items();
+
+    $("#special_price").click(function () {
+        show_firms();
+    });
+
+    function show_firms() {
+        var status = $("#special_price").is(':checked');
+        if (status)
+            $("#firm_prices").removeClass('hidden');
+        else
+            $("#firm_prices").addClass('hidden');
+    }
+    show_firms();
 
 
     $('select[name=supplier]').select2({theme: "bootstrap"});
