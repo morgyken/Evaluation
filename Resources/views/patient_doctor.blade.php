@@ -92,26 +92,6 @@ extract($data);
         </div>
     </div>
 </div>
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Checkout Patient?</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Do you want to checkout this patient? </p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger" id="delete">Yes</button>
-                    <button class="btn btn-primary" data-dismiss="modal">No</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @include('evaluation::routes')
 <script src="{{m_asset('evaluation:js/doctor-misc.js')}}" type="text/javascript"></script>
 @endsection

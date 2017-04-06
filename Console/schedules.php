@@ -10,4 +10,4 @@
  * =============================================================================
  */
 //$schedule->command('queue:work --queue=evaluation')->everyMinute();
-$schedule->command('evaluation:checkout')->everyMinute();
+$schedule->command('evaluation:checkout')->everyFiveMinutes();
