@@ -34,7 +34,7 @@ class EvaluationController extends AdminBaseController {
         $this->data['all'] = Visit::checkedAt($department)
                 ->oldest()
                 ->get();
-
+        $this->data['referer'] = \URL::previous();
         $this->data['department'] = ucwords($department);
         $user = \Auth::user()->id;
         if ($department == 'doctor') {

@@ -136,6 +136,27 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
                 @endforeach
                 <?php
             }# end of else
+        } else {
+            ?>
+            <!-- Procedure does not have sub-procedure but result stored in json -->
+            <tr>
+                <td>{{ $item->procedures->name}}</td>
+                <td colspan="3">
+                    <?php
+                    $r_ = GuzzleHttp\json_decode($item->results->results);
+                    echo strip_tags($r_[0][1]);
+                    ?>
+                </td>
+            </tr>
+            <!--End of  is_array If Statement -->
+            <tr>
+                <td><strong>Comments:</strong></td>
+                <td colspan="4">
+                    {{$item->results->comments ?? 'Not provided'}}
+                </td>
+            </tr>
+
+            <?php
         }#end of if this procedure has a subprocedure
     } catch (\Exception $e) {
         #catch and sip your coffee

@@ -146,14 +146,17 @@ class EvaluationFunctions implements EvaluationRepository {
             }
             $__in = InvestigationResult::firstOrNew(['investigation' => $item]);
 
-            $test_result = array();
-            $res_array = $this->input['results' . $item];
-            foreach ($this->input['test' . $item] as $key => $value) {
-                $test_result[] = array($value, $res_array[$key]);
+            try {
+                $test_result = array();
+                $res_array = $this->input['results' . $item];
+                foreach ($this->input['test' . $item] as $key => $value) {
+                    $test_result[] = array($value, $res_array[$key]);
+                }
+                $result_array = \GuzzleHttp\json_encode($test_result);
+                $__in->results = $result_array;
+            } catch (\Exception $e) {
+                $__in->results = $this->input['results' . $item];
             }
-
-            $result_array = \GuzzleHttp\json_encode($test_result);
-            $__in->results = $result_array;
 
             if ($this->request->hasFile('file' . $item)) {
                 $temp = "file$item";
@@ -500,8 +503,24 @@ class EvaluationFunctions implements EvaluationRepository {
             if (isset($this->request->precharge)) {
                 $procedure->precharge = true;
             }
+
             $procedure->status = $this->request->status;
             $procedure->save();
+
+            if (isset($this->request->special_price)) {
+                // dd(array_combine($this->request->special_price, $values));
+                foreach ($this->request->companies as $key => $value) {
+                    try {
+                        $price = new \Ignite\Settings\Entities\CompanyPrice;
+                        $price->company = $value;
+                        $price->procedure = $procedure->id;
+                        $price->price = $this->request->prices[$key];
+                        $price->save();
+                    } catch (\Exception $ex) {
+                        //sip coffee
+                    }
+                }
+            }
 
             if ($this->request->category == 4) {
                 $this->saveSubProcedure($procedure->id, $this->request);

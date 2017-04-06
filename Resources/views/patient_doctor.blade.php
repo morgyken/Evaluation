@@ -93,4 +93,5 @@ extract($data);
     </div>
 </div>
 @include('evaluation::routes')
+<script src="{{m_asset('evaluation:js/doctor-misc.js')}}" type="text/javascript"></script>
 @endsection
