@@ -103,7 +103,7 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
                 <div class="form-group {{ $errors->has('price_for_company') ? ' has-error' : '' }}">
                     {!! Form::label('price_for_company', 'Special Price for Insurance Company(s)',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        <input type="checkbox" id="special_price" name="special_price" value="1">
+                        <input type="checkbox" id="special_price_check" name="special_price" value="1">
                     </div>
                 </div>
 
@@ -174,14 +174,11 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
     var more_firms = function () {
         if (n >= 10)
             return;
-        $('#_more_firms').append("\<div>\n\
-<select name='companies[]'><option value=''>Select Company</option>\n\<?php
+        $('#_more_firms').append("\<div>\n\<select name='companies[]'><option value=''>Select Company</option>\n\<?php
 foreach ($companies as $c) {
     echo '<option value=' . $c->id . '>' . $c->name . '</option>';
 }
-?>< /select>\n\
-<input type='text' name='prices[]' >\n\
-<a href='#' onclick ='del(this)' > Delete </a></div><br/>");
+?>< /select>\n\<input type='text' name='prices[]' >\n\<a href='#' onclick ='del(this)' > Delete </a></div><br/>");
         n++;
     };
     var del = function (btn) {
@@ -190,6 +187,8 @@ foreach ($companies as $c) {
 </script>
 
 <script type="text/javascript">
-    var PRODUCTS_URL = "{{route('api.inventory.get_products')}}";</script>
+    var PRODUCTS_URL = "{{route('api.inventory.get_products')}}";
+</script>
+<script src="{!! m_asset('evaluation:js/procedures.js') !!}"></script>
 <script src="{!! m_asset('evaluation:js/inventory_items.js') !!}"></script>
 @endsection

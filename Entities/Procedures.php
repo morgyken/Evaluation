@@ -57,4 +57,8 @@ class Procedures extends Model {
         return $this->hasMany(SubProcedures::class, 'parent');
     }
 
+    public function inclusions() {
+        return $this->hasMany(\Ignite\Settings\Entities\CompanyPrice::class, 'procedure');
+    }
+
 }

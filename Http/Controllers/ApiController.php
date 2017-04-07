@@ -75,8 +75,28 @@ class ApiController extends Controller {
         $term = $request->term['term'];
         $build = [];
         $found = get_procedures_for($type, $term);
+
+        $co = null;
+        if (isset($request->visit)) {
+            $visit = \Ignite\Evaluation\Entities\Visit::find($request->visit);
+            if ($visit->payment_mode == 'insurance') {
+                $co = $visit->patient_scheme->schemes->companies->id;
+            }
+        }
+
         foreach ($found as $val) {
-            $build[] = ['text' => $val['name'], 'id' => $val['id'], 'price' => $val['cash_charge']];
+            $c_price = \Ignite\Settings\Entities\CompanyPrice::whereCompany(intval($co))
+                    ->whereProcedure(intval($val['id']))
+                    ->get()
+                    ->first();
+            if (isset($c_price)) {
+                if ($c_price->price > 0) {
+                    $price = $c_price->price;
+                }
+            } else {
+                $price = $val['cash_charge'];
+            }
+            $build[] = ['text' => $val['name'], 'id' => $val['id'], 'price' => $price];
         }
         return json_encode(['results' => $build]);
     }

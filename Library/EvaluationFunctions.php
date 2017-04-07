@@ -492,7 +492,9 @@ class EvaluationFunctions implements EvaluationRepository {
 
             $procedure->name = $this->request->name;
             $procedure->code = $this->request->code;
-            $procedure->category = $this->request->category;
+            if ($this->request->category) {
+                $procedure->category = $this->request->category;
+            }
             $procedure->description = $this->request->description;
             $procedure->cash_charge = $this->request->cash_charge;
 
@@ -506,21 +508,21 @@ class EvaluationFunctions implements EvaluationRepository {
 
             $procedure->status = $this->request->status;
             $procedure->save();
-
-            if (isset($this->request->special_price)) {
-                // dd(array_combine($this->request->special_price, $values));
-                foreach ($this->request->companies as $key => $value) {
-                    try {
-                        $price = new \Ignite\Settings\Entities\CompanyPrice;
-                        $price->company = $value;
-                        $price->procedure = $procedure->id;
-                        $price->price = $this->request->prices[$key];
-                        $price->save();
-                    } catch (\Exception $ex) {
-                        //sip coffee
-                    }
-                }
-            }
+            /*
+              if (isset($this->request->special_price)) {
+              // dd(array_combine($this->request->special_price, $values));
+              foreach ($this->request->companies as $key => $value) {
+              try {
+              $price = new \Ignite\Settings\Entities\CompanyPrice;
+              $price->company = $value;
+              $price->procedure = $procedure->id;
+              $price->price = $this->request->prices[$key];
+              $price->save();
+              } catch (\Exception $ex) {
+              //sip coffee
+              }
+              }
+              } */
 
             if ($this->request->category == 4) {
                 $this->saveSubProcedure($procedure->id, $this->request);
@@ -548,6 +550,10 @@ class EvaluationFunctions implements EvaluationRepository {
         }
         if ($request->lab_category > 0) {
             $s->category = $request->lab_category;
+        }
+
+        if ($this->request->title) {
+            $s->title = $this->request->title;
         }
 
         $s->lab_result_type = $request->result_type;

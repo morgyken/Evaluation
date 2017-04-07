@@ -24,9 +24,17 @@ extract($data);
                     </li>
                     <li>
                         <a href="#ordered" data-toggle="tab">
-                            Ordered Prescriptions
+                            Ordered
                             <span class="badge alert-info">
                                 {{$drug_prescriptions->count()}}
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#dispensed" data-toggle="tab">
+                            Dispensed
+                            <span class="badge alert-info">
+                                {{$dispensed->count()}}
                             </span>
                         </a>
                     </li>
@@ -37,6 +45,9 @@ extract($data);
                     </div>
                     <div class="tab-pane" id="ordered">
                         @include('evaluation::partials.pharmacy.ordered')
+                    </div>
+                    <div class="tab-pane active" id="dispensed">
+                        @include('evaluation::partials.pharmacy.dispensed')
                     </div>
                 </div>
             </div>
