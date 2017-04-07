@@ -69,11 +69,17 @@ if (!function_exists('get_procedures_for')) {
             case 'physio':
                 $to_fetch = 9;
                 break;
+            case 'all':
+                $to_fetch = 'all';
+                break;
             default :
                 dd("Undefined section");
                 break;
         }
         if (!empty($term)) {
+            if ($to_fetch == 'all') {
+                return Procedures::where('name', 'like', "%$term%")->get();
+            }
             return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
                         $query->where('applies_to', $to_fetch);
                     })->where('name', 'like', "%$term%")->get();

@@ -17,6 +17,20 @@
     <div class="form-group {{ $errors->has('lab_category') ? ' has-error' : '' }}">
         {!! Form::label('lab_category', 'Category (Lab)',[' required class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
+            <select class="form-control" name="title">
+                <option>None</option>
+                @foreach($data['titles'] as $tit)
+                <option value="{{$tit->id}}">{{$tit->name}}</option>
+                @endforeach
+            </select>
+            {!! $errors->first('parent', '<span class="help-block">:message</span>') !!}
+        </div>
+    </div>
+
+
+    <div class="form-group {{ $errors->has('lab_category') ? ' has-error' : '' }}">
+        {!! Form::label('lab_category', 'Title (if applicable)',[' required class'=>'control-label col-md-4']) !!}
+        <div class="col-md-8">
             <select class="form-control" name="lab_category">
                 <option>None</option>
                 @foreach($data['lab_categories'] as $cat)
@@ -30,7 +44,7 @@
     <div class="form-group {{ $errors->has('result_type') ? ' has-error' : '' }}">
         {!! Form::label('result_type', 'Result Type',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            <select class="form-control" name="result_type">
+            <select class="form-control" id="result_type" name="result_type">
                 <option value="text">Free text</option>
                 <option value="number">Number</option>
                 <option value="select">Drop-down</option>
@@ -40,8 +54,8 @@
         </div>
     </div>
 
-    <div class="form-group {{ $errors->has('result_options') ? ' has-error' : '' }}">
-        {!! Form::label('result_options', 'Drop-down Options (If result type is select)',['class'=>'control-label col-md-4']) !!}
+    <div id="result_type_options" class="form-group {{ $errors->has('result_options') ? ' has-error' : '' }}">
+        {!! Form::label('result_options', 'Drop-down Options',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
             <input type="text" placeholder="option 1" name="result_options[]"><br>
             <input type="text" placeholder="option 2" name="result_options[]"><br>

@@ -61,7 +61,13 @@ class EvaluationController extends AdminBaseController {
             $this->data['visit'] = Visit::find($visit);
             $this->data['section'] = $section;
             $this->data['nursing_procedures'] = Procedures::whereCategory(6)->get();
-            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
+
+            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)
+                    ->whereStatus(0)
+                    ->get();
+
+            $this->data['dispensed'] = Prescriptions::whereVisit($visit)->whereStatus(1)->get();
+
             $this->data['investigations'] = \Ignite\Evaluation\Entities\Investigations::whereVisit($visit)->get();
             return view("evaluation::patient_$section", ['data' => $this->data]);
         } catch (\Exception $ex) {
@@ -75,6 +81,7 @@ class EvaluationController extends AdminBaseController {
         $this->data['patient'] = Patients::find($v->patient);
         $this->data['section'] = 'pharmacy';
         $this->data['drug_prescriptions'] = Prescriptions::whereVisit($id)->get();
+        //$this->data['dispensed'] = \Ignite\Evaluation\Entities\Dispensing::whereVisit($id)->get();
         return view('evaluation::patient_pharmacy', ['data' => $this->data]);
     }
 

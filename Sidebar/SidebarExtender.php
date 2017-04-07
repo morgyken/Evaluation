@@ -105,21 +105,32 @@ class SidebarExtender implements Panda {
                     $item->authorize($this->auth->hasAccess('evaluation.settings.procedures'));
                     $item->weight(4);
                 });
-
                 $item->item('Partner Institutions', function(Item $item) {
                     $item->icon('fa fa-users');
                     $item->route('evaluation.setup.partners', 'partners');
                     $item->authorize($this->auth->hasAccess('evaluation.settings.partners'));
                     $item->weight(4);
                 });
-                /*
-                  $item->item('Sub-Procedures', function(Item $item) {
-                  $item->icon('fa fa-tree');
-                  $item->route('evaluation.setup.subprocedures', 'procedures');
-                  $item->authorize($this->auth->hasAccess('evaluation.settings.procedures'));
-                  $item->weight(4);
-                  });
-                 */
+
+                $item->item('Laboratory', function(Item $item) {
+                    $item->icon('fa fa-flask');
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                    $item->weight(4);
+
+                    $item->item('Test Categories', function(Item $item) {
+                        $item->icon('fa fa-copyright');
+                        $item->route('evaluation.setup.test.categories', 'partners');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+
+                    $item->item('Test Titles', function(Item $item) {
+                        $item->icon('fa fa-bars');
+                        $item->route('evaluation.setup.test.titles', 'partners');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+                });
             });
         });
         return $menu;

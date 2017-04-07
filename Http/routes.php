@@ -34,6 +34,11 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
 
     $router->match(['post', 'get'], 'partners/manage/{id?}', ['uses' => 'SetupController@ManagePartnerInstitutions', 'as' => 'manage_partners']);
     $router->get('partners/{id?}', ['uses' => 'SetupController@partnerInstitutions', 'as' => 'partners']);
+
+    $router->get('lab/test/categories/{id?}', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
+    $router->post('lab/test/categories', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
+    $router->get('lab/tests/titles{id?}', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles']);
+    $router->post('lab/tests/titles', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles']);
 });
 
 $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $router) {

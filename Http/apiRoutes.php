@@ -29,6 +29,6 @@ $router->post('auto_order_diagnosis', ['uses' => 'ApiController@order_diagnosis'
 $router->post('save_preliminary', ['uses' => 'ApiController@save_preliminary', 'as' => 'save_preliminary']);
 $router->post('auto_save_results', ['uses' => 'ApiController@investigation_result', 'as' => 'investigation_result']);
 
-$router->get('get_procedures/{type}', ['uses' => 'ApiController@get_procedures', 'as' => 'get_procedures']);
+$router->get('get_procedures/{type}/{visit?}', ['uses' => 'ApiController@get_procedures', 'as' => 'get_procedures']);
 $router->get('get_products/', ['uses' => 'ApiController@get_drugs', 'as' => 'get_products']);
 

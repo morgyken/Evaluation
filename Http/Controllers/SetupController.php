@@ -41,6 +41,7 @@ class SetupController extends AdminBaseController {
         $this->data['procedure'] = Procedures::findOrNew($id);
         $this->data['procedures'] = Procedures::all();
         $this->data['lab_categories'] = LabtestCategories::all();
+        $this->data['titles'] = \Ignite\Evaluation\Entities\HaemogramTitle::all();
         return view('evaluation::setup.procedures', ['data' => $this->data]);
     }
 
@@ -83,7 +84,6 @@ class SetupController extends AdminBaseController {
       } */
 
     public function ManagePartnerInstitutions(Request $request) {
-        //dd($request);
         if ($request->isMethod('post')) {
             $this->evaluationRepository->SavePartnerInstitution();
             flash("Patner Institution Saved");
@@ -98,6 +98,40 @@ class SetupController extends AdminBaseController {
         $this->data['partner'] = PartnerInstitution::findOrNew($id);
         $this->data['partners'] = PartnerInstitution::all();
         return view('evaluation::setup.lab_partners', ['data' => $this->data]);
+    }
+
+    public function LabCategories(Request $request) {
+        if ($request->isMethod('post')) {
+            try {
+                $cat = new LabtestCategories;
+                $cat->name = $request->name;
+                $cat->save();
+                flash("Category Saved");
+            } catch (\Exception $ex) {
+                flash("Category Saved", 'danger');
+            }
+            return redirect()->route('evaluation.setup.test.categories');
+        }
+        $this->data['cat'] = LabtestCategories::findOrNew($request->id);
+        $this->data['cats'] = LabtestCategories::all();
+        return view('evaluation::setup.labtest_cats', ['data' => $this->data]);
+    }
+
+    public function TestTitles(Request $request) {
+        if ($request->isMethod('post')) {
+            try {
+                $tit = new \Ignite\Evaluation\Entities\HaemogramTitle();
+                $tit->name = $request->name;
+                $tit->save();
+                flash("Category Saved");
+            } catch (\Exception $ex) {
+                flash("Error saving data", 'danger');
+            }
+            return redirect()->route('evaluation.setup.test.titles');
+        }
+        $this->data['tit'] = \Ignite\Evaluation\Entities\HaemogramTitle::findOrNew($request->id);
+        $this->data['tits'] = \Ignite\Evaluation\Entities\HaemogramTitle::all();
+        return view('evaluation::setup.labtest_titles', ['data' => $this->data]);
     }
 
     public function temp() {

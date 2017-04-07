@@ -6,6 +6,11 @@
  *///$diagnosis=
 
 $radiology = get_procedures_for('radiology');
+$co = null;
+$visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
+if ($visit->payment_mode == 'insurance') {
+    $co = $visit->patient_scheme->schemes->companies->id;
+}
 ?>
 @if($radiology->isEmpty())
 <div class="alert alert-info">
@@ -17,6 +22,19 @@ $radiology = get_procedures_for('radiology');
 <table class="table table-condensed table-borderless table-responsive" id="procedures">
     <tbody>
         @foreach($radiology as $procedure)
+        <?php
+        $c_price = \Ignite\Settings\Entities\CompanyPrice::whereCompany(intval($co))
+                ->whereProcedure(intval($procedure->id))
+                ->get()
+                ->first();
+        if (isset($c_price)) {
+            if ($c_price->price > 0) {
+                $price = $c_price->price;
+            }
+        } else {
+            $price = $procedure->price;
+        }
+        ?>
         <tr id="row{{$procedure->id}}">
             <td>
                 <input type="checkbox" name="item{{$procedure->id}}" value="{{$procedure->id}}" class="check"/>
@@ -48,7 +66,7 @@ $radiology = get_procedures_for('radiology');
                 <input type="hidden" name="type{{$procedure->id}}" value="radiology" disabled />
             </td>
             <td>
-                <input type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}" id="cost{{$procedure->id}}" size="5" disabled/>
+                <input type="text" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" disabled/>
             </td>
         </tr>
         @endforeach

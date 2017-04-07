@@ -36,7 +36,10 @@
     </tfoot>
 </table>
 {!! Form::close()!!}
+<?php
+$url = route('api.evaluation.get_procedures', ['diagnostics', $visit->id]);
+?>
 <script>
-    var PROCEDURE_URL = "{{route('api.evaluation.get_procedures','diagnostics')}}";
+    var PROCEDURE_URL = "{{$url}}";
 </script>
 <script src="{{m_asset('evaluation:js/order_investigation.min.js')}}"></script>
