@@ -10,13 +10,8 @@
  */
 ?>
 <div id="feedback-box"></div>
-
-
 @if(!$drug_prescriptions->isEmpty())
 {!! Form::open(['route'=>'evaluation.pharmacy.dispense']) !!}
-
-
-
 <table class="table">
     <tr>
         <th></th>

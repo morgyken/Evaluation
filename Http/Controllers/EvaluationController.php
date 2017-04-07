@@ -66,9 +66,7 @@ class EvaluationController extends AdminBaseController {
                     ->whereStatus(0)
                     ->get();
 
-            $this->data['dispensed'] = Prescriptions::whereVisit($visit)
-                    ->whereStatus(1)
-                    ->get();
+            $this->data['dispensed'] = Prescriptions::whereVisit($visit)->whereStatus(1)->get();
 
             $this->data['investigations'] = \Ignite\Evaluation\Entities\Investigations::whereVisit($visit)->get();
             return view("evaluation::patient_$section", ['data' => $this->data]);

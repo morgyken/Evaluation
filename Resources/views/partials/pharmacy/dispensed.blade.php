@@ -19,7 +19,7 @@
         <th>Prescription</th>
         <th>Price</th>
         <th>Discount</th>
-        <th>Quantity</th>
+        <th>Quantity Given</th>
         <th>Total</th>
         <th>Action</th>
     </tr>
