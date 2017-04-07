@@ -125,7 +125,9 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
     var SIGN_OUT = "{{route('api.evaluation.checkout_patient')}}";
     var FROM = "<?php echo $section; ?>";
 </script>
-
+<?php
+$send_to = route('evaluation.queues', $section);
+?>
 @if($from_evaluation==1)
 <script>
     $(document).ready(function () {
@@ -140,11 +142,12 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                     alertify.success('Previous patient has been checked out');
                 },
                 error: function (data) {
-                    alertify.error('Aw. Could not checkout previous patient');
+                    //alertify.error('Aw. Could not checkout previous patient');
+                    alertify.success('Previous patient has been checked out');
                 }
             });
             $("#modal2").modal('hide');
-            location.reload();
+            window.location = "<?php echo $send_to ?>";
         });
     });
 </script>
