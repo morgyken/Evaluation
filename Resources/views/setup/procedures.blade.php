@@ -99,29 +99,30 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
                     </div>
                 </div>
 
+                <!--
+                                <div class="form-group {{ $errors->has('price_for_company') ? ' has-error' : '' }}">
+                                    {!! Form::label('price_for_company', 'Special Price for Insurance Company(s)',['class'=>'control-label col-md-4']) !!}
+                                    <div class="col-md-8">
+                                        <input type="checkbox" id="special_price_check" name="special_price" value="1">
+                                    </div>
+                                </div>
 
-                <div class="form-group {{ $errors->has('price_for_company') ? ' has-error' : '' }}">
-                    {!! Form::label('price_for_company', 'Special Price for Insurance Company(s)',['class'=>'control-label col-md-4']) !!}
-                    <div class="col-md-8">
-                        <input type="checkbox" id="special_price_check" name="special_price" value="1">
-                    </div>
-                </div>
+                                <div id="_firm_prices" class="form-group {{ $errors->has('price_for_company') ? ' has-error' : '' }}">
+                                    {!! Form::label('price_for_company', 'Select Insurance Company(s)',['class'=>'control-label col-md-4']) !!}
+                                    <div class="col-md-8">
+                                        <select name="companies[]">
+                                            <option value="">Select Company</option>
+                                            @foreach($companies as $c)
+                                            <option value="{{$c->id}}">{{$c->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <input type="text" name="prices[]" >
 
-                <div id="_firm_prices" class="form-group {{ $errors->has('price_for_company') ? ' has-error' : '' }}">
-                    {!! Form::label('price_for_company', 'Select Insurance Company(s)',['class'=>'control-label col-md-4']) !!}
-                    <div class="col-md-8">
-                        <select name="companies[]">
-                            <option value="">Select Company</option>
-                            @foreach($companies as $c)
-                            <option value="{{$c->id}}">{{$c->name}}</option>
-                            @endforeach
-                        </select>
-                        <input type="text" name="prices[]" >
-
-                        <a href="#" onclick="more_firms()">More</a><br/><br>
-                        <div id="_more_firms"></div><br>
-                    </div>
-                </div>
+                                        <a href="#" onclick="more_firms()">More</a><br/><br>
+                                        <div id="_more_firms"></div><br>
+                                    </div>
+                                </div>
+                -->
 
             </div>
         </div>
