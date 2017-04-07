@@ -9,6 +9,7 @@ $router->get('patients/visit/{visit}/evaluate/{department}', ['uses' => 'Evaluat
 
 $router->post('patients/evaluate/pharmacy/prescription', ['uses' => 'EvaluationController@pharmacy_prescription', 'as' => 'evaluate.pharmacy.prescription']);
 $router->post('patients/evaluate/pharmacy/dispense', ['uses' => 'EvaluationController@pharmacy_dispense', 'as' => 'pharmacy.dispense']);
+$router->get('patients/evaluate/pharmacy/cancel/presc/{id?}', ['uses' => 'EvaluationController@cancelPresc', 'as' => 'pharmacy.purge.presc']);
 $router->get('patients/evaluate/pharmacy/prescription/cancel', ['uses' => 'ApiController@pharmacy_cancel_prescription', 'as' => 'pharmacy.prescription.cancel']);
 
 $router->post('order/new/{type}', ['as' => 'order', 'uses' => 'InvestigationsController']);

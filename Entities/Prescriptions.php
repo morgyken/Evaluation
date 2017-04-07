@@ -69,4 +69,8 @@ class Prescriptions extends Model {
         return $this->belongsTo(User::class, 'user');
     }
 
+    public function dispensing() {
+        return $this->hasMany(Dispensing::class, 'prescription');
+    }
+
 }

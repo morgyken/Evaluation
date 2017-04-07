@@ -337,6 +337,7 @@ class EvaluationFunctions implements EvaluationRepository {
         $dis->save();
 
         $amount = 0;
+        $prescription = null;
         foreach ($this->__get_selected_stack() as $index) {
             $item = 'item' . $index;
             if ($this->request->$item == 'on') {
@@ -345,6 +346,7 @@ class EvaluationFunctions implements EvaluationRepository {
                 $price = 'prc' . $index;
                 $presc = 'presc' . $index;
                 $disc = 'discount' . $index;
+                $prescription = $this->request->$presc;
                 $details = new DispensingDetails;
                 $details->batch = $dis->id;
                 $details->product = $this->request->$drug;
@@ -352,7 +354,7 @@ class EvaluationFunctions implements EvaluationRepository {
                 $details->price = $this->request->$price;
                 $details->discount = $this->request->$disc;
                 $details->save();
-                $sub_total = $details->quantity * $details->price;
+                $sub_total = $details->quantity * $details->price; //((100 - $this->request->$disc ? $this->request->$disc : 0) / 100) * ($details->quantity * $details->price);
                 $amount += $sub_total;
                 //adj stock
                 $this->repo->take_dispensed_products($details);
@@ -360,10 +362,14 @@ class EvaluationFunctions implements EvaluationRepository {
             }
         }
         //Update Amount
-
-        $disp = Dispensing::find($dis->id);
-        $disp->amount = $amount;
-        $disp->save();
+        try {
+            $disp = Dispensing::find($dis->id);
+            $disp->amount = $amount;
+            $disp->prescription = $prescription;
+            $disp->save();
+        } catch (\Exception $ex) {
+            //
+        }
 
 
 

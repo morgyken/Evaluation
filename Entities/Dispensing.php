@@ -35,4 +35,8 @@ class Dispensing extends Model {
         return $this->hasMany(DispensingDetails::class, 'batch');
     }
 
+    public function prescription() {
+        return $this->belongsTo(Prescriptions::class, 'prescription');
+    }
+
 }

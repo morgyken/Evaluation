@@ -134,7 +134,7 @@
                 sum += parseFloat(this.value);
                 $(this).css("background-color", "#FEFFB0");
             } else if (this.value.length != 0) {
-                $(this).css("background-color", "red");
+                $(this).val(0);//css("background-color", "red");
             }
         });
 

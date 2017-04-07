@@ -31,14 +31,12 @@ extract($data);
                         </a>
                     </li>
                     <li>
-                        <!--
                         <a href="#dispensed" data-toggle="tab">
                             Dispensed
                             <span class="badge alert-info">
                                 {{$dispensed->count()}}
                             </span>
                         </a>
-                        -->
                     </li>
                 </ul>
                 <div class="tab-content">
