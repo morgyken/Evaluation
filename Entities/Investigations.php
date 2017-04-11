@@ -92,6 +92,10 @@ class Investigations extends Model {
         return $this->hasOne(EvaluationPaymentsDetails::class, 'investigation');
     }
 
+    public function getCashAttribute() {
+        
+    }
+
     public function getPesaAttribute() {
         return 'Ksh ' . number_format($this->price, 2);
     }
