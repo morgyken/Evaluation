@@ -9,7 +9,7 @@
  * =============================================================================
  */
 ?>
-<div id="feedback-box"></div>
+<div id="feedback-box"><p>NOTE: Ensure the corresponding check-boxes are checked to proceed</p></div>
 @if(!$drug_prescriptions->isEmpty())
 {!! Form::open(['route'=>'evaluation.pharmacy.dispense']) !!}
 <table class="table">
@@ -95,7 +95,9 @@
         <td>
             <input class="txt" size="10" readonly=""id="total{{$item->id}}" type="text" name="txt" />
         </td>
-        <td><a href="#" onclick="cancelPrescription(<?php echo $item->id; ?>)" class="btn btn-danger btn-xs">Cancel</a></td>
+        <td>
+            <a href="{{route('evaluation.print.prescription', $visit->id)}}" target="_blank" class="btn btn-primary btn-xs">Print</a>
+            <!--<a href="#" onclick="cancelPrescription(<?php echo $item->id; ?>)" class="btn btn-danger btn-xs">Cancel</a> --></td>
     </tr>
     @endforeach
     <tr id="summation">

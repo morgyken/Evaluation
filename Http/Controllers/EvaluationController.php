@@ -56,28 +56,28 @@ class EvaluationController extends AdminBaseController {
     }
 
     public function evaluate($visit, $section) {
-        // try {
-        $this->data['all'] = Visit::checkedAt('diagnostics')->get();
-        $this->data['visit'] = Visit::find($visit);
-        $this->data['section'] = $section;
-        $this->data['nursing_procedures'] = Procedures::whereCategory(6)->get();
+        try {
+            $this->data['all'] = Visit::checkedAt('diagnostics')->get();
+            $this->data['visit'] = Visit::find($visit);
+            $this->data['section'] = $section;
+            $this->data['nursing_procedures'] = Procedures::whereCategory(6)->get();
 
-        $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)
-                ->whereStatus(0)
-                ->get();
-        session(['v' => $visit]);
-        $this->data['dispensed'] = Prescriptions::whereHas('dispensing', function ($query) {
-                    $query->whereHas('visits', function ($q) {
-                        $q->whereId(\Session::get('v'));
-                    });
-                })->get();
+            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)
+                    ->whereStatus(0)
+                    ->get();
+            session(['v' => $visit]);
+            $this->data['dispensed'] = Prescriptions::whereHas('dispensing', function ($query) {
+                        $query->whereHas('visits', function ($q) {
+                            $q->whereId(\Session::get('v'));
+                        });
+                    })->get();
 
-        $this->data['investigations'] = \Ignite\Evaluation\Entities\Investigations::whereVisit($visit)->get();
-        return view("evaluation::patient_$section", ['data' => $this->data]);
-        // } catch (\Exception $ex) {
-        //   flash('There was a problem evaluating the patient', 'error');
-        //   return back();
-        // }
+            $this->data['investigations'] = \Ignite\Evaluation\Entities\Investigations::whereVisit($visit)->get();
+            return view("evaluation::patient_$section", ['data' => $this->data]);
+        } catch (\Exception $ex) {
+            flash('There was a problem evaluating the patient', 'error');
+            return back();
+        }
     }
 
     public function pharmacy($id) {
