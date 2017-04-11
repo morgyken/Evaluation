@@ -331,11 +331,11 @@ class EvaluationFunctions implements EvaluationRepository {
      * @return array
      */
     public function dispense() {
+        //dd($this->request);
         $dis = new Dispensing;
         $dis->visit = $this->request->visit;
         $dis->user = \Auth::user()->id;
         $dis->save();
-
         $amount = 0;
         $prescription = null;
         foreach ($this->__get_selected_stack() as $index) {
@@ -359,17 +359,20 @@ class EvaluationFunctions implements EvaluationRepository {
                 //adj stock
                 $this->repo->take_dispensed_products($details);
                 $this->updatePresc($this->request->$presc);
+            } else {
+                flash('Ensure the checkboxes are clicked to proceed', 'danger');
+                return back();
             }
         }
         //Update Amount
-        try {
-            $disp = Dispensing::find($dis->id);
-            $disp->amount = $amount;
-            $disp->prescription = $prescription;
-            $disp->save();
-        } catch (\Exception $ex) {
-            //
-        }
+        //try {
+        $disp = Dispensing::find($dis->id);
+        $disp->amount = $amount;
+        $disp->prescription = $prescription;
+        $disp->save();
+        // } catch (\Exception $ex) {
+        //
+       // }
 
 
 
