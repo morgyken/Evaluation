@@ -166,6 +166,29 @@ if (!function_exists('patient_visits')) {
     }
 
 }
+
+
+if (!function_exists('v1_history')) {
+
+    /**
+     * @param $patient_id
+     * @return array|\Illuminate\Database\Eloquent\Collection|static[]
+     */
+    function v1_history($patient_id) {
+        try {
+            $data['treatment'] = Ignite\Evaluation\Entities\V1Treatment::where('Patient_Id', '=', $patient_id)->get();
+            $data['notes'] = Ignite\Evaluation\Entities\V1InvestigationNotes::where('Patient_Id', '=', $patient_id)->get();
+            $data['gexam'] = Ignite\Evaluation\Entities\V1GeneralExam::where('Patient_Id', '=', $patient_id)->get();
+            $data['diagnosis'] = Ignite\Evaluation\Entities\V1Diagnosis::where('Patient_Id', '=', $patient_id)->get();
+            $data['ghistory'] = Ignite\Evaluation\Entities\V1GeneralHistory::where('Patient_Id', '=', $patient_id)->get();
+            return $data;
+        } catch (Exception $ex) {
+
+        }
+    }
+
+}
+
 if (!function_exists('get_patient_documents')) {
 
     /**
