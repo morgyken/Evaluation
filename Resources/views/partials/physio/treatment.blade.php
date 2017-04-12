@@ -27,13 +27,17 @@ $performed = get_investigations($visit, ['treatment']);
                                    class="check"/>
                         </td>
                         <td>
-                            <span id="name{{$procedure->id}}"> {{$procedure->name}},
-                                {{$procedure->categories->name}}
-                            </span>
+                            <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>
+                            <br/>
+                            <input type="hidden" name="type{{$procedure->id}}" value="diagnostics" disabled/>
+                            <span class="_instructions">
+                                <textarea placeholder="Comments/Instructions" name="instructions{{$procedure->id}}" cols="50"></textarea></span>
                         </td>
-                        <td> <input type="hidden" name="type{{$procedure->id}}" value="treatment" disabled/>
+                        <td>
+                            <input type="hidden" name="type{{$procedure->id}}" value="treatment" disabled/>
                             <input type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}"
                                    id="cost{{$procedure->id}}" size="5" disabled/>
+
                         </td>
                     </tr>
                     @endforeach
@@ -91,7 +95,9 @@ $performed = get_investigations($visit, ['treatment']);
                 <table class="table table-condensed">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Procedure</th>
+                            <th>Comments/Instructions</th>
                             <th>Cost</th>
                             <th>Payment</th>
                         </tr>
@@ -99,7 +105,9 @@ $performed = get_investigations($visit, ['treatment']);
                     <tbody>
                         @foreach($performed as $item)
                         <tr>
+                            <td>{{$loop->iteration}}</td>
                             <td>{{str_limit($item->procedures->name,20,'...')}}</td>
+                            <td>{{$item->instructions}}</td>
                             <td>{{$item->price}}</td>
                             <td>{!! payment_label($item->is_paid) !!}</td>
                         </tr>
