@@ -79,6 +79,8 @@ if (!function_exists('get_procedures_for')) {
                 break;
             case 'all':
                 $to_fetch = 'all';
+            case 'inpatient':
+                $to_fetch = 10;
                 break;
             default :
                 dd("Undefined section");

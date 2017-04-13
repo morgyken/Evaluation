@@ -42,5 +42,17 @@ try {
             <p>Patient signed out for this visit</p>
             @endif
         </div>
+        <hr/>
+        <div class="col-md-4">
+            <dt>Request Admission:</dt>
+            {!! Form::open(['url'=>['/evaluation/inpatient/admit_patientPostForm']])!!}
+                {{--<input type="hidden" name="_token" value="{{csrf_token()}}">--}}
+            <input type="hidden" name="patient_id" value="{{$patient->id}}">
+            <input type="hidden" name="visit_id" value="{{$visit->id}}">
+                <textarea name="reason" id="" class="form-control" required rows="2" placeholder="Reason For Admission"></textarea>
+                <br>
+                <button class="btn btn-primary" type="submit">Request admission</button>
+            {!! Form::close() !!}
+        </div>
     </div>
 </div>

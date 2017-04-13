@@ -40,7 +40,7 @@ class SidebarExtender implements Panda {
 
     public function extendWith(Menu $menu) {
         $menu->group('Dashboard', function (Group $group) {
-            $group->item('Evaluation', function (Item $item) {
+            $group->item('Out Patient Management', function (Item $item) {
                 $item->weight(2);
                 $item->authorize($this->auth->hasAccess('evaluation.*'));
                 $item->icon('fa fa-heartbeat');
@@ -60,6 +60,28 @@ class SidebarExtender implements Panda {
                         $item->authorize($this->auth->hasAccess('evaluation.examination.doctor'));
                     });
                 }
+
+                $item->item('Preliminary Examinations', function (Item $item) {
+                    $item->icon('fa fa-wheelchair');
+                    $item->route('evaluation.queues', 'nurse');
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.preliminary'));
+                });
+
+                $item->item('Doctor\'s queue', function (Item $item) {
+                    $item->icon('fa fa-wheelchair-alt');
+                    $item->route('evaluation.queues', 'doctor');
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.doctor'));
+                });
+                $item->item('Radiology Queue', function (Item $item) {
+                    $item->icon('fa fa-braille');
+                    $item->route('evaluation.queues', 'radiology');
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.radiology'));
+                });
+                $item->item('Diagnostics Queue', function (Item $item) {
+                    $item->icon('fa fa-hotel');
+                    $item->route('evaluation.queues', 'diagnostics');
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.diagnostics'));
+                });
 
                 $item->item('Laboratory Queue', function (Item $item) {
                     $item->icon('fa fa-diamond');
@@ -117,6 +139,8 @@ class SidebarExtender implements Panda {
                     $item->route('evaluation.review');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.review'));
                 });
+
+
             });
             try{
                 if(\Auth::user()->ex){
@@ -154,6 +178,33 @@ class SidebarExtender implements Panda {
 
             }
 
+                $group->item('In Patient Management', function(Item $item) {
+                    $item->icon('fa fa-hospital-o');
+                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                    $item->weight(4);
+                    //there should be a way of adding wards and listing them
+
+                    $item->item('Admit Patient', function(Item $item) {
+                        $item->icon('fa fa-user-plus');
+                        $item->route('evaluation.inpatient.admit');
+                        //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                        $item->weight(4);
+                    });
+                    $item->item('Patients List', function(Item $item) {
+                        $item->icon('fa fa-users');
+                        $item->url('/evaluation/inpatient/admissions');
+                        //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                        $item->weight(4);
+                    });
+                    //patients waiting admissions
+                    $item->item('Waiting admission', function(Item $item) {
+                        $item->icon('fa fa-exclamation-circle');
+                        $item->url('/evaluation/inpatient/awaitingAdmission');
+                        //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                        $item->weight(4);
+                    });
+                });
+
             $group->item('Setup', function (Item $item) {
                 $item->item('Procedure Categories', function(Item $item) {
                     $item->icon('fa fa-wpforms');
@@ -161,6 +212,25 @@ class SidebarExtender implements Panda {
                     $item->authorize($this->auth->hasAccess('evaluation.settings.procedure_categories'));
                     $item->weight(4);
                 });
+
+                $item->item('Wards', function(Item $item) {
+                    $item->icon('fa fa-home');
+                    $item->url('/evaluation/inpatient/list');
+                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                    $item->weight(4);
+
+                });
+                //there should be a way of adding beds and listing them
+
+                //list wards
+                $item->item('Beds List', function(Item $item) {
+                    $item->icon('fa fa-bed');
+                    $item->url('/evaluation/inpatient/bedList');
+                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                    $item->weight(4);
+                });
+
+                //Account topUp
                 $item->item('Procedures', function(Item $item) {
                     $item->icon('fa fa-hourglass-1');
                     $item->route('evaluation.setup.procedures', 'procedures');
@@ -276,6 +346,11 @@ class SidebarExtender implements Panda {
                   $item->item('Laboratory', function(Item $item) {
                   $item->icon('fa fa-flask');
                   $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+               /*
+                  $item->item('Sub-Procedures', function(Item $item) {
+                  $item->icon('fa fa-tree');
+                  $item->route('evaluation.setup.subprocedures', 'procedures');
+                  $item->authorize($this->auth->hasAccess('evaluation.settings.procedures'));
                   $item->weight(4);
 
                   $item->item('Test Categories', function(Item $item) {
