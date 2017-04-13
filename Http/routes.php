@@ -3,12 +3,61 @@
 use Ignite\Core\Contracts\Authentication;
 use Illuminate\Routing\Router;
 
+/*In patient*/
+//admit a patient
+$router->group(['prefix' => 'inpatient', 'as' => 'inpatient.'], function (Router $router) {
+    $router->get('admit',['uses' => 'EvaluationController@admit', 'as' => 'admit']);
+    $router->get('admit/{patient_id}/{visit_id}',['uses' => 'EvaluationController@admit_patient']);
+    //list wards
+    $router->get('list',['uses'=>'EvaluationController@listWards']);
+    $router->get('addWard',['uses'=>'EvaluationController@addWard']);
+    $router->post('addwordFormPost',['uses'=>'EvaluationController@addwordFormPost']);
+    //bed
+    $router->get('bedList',['uses'=>'EvaluationController@listBeds']);
+    $router->get('addBed',['uses'=>'EvaluationController@addWard']);
+    $router->post('addBedFormPost',['uses'=>'EvaluationController@addBedFormPost']);
+    //show available beds
+    $router->get('availableBeds/{ward_id}',['uses'=>'EvaluationController@availableBeds']);
+    $router->post('admit_patient',['uses'=>'EvaluationController@admit_patient_Post']);
+    $router->get('admissions',['uses'=>'EvaluationController@admissionList']);
+    //manage patient
+    $router->get('manage/{patient_id}',['uses'=>'EvaluationController@managePatient']);
+    $router->post('manage/{patient_id}',['uses'=>'EvaluationController@recordVitals']);
+    //admit patient awaiting
+    $router->get('awaitingAdmission',['uses'=>'EvaluationController@admitAwaiting']);
+    $router->post('admit_patientPostForm',['uses'=>'EvaluationController@admit_patientPostForm']);
+    $router->post('delete_ward',['uses'=>'EvaluationController@delete_ward']);
+    $router->post('delete_bed',['uses'=>'EvaluationController@delete_bed']);
+
+    //deposit setting
+    $router->get('deposit',['uses'=>'EvaluationController@deposit']);
+    $router->post('addDepositType',['uses'=>'EvaluationController@addDepositType']);
+    //delete deposit type
+    $router->post('delete_deposit',['uses'=>'EvaluationController@delete_deposit']);
+    $router->get('admit_check',['uses'=>'EvaluationController@admit_check']);
+    $router->get('topUp',['uses'=>'EvaluationController@topUp']);
+    $router->post('topUpAmount',['uses'=>'EvaluationController@topUpAmount']);
+    $router->get('withdraw',['uses'=>'EvaluationController@withdraw']);
+    $router->post('WithdrawAmount',['uses'=>'EvaluationController@WithdrawAmount']);
+
+    //edit bed
+    $router->get('editBed/{id}',['uses'=>'EvaluationController@editBed']);
+    $router->post('bedList',['uses'=>'EvaluationController@edit_bed']);
+    $router->get('cancel_checkin',['uses'=>'EvaluationController@cancel_checkin']);
+    //edit a deposit
+    $router->get('edit_deposit/{deposit_id}',['uses'=>'EvaluationController@edit_deposit']);
+    $router->post('deposit_adit',['uses'=>'EvaluationController@deposit_adit']);
+    $router->post('topUpAccount',['uses'=>'EvaluationController@topUpAccount']);
+});
+
+
 $router->get('patients/queue/{department}', ['uses' => 'EvaluationController@queues', 'as' => 'queues']);
 $router->match(['get', 'post'], 'samples/{patient?}', ['uses' => 'EvaluationController@labotomy', 'as' => 'labotomy']);
 $router->match(['get', 'post'], 'formulae/{id?}', ['uses' => 'EvaluationController@Formulae', 'as' => 'formulae']);
 $router->match(['get', 'post'], 'sample/barcode/{id?}/print', ['uses' => 'EvaluationController@labotomy_print', 'as' => 'labotomy.print']);
 $router->get('patients/visits/{visit}/preview/{department}', ['uses' => 'EvaluationController@preview', 'as' => 'preview']);
 $router->get('patients/visit/{visit}/evaluate/{department}', ['uses' => 'EvaluationController@evaluate', 'as' => 'evaluate']);
+$router->get('patients/visit/{visit}/manage/{department}', ['uses' => 'EvaluationController@manage']);
 
 $router->post('patients/evaluate/pharmacy/prescription', ['uses' => 'EvaluationController@pharmacy_prescription', 'as' => 'evaluate.pharmacy.prescription']);
 $router->post('patients/evaluate/pharmacy/dispense', ['uses' => 'EvaluationController@pharmacy_dispense', 'as' => 'pharmacy.dispense']);

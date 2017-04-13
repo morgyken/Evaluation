@@ -411,6 +411,7 @@ class ProceduresTableSeeder extends Seeder {
             8 => ['name' => 'Diagnostics', 'applies_to' => 7],
             9 => ['name' => 'Theatre', 'applies_to' => 8],
             9 => ['name' => 'Physiotherapy', 'applies_to' => 9],
+            10=> ['name' => 'inpatient','applies_to'=>9],
         ];
 
         DB::transaction(function() use ($procedure_categories, $procedures) {

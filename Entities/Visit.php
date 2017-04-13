@@ -63,6 +63,8 @@ class Visit extends Model {
     use SoftDeletes;
 
     public $table = 'evaluation_visits';
+    protected $fillable = ['inpatient','clinic','patient','purpose','external_doctor','user',
+    'payment_mode','scheme','next_appointment','status'];
 
     public function getUnpaidAmountAttribute() {
         $amount = 0;
