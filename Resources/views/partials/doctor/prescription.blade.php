@@ -99,39 +99,11 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    /*
-     $(function () {
-     $('#prescribed_drugs').DataTable({
-     dom: 'Bfrtip',
-     buttons: [
-     'print',
-     ]
-     });
-     }); */
-</script>
-<?php
-if (is_module_enabled('Inventory')):
-    ?>
+<?php if (is_module_enabled('Inventory')): ?>
     <script>
         var INSURANCE = false;
         var STOCK_URL = "{{route('api.inventory.getstock')}}";
         var PRODUCTS_URL = "{{route('api.inventory.get.products')}}";
     </script>
     <script src="{!! m_asset('evaluation:js/prescription.min.js') !!}"></script>
-
-    <?php
-
-
-
-
-
-
-
-
-
-
-
-
-endif;
+<?php endif; ?>

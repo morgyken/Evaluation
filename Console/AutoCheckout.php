@@ -42,16 +42,16 @@ class AutoCheckout extends Command {
      */
     public function fire() {
         $this->blockMessage('Checking out everyone!', 'Working out...', 'comment');
-        $date = new \DateTime;
+        $date = \Carbon\Carbon::now();
         $date->modify('-24 hours');
-        $last_updated = $date->format('Y-m-d H:i:s');
+        $date->format('Y-m-d H:i:s');
 
-        $visits = \Ignite\Evaluation\Entities\Visit::where('created_at', '<=', $last_updated)->get();
+        $destinations = \Ignite\Evaluation\Entities\VisitDestinations::where('created_at', '<=', $date)->get();
 
-        foreach ($visits as $v) {
-            $destination = \Ignite\Evaluation\Entities\VisitDestinations::whereVisit($v->id)->first();
-            $destination->checkout = 1;
-            $destination->update();
+        foreach ($destinations as $d) {
+            $d->checkout = 1;
+            $d->finish_at = new \DateTime;
+            $d->update();
         }
 
         $this->blockMessage('Old visits have been checkout!', 'Thank you...', 'comment');

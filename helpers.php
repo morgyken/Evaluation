@@ -133,6 +133,25 @@ if (!function_exists('vitals_for_visit')) {
     }
 
 }
+
+if (!function_exists('vitals_for_patient')) {
+
+    /**
+     * @param Visit $visit
+     * @return \Illuminate\Database\Eloquent\Model
+     * @internal param $id
+     */
+    function vitals_for_patient($patient) {
+        try {
+            $visit = Visit::wherePatient($patient)->get()->first();
+            return$visit->vitals;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+}
+
 if (!function_exists('patient_visits')) {
 
     /**

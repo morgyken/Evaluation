@@ -5,6 +5,7 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 $form = vitals_for_visit($visit);
+$first_vital = vitals_for_patient($visit->patient);
 ?>
 <div class="row">
     {!! Form::open(['id'=>'vitals_form']) !!}
@@ -126,6 +127,16 @@ $form = vitals_for_visit($visit);
             </div>
         </div>
         <div class="col-md-3 col-md-offset-1">
+            @if($first_vital !== null)
+            <div class="form-group">
+                <label>Allergies</label>
+                <textarea name='allergies' rows='3' placeholder="Alergies" class="form-control">{{$first_vital->allergies}}</textarea>
+            </div>
+            <div class="form-group">
+                <label >Chronic Illnesses</label>
+                <textarea name='chronic_illnesses' rows='3' placeholder="Chronic Illnesses" class="form-control">{{$first_vital->chronic_illnesses}}</textarea>
+            </div>
+            @else
             <div class="form-group">
                 <label>Allergies</label>
                 <textarea name='allergies' rows='3' placeholder="Alergies" class="form-control">{{$form->allergies}}</textarea>
@@ -134,6 +145,8 @@ $form = vitals_for_visit($visit);
                 <label >Chronic Illnesses</label>
                 <textarea name='chronic_illnesses' rows='3' placeholder="Chronic Illnesses" class="form-control">{{$form->chronic_illnesses}}</textarea>
             </div>
+            @endif
+
             <div class="form-group">
                 <label >Notes</label>
                 <textarea name='nurse_notes' rows='3' placeholder="Nurses' Notes" class="form-control">{{$form->nurse_notes}}</textarea>
