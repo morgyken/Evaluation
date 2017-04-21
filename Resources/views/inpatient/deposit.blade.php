@@ -11,10 +11,10 @@
             <div class="col-lg-6">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <label for="" class="control-label">Deposit Name</label>
-                <input type="text" name="name" class="form-control">
+                <input type="text"  required name="name" class="form-control">
 
                 <label for="" class="control-label">Cost</label>
-                <input type="number" name="cost" class="form-control">
+                <input type="number"  required name="cost" class="form-control">
                 <br>
                 <button class="btn btn-primary" type="submit">Add Deposit</button>
             </div>
