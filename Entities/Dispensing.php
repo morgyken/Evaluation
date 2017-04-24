@@ -39,4 +39,8 @@ class Dispensing extends Model {
         return $this->belongsTo(Prescriptions::class, 'prescription');
     }
 
+    public function removed_bills() {
+        return $this->hasOne(\Ignite\Finance\Entities\RemovedBills::class, 'dispensing');
+    }
+
 }
