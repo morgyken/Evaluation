@@ -32,10 +32,15 @@ class EvaluationController extends AdminBaseController {
 
     public function queues($department) {
         $this->data['all'] = Visit::checkedAt($department)
-                ->oldest()
+                ->whereHas('destinations', function($query) {
+                    $query->whereCheckout(0);
+                })
+                ->orderBy('created_at', 'asc')
                 ->get();
+
         $this->data['referer'] = \URL::previous();
         $this->data['department'] = ucwords($department);
+
         $user = \Auth::user()->id;
         if ($department == 'doctor') {
             $this->data['doc'] = 1;
@@ -44,6 +49,7 @@ class EvaluationController extends AdminBaseController {
                 ->whereCheckout(0)
                 ->oldest()
                 ->get();
+
         return view('evaluation::queues', ['data' => $this->data]);
     }
 

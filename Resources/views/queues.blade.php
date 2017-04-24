@@ -11,6 +11,7 @@
 extract($data);
 $section = strtolower($department);
 $from_evaluation = 0;
+$n = 0;
 $previous_patient = null;
 $previous_patient_id = null;
 if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evaluate/')) {
@@ -34,6 +35,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                 @if(!isset($doc))
                 @foreach($all as $visit)
                 <tr id="row_id{{$visit->id}}">
+                    <td>{{$n+=1}}</td>
                     <td>{{$visit->patients?$visit->patients->full_name:'-'}}</td>
                     <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
                     <td>{{$visit->visit_destination}}</td>
@@ -51,6 +53,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                 @foreach($myq as $item)
                 @foreach($item->visits as $visit)
                 <tr id="row_id{{$visit->id}}">
+                    <td>{{$n+=1}}</td>
                     <td>{{$visit->patients->full_name}}</td>
                     <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
                     <td>{{$visit->visit_destination}}</td>
@@ -69,6 +72,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
             </tbody>
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Name</th>
                     <th>Date / Time</th>
                     <th>Destination</th>
