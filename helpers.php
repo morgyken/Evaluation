@@ -340,9 +340,14 @@ if (!function_exists('get_patients_with_bills')) {
                             $query->wherePaymentMode('cash');
                             $query->whereHas('investigations', function ($q3) {
                                 $q3->doesntHave('payments');
+                                $q3->doesntHave('removed_bills');
                             });
                             $query->orWhereHas('dispensing', function ($q) {
-                                $q->wherePayment_status(0);
+                                $q->doesntHave('removed_bills');
+                                $q->whereHas('details', function($qd) {
+                                    $qd->whereStatus(0);
+                                });
+                                // $q->wherePayment_status(0);
                             });
                         })
                         ->orderBy('created_at', 'desc')

@@ -93,11 +93,15 @@ class Investigations extends Model {
     }
 
     public function getCashAttribute() {
-        
+
     }
 
     public function getPesaAttribute() {
         return 'Ksh ' . number_format($this->price, 2);
+    }
+
+    public function removed_bills() {
+        return $this->hasOne(\Ignite\Finance\Entities\RemovedBills::class, 'investigation');
     }
 
 }
