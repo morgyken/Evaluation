@@ -184,7 +184,7 @@ class SidebarExtender implements Panda {
                     $item->weight(4);
                     //there should be a way of adding wards and listing them
 
-                    $item->item('Admit Patient', function(Item $item) {
+                    $item->item('Admission Requests', function(Item $item) {
                         $item->icon('fa fa-user-plus');
                         $item->route('evaluation.inpatient.admit');
                         //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
@@ -229,7 +229,6 @@ class SidebarExtender implements Panda {
                     //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
                     $item->weight(4);
                 });
-
                 //Account topUp
                 $item->item('Procedures', function(Item $item) {
                     $item->icon('fa fa-hourglass-1');

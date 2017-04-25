@@ -19,13 +19,15 @@
 
                     </div>
                     <br>
+                    <br>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-4">Name:</label>
                         <div class="col-lg-8">
                             <input required  type="text" name="name" class="form-control">
                         </div>
                     </div>
-
+                    <br>
+                    <br>
 
                     <div class="form-group">
                         <label for="" class="control-label col-md-4">Category:</label>
@@ -50,9 +52,8 @@
                             </select>
                         </div>
                     </div>
-
-
-
+                    <br>
+                    <br>
                     <div class="form-group">
                         <label for="" class="control-label col-md-4">Gender:</label>
                         <div class="col-md-8">
@@ -62,7 +63,8 @@
                             </select>
                         </div>
                     </div>
-
+                    <br>
+                    <br>
                     <div class="form-group">
                         <label for="" class="control-label col-md-4">Cost:</label>
                         <div class="col-md-8">
@@ -70,6 +72,8 @@
                         </div>
 
                     </div>
+                    <br>
+                    <br>
                     <div class="form-group">
                         <button class="btn btn-primary btn-xs" type="submit">Add Ward</button>
                     </div>
@@ -99,12 +103,16 @@
                             <td>Ksh.{{$ward->cost}}</td>
                             <td>{{$ward->created_at}}</td>
                             <td>
-                                <form action="{{url('/evaluation/inpatient/delete_ward/')}}" method="post">
+                                <a href="{{url('/evaluation/inpatient/delete_ward'.'/'.$ward->id)}}" class="btn btn-danger btn-xs">Delete</a>
+                                <button class="btn btn-primary btn-xs edit" id="{{$ward->id}}" data-toggle="modal" data-target="#myModal" >Edit</button>
+
+
+                                {{--<form action="{{url('/evaluation/inpatient/delete_ward/')}}" method="post">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <input type="hidden" name="ward_id" value="{{$ward->id}}">
                                     <button class="btn btn-danger btn-xs">Delete</button>
-                                </form>
-                                <button class="btn btn-primary btn-xs">Edit</button>
+                                </form>--}}
+
                             </td>
                         </tr>
                     @endforeach
@@ -112,10 +120,73 @@
                 </table>
         </div>
     </div>
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form method="post" action="{{url('evaluation/inpatient/update_ward')}}">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Edit Ward</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <input type="hidden" name="wardId" id="wardId">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                            <label for="" class="control-label">Ward Name</label>
+                            <input type="text" id="name" class="form-control" name="name">
+
+                            <label for="bed_type" class="control-label">Select Type</label>
+                            <select name="category" id="category" class="form-control">
+                                <option value="private">Private</option>
+                                <option value="public">Public</option>
+                            </select>
+
+                            <label for="bed_type" class="control-label">Gender</label>
+                            <select name="gender" id="gender" class="form-control">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+
+                            <label for="" class="control-label">Cost</label>
+                            <input type="number" id="cost" class="form-control" name="cost">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit"> Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
     <script>
         $(function () {
             $("table").dataTable();
+
+            //edit ward
+            $("button.edit").click(function () {
+                // AAX FETCH RECOrd
+                $("#wardId").val(this.id);
+                var url = '{{url('/evaluation/inpatient/editWard')}}'+'/'+this.id;
+                $.ajax({
+                    url:url
+                }).done(function (data) {
+                    console.info(data);
+                    //attach data returned...
+                    $("#name").val(data.name);
+                    $("#category").val(data.category);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        $("#cost").val(data.cost);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    })
+            })
+
         })
     </script>
-
+    
 @endsection
