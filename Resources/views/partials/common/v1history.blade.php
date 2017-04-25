@@ -111,25 +111,30 @@ $v1 = v1_history($visit->patient);
                                         <th>Social And Professional History</th>
                                         <th>Investigations</th>
                                     </tr>
-
-                                    @foreach($v1['gexam'] as $exam)
                                     <?php try { ?>
-                                        <tr>
-                                            <td>{{$loop->iteration}}</td>
-                                            <td>{{$exam->Visit_Stamp}}</td>
-                                            <td>{{$exam->plan_of_management}}</td>
-                                            <td>{{$exam->Presenting_Complaints}}</td>
-                                            <td>{{$exam->History_Of_Presenting_Complaints}}</td>
-                                            <td>{{$exam->Past_Medical_History}}</td>
-                                            <td>{{$exam->Social_And_Professional_History}}</td>
-                                            <td>{{$exam->Investigations}}</td>
-                                        </tr>
+                                        @foreach($v1['gexam'] as $exam)
+                                        <?php try { ?>
+                                            <tr>
+                                                <td>{{$loop->iteration}}</td>
+                                                <td>{{$exam->Visit_Stamp}}</td>
+                                                <td>{{$exam->plan_of_management}}</td>
+                                                <td>{{$exam->Presenting_Complaints}}</td>
+                                                <td>{{$exam->History_Of_Presenting_Complaints}}</td>
+                                                <td>{{$exam->Past_Medical_History}}</td>
+                                                <td>{{$exam->Social_And_Professional_History}}</td>
+                                                <td>{{$exam->Investigations}}</td>
+                                            </tr>
+                                            <?php
+                                        } catch (\Exception $ex) {
+
+                                        }
+                                        ?>
+                                        @endforeach
                                         <?php
                                     } catch (\Exception $ex) {
 
                                     }
                                     ?>
-                                    @endforeach
                                 </table>
 
                                 <br>
@@ -146,60 +151,35 @@ $v1 = v1_history($visit->patient);
                                         <th>Investigations History</th>
                                         <th>Hp illness</th>
                                     </tr>
-
-                                    @foreach($v1['gexam'] as $exam)
                                     <?php try { ?>
-                                        <tr>
-                                            <td>{{$loop->iteration}}</td>
-                                            <td>{{$exam->Visit_Stamp}}</td>
-                                            <td>{{$exam->GeneralExamNotes}}</td>
-                                            <td>{{$exam->drug_history}}</td>
-                                            <td>{{$exam->social_history}}</td>
-                                            <td>{{$exam->investigations_history}}</td>
-                                            <td>{{$exam->hp_illness}}</td>
-                                        </tr>
+                                        @foreach($v1['gexam'] as $exam)
+                                        <?php try { ?>
+                                            <tr>
+                                                <td>{{$loop->iteration}}</td>
+                                                <td>{{$exam->Visit_Stamp}}</td>
+                                                <td>{{$exam->GeneralExamNotes}}</td>
+                                                <td>{{$exam->drug_history}}</td>
+                                                <td>{{$exam->social_history}}</td>
+                                                <td>{{$exam->investigations_history}}</td>
+                                                <td>{{$exam->hp_illness}}</td>
+                                            </tr>
+                                            <?php
+                                        } catch (\Exception $ex) {
+
+                                        }
+                                        ?>
+                                        @endforeach
                                         <?php
                                     } catch (\Exception $ex) {
 
                                     }
                                     ?>
-                                    @endforeach
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <!--
-                    <div class="col-md-4">
-                        <div class="box box-success">
-                            <div class="box-header">
-                                <h3 class="box-title">Diagnosis</h3>
-                            </div>
-                            <div class="box-body">
-                                <table class="table table-striped">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Date</th>
-                                        <th>Diagnosis</th>
-                                    </tr>
-                    <?php //try { ?>
-                                            @foreach($v1['diagnosis'] as $d)
-                                            <tr>
-                                                <td>{{$loop->iteration}}</td>
-                                                <td>{{$d->Diagnosis_Date}}</td>
-                                                <td>{{$d->diagnosis}}</td>
-                                            </tr>
-                                            @endforeach
-                    <?php
-                    // } catch (\Exception $ex) {
-                    // }
-                    ?>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    -->
                     <div class="col-md-8">
                         <div class="box box-success">
                             <div class="box-header">
