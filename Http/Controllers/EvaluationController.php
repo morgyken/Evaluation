@@ -569,19 +569,12 @@ class EvaluationController extends AdminBaseController {
 
 
         $tras = $depo;
-/*
+
+
 //        return view('Evaluation::inpatient.print.topUpSlip',compact('tras','patient','balance','amount'));
         $pdf = \PDF::loadView('Evaluation::inpatient.print.topUpSlip',['tras'=>$tras,'patient'=>$patient,'balance'=>$balance,'amount'=>$amount]);
         $pdf->setPaper('a4','Landscape');
         return $pdf->stream('Deposit_slip'.str_random(4).'.pdf');
-
-
-
-
-
-        $pdf = \PDF::loadView('finance::prints.bill', ['bill' => $bill, 'sold' => $sold]);
-        $pdf->setPaper('a4', 'Landscape');
-        return $pdf->stream('Bill' . $request->id . '.pdf');*/
 
 
         return view('Evaluation::inpatient.deposit_slip',compact('patient','depo','balance'));
@@ -590,6 +583,7 @@ class EvaluationController extends AdminBaseController {
     {
         $patients  = Patients::all();
         $deposits = FinancePatientAccounts::where('debit','>',0)->get();
+
         return view('Evaluation::inpatient.withdraw',compact('deposits','patients'));
     }
     public function WithdrawAmount(Request $request)
@@ -620,7 +614,15 @@ class EvaluationController extends AdminBaseController {
         ]);
         $patient = Patients::find($request->patient_id);
        $balance = $patient_acc->balance;
-        return view('Evaluation::inpatient.withdraw_slip',compact('patient','wit','balance'));
+
+          $pdf = \PDF::loadView('Evaluation::inpatient.print.withdraw',['tras'=>$wit,'patient'=>$patient,'balance'=>$balance,'amount'=>$request->amount]);
+        $pdf->setPaper('a4','Landscape');
+        return $pdf->stream('Deposit_slip'.str_random(4).'.pdf');
+
+
+        $pdf = \PDF::loadView('Evaluation::inpatient.print.withdraw',['tras'=>$wit,'patient'=>$patient,'balance'=>$balance,'amount'=>$request->amount]);
+        $pdf->setPaper('a4','Landscape');
+        return $pdf->stream('Withdraw_slip'.str_random(4).'.pdf');
     }
     public function editBed($id)
     {
@@ -670,5 +672,21 @@ class EvaluationController extends AdminBaseController {
 
         $acc->update(['balance'=>$acc->balance + $request->amount]);
         return redirect()->back()->with('success','successfully topped up patient account');
+    }
+    public function deleteThisWard($id)
+    {
+        $ward = Ward::find($id);
+        $ward->delete();
+        return redirect()->back()->with('success','Successfully deleted a ward');
+    }
+    public function getRecordWard($id){
+        return Ward::findorfail($id);
+    }
+    public function update_ward(Request $request)
+    {
+        $ward = Ward::findorfail($request->wardId);
+        $ward->update($request->all());
+        return redirect()->back()->with('success','Successfully updated the ward');
+        //dd($request->all());
     }
 }

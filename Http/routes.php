@@ -48,6 +48,13 @@ $router->group(['prefix' => 'inpatient', 'as' => 'inpatient.'], function (Router
     $router->get('edit_deposit/{deposit_id}',['uses'=>'EvaluationController@edit_deposit']);
     $router->post('deposit_adit',['uses'=>'EvaluationController@deposit_adit']);
     $router->post('topUpAccount',['uses'=>'EvaluationController@topUpAccount']);
+
+    //DELETE WARD
+    $router->get('delete_ward/{ward_id}',['uses'=>'EvaluationController@deleteThisWard']);
+    $router->get('editWard/{ward_id}',['uses'=>'EvaluationController@getRecordWard']);
+    //UPDATE WARD RECORD
+    $router->post('update_ward',['uses'=>'EvaluationController@update_ward']);
+
 });
 
 
