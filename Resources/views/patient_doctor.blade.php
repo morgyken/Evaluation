@@ -17,9 +17,11 @@ extract($data);
         <div class="form-horizontal">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
+                    <!--
                     <li class="active"><a href="#vitals" data-toggle="tab">Vitals</a></li>
                     <li><a href="#pre-exam" data-toggle="tab">Preliminary</a></li>
-                    <li><a href="#doctor" data-toggle="tab">Doctors' notes</a></li>
+                    -->
+                    <li class="active"><a href="#doctor" data-toggle="tab">Doctors' notes</a></li>
                     <li><a href="#treatment" data-toggle="tab">Treatment</a></li>
                     <li><a href="#investigations" data-toggle="tab">Investigations</a></li>
                     @if(m_setting('evaluation.op_notes'))
@@ -33,9 +35,11 @@ extract($data);
                     <li>
                         <a class="btn btn-primary pull-right" target="blank" href="{{route('evaluation.print.patient_notes',$data['visit'])}}"><i class="fa fa-print"></i> Print</a>
                     </li>
+                    <!--
                     <li>
                         <a class="btn btn-primary pull-right" target="blank" href="{{route('evaluation.print.to_word',$data['visit'])}}"><i class="fa fa-download"></i>Send to Word</a>
                     </li>
+                    -->
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="vitals">
