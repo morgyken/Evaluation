@@ -298,11 +298,15 @@ class EvaluationFunctions implements EvaluationRepository {
     public function save_diagnosis() {
         DB::transaction(function () {
             foreach ($this->__get_selected_stack() as $treatment) {
+                $discount = 'discount' . $treatment;
                 Investigations::create([
                     'type' => $this->input['type' . $treatment],
                     'visit' => $this->visit,
                     'procedure' => $treatment,
+                    'quantity' => $this->input['quantity' . $treatment],
                     'price' => $this->input['price' . $treatment],
+                    'discount' => $this->request->$discount,
+                    'amount' => $this->input['amount' . $treatment],
                     'instructions' => empty($this->input['instructions' . $treatment]) ? null : $this->input['instructions' . $treatment],
                     'user' => $this->user,
                     'ordered' => true

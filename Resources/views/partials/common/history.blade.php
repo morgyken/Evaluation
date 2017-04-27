@@ -125,13 +125,19 @@ $history = patient_visits($visit->patient);
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($_visit->investigations->where('type','treatment') as $item)
-                                        <tr>
-                                            <td>{{str_limit($item->procedures->name,20,'...')}}</td>
-                                            <td>{{$item->price}}</td>
-                                            <td>{!! payment_label($item->is_paid) !!}</td>
-                                        </tr>
-                                        @endforeach
+                                        <?php try { ?>
+                                            @foreach($_visit->investigations->where('type','treatment') as $item)
+                                            <tr>
+                                                <td>{{str_limit($item->procedures->name,20,'...')}}</td>
+                                                <td>{{$item->price}}</td>
+                                                <td>{!! payment_label($item->is_paid) !!}</td>
+                                            </tr>
+                                            @endforeach
+                                            <?php
+                                        } catch (Exception $ex) {
+
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -152,13 +158,19 @@ $history = patient_visits($visit->patient);
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($_visit->investigations->where('type','diagnosis') as $item)
-                                        <tr>
-                                            <td>{{str_limit($item->procedures->name,20,'...')}}</td>
-                                            <td>{{$item->price}}</td>
-                                            <td>{!! payment_label($item->is_paid) !!}</td>
-                                        </tr>
-                                        @endforeach
+                                        <?php try { ?>
+                                            @foreach($_visit->investigations->where('type','diagnosis') as $item)
+                                            <tr>
+                                                <td>{{str_limit($item->procedures->name,20,'...')}}</td>
+                                                <td>{{$item->price}}</td>
+                                                <td>{!! payment_label($item->is_paid) !!}</td>
+                                            </tr>
+                                            @endforeach
+                                            <?php
+                                        } catch (Exception $ex) {
+
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>

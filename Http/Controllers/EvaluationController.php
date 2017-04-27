@@ -164,7 +164,7 @@ class EvaluationController extends AdminBaseController {
     private function __require_assets() {
         $assets = [
             'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations.min.js'),
-            'doctor-treatment.js' => m_asset('evaluation:js/doctor-treatment.min.js'),
+            'doctor-treatment.js' => m_asset('evaluation:js/doctor-treatment.js'),
             'doctor-next-steps.js' => m_asset('evaluation:js/doctor-next-steps.min.js'),
             'doctor-notes.js' => m_asset('evaluation:js/doctor-notes.min.js'),
             'doctor-opnotes.js' => m_asset('evaluation:js/doctor-opnotes.min.js'),

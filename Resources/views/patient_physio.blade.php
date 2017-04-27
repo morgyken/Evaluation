@@ -20,17 +20,11 @@ extract($data);
                     <li class="active">
                         <a href="#ordered" data-toggle="tab">Treatment</a>
                     </li>
-                    <li><a href="#history" data-toggle="tab">History</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="ordered">
                         <div>
                             @include('evaluation::partials.physio.treatment')
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="history">
-                        <div>
-                            @include('evaluation::partials.common.history')
                         </div>
                     </div>
                 </div>
