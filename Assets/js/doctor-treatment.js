@@ -41,7 +41,7 @@ $(function () {
             var cost = $('#cost' + procedure_id).val();
             var discount = $('#discount' + procedure_id).val();
             var quantity = $('#quantity' + procedure_id).val();
-            var amount = get_dicount_given(cost, quantity, discount)
+            var amount = get_dicount_given(cost, quantity, discount);
             //alert(amount);
             $('#amount' + procedure_id).val(amount);
             total += parseInt(amount);
@@ -76,8 +76,8 @@ $(function () {
     function get_dicount_given(price, qty, discount) {
         try {
             var total = price * qty;
-            var discount = total * (discount / 100);
-            var discounted = total - discount;
+            var d = total * (discount / 100);
+            var discounted = total - d;
             return discounted;
         } catch (e) {
             return price;

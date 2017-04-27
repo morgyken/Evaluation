@@ -72,6 +72,9 @@ $performed_radio = get_investigations($visit, ['radiology']);
                                 <th>Procedure</th>
                                 <th>Type</th>
                                 <th>Price</th>
+                                <th>No. Performed</th>
+                                <th>Discount</th>
+                                <th>Amount</th>
                                 <th>Payment</th>
                                 <th>Result</th>
                             </tr>
@@ -83,6 +86,9 @@ $performed_radio = get_investigations($visit, ['radiology']);
                                 <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                 <td>{{$item->type}}</td>
                                 <td>{{$item->price}}</td>
+                                <td>{{$item->quantity}}</td>
+                                <td>{{$item->discount}}</td>
+                                <td>{{$item->amount>0?$item->amount:$item->price}}</td>
                                 <td>{!! payment_label($item->is_paid) !!}</td>
                                 @if($item->has_result)
                                 <td><a href="{{route('evaluation.view_result',$item->visit)}}" class="btn btn-xs btn-success" target="_blank">
@@ -101,6 +107,9 @@ $performed_radio = get_investigations($visit, ['radiology']);
                                 <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                 <td>{{$item->type}}</td>
                                 <td>{{$item->price}}</td>
+                                <td>{{$item->quantity}}</td>
+                                <td>{{$item->discount}}</td>
+                                <td>{{$item->amount>0?$item->amount:$item->price}}</td>
                                 <td>{!! payment_label($item->is_paid) !!}</td>
                                 <td>
                                     <a href="{{route('evaluation.view_result',$item->visit)}}" class="btn btn-xs btn-success" target="_blank">
@@ -118,6 +127,9 @@ $performed_radio = get_investigations($visit, ['radiology']);
                                 <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                 <td>{{$item->type}}</td>
                                 <td>{{$item->price}}</td>
+                                <td>{{$item->quantity}}</td>
+                                <td>{{$item->discount}}</td>
+                                <td>{{$item->amount>0?$item->amount:$item->price}}</td>
                                 <td>{!! payment_label($item->is_paid) !!}</td>
                                 <td>
                                     <a href="{{route('evaluation.view_result',$item->visit)}}" class="btn btn-xs btn-success" target="_blank">

@@ -40,28 +40,30 @@ $(function () {
         $("#diagnosis_form input:checkbox:checked").each(function () {
             var procedure_id = $(this).val();
             var name = $('#name' + procedure_id).html();
-            var cost = $('#cost' + procedure_id).val();
-            total += parseInt(cost);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + cost + '</td></tr>');
+            var amount = john_doe(procedure_id);
+            total += parseInt(amount);
+            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
         //for labs
         $("#laboratory_form input:checkbox:checked").each(function () {
             var procedure_id = $(this).val();
             var name = $('#name' + procedure_id).html();
-            var cost = $('#cost' + procedure_id).val();
-            total += parseInt(cost);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + cost + '</td></tr>');
+            var amount = john_doe(procedure_id);
+            total += parseInt(amount);
+            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
-
 
         //for radiology
         $("#radiology_form input:checkbox:checked").each(function () {
             var procedure_id = $(this).val();
             var name = $('#name' + procedure_id).html();
-            var cost = $('#cost' + procedure_id).val();
-            total += parseInt(cost);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + cost + '</td></tr>');
+            var amount = john_doe(procedure_id);
+            total += parseInt(amount);
+            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
+
+
+
         if (total) {
             $('#diagnosisInfo > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
         }
@@ -91,4 +93,24 @@ $(function () {
     $('#diagnosis_form').find('input:radio, input:checkbox').prop('checked', false);
     $('#radiology_form').find('input:radio, input:checkbox').prop('checked', false);
     $('#show_selection').hide();
+
+    function get_amount_given(price, qty, discount) {
+        try {
+            var total = price * qty;
+            var d = total * (discount / 100);
+            var discounted = total - d;
+            return discounted;
+        } catch (e) {
+            return price;
+        }
+    }
+
+    function john_doe(procedure_id) {
+        var cost = $('#cost' + procedure_id).val();
+        var discount = $('#discount' + procedure_id).val();
+        var quantity = $('#quantity' + procedure_id).val();
+        var amount = get_amount_given(cost, quantity, discount);
+        $('#amount' + procedure_id).val(amount);
+        return amount;
+    }
 });

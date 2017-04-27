@@ -651,6 +651,9 @@ class EvaluationFunctions implements EvaluationRepository {
         foreach ($this->__get_selected_stack() as $index) {
             $item = 'item' . $index;
             $price = 'price' . $index;
+            $discount = 'discount' . $index;
+            $quantity = 'quantity' . $index;
+            $amount = 'amount' . $index;
 
             Investigations::create([
                 'visit' => $this->visit,
@@ -658,6 +661,9 @@ class EvaluationFunctions implements EvaluationRepository {
                 'user' => $this->user,
                 'procedure' => $this->input[$item],
                 'price' => $this->input[$price],
+                'quantity' => $this->request->$quantity,
+                'discount' => $this->request->$discount,
+                'amount' => $this->request->$amount,
             ]);
 
             $procedure = Procedures::find($this->input[$item]);
