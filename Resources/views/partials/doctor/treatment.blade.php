@@ -23,7 +23,7 @@ $performed = get_investigations($visit, ['treatment']);
                     @foreach($procedures as $procedure)
                     <tr id="row{{$procedure->id}}">
                         <td>
-                            <input type="checkbox" name="item{{$procedure->id}}" value="{{$procedure->id}}"class="check"/>
+                            <input type="checkbox" id="checked_{{$procedure->id}}" name="item{{$procedure->id}}" value="{{$procedure->id}}"class="check"/>
                         </td>
                         <td>
                             <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>

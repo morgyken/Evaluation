@@ -48,7 +48,7 @@ if ($visit->payment_mode == 'insurance') {
                     <textarea placeholder="Instructions" name="instructions{{$procedure->id}}" disabled cols="50"></textarea></span>
             </td>
             <td>
-                <input type="text" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" disabled/>
+                <input type="text" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" readonly=""/>
             </td>
             <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
             <td><input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/></td>

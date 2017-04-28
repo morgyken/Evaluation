@@ -18,6 +18,20 @@ $(function () {
     $('#radiology_form input,#radilogy_form textarea, #diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
         show_selection_investigation();
     });
+
+
+    $('#diagnosis_form input:text').keyup(function () {
+        show_selection_investigation();
+    });
+
+    $('#laboratory_form input:text').keyup(function () {
+        show_selection_investigation();
+    });
+
+    $('#radiology_form input:text').keyup(function () {
+        show_selection_investigation();
+    });
+
     $('#radiology_form .check,#laboratory_form .check,#diagnosis_form .check').click(function () {
         var elements = $(this).parent().parent().find('input');
         var texts = $(this).parent().parent().find('textarea');
@@ -44,6 +58,7 @@ $(function () {
             total += parseInt(amount);
             $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
+
         //for labs
         $("#laboratory_form input:checkbox:checked").each(function () {
             var procedure_id = $(this).val();
