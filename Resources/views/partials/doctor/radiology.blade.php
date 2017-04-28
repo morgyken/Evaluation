@@ -6,6 +6,7 @@
  *///$diagnosis=
 
 $radiology = get_procedures_for('radiology');
+$discount_allowed = json_decode(m_setting('evaluation.discount'));
 $co = null;
 $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
 if ($visit->payment_mode == 'insurance') {
@@ -51,7 +52,13 @@ if ($visit->payment_mode == 'insurance') {
                 <input type="text" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" readonly=""/>
             </td>
             <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
-            <td><input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/></td>
+            <td>
+                @if(in_array('radiology', $discount_allowed))
+                <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/>
+                @else
+                <input style="color:red" class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}" readonly=""/>
+                @endif
+            </td>
             <td><input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly=""/></td>
         </tr>
         @endforeach

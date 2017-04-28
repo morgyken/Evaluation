@@ -82,6 +82,12 @@ $(function () {
             add_row();
         });
 
+        var discount_flag = $("#no_discount").val();
+        if (discount_flag == 1) {
+            $("#discount_" + i).attr('readonly', true);
+            $("#discount_" + i).css('background-color', '#DEDEDE');
+        }
+
         $(".remove").click(function (e) {
             e.preventDefault();
             $(this).closest('tr').remove();
