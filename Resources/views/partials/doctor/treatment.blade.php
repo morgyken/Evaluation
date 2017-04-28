@@ -7,6 +7,7 @@
 
 $procedures = get_procedures_for('doctor');
 $performed = get_investigations($visit, ['treatment']);
+$discount_allowed = json_decode(m_setting('evaluation.discount'));
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -28,8 +29,16 @@ $performed = get_investigations($visit, ['treatment']);
                         <td>
                             <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>
                         </td>
-                        <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
-                        <td><input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/></td>
+                        <td>
+                            <input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/>
+                        </td>
+                        <td>
+                            @if(in_array('doctor', $discount_allowed))
+                            <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/>
+                            @else
+                            <input style="color:red" class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}" readonly=""/>
+                            @endif
+                        </td>
                         <td>
                             <input type="hidden" name="type{{$procedure->id}}" value="treatment" disabled/>
                             <input disabled="" type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}"

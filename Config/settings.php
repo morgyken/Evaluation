@@ -25,4 +25,9 @@ return [
         'view' => 'checkbox',
         'hint' => 'Enable the Drawings section in doctors section'
     ],
+    'discount' => [
+        'description' => 'Allow Discounts At',
+        'view' => 'evaluation::fields.discount',
+        'hint' => 'Select places where discount is applicable'
+    ],
 ];
