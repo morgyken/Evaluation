@@ -298,11 +298,15 @@ class EvaluationFunctions implements EvaluationRepository {
     public function save_diagnosis() {
         DB::transaction(function () {
             foreach ($this->__get_selected_stack() as $treatment) {
+                $discount = 'discount' . $treatment;
                 Investigations::create([
                     'type' => $this->input['type' . $treatment],
                     'visit' => $this->visit,
                     'procedure' => $treatment,
+                    'quantity' => $this->input['quantity' . $treatment],
                     'price' => $this->input['price' . $treatment],
+                    'discount' => $this->request->$discount,
+                    'amount' => $this->input['amount' . $treatment],
                     'instructions' => empty($this->input['instructions' . $treatment]) ? null : $this->input['instructions' . $treatment],
                     'user' => $this->user,
                     'ordered' => true
@@ -647,6 +651,9 @@ class EvaluationFunctions implements EvaluationRepository {
         foreach ($this->__get_selected_stack() as $index) {
             $item = 'item' . $index;
             $price = 'price' . $index;
+            $discount = 'discount' . $index;
+            $quantity = 'quantity' . $index;
+            $amount = 'amount' . $index;
 
             Investigations::create([
                 'visit' => $this->visit,
@@ -654,6 +661,9 @@ class EvaluationFunctions implements EvaluationRepository {
                 'user' => $this->user,
                 'procedure' => $this->input[$item],
                 'price' => $this->input[$price],
+                'quantity' => $this->request->$quantity,
+                'discount' => $this->request->$discount,
+                'amount' => $this->request->$amount,
             ]);
 
             $procedure = Procedures::find($this->input[$item]);

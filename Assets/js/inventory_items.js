@@ -15,16 +15,26 @@ $(document).ready(function () {
         show_items();
     });
 
-    $("#labs").hide();
+    $("#procedure_form").hover(function () {
+        show_lab();
+    });
 
     $("#category").change(function () {
-        var selected = parseInt(this.value);
+        show_lab()
+    });
+
+    $("#category").click(function () {
+        show_lab()
+    });
+
+    function show_lab() {
+        var selected = parseInt($("#category").val());
         if (selected === 4) {
             $("#labs").show();
         } else {
             $("#labs").hide();
         }
-    });
+    }
 
     $("#has_items").click(function () {
         show_items();
@@ -37,6 +47,7 @@ $(document).ready(function () {
         else
             $("#items").addClass('hidden');
     }
+
     show_items();
 
     $("#special_price").click(function () {

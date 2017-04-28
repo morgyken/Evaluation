@@ -15,7 +15,7 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
 @section('content')
 <div class="form-horizontal">
     <div class="box box-info">
-        {!! Form::model($procedure,['route'=>'evaluation.setup.procedures.save']) !!}
+        {!! Form::model($procedure,['id'=>'procedure_form','route'=>'evaluation.setup.procedures.save']) !!}
         {!! Form::hidden('id',$procedure->id) !!}
         <div class="box-body">
             <div class="col-md-6">
@@ -88,7 +88,11 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
                 <div class="form-group {{ $errors->has('inventory_items') ? ' has-error' : '' }}">
                     {!! Form::label('inventory_items', 'Consumes Inventory Items?',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        <input type="checkbox" id="has_items" name="has_items" value="1">
+                        <?php if (!$procedure->items->isEmpty()) { ?>
+                            <input type="checkbox" id="has_items" name="has_items" value="1" checked />
+                        <?php } else { ?>
+                            <input type="checkbox" id="has_items" name="has_items" value="1" />
+                        <?php } ?>
                     </div>
                 </div>
 
@@ -176,10 +180,10 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
         if (n >= 10)
             return;
         $('#_more_firms').append("\<div>\n\<select name='companies[]'><option value=''>Select Company</option>\n\<?php
-foreach ($companies as $c) {
-    echo '<option value=' . $c->id . '>' . $c->name . '</option>';
-}
-?>< /select>\n\<input type='text' name='prices[]' >\n\<a href='#' onclick ='del(this)' > Delete </a></div><br/>");
+                        foreach ($companies as $c) {
+                            echo '<option value=' . $c->id . '>' . $c->name . '</option>';
+                        }
+                        ?>< /select>\n\<input type='text' name='prices[]' >\n\<a href='#' onclick ='del(this)' > Delete </a></div><br/>");
         n++;
     };
     var del = function (btn) {

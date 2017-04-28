@@ -6,7 +6,7 @@
  */
 
 $procedures = get_procedures_for('physio');
-$performed = get_investigations($visit, ['treatment']);
+$performed = get_investigations($visit, ['physiotherapy']);
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -31,13 +31,18 @@ $performed = get_investigations($visit, ['treatment']);
                             <br/>
                             <input type="hidden" name="type{{$procedure->id}}" value="diagnostics" disabled/>
                             <span class="_instructions">
-                                <textarea placeholder="Comments/Instructions" name="instructions{{$procedure->id}}" cols="50"></textarea></span>
+                                <textarea placeholder="Comments/Instructions" name="instructions{{$procedure->id}}" cols="50"></textarea>
+                            </span>
                         </td>
+                        <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
+                        <td><input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/></td>
                         <td>
-                            <input type="hidden" name="type{{$procedure->id}}" value="treatment" disabled/>
+                            <input type="hidden" name="type{{$procedure->id}}" value="physiotherapy" disabled/>
                             <input type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}"
                                    id="cost{{$procedure->id}}" size="5" disabled/>
-
+                        </td>
+                        <td>
+                            <input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly=""/>
                         </td>
                     </tr>
                     @endforeach
@@ -46,7 +51,10 @@ $performed = get_investigations($visit, ['treatment']);
                     <tr>
                         <th></th>
                         <th>Procedure</th>
+                        <th>Number Performed</th>
+                        <th>Discount</th>
                         <th>Price</th>
+                        <th>Amount</th>
                     </tr>
                 </thead>
             </table>
@@ -98,7 +106,9 @@ $performed = get_investigations($visit, ['treatment']);
                             <th>#</th>
                             <th>Procedure</th>
                             <th>Comments/Instructions</th>
-                            <th>Cost</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Amount</th>
                             <th>Payment</th>
                         </tr>
                     </thead>
@@ -108,7 +118,9 @@ $performed = get_investigations($visit, ['treatment']);
                             <td>{{$loop->iteration}}</td>
                             <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                             <td>{{$item->instructions}}</td>
-                            <td>{{$item->price}}</td>
+                            <td>{{$item->quantity}} x {{$item->price}}</td>
+                            <td>{{$item->discount}}</td>
+                            <td>{{$item->amount>0?$item->amount:$item->price}}</td>
                             <td>{!! payment_label($item->is_paid) !!}</td>
                         </tr>
                         @endforeach

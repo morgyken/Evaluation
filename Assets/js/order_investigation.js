@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 /* global PROCEDURE_URL */
-
 $(function () {
     $('#evaluation_order .check').click(function () {
         var elements = $(this).parent().parent().find('input');
@@ -24,14 +23,18 @@ $(function () {
     map_select2(i);
     i++;
     function add_row() {
-        var to_add = "<td><select name=\"proc_item" + i + "\" id=\"proc_item_" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td><td><input type=\"text\" id=\"proc_price_" + i + "\" name=\"proc_price" + i + "\"/></td><td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
-        $('#proc_addr' + i).html(to_add);
-        $('#evaluation_order tbody').append('<tr id="proc_addr' + (i + 1) + '"></tr>');
+        var to_add = "\<td><select name=\"item" + i + "\" id=\"item_" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td>\n\<td><input type=\"text\" id=\"price_" + i + "\" name=\"price" + i + "\" readonly=''/></td>\n\
+<td><input value=\"1\" type=\"text\" id=\"quantity_" + i + "\" name=\"quantity" + i + "\" placeholder=\"No. Performed\"/></td>\n\
+<td><input value='0' type='text' id='discount_" + i + "' name='discount" + i + "' placeholder='Discount'/></td>\n\
+<td><input type='text' id='amount_" + i + "' name='amount" + i + "' placeholder='Amount' readonly=''/></td>\n\
+<td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
+        $('#addr' + i).html(to_add);
+        $('#evaluation_order tbody').append('<tr id="addr' + (i + 1) + '"></tr>');
         map_select2(i);
         i++;
     }
     function map_select2(i) {
-        $('#proc_addr' + i + ' select').select2({
+        $('#addr' + i + ' select').select2({
             "theme": "classic",
             "placeholder": 'Please select a procedure',
             "formatNoMatches": function () {
@@ -44,7 +47,7 @@ $(function () {
                 return "Please enter " + (input.length - max) + " less characters";
             },
             "formatSelectionTooBig": function (limit) {
-                return "You can only select " + limit + " proc_items";
+                return "You can only select " + limit + " items";
             },
             "formatLoadMore": function (pageNumber) {
                 return "Loading more results...";
@@ -68,16 +71,49 @@ $(function () {
                 }
             }
         });
-        $('#proc_addr' + i + ' select').on('select2:select', function (evt) {
+        $('#addr' + i + ' select').on('select2:select', function (evt) {
             var selected = $(this).find('option:selected');
             var price = selected.data().data.price;
-            $('input[name=proc_price' + i + ']').val(price);
+            var discount = $("#discount_" + i).val();
+            var quantity = $("#quantity_" + i).val();
+            var amount = get_amount_given(price, quantity, discount);
+            $('input[name=price' + i + ']').val(price);
+            $('input[name=amount' + i + ']').val(amount);
             add_row();
         });
+
         $(".remove").click(function (e) {
             e.preventDefault();
             $(this).closest('tr').remove();
         });
 
+        $("#discount_" + i).keyup(function (e) {
+            e.preventDefault();
+            culculator(i);
+        });
+
+        $("#quantity_" + i).keyup(function (e) {
+            e.preventDefault();
+            culculator(i);
+        });
+    }
+
+    function culculator(i) {
+        var prc = $("#price_" + i).val();
+        var dis = $("#discount_" + i).val();
+        var qty = $("#quantity_" + i).val();
+        var amnt = get_amount_given(prc, qty, dis);
+        $('input[name=amount' + i + ']').val(amnt);
+    }
+
+    function get_amount_given(price, qty, discount) {
+        try {
+            var total = price * qty;
+            var d = total * (discount / 100);
+            var discounted = total - d;
+            return discounted;
+        } catch (e) {
+            return price;
+        }
     }
 });

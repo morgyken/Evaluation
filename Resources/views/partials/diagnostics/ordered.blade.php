@@ -32,7 +32,10 @@
             <dl class="dl-horizontal">
                 <dt>Requested By:</dt><dd>{{$item->doctors->profile->full_name}}</dd>
                 <dt>Instructions:</dt><dd><p>{{$item->instructions ?? 'Not provided'}}</p></dd>
-                <dt>Charges:</dt><dd>{{$item->pesa}}</dd>
+                <dt>Price:</dt><dd>{{$item->pesa}}</dd>
+                <dt>Units performed:</dt><dd><p>{{$item->quantity}}</p></dd>
+                <dt>Discount:</dt><dd><p>{{$item->discount}}</p></dd>
+                <dt>Charges:</dt><dd>{{$item->amount>0?$item->amount:$item->pesa}}</dd>
                 <dt>Date:</dt><dd>{{smart_date_time($item->created_at)}}</dd>
             </dl>
             <hr/>

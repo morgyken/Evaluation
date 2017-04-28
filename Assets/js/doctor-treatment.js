@@ -13,9 +13,14 @@
 /* global TREAT_URL, VISIT_ID, USER_ID, DIAGNOSIS_URL, alertify */
 
 $(function () {
+    $('#treatment_form input:text').keyup(function () {
+        show_selection();
+    });
+
     $('#treatment_form input').blur(function () {
         show_selection();
     });
+
     $('#treatment_form .check').change(function () {
         var elements = $(this).parent().parent().find('input');
         if ($(this).is(':checked')) {
@@ -26,17 +31,20 @@ $(function () {
         $(this).prop('disabled', false);
         show_selection();
     });
+
     function show_selection() {
         $('#selected_treatment').hide();
         $('#treatment > tbody > tr').remove();
         var total = 0;
+
         $("#treatment_form input:checkbox:checked").each(function () {
             var procedure_id = $(this).val();
             var name = $('#name' + procedure_id).html();
-            var cost = $('#cost' + procedure_id).val();
-            total += parseInt(cost);
-            $('#treatment > tbody').append('<tr><td>' + name + '</td><td>' + cost + '</td></tr>');
+            var amount = john_doe(procedure_id);
+            total += parseInt(amount);
+            $('#treatment > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
+
         if (total) {
             $('#treatment > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
         }
@@ -61,6 +69,26 @@ $(function () {
             }});
         //  $('#selected_treatment').hide();
         //
+    }
+
+    function john_doe(procedure_id) {
+        var cost = $('#cost' + procedure_id).val();
+        var discount = $('#discount' + procedure_id).val();
+        var quantity = $('#quantity' + procedure_id).val();
+        var amount = get_amount_given(cost, quantity, discount);
+        $('#amount' + procedure_id).val(amount);
+        return amount;
+    }
+
+    function get_amount_given(price, qty, discount) {
+        try {
+            var total = price * qty;
+            var d = total * (discount / 100);
+            var discounted = total - d;
+            return discounted;
+        } catch (e) {
+            return price;
+        }
     }
     $('#treatment_form').find('input:radio, input:checkbox').prop('checked', false);
     $('#selected_treatment').hide();

@@ -23,24 +23,32 @@ $performed = get_investigations($visit, ['treatment']);
                     @foreach($procedures as $procedure)
                     <tr id="row{{$procedure->id}}">
                         <td>
-                            <input type="checkbox" name="item{{$procedure->id}}" value="{{$procedure->id}}"
-                                   class="check"/>
+                            <input type="checkbox" id="checked_{{$procedure->id}}" name="item{{$procedure->id}}" value="{{$procedure->id}}"class="check"/>
                         </td>
                         <td>
                             <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>
                         </td>
-                        <td> <input type="hidden" name="type{{$procedure->id}}" value="treatment" disabled/>
-                            <input type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}"
-                                   id="cost{{$procedure->id}}" size="5" disabled/>
+                        <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
+                        <td><input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/></td>
+                        <td>
+                            <input type="hidden" name="type{{$procedure->id}}" value="treatment" disabled/>
+                            <input disabled="" type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}"
+                                   id="cost{{$procedure->id}}" size="5" readonly=""/>
+                        </td>
+                        <td>
+                            <input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly=""/>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>#</th>
                         <th>Procedure</th>
+                        <th>Number Performed</th>
+                        <th>Discount</th>
                         <th>Price</th>
+                        <th>Amount</th>
                     </tr>
                 </thead>
             </table>
@@ -58,8 +66,8 @@ $performed = get_investigations($visit, ['treatment']);
                             <table id="treatment" class=" table table-condensed">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Procedure</th>
-                                        <th>Cost</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -90,18 +98,46 @@ $performed = get_investigations($visit, ['treatment']);
                     <thead>
                         <tr>
                             <th>Procedure</th>
-                            <th>Cost</th>
+                            <th>Price</th>
+                            <th>Number Performed</th>
+                            <th>Discount(%)</th>
+                            <th>Amount</th>
                             <th>Payment</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($performed as $item)
-                        <tr>
-                            <td>{{str_limit($item->procedures->name,20,'...')}}</td>
-                            <td>{{$item->price}}</td>
-                            <td>{!! payment_label($item->is_paid) !!}</td>
-                        </tr>
-                        @endforeach
+                        <?php try { ?>
+                            @foreach($performed as $item)
+                            <?php try { ?>
+                                <tr>
+                                    <td>{{str_limit($item->procedures->name,40,'...')}}</td>
+                                    <td>{{$item->price}}</td>
+                                    <td>{{$item->quantity}}</td>
+                                    <td>{{$item->discount}}</td>
+                                    <td>
+                                        <?php try { ?>
+                                            @if($item->amount>0)
+                                            {{$item->amount}}
+                                            @else
+                                            {{$item->price}}
+                                            @endif
+                                        <?php } catch (Exception $ex) { ?>
+
+                                        <?php } ?>
+                                    </td>
+                                    <td>{!! payment_label($item->is_paid) !!}</td>
+                                </tr>
+                                <?php
+                            } catch (Exception $ex) {
+
+                            }
+                            ?>
+                            @endforeach
+                            <?php
+                        } catch (Exception $ex) {
+
+                        }
+                        ?>
                     </tbody>
                 </table>
                 @else

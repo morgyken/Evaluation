@@ -19,7 +19,7 @@
         "collabmed/reception-module": "1.0.*"
     },
     "suggest": {
-        "collabmed/analytics-module": "he Business Intelligence and Analytics module."
+        "collabmed/analytics-module": "the Business Intelligence and Analytics module."
     },
     "autoload": {
         "psr-4": {
