@@ -7,6 +7,7 @@ use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
+use Ignite\Evaluation\Entities\ProcedureInventoryItem;
 
 class ApiController extends Controller {
 
@@ -120,6 +121,20 @@ class ApiController extends Controller {
                     ×</button>
                <span class="glyphicon glyphicon-ok"></span> <strong>Prescription Cancelled.</strong>
             </div>';
+        }
+    }
+
+    public function manage_inventory_items(Request $request) {
+        $item = ProcedureInventoryItem::whereProcedure($request->procedure)
+                ->whereItem($request->item)
+                ->first();
+        if ($request->type == 'delete') {
+            $item->delete();
+            echo 'Inventory Item Deleted';
+        } elseif ($request->type == 'update') {
+            $item->units = $request->quantity;
+            $item->save();
+            echo 'Inventory Item Updated';
         }
     }
 

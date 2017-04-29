@@ -81,7 +81,12 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
                 <div class="form-group {{ $errors->has('precharge') ? ' has-error' : '' }}">
                     {!! Form::label('precharge', 'Charge at Reception',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        <input type="checkbox" name="precharge" value="1">
+                        <?php if ($procedure->precharge) { ?>
+                            <input type="checkbox" name="precharge" value="1" checked="">
+                            <small>Charged at Reception</small>
+                        <?php } else { ?>
+                            <input type="checkbox" name="precharge" value="1">
+                        <?php } ?>
                     </div>
                 </div>
 

@@ -15,28 +15,26 @@ $lab = $procedure->this_test;
         </div>
     </div>
 
-
     <div class="form-group {{ $errors->has('lab_category') ? ' has-error' : '' }}">
-        {!! Form::label('lab_category', 'Category (Lab)',[' required class'=>'control-label col-md-4']) !!}
+        {!! Form::label('lab_category', 'Lab Category',[' required class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            <select class="form-control" name="title">
+            <select class="form-control" name="lab_category">
                 <option>None</option>
-                @foreach($data['titles'] as $tit)
-                <option value="{{$tit->id}}">{{$tit->name}}</option>
+                @foreach($data['lab_categories'] as $cat)
+                <option value="{{$cat->id}}">{{$cat->name}}</option>
                 @endforeach
             </select>
             {!! $errors->first('parent', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
 
-
     <div class="form-group {{ $errors->has('lab_category') ? ' has-error' : '' }}">
-        {!! Form::label('lab_category', 'Title (if applicable)',[' required class'=>'control-label col-md-4']) !!}
+        {!! Form::label('lab_category', 'Title (If applicable)',[' required class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            <select class="form-control" name="lab_category">
+            <select class="form-control" name="title">
                 <option>None</option>
-                @foreach($data['lab_categories'] as $cat)
-                <option value="{{$cat->id}}">{{$cat->name}}</option>
+                @foreach($data['titles'] as $tit)
+                <option value="{{$tit->id}}">{{$tit->name}}</option>
                 @endforeach
             </select>
             {!! $errors->first('parent', '<span class="help-block">:message</span>') !!}
@@ -59,9 +57,23 @@ $lab = $procedure->this_test;
     <div id="result_type_options" class="form-group {{ $errors->has('result_options') ? ' has-error' : '' }}">
         {!! Form::label('result_options', 'Drop-down Options',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            <input type="text" placeholder="option 1" name="result_options[]"><br>
-            <input type="text" placeholder="option 2" name="result_options[]"><br>
-            <a href="#" onclick="add()">More</a><br/>
+            <?php try { ?>
+                @if(isset($lab->lab_result_options))
+                Saved Dropdown Entries <br/>
+                @foreach(json_decode($lab->lab_result_options) as $option)
+                <div>
+                    <input type="text" value="{{$option}}"  name="result_options[]"><a href="#" onclick="del(this)"><i style="color:red" class="fa fa-trash"></i></a>
+                </div>
+                @endforeach
+                @endif
+                <?php
+            } catch (\Exception $e) {
+
+            }
+            ?>
+            <input type="text" placeholder="option 1" name="result_options[]">
+            <input type="text" placeholder="option 2" name="result_options[]">
+            <a href="#" onclick="add()"><i class="fa fa-plus"></i></a><br/>
             <div id="options">
             </div>
         </div>
@@ -217,7 +229,7 @@ $lab = $procedure->this_test;
     var add = function () {
         if (numAdd >= 10)
             return;
-        $('#options').append('<div><input type="text"  name="result_options[]"><a href="#" onclick="del(this)">Delete</a></div>');
+        $('#options').append('<div><input type="text"  name="result_options[]"><a href="#" onclick="del(this)"><i style="color:red" class="fa fa-trash"></i></a></div>');
         numAdd++;
     };
 
