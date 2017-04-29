@@ -55,46 +55,48 @@ class SidebarExtender implements Panda {
                     $item->route('evaluation.queues', 'doctor');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.doctor'));
                 });
+                /*
+                  $item->item('Radiology Queue', function (Item $item) {
+                  $item->icon('fa fa-braille');
+                  $item->route('evaluation.queues', 'radiology');
+                  $item->authorize($this->auth->hasAccess('evaluation.examination.radiology'));
+                  });
 
-                $item->item('Radiology Queue', function (Item $item) {
-                    $item->icon('fa fa-braille');
-                    $item->route('evaluation.queues', 'radiology');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.radiology'));
-                });
+                  $item->item('Ultrasound Queue', function (Item $item) {
+                  $item->icon('fa fa-qrcode');
+                  $item->route('evaluation.queues', 'ultrasound');
+                  $item->authorize($this->auth->hasAccess('evaluation.examination.ultrasound'));
+                  });
 
-                $item->item('Ultrasound Queue', function (Item $item) {
-                    $item->icon('fa fa-qrcode');
-                    $item->route('evaluation.queues', 'ultrasound');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.ultrasound'));
-                });
+                  $item->item('Diagnostics Queue', function (Item $item) {
+                  $item->icon('fa fa-hotel');
+                  $item->route('evaluation.queues', 'diagnostics');
+                  $item->authorize($this->auth->hasAccess('evaluation.examination.diagnostics'));
+                  });
 
-                $item->item('Diagnostics Queue', function (Item $item) {
-                    $item->icon('fa fa-hotel');
-                    $item->route('evaluation.queues', 'diagnostics');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.diagnostics'));
-                });
+                  $item->item('Laboratory Queue', function (Item $item) {
+                  $item->icon('fa fa-diamond');
+                  $item->route('evaluation.queues', 'laboratory');
+                  $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                  });
 
-                $item->item('Laboratory Queue', function (Item $item) {
-                    $item->icon('fa fa-diamond');
-                    $item->route('evaluation.queues', 'laboratory');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
-                });
-
-                $item->item('Theatre Queue', function (Item $item) {
-                    $item->icon('fa fa-heartbeat');
-                    $item->route('evaluation.queues', 'theatre');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.theatre'));
-                });
-                $item->item('Pharmacy Queue', function (Item $item) {
-                    $item->icon('fa fa-tablet');
-                    $item->route('evaluation.queues', 'pharmacy');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.pharmacy'));
-                });
-                $item->item('Physiotherapy Queue', function (Item $item) {
-                    $item->icon('fa fa-openid');
-                    $item->route('evaluation.queues', 'physio');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.physio'));
-                });
+                  $item->item('Theatre Queue', function (Item $item) {
+                  $item->icon('fa fa-heartbeat');
+                  $item->route('evaluation.queues', 'theatre');
+                  $item->authorize($this->auth->hasAccess('evaluation.examination.theatre'));
+                  });
+                  $item->item('Pharmacy Queue', function (Item $item) {
+                  $item->icon('fa fa-tablet');
+                  $item->route('evaluation.queues', 'pharmacy');
+                  $item->authorize($this->auth->hasAccess('evaluation.examination.pharmacy'));
+                  });
+                  $item->item('Physiotherapy Queue', function (Item $item) {
+                  $item->icon('fa fa-openid');
+                  $item->route('evaluation.queues', 'physio');
+                  $item->authorize($this->auth->hasAccess('evaluation.examination.physio'));
+                  });
+                 *
+                 */
                 $item->item('Review Visits', function (Item $item) {
                     $item->icon('fa fa-deaf');
                     $item->route('evaluation.review');
@@ -217,6 +219,28 @@ class SidebarExtender implements Panda {
                     $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                     $item->weight(4);
                 });
+                /*
+                  $item->item('Laboratory', function(Item $item) {
+                  $item->icon('fa fa-flask');
+                  $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                  $item->weight(4);
+
+                  $item->item('Test Categories', function(Item $item) {
+                  $item->icon('fa fa-copyright');
+                  $item->route('evaluation.setup.test.categories', 'partners');
+                  $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                  $item->weight(4);
+                  });
+
+                  $item->item('Test Titles', function(Item $item) {
+                  $item->icon('fa fa-bars');
+                  $item->route('evaluation.setup.test.titles', 'partners');
+                  $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                  $item->weight(4);
+                  });
+                  });
+                 *
+                 */
             });
         });
         return $menu;
