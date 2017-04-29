@@ -17,11 +17,12 @@ extract($data);
         <div class="form-horizontal">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <!--
+
                     <li class="active"><a href="#vitals" data-toggle="tab">Vitals</a></li>
+                    <!--
                     <li><a href="#pre-exam" data-toggle="tab">Preliminary</a></li>
                     -->
-                    <li class="active"><a href="#doctor" data-toggle="tab">Doctors' notes</a></li>
+                    <li><a href="#doctor" data-toggle="tab">Doctors' notes</a></li>
                     <li><a href="#treatment" data-toggle="tab">Treatment</a></li>
                     <li><a href="#investigations" data-toggle="tab">Investigations</a></li>
                     @if(m_setting('evaluation.op_notes'))

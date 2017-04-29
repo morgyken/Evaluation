@@ -69,6 +69,9 @@ if (!function_exists('get_procedures_for')) {
             case 'physio':
                 $to_fetch = 9;
                 break;
+            case 'ultrasound':
+                $to_fetch = 7;
+                break;
             case 'all':
                 $to_fetch = 'all';
                 break;

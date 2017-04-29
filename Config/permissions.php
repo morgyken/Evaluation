@@ -20,11 +20,11 @@ return [
         'pharmacy' => 'Pharmacy Evaluation',
         'physio' => 'Physiotherapy Queue',
         'review' => 'Review patient information',
+        'ultrasound' => 'Ultrasound Evaluation',
     ],
     'evaluation.settings' => [
         'procedure_categories' => 'View procedures categories',
         'manage_procedures_cat' => 'Manage procedure categories',
-        //
         'procedures' => 'View procedures',
         'manage_procedures' => 'Manage procedures',
     ]

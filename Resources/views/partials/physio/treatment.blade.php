@@ -37,7 +37,7 @@ $discount_allowed = json_decode(m_setting('evaluation.discount'));
                         </td>
                         <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
                         <td>
-                            @if(in_array('physio', $discount_allowed))
+                            @if(is_array($discount_allowed) && in_array('physio', $discount_allowed))
                             <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/>
                             @else
                             <input style="background-color:#EBEBE4;border:1px solid #ABADB3;padding:2px 1px;" class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}" readonly=""/>

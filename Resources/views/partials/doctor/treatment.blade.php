@@ -33,7 +33,7 @@ $discount_allowed = json_decode(m_setting('evaluation.discount'));
                             <input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/>
                         </td>
                         <td>
-                            @if(in_array('doctor', $discount_allowed))
+                            @if(is_array($discount_allowed) &&  in_array('doctor', $discount_allowed))
                             <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/>
                             @else
                             <input style="color:red" class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}" readonly=""/>
@@ -45,7 +45,7 @@ $discount_allowed = json_decode(m_setting('evaluation.discount'));
                                    id="cost{{$procedure->id}}" size="5" readonly=""/>
                         </td>
                         <td>
-                            <input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly=""/>
+                            <input size="5"onkeyup="siri_get_discount_given_amount(<?php echo $procedure->id ?>)" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly="" />
                         </td>
                     </tr>
                     @endforeach
@@ -162,3 +162,17 @@ $discount_allowed = json_decode(m_setting('evaluation.discount'));
         overflow-y: scroll;
     }
 </style>
+<script type="text/javascript">
+    function siri_get_discount_given_amount(i) {
+        /*
+         var prc = $("#cost" + i).val();
+         var qty = $("#quantity" + i).val();
+         var amount = $("#amount" + i).val();
+
+         var total = prc * qty;
+         var dis = ((total - amount) / 100) * 100;
+
+         $('input[name=discount' + i + ']').val(dis);
+         */
+    }
+</script>
