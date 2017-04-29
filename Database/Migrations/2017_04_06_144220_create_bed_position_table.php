@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBedsTable extends Migration
+class CreateBedPositionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,18 @@ class CreateBedsTable extends Migration
      */
     public function up()
     {
-        Schema::create('beds', function (Blueprint $table) {
+        Schema::create('bed_position', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('number');
-            $table->string('type');
+            $table->string('name');
+            $table->integer('ward_id')->unsigned();
             $table->enum('status',['available','occupied'])->default('available');
             $table->timestamps();
+
+            $table->foreign('ward_id')
+                ->references('id')
+                ->on('wards')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -29,6 +35,6 @@ class CreateBedsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('beds');
+        Schema::dropIfExists('bed_position');
     }
 }

@@ -85,11 +85,22 @@
                 </div>
 
 
+                <div class="form-group req {{ $errors->has('bedposition') ? ' has-error' : '' }}">
+                    {!! Form::label('Bed Position', 'Bed Position',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        <select name="bed_position_id" id="selectPos" required class="form-control">
+                        </select>
+                        {!! $errors->first('bedposition', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
+
                 <div class="form-group req {{ $errors->has('bed') ? ' has-error' : '' }}">
                     {!! Form::label('Bed', 'bed',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        <select name="bed_id" id="selectBed" required class="form-control">
-                            <option value="">Option one</option>
+                        <select name="bed_id" id="selectPos" required class="form-control">
+                        @foreach($beds as $bed)
+                        <option value="{{$bed->id}}">{{$bed->number}}</option>
+                        @endforeach()
                         </select>
                         {!! $errors->first('bed', '<span class="help-block">:message</span>') !!}
                     </div>
@@ -190,13 +201,13 @@
                         url:urlAvailableBeds,
                         method:'Get'
                     }).done(function (data) {
-                        $("#selectBed").html("");
+                        $("#selectPos").html("");
                         $.each(data, function (index,value) {
                             console.info("index=>"+index+'value=>'+value.number);
-                            $("#selectBed").append("<option value='"+value.id+"'>"+value.number+"</option>")
+                            $("#selectPos").append("<option value='"+value.id+"'>"+value.name+"</option>")
                         })
 
-                    })
+                    });
                 };
                 loadBeds();
                 $("#selectedWard").change(function () {

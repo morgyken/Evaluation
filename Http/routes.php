@@ -12,6 +12,17 @@ $router->group(['prefix' => 'inpatient', 'as' => 'inpatient.'], function (Router
     $router->get('list',['uses'=>'EvaluationController@listWards']);
     $router->get('addWard',['uses'=>'EvaluationController@addWard']);
     $router->post('addwordFormPost',['uses'=>'EvaluationController@addwordFormPost']);
+    //bed position 
+    $router->get('bedPosition',['uses'=>'EvaluationController@bedPosition']);
+    $router->post('bedPosition',['uses'=>'EvaluationController@postbedPosition']);
+    $router->get('bedPosition/{ward_id}',['uses'=>'EvaluationController@deletebedPosition']);
+//bed
+    $router->post('postaddbed',['uses'=>'EvaluationController@postaddBed']);
+    $router->get('delete_bed/{id}',['uses'=>'EvaluationController@postdelete_bed']);
+
+    /*cancel request admission*/
+    $router->get('cancel/{patient_id}/{id}',['uses'=>'EvaluationController@cancel']);
+
     //bed
     $router->get('bedList',['uses'=>'EvaluationController@listBeds']);
     $router->get('addBed',['uses'=>'EvaluationController@addWard']);
@@ -54,6 +65,7 @@ $router->group(['prefix' => 'inpatient', 'as' => 'inpatient.'], function (Router
     $router->get('editWard/{ward_id}',['uses'=>'EvaluationController@getRecordWard']);
     //UPDATE WARD RECORD
     $router->post('update_ward',['uses'=>'EvaluationController@update_ward']);
+
 
 });
 

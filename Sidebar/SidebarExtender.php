@@ -184,13 +184,13 @@ class SidebarExtender implements Panda {
                     $item->weight(4);
                     //there should be a way of adding wards and listing them
 
-                    $item->item('Admission Requests', function(Item $item) {
+                    $item->item('Awaiting admission', function(Item $item) {
                         $item->icon('fa fa-user-plus');
                         $item->route('evaluation.inpatient.admit');
                         //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
                         $item->weight(4);
                     });
-                    $item->item('Patients List', function(Item $item) {
+                    $item->item('Patient Management', function(Item $item) {
                         $item->icon('fa fa-users');
                         $item->url('/evaluation/inpatient/admissions');
                         //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
@@ -226,6 +226,14 @@ class SidebarExtender implements Panda {
                 $item->item('Beds List', function(Item $item) {
                     $item->icon('fa fa-bed');
                     $item->url('/evaluation/inpatient/bedList');
+                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                    $item->weight(4);
+                });
+        
+                //list wards
+                $item->item('Beds Position', function(Item $item) {
+                    $item->icon('fa fa-bed');
+                    $item->url('/evaluation/inpatient/bedPosition');
                     //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
                     $item->weight(4);
                 });
