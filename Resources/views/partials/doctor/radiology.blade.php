@@ -53,7 +53,7 @@ if ($visit->payment_mode == 'insurance') {
             </td>
             <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
             <td>
-                @if(in_array('radiology', $discount_allowed))
+                @if(is_array($discount_allowed) && in_array('radiology', $discount_allowed))
                 <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/>
                 @else
                 <input style="color:red" class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}" readonly=""/>
