@@ -30,7 +30,6 @@ use Illuminate\Database\Eloquent\Model;
 class SubProcedures extends Model {
 
     public $table = 'evaluation_subprocedures';
-    protected $guarded = [];
 
     public function subProcedureCategories() {
         return $this->belongsTo(LabtestCategories::class, 'category');

@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Jenssegers\Date\Date;
+use Ignite\Evaluation\Entities\SubProcedures;
 
 /**
  * Description of FunctionsRepository
@@ -556,7 +557,12 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     public function saveSubProcedure($procedure, $request) {
-        $s = new \Ignite\Evaluation\Entities\SubProcedures;
+        // $s = SubProcedures::findOrNew(['procedure' => $procedure]);
+        try {
+            $s = SubProcedures::whereProcedure($procedure)->first();
+        } catch (\Exception $e) {
+            $s = new SubProcedures;
+        }
         $s->procedure = $procedure;
         if ($request->parent > 0) {
             $s->parent = $request->parent;
@@ -572,59 +578,59 @@ class EvaluationFunctions implements EvaluationRepository {
         $s->lab_result_type = $request->result_type;
         $s->lab_sample_type = $request->sample_type;
         $s->units = $request->units;
-        if ($request->min_range <> 0) {
+        if ($request->min_range !== '') {
             $s->lab_min_range = $request->min_range;
         }
-        if ($request->max_range <> 0) {
+        if ($request->max_range !== '') {
             $s->lab_max_range = $request->max_range;
         }
         //1.
-        if ($request->_0_3d_minrange <> 0) {
+        if ($request->_0_3d_minrange !== '') {
             $s->_0_3d_minrange = $request->_0_3d_minrange;
         }
-        if ($request->_0_3d_maxrange <> 0) {
+        if ($request->_0_3d_maxrange !== '') {
             $s->_0_3d_maxrange = $request->_0_3d_maxrange;
         }
         //2.
-        if ($request->_4_30d_minrange <> 0) {
+        if ($request->_4_30d_minrange !== '') {
             $s->_4_30d_minrange = $request->_4_30d_minrange;
         }
-        if ($request->_4_30d_maxrange <> 0) {
+        if ($request->_4_30d_maxrange !== '') {
             $s->_4_30d_maxrange = $request->_4_30d_maxrange;
         }
         //3.
-        if ($request->_1_24m_minrange <> 0) {
+        if ($request->_1_24m_minrange !== '') {
             $s->_1_24m_minrange = $request->_1_24m_minrange;
         }
-        if ($request->_1_24m_maxrange <> 0) {
+        if ($request->_1_24m_maxrange !== '') {
             $s->_1_24m_maxrange = $request->_1_24m_maxrange;
         }
         //4.
-        if ($request->_25_60m_minrange <> 0) {
+        if ($request->_25_60m_minrange !== '') {
             $s->_25_60m_minrange = $request->_25_60m_minrange;
         }
-        if ($request->_25_60m_maxrange <> 0) {
+        if ($request->_25_60m_maxrange !== '') {
             $s->_25_60m_maxrange = $request->_25_60m_maxrange;
         }
         //5.
-        if ($request->_5_19y_minrange <> 0) {
+        if ($request->_5_19y_minrange !== '') {
             $s->_5_19y_minrange = $request->_5_19y_minrange;
         }
-        if ($request->_5_19y_maxrange <> 0) {
+        if ($request->_5_19y_maxrange !== '') {
             $s->_5_19y_maxrange = $request->_5_19y_maxrange;
         }
         //6.
-        if ($request->adult_minrange <> 0) {
+        if ($request->adult_minrange !== '') {
             $s->adult_minrange = $request->adult_minrange;
         }
-        if ($request->adult_maxrange <> 0) {
+        if ($request->adult_maxrange !== '') {
             $s->adult_maxrange = $request->adult_maxrange;
         }
 
         $s->lab_result_options = \GuzzleHttp\json_encode($request->result_options);
         $s->lab_ordered_independently = $request->ordered_independently;
         $s->lab_multiple_orders_allowed = $request->multiple_orders_allowed;
-        return $s->save();
+        return $s->update();
     }
 
     /**
