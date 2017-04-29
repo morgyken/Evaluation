@@ -8,6 +8,8 @@ use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\Sample;
 use Ignite\Evaluation\Entities\Admission;
 use Ignite\Evaluation\Entities\Bed;
+use Ignite\Evaluation\Entities\Bedposition;
+
 use Ignite\Evaluation\Entities\Deposit;
 use Ignite\Evaluation\Entities\FinancePatientAccounts;
 use Ignite\Evaluation\Entities\Patient_vital;
@@ -25,6 +27,7 @@ use Ignite\Evaluation\Entities\Procedures;
 use Ignite\Users\Entities\Roles;
 use Ignite\Users\Entities\User;
 use Ignite\Users\Entities\UserRoles;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Zend\Validator\File\Count;
@@ -353,8 +356,9 @@ class EvaluationController extends AdminBaseController {
         $patient = Patients::find($id);
         $visit = Visit::find($visit_id);
         $wards = Ward::all();
+        $beds = Bed::all();
         $deposits = Deposit::all();
-        return view('evaluation::inpatient.admit_form',compact('doctors','patient','wards','deposits','visit'));
+        return view('evaluation::inpatient.admit_form',compact('doctors','patient','wards','deposits','visit','beds'));
     }
     public function post_admit_patient(Request $request)
     {//add a patient
@@ -380,6 +384,7 @@ class EvaluationController extends AdminBaseController {
 //list the beds
     public function listBeds()
     {
+        
         $wards = Ward::all();
         $beds = Bed::all();
         return view('Evaluation::inpatient.listBeds',compact('beds','wards'));
@@ -392,8 +397,8 @@ class EvaluationController extends AdminBaseController {
     }
     public function availableBeds($wardId)
     {
-        $beds = Bed::where('status','available')->where('ward_id',$wardId)->get();
-        return ($beds);
+        //return wards bedpositions
+        return Bedposition::where('ward_id',$wardId)->where('status','available')->get();
     }
     public function admit_patient_Post(Request $request)
     {
@@ -532,7 +537,7 @@ class EvaluationController extends AdminBaseController {
         $ward_cost = Ward::find($request->ward_id)->cost;
 
         $deposit_amount = Deposit::find($request->depositTypeId)->cost;
-        if($account_balance < ($deposit_amount + $ward_cost)){
+        if($account_balance < ($deposit_amount )){
             return array('status'=>'insufficient','description'=>'Your account balance is less than the deposit');
         }
         return array('status'=>'sufficient','description'=>'Your account balance is sufficient');
@@ -661,6 +666,13 @@ class EvaluationController extends AdminBaseController {
     public function topUpAccount(Request $request)
     {
         $acc = PatientAccount::where('patient_id',$request->patient_id)->first();
+        if(!count($acc)){
+            //create a patient account
+            PatientAccount::create([
+                    'patient_id' => $request->patient_id,
+                    'balance' => 0 
+                ]);
+        }
         /*record this trans.*/
         FinancePatientAccounts::create([
             'reference' => 'Deposit_'.str_random(5),
@@ -688,5 +700,41 @@ class EvaluationController extends AdminBaseController {
         $ward->update($request->all());
         return redirect()->back()->with('success','Successfully updated the ward');
         //dd($request->all());
+    }
+    public function bedPosition()
+    {
+        $bedpositions = Bedposition::all();
+        $wards = Ward::all();
+        return view('Evaluation::inpatient.bedposition',compact('bedpositions','wards'));
+    }
+    public function postbedPosition(Request $request)
+    {
+        Bedposition::create($request->all());
+        
+
+        return redirect()->back()->with('success','Successfully added a new bed position to ward ');
+    }
+    public function deletebedPosition( $request)
+    {
+        $bedpos = Bedposition::find($request);
+        $bedpos->delete();
+        return redirect()->back()->with('success','Successfully deleted a bed position');
+    }
+    public function postaddBed(Request $request)
+    {
+        Bed::create($request->all());
+        return redirect()->back()->with('success','Successfully added a new bed');
+    }
+    public function postdelete_bed($value)
+    {
+        $bed = Bed::find($value);
+        $bed->delete();
+        return redirect()->back()->with('success','Successfully deleted a bed');
+    }
+    public function cancel($id)
+    {
+        $admit_r = RequestAdmission::find($id);
+        $admit_r->delete();
+        return redirect()->back()->with('success','Successfully canceled admission request');
     }
 }

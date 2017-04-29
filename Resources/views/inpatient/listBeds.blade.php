@@ -7,52 +7,38 @@
 
 <div class="box box-info">
     <div class="box-body">
-        <form action="{{url('/evaluation/inpatient/addBedFormPost')}}" method="post">
-            <div class="col-lg-6">
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
 
-                <div class="form-group {{ $errors->has('middle_name') ? ' has-error' : '' }}">
-                    <label for="" class="control-label col-md-4">Bed Number</label>
+<div class="row">
+    <div class="form-horizontal">
+        {!! Form::open(['url'=>'/evaluation/inpatient/postaddbed']) !!}
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }} req">
+                    <label class="control-label col-md-4">bed number</label>
                     <div class="col-md-8">
-                        <input type="text" name="number" class="form-control">
+                         <input required  type="text" name="number" class="form-control" />
                     </div>
                 </div>
-
-
-                <div class="form-group">
-                    <label for="" class="control-label col-md-4">Bed Type</label>
+            <div class="form-group {{ $errors->has('type') ? ' has-error' : '' }}">
+                    <label class="control-label col-md-4">Bed Type</label>
                     <div class="col-md-8">
-                        <select name="type" id="" required class="form-control">
+                   <select name="type" id="" required class="form-control">
                             <option value="Wheel">Wheel</option>
                             <option value="Elevation">Elevation</option>
                             <option value="Side Rails">Side Rails</option>
                         </select>
                     </div>
                 </div>
+        
 
-                <p class=" pull-right"><button class="btn btn-primary" type="submit">Add Bed</button>
-                    <button class="btn btn-warning  addBed" type="reset">Cancel</button></p>
-
-
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label for="" class="control-label col-md-4">Ward Number</label>
-                    <div class="col-md-8">
-                        <select name="ward_id" id="Sward_id" required class="form-control">
-                            @foreach($wards as $ward)
-                                <option value="{{$ward->id}}">{{$ward->number}} {{$ward->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
                 </div>
-
-                <br>
-
             </div>
-
-        </form>
+        </div> 
+        {!! Form::close() !!}
+    </div>
+</div>
     </div>
 
     <!-- Trigger the modal with a button -->
@@ -110,7 +96,6 @@
             <th>No.</th>
             <th>Type</th>
             <th>Status</th>
-            <th>Ward</th>
             <th>Added At</th>
             <th>Actions</th>
             </thead>
@@ -120,10 +105,11 @@
                     <td>{{$bed->number}}</td>
                     <td>{{$bed->type}}</td>
                     <td>{{$bed->status}}</td>
-                    <td>{{\Ignite\Evaluation\Entities\Ward::find($bed->ward_id)->name}}</td>
                     <td>{{$bed->created_at}}</td>
 
                     <td class="horizontal">
+                    <a href="{{url('evaluation/inpatient/delete_bed/'.$bed->id)}}" class="btn btn-xs btn-danger">Delete Bed</a>
+<!-- 
                         <div class="input-group">
                             <form class="btn btn-primary input-group-addon" action="{{url('/evaluation/inpatient/delete_bed')}}" method="post">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -131,7 +117,7 @@
                                 <button class="btn btn-danger btn-xs">Delete</button>
                             </form>
                             <button value="{{$bed->id}}" class="editBed input-group-addon btn btn-info" data-toggle="modal" data-target="#myModal" >Edit</button>
-                        </div>
+                        </div> -->
                     </td>
                 </tr>
             @endforeach

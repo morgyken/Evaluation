@@ -28,6 +28,8 @@
                                 {{\Ignite\Reception\Entities\Patients::find($patient->id)->last_name}}</td>
                             <td>
                                 <a class="btn btn-primary btn-xs" href="{{url('evaluation/inpatient/admit/'.$patient->id).'/'.$patient->visit_id}}">Admit</a>
+
+                                <a class="btn btn-danger btn-xs" href="{{url('evaluation/inpatient/cancel/'.$patient->id).'/'.$patient->visit_id}}">Cancel Request</a>
                             </td>
                         </tr>
                     @endforeach
