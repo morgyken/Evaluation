@@ -230,15 +230,24 @@ class EvaluationController extends AdminBaseController {
     }
 
     public function RejectLabResult(Request $request) {
-        try {
-            $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
-            $result->delete(); //send back to test phase literally
-            flash('Result status has been updated... thank you', 'success');
-            return back();
-        } catch (\Exception $exc) {
-            flash('Result status could not be updated... please try again', 'danger');
-            return back();
+        // try {
+        $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
+
+        $purged_results = json_decode($result->results);
+        $test = array();
+        $res = array();
+        foreach ($purged_results as $r) {
+            $test[] = $r[0];
+            $res[] = $r[1];
         }
+        session(['last_reverted' => array_combine($test, $res)]);
+        $result->delete(); //send back to test phase literally
+        flash('Result status has been reverted... thank you', 'success');
+        return back();
+        // } catch (\Exception $exc) {
+        //  flash('Result status could not be updated... please try again', 'danger');
+        //  return back();
+        // }
     }
 
     public function updateResultStatus(Request $request, $flag, $type) {

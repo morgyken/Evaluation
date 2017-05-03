@@ -146,7 +146,6 @@ class EvaluationFunctions implements EvaluationRepository {
                 continue;
             }
             $__in = InvestigationResult::firstOrNew(['investigation' => $item]);
-
             try {
                 $test_result = array();
                 $res_array = $this->input['results' . $item];
@@ -537,11 +536,9 @@ class EvaluationFunctions implements EvaluationRepository {
               }
               }
               } */
-
             if ($this->request->category == 4) {
                 $this->saveSubProcedure($procedure->id, $this->request);
             }
-
             foreach ($stack as $index) {
                 $item = 'item' . $index;
                 $quantity = 'qty' . $index;
@@ -557,10 +554,8 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     public function saveSubProcedure($procedure, $request) {
-        // $s = SubProcedures::findOrNew(['procedure' => $procedure]);
-        try {
-            $s = SubProcedures::whereProcedure($procedure)->first();
-        } catch (\Exception $e) {
+        $s = SubProcedures::whereProcedure($procedure)->first();
+        if (is_null($s)) {
             $s = new SubProcedures;
         }
         $s->procedure = $procedure;
@@ -626,11 +621,10 @@ class EvaluationFunctions implements EvaluationRepository {
         if ($request->adult_maxrange !== '') {
             $s->adult_maxrange = $request->adult_maxrange;
         }
-
         $s->lab_result_options = \GuzzleHttp\json_encode($request->result_options);
         $s->lab_ordered_independently = $request->ordered_independently;
         $s->lab_multiple_orders_allowed = $request->multiple_orders_allowed;
-        return $s->update();
+        return $s->save();
     }
 
     /**

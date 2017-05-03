@@ -26,7 +26,6 @@
             </td>
         </tr>
         @endforeach
-        Add more...
         @endif
         <tr id='addr0'>
             <td>
