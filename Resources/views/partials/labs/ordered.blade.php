@@ -12,8 +12,8 @@
 @if(!$labs->isEmpty())
 <div class="accordion">
     @foreach($labs as $item)
-    <h4>{{$item->procedures->name}}</h4>
-    <form method="POST" action="" accept-charset="UTF-8" id="results_form" enctype="multipart/form-data">
+    <h4>{{$item->procedure}} {{$item->procedures->name}}</h4>
+    <form method="POST" action="" accept-charset="UTF-8" id="results_form{{$item->id}}" enctype="multipart/form-data">
         {!! Form::hidden('visit',$visit->id)!!}
         {!! Form::token() !!}
         @if($item->procedures->this_test)
@@ -36,25 +36,46 @@
                         </label>
                         <div class="col-md-8">
                             @if ($test->lab_result_type == 'number')
-                            <input type="number"  step="any" name="results{{$item->id}}[]" class="form-control">
+                            <input value="<?php get_reverted_test($test->procedure) ?>" id="{{$item->id}}" type="number"  step="any" name="results{{$item->id}}[]" class="form-control">
                             @elseif ($test->lab_result_type == 'select')
-                            <select name="results{{$item->id}}[]" class="form-control">
+                            <select id="{{$item->id}}" name="results{{$item->id}}[]" class="form-control">
                                 <option></option>
                                 <?php $options = json_decode($test->lab_result_options) ?>
                                 @if(isset($options))
                                 @foreach ($options as $option) {
-                                <option value="{{$option}}">{{$option}}</option>
+                                <option value="{{$option}}"
+                                <?php
+                                try {
+                                    if ($option === get_reverted_test($test->procedure)) {
+                                        echo 'selected';
+                                    }
+                                } catch (\Exception $e) {
+
+                                }
+                                ?>>
+                                    {{$option}}
+                                </option>
                                 @endforeach
                                 @endif
                             </select>
                             @else
-                            <textarea rows="5" name="results{{$item->id}}[]" class="form-control"></textarea>
+                            <textarea id="{{$item->id}}" rows="5" name="results{{$item->id}}[]" class="form-control">
+                                <?php
+                                try {
+                                    get_reverted_test($test->procedure);
+                                } catch (\Exception $e) {
+
+                                }
+                                ?>
+                            </textarea>
                             @endif
+                            <!-- Consumables -->
+                            <?php get_consumables($test->procedure) ?>
                         </div>
                     </div>
                     @endforeach
                     <label>Comments</label>
-                    <textarea rows="5" name="comments{{$item->id}}" class="form-control"></textarea>
+                    <textarea id="{{$item->id}}" rows="5" name="comments{{$item->id}}" class="form-control"></textarea>
                 </div>
             </div>
             @else
@@ -70,10 +91,10 @@
                     <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
                     <input type="hidden" name="test{{$item->id}}[]" value="{{$item->procedures->id}}" />
                     @if ($_type == 'number')
-                    <input type="number" step="any" name="results{{$item->id}}[]" class="form-control">
+                    <input value="<?php get_reverted_test($item->procedures->id) ?>" id="{{$item->id}}" type="number" step="any" name="results{{$item->id}}[]" class="form-control">
                     @elseif ($_type == 'select')
                     @if(isset($item->procedures->this_test->lab_result_options))
-                    <select name="results{{$item->id}}[]" class="form-control">
+                    <select id="{{$item->id}}" name="results{{$item->id}}[]" class="form-control">
                         <option></option>
                         <?php $_options = json_decode($item->procedures->this_test->lab_result_options) ?>
                         @if(isset($_options))
@@ -83,14 +104,17 @@
                         @endif
                     </select>
                     @else
-                    <input type="text" name="results{{$item->id}}[]" class="form-control">
+                    <input id="{{$item->id}}" value="<?php get_reverted_test($item->procedures->id) ?>" type="text" name="results{{$item->id}}[]" class="form-control">
                     @endif
-
                     @else
-                    <textarea rows="5" name="results{{$item->id}}[]" class="form-control"></textarea>
+                    <textarea id="{{$item->id}}" rows="5" name="results{{$item->id}}[]" class="form-control">
+                        <?php get_reverted_test($item->procedures->id) ?>
+                    </textarea>
                     @endif
+                    <!-- Consumables -->
+                    <?php get_consumables($item->procedure) ?>
                     <label>Comments</label>
-                    <textarea rows="5" name="comments{{$item->id}}" class="form-control"></textarea>
+                    <textarea id="{{$item->id}}" rows="5" name="comments{{$item->id}}" class="form-control"></textarea>
                 </div>
             </div>
             @endif
@@ -110,11 +134,10 @@
                 <hr/>
             </div>
             <div class = "pull-right">
-                <button type = "submit" onclick="save_results({{$item->id}})" class = "btn btn-xs btn-success">
-                    <i class = "fa fa-save"></i>
-                    Save
-                </button>
-                <button type = "reset" class = "btn btn-warning btn-xs">Cancel</button>
+                <a href="" id="{{$item->id}}" class="save btn btn-xs btn-success"><i class="fa fa-save"></i> Save</a>
+                <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
+
+                <button type="reset" class = "btn btn-warning btn-xs">Cancel</button>
             </div>
         </div>
         @else
@@ -125,7 +148,11 @@
                     <label>Results</label>
                     <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
                     <input type="hidden" name="test{{$item->id}}[]" value="{{$item->procedures->id}}" />
-                    <textarea name="results{{$item->id}}[]" class="form-control" ></textarea>
+                    <textarea id="{{$item->id}}" name="results{{$item->id}}[]" class="form-control" >
+                        <?php get_reverted_test($item->procedures->id) ?>
+                    </textarea>
+                    <!-- Consumables -->
+                    <?php get_consumables($item->procedures->id) ?>
                 </div>
             </div>
             <div class="col-md-4 col-md-offset-2">
@@ -145,10 +172,9 @@
                 </dl>
                 <hr/>
             </div>
+
             <div class="pull-right">
-                <button type="submit" class="btn btn-xs btn-success">
-                    <i class="fa fa-save"></i>
-                    Save</button>
+                <a href="" id="{{$item->id}}" class="save btn btn-xs btn-success"><i class="fa fa-save"></i> Save</a>
                 <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
             </div>
         </div>
@@ -158,7 +184,7 @@
 </div>
 <script type="text/javascript">
     $(function () {
-    CKEDITOR.replaceAll();
+        //CKEDITOR.replaceAll();
     });
 </script>
 @else

@@ -5,7 +5,6 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 extract($data);
-
 $labs = $visit->investigations->where('type', 'laboratory')->where('has_result', false);
 $results = $visit->investigations->where('type', 'laboratory')->where('has_result', true);
 ?>
@@ -25,7 +24,7 @@ $results = $visit->investigations->where('type', 'laboratory')->where('has_resul
                                 Ordered Labs<span class="badge alert-info">{{$labs->count()}}</span></a></li>
                         <li><a href="#new" data-toggle="tab">
                                 Order labs   <span class="badge alert-success">new</span></a> </li>
-                        <li><a href="#results" data-toggle="tab">
+                        <li><a href="#results" data-toggle="tab" id="view_results">
                                 Lab Results <span class="badge alert-success">{{$results->count()}}</span></a> </li>
                         @if($results->count()>0)
                         <li><a target="blank" href="{{route('evaluation.print.print_lab', $visit)}}">
@@ -51,6 +50,15 @@ $results = $visit->investigations->where('type', 'laboratory')->where('has_resul
 <script type="text/javascript">
     var VISIT_ID = "{{ $visit->id }}";
     var SAVE_URL = "{{route('api.evaluation.investigation_result')}}";
+
+    $("view_results").click(function (e) {
+        e.preventDefault();
+        reload();
+    });
+
+    function reload() {
+        location.reload();
+    }
 </script>
 <script src="{{m_asset('evaluation:js/results.js')}}"></script>
 @endsection

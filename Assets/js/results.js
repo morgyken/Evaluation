@@ -1,26 +1,64 @@
-/* global SAVE_URL, alertify */
 $(function () {
     $('.accordion').accordion({heightStyle: "content"});
 
-    $('form').on('submit', function (e) {
+
+    /*$('form').submit(function (e) {
+     e.preventDefault();
+     var id = $(this).attr('id');
+     if (id.includes('results_form')) {
+     submit_form(id);
+     //location.reload();
+     }
+     });
+     */
+
+    $('form input').blur(function () {
         var id = $(this).attr('id');
-        if (id == 'results_form') {
-            e.preventDefault();
-            $.ajax({
-                url: SAVE_URL,
-                type: 'post',
-                //dataType: "JSON",
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                success: function (data, status) {
-                    alertify.success('<i class="fa fa-check"></i> Result posted');
-                    location.reload();
-                },
-                error: function (xhr, desc, err) {
-                    alertify.error('<i class="fa fa-warning"></i> ' + err);
-                }
-            });
+        submit_form(id);
+    });
+
+    $('form select').change(function () {
+        var id = $(this).attr('id');
+        if (isInt(id)) {
+            submit_form(id);
         }
     });
+
+    $('form textarea').blur(function () {
+        var id = $(this).attr('id');
+        submit_form(id);
+    });
+
+
+    $('form .save').click(function () {
+        var id = $(this).attr('id');
+        submit_form(id);
+        location.reload();
+    });
+
+    function submit_form(id) {
+        //if (isInt(id)) {
+        $.ajax({
+            type: "POST",
+            url: SAVE_URL,
+            data: $('#results_form' + id + '').serialize(),
+            success: function () {
+                alertify.success('<i class="fa fa-check-circle"></i> Results Posted');
+            },
+            error: function () {
+                alertify.error('<i class="fa fa-check-warning"></i> Something went wrong, Retry');
+            }
+        });
+        //  }
+    }
+
+    function isInt(value) {
+        if (isNaN(value)) {
+            return false;
+        }
+        var x = parseFloat(value);
+        return (x | 0) === x;
+    }
+
 });
+

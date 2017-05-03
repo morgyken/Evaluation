@@ -5,20 +5,14 @@
         <option value="none">None</option>
         <?php try { ?>
             @foreach (mconfig('reception.options.destinations') as $id => $role)
-            <?php try { ?>
-                <option value="{{ $id }}" {{ (isset($data['db_settings'][$settingName]) && isset(array_flip(json_decode($data['db_settings'][$settingName]->value))[$id])) ? 'selected' : '' }}>
-                        {{ $role }}</option>
-                        <?php
-                    } catch (Exception $ex) {
-
-                    }
-                    ?>
+            <option value="{{ $id }}" {{ (isset($data['db_settings'][$settingName]) && isset(array_flip(json_decode($data['db_settings'][$settingName]->value))[$id])) ? 'selected' : '' }}>
+                    {{ $role }}</option>
             @endforeach
-            <?php
-        } catch (Exception $ex) {
-
-        }
-        ?>
+        <?php } catch (Exception $ex) { ?>
+            @foreach (mconfig('reception.options.destinations') as $id => $role)
+            <option value="{{ $id }}">{{ $role }}</option>
+            @endforeach
+        <?php } ?>
     </select>
 
     @if (!empty($moduleInfo['hint']))
