@@ -93,26 +93,32 @@ $age_years = $dob->age;
                                 }
                                 $test_res = array_combine($all_tests, $their_result);
                                 foreach ($title->tests as $_t) {
-                                    $u = getUnit($_t->_procedure);
-                                    $min_range = get_min_range($_t->_procedure, $age_days, $age_years);
-                                    $max_range = get_max_range($_t->_procedure, $age_days, $age_years);
-                                    ?>
-                                    <tr>
-                                        <td>{{$_t->_procedure->name}}</td>
-                                        <td>{{$test_res[$_t->procedure]}}</td>
-                                        <td><?php echo $u ?></td>
-                                        <td>
-                                            @if(isset($min_range) && isset($max_range))
-                                            <?php echo getFlag($test_res[$_t->procedure], $min_range, $max_range) ?>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if(isset($min_range) && isset($max_range))
-                                            {{$min_range}} - {{$max_range}}
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <?php
+                                    try {
+                                        if ($test_res[$_t->procedure] !== '') {
+                                            $u = getUnit($_t->_procedure);
+                                            $min_range = get_min_range($_t->_procedure, $age_days, $age_years);
+                                            $max_range = get_max_range($_t->_procedure, $age_days, $age_years);
+                                            ?>
+                                            <tr>
+                                                <td>{{$_t->_procedure->name}}</td>
+                                                <td>{{$test_res[$_t->procedure]}}</td>
+                                                <td><?php echo $u ?></td>
+                                                <td>
+                                                    @if(isset($min_range) && isset($max_range))
+                                                    <?php echo getFlag($test_res[$_t->procedure], $min_range, $max_range) ?>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if(isset($min_range) && isset($max_range))
+                                                    {{$min_range}} - {{$max_range}}
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    } catch (\Exception $e) {
+
+                                    }
                                 }
                             }
                             ?>
@@ -124,41 +130,53 @@ $age_years = $dob->age;
                             <?php
                             $p = Ignite\Evaluation\Entities\Procedures::find($___r[0]);
                             if ($p->this_test) {
-                                ?>
-                                <?php
-                                $min_range = get_min_range($p, $age_days, $age_years);
-                                $max_range = get_max_range($p, $age_days, $age_years);
-                                ?>
-                                <tr>
-                                    <td>{{$p->name}}</td>
-                                    <td>{{$___r[1]}}</td>
-                                    <td><?php echo getUnit($p) ?></td>
-                                    <td style="text-align:center">
-                                        @if(isset($min_range) && isset($max_range))
-                                        <?php echo getFlag($___r[1], $min_range, $max_range) ?>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if(isset($min_range) && isset($max_range))
-                                        {{$min_range}} - {{$max_range}}
-                                        @endif
-                                    </td>
-                                </tr>
-                                <?php
+                                try {
+                                    if ($___r[1] !== '') {
+                                        ?>
+                                        <?php
+                                        $min_range = get_min_range($p, $age_days, $age_years);
+                                        $max_range = get_max_range($p, $age_days, $age_years);
+                                        ?>
+                                        <tr>
+                                            <td>{{$p->name}}</td>
+                                            <td>{{$___r[1]}}</td>
+                                            <td><?php echo getUnit($p) ?></td>
+                                            <td style="text-align:center">
+                                                @if(isset($min_range) && isset($max_range))
+                                                <?php echo getFlag($___r[1], $min_range, $max_range) ?>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if(isset($min_range) && isset($max_range))
+                                                {{$min_range}} - {{$max_range}}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                } catch (\Exception $e) {
+
+                                }
                             } else {
-                                ?>
-                                <tr>
-                                    <td>{{$p->name}}</td>
-                                    <td>{{ strip_tags($___r[1])}}</td>
-                                    <td>
-                                        @if(strpos($p->name, '%'))
-                                        %
-                                        @endif
-                                    </td>
-                                    <td style="text-align:center"></td>
-                                    <td> - </td>
-                                </tr>
-                                <?php
+                                try {
+                                    if (strip_tags($___r[1]) !== '') {
+                                        ?>
+                                        <tr>
+                                            <td>{{$p->name}}</td>
+                                            <td>{{ strip_tags($___r[1])}}</td>
+                                            <td>
+                                                @if(strpos($p->name, '%'))
+                                                %
+                                                @endif
+                                            </td>
+                                            <td style="text-align:center"></td>
+                                            <td> - </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                } catch (\Exception $e) {
+
+                                }
                             }##end of else
                             ?>
                             @endif
@@ -166,33 +184,37 @@ $age_years = $dob->age;
                             <?php
                         }# end of else
                     } else {
-                        ?>
-                        <!-- Procedure does not have sub-procedure but result stored in json -->
-                        <tr>
-                            <td>{{$item->procedures->name}}</td>
-                            <td>
-                                <?php
-                                $r_ = GuzzleHttp\json_decode($item->results->results);
-                                echo strip_tags($r_[0][1]);
-                                ?>
-                            </td>
-                            <td>
-                                @if(strpos($item->procedures->name, '%'))
-                                %
-                                @endif
-                            </td>
-                            <td style="text-align:center"> - </td>
-                            <td> - </td>
-                        </tr>
-                        <!--End of  is_array If Statement -->
-                        <tr>
-                            <td><strong>Comments:</strong></td>
-                            <td colspan="4">
-                                {{$item->results->comments ?? 'Not provided'}}
-                            </td>
-                        </tr>
+                        try {
+                            ?>
+                            <!-- Procedure does not have sub-procedure but result stored in json -->
+                            <tr>
+                                <td>{{$item->procedures->name}}</td>
+                                <td>
+                                    <?php
+                                    $r_ = GuzzleHttp\json_decode($item->results->results);
+                                    echo strip_tags($r_[0][1]);
+                                    ?>
+                                </td>
+                                <td>
+                                    @if(strpos($item->procedures->name, '%'))
+                                    %
+                                    @endif
+                                </td>
+                                <td style="text-align:center"> - </td>
+                                <td> - </td>
+                            </tr>
+                            <!--End of  is_array If Statement -->
+                            <tr>
+                                <td><strong>Comments:</strong></td>
+                                <td colspan="4">
+                                    {{$item->results->comments ?? 'Not provided'}}
+                                </td>
+                            </tr>
 
-                        <?php
+                            <?php
+                        } catch (\Exception $e) {
+
+                        }
                     }#end of if this procedure has a subprocedure
                     //  } catch (\Exception $e) {
                     //catch and sip your coffee
