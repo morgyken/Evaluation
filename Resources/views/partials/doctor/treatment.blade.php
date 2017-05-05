@@ -8,6 +8,12 @@
 $procedures = get_procedures_for('doctor');
 $performed = get_investigations($visit, ['treatment']);
 $discount_allowed = json_decode(m_setting('evaluation.discount'));
+
+$co = null;
+$visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
+if ($visit->payment_mode == 'insurance') {
+    $co = $visit->patient_scheme->schemes->companies->id;
+}
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -22,6 +28,19 @@ $discount_allowed = json_decode(m_setting('evaluation.discount'));
             <table class="table table-condensed table-borderless table-responsive" id="procedures">
                 <tbody>
                     @foreach($procedures as $procedure)
+                    <?php
+                    $c_price = \Ignite\Settings\Entities\CompanyPrice::whereCompany(intval($co))
+                            ->whereProcedure(intval($procedure->id))
+                            ->get()
+                            ->first();
+                    if (isset($c_price)) {
+                        if ($c_price->price > 0) {
+                            $price = $c_price->price;
+                        }
+                    } else {
+                        $price = $procedure->price;
+                    }
+                    ?>
                     <tr id="row{{$procedure->id}}">
                         <td>
                             <input type="checkbox" id="checked_{{$procedure->id}}" name="item{{$procedure->id}}" value="{{$procedure->id}}"class="check"/>
@@ -41,7 +60,7 @@ $discount_allowed = json_decode(m_setting('evaluation.discount'));
                         </td>
                         <td>
                             <input type="hidden" name="type{{$procedure->id}}" value="treatment" disabled/>
-                            <input disabled="" type="text" name="price{{$procedure->id}}" value="{{$procedure->price}}"
+                            <input disabled="" type="text" name="price{{$procedure->id}}" value="{{$price}}"
                                    id="cost{{$procedure->id}}" size="5" readonly=""/>
                         </td>
                         <td>
