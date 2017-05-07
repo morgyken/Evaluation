@@ -9,7 +9,7 @@
  * =============================================================================
  */
 $discount_allowed = json_decode(m_setting('evaluation.discount'));
-$type = 'diagnosis';
+$type = 'diagnostics';
 ?>
 {!! Form::open(['route'=>['evaluation.order','diagnosis']])!!}
 {!! Form::hidden('visit',$visit->id) !!}
