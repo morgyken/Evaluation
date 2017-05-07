@@ -4,7 +4,7 @@
     <?php
     extract($data);
     $results = $visit->investigations->where('type', $type)
-            ->where('has_result', true);
+        ->where('has_result', true);
     ?>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>{{ucfirst($type)}} Result</title>
