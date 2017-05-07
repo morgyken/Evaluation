@@ -22,5 +22,6 @@ $url = route('api.evaluation.get_procedures', ['ultrasound', $visit->id]);
 ?>
 <script>
     var PROCEDURE_URL = "{{$url}}";
+    var ORDERING = true;
 </script>
 <script src="{{m_asset('evaluation:js/order_investigation.js')}}"></script>
