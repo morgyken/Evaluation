@@ -28,6 +28,8 @@ use Illuminate\Http\Request;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use Ignite\Evaluation\Entities\ProcedureCategoryTemplates;
+use Ignite\Evaluation\Entities\ProcedureTemplates;
 
 if (!function_exists('get_patient_queue')) {
 
@@ -70,7 +72,7 @@ if (!function_exists('get_procedures_for')) {
                 $to_fetch = 9;
                 break;
             case 'ultrasound':
-                $to_fetch = 7;
+                $to_fetch = 8;
                 break;
             case 'all':
                 $to_fetch = 'all';
@@ -93,6 +95,37 @@ if (!function_exists('get_procedures_for')) {
     }
 
 }
+
+if (!function_exists('get_template')) {
+
+    function get_template($procedure, $cat) {
+        $p_template = ProcedureTemplates::where('procedure', '=', $procedure)
+                ->get()
+                ->first();
+        if (isset($p_template->id)) {
+            echo $p_template->template;
+        } else {
+            get_category_template($cat);
+        }
+    }
+
+}
+
+if (!function_exists('get_category_template')) {
+
+    function get_category_template($cat) {
+        try {
+            $cat_template = ProcedureCategoryTemplates::whereCategory($cat)
+                    ->get()
+                    ->first();
+            echo $cat_template->template;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+}
+
 if (!function_exists('get_vitals')) {
 
     /**

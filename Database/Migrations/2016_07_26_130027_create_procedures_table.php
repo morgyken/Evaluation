@@ -22,11 +22,13 @@ class CreateProceduresTable extends Migration {
             $column->boolean('precharge')->default(false); //cash charge applies to insurance
             $column->text('description')->nullable();
             $column->boolean('status')->default(true);
+
             $column->foreign('template')
                     ->references('id')
                     ->on('evaluation_procedure_templates')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
+
             $column->foreign('category')
                     ->references('id')
                     ->on('evaluation_procedure_categories')

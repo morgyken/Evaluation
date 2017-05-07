@@ -41,6 +41,8 @@ use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Jenssegers\Date\Date;
 use Ignite\Evaluation\Entities\SubProcedures;
+use Ignite\Evaluation\Entities\ProcedureTemplates;
+use Ignite\Evaluation\Entities\ProcedureCategoryTemplates;
 
 /**
  * Description of FunctionsRepository
@@ -187,6 +189,34 @@ class EvaluationFunctions implements EvaluationRepository {
         $data['visits'] = Visit::wherePatient($patient)->get();
         $data['patient'] = Patients::find($patient);
         return $data;
+    }
+
+    public function SaveTemplate($request) {
+        try {
+            //dd($request->template_id);
+            $template = ProcedureTemplates::findOrNew($request->template_id);
+            $template->procedure = $request->procedure;
+            $template->template = $request->template;
+            $template->save();
+            flash("Template Saved....", "success");
+        } catch (\Exception $e) {
+            flash("Template Could NOT be Saved, please try again", 'danger');
+        }
+        return redirect()->route('evaluation.setup.template');
+    }
+
+    public function SavePCTemplate($request) {
+        try {
+            //dd($request->template_id);
+            $template = ProcedureCategoryTemplates::findOrNew($request->template_id);
+            $template->category = $request->category;
+            $template->template = $request->template;
+            $template->save();
+            flash("Template Saved....", "success");
+        } catch (\Exception $e) {
+            flash("Template Could NOT be Saved, please try again", 'danger');
+        }
+        return redirect()->route('evaluation.setup.template');
     }
 
     /**

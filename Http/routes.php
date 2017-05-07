@@ -29,6 +29,11 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
     $router->get('procedure_cat/show/{cat?}', ['as' => 'procedure_cat', 'uses' => 'SetupController@procedure_cat']);
     $router->post('procedure_cat/save', ['as' => 'procedure_cat.save', 'uses' => 'SetupController@save_procedure_cat']);
 
+    $router->get('procedures/templates/{procedure?}', ['as' => 'template', 'uses' => 'SetupController@Templates']);
+    $router->post('procedures/templates/{procedure?}', ['as' => 'template', 'uses' => 'SetupController@Templates']);
+    $router->get('procedure/category/template/{category?}', ['as' => 'procedure_cat.template', 'uses' => 'SetupController@ProcedureCategoryTemplates']);
+    $router->post('procedure/category/template/{category?}', ['as' => 'procedure_cat.template', 'uses' => 'SetupController@ProcedureCategoryTemplates']);
+
     $router->get('sub-procedures/show/{procedure?}', ['as' => 'subprocedures', 'uses' => 'SetupController@subprocedures']);
     $router->post('sub-procedures/save', ['as' => 'subprocedures.save', 'uses' => 'SetupController@savesubprocedure']);
     $router->get('temp', ['as' => 'temp', 'uses' => 'SetupController@temp']);
@@ -53,7 +58,7 @@ $router->group(['prefix' => 'lab', 'as' => 'lab.'], function (Router $router) {
     $router->get('result/publish/{result?}', ['as' => 'publish', 'uses' => 'EvaluationController@PublishLabResult']);
     $router->get('result/send/{result?}', ['as' => 'send', 'uses' => 'EvaluationController@SendLabResult']);
 });
-
+$router->get('results/{result?}/revert/', ['as' => 'res.revert', 'uses' => 'EvaluationController@RevertResult']);
 //printables
 
 $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router) {
@@ -62,6 +67,11 @@ $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router
     Route::get('patient/notes/toword/{no}', ['uses' => 'ReportsController@patient_notes_to_word', 'as' => 'to_word']);
     Route::post('patient/notes/specific/', ['uses' => 'ReportsController@pn_specific', 'as' => 'patient_notes_specific']);
     Route::post('patient/notes/toword/specific/', ['uses' => 'ReportsController@pn_towrd_specific', 'as' => 'to_word_specific']);
+
     Route::get('lab/results/{visit}', ['uses' => 'ReportsController@print_lab', 'as' => 'print_lab']);
     Route::get('lab/results/one/{id}/{visit}', ['uses' => 'ReportsController@print_lab_one', 'as' => 'print_lab.one']);
+
+
+    Route::get('results/{visit}/{type}', ['uses' => 'ReportsController@print_results', 'as' => 'print_res']);
+    Route::get('results/one/{id}/{visit}/{type}', ['uses' => 'ReportsController@print_results_one', 'as' => 'print_res.one']);
 });

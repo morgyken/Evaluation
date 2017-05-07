@@ -20,8 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureCategories whereDeletedAt($value)
  * @mixin \Eloquent
  */
-class ProcedureCategories extends Model
-{
+class ProcedureCategories extends Model {
 
     use SoftDeletes;
 
@@ -29,14 +28,16 @@ class ProcedureCategories extends Model
     public $table = 'evaluation_procedure_categories';
     protected $guarded = [];
 
-    public function getAppliedToAttribute()
-    {
+    public function getAppliedToAttribute() {
         return mconfig('evaluation.options.applies_to.' . $this->applies_to);
     }
 
-    public function procedures()
-    {
+    public function procedures() {
         return $this->hasMany(Procedures::class, 'category_id');
+    }
+
+    public function templates() {
+        return $this->hasOne(ProcedureCategoryTemplates::class, 'category');
     }
 
 }

@@ -61,4 +61,8 @@ class Procedures extends Model {
         return $this->hasMany(\Ignite\Settings\Entities\CompanyPrice::class, 'procedure');
     }
 
+    public function templates() {
+        return $this->hasOne(ProcedureTemplates::class, 'procedure');
+    }
+
 }

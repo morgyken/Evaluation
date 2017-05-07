@@ -10,6 +10,7 @@ use Ignite\Evaluation\Http\Requests\ProcedureRequest;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Evaluation\Entities\LabtestCategories;
 use Ignite\Evaluation\Entities\PartnerInstitution;
+use Ignite\Evaluation\Entities\ProcedureTemplates;
 use Illuminate\Http\Request;
 
 class SetupController extends AdminBaseController {
@@ -43,6 +44,26 @@ class SetupController extends AdminBaseController {
         $this->data['lab_categories'] = LabtestCategories::all();
         $this->data['titles'] = \Ignite\Evaluation\Entities\HaemogramTitle::all();
         return view('evaluation::setup.procedures', ['data' => $this->data]);
+    }
+
+    public function Templates(Request $request) {
+        //Addition of result templates per procedure
+        if ($request->isMethod('post')) {
+            $this->evaluationRepository->SaveTemplate($request);
+        }
+        $this->data['procedure'] = Procedures::findOrNew($request->procedure);
+        $this->data['procedures'] = Procedures::all();
+        return view('evaluation::setup.templates', ['data' => $this->data]);
+    }
+
+    public function ProcedureCategoryTemplates(Request $request) {
+        //Addition of result templates per Category
+        if ($request->isMethod('post')) {
+            $this->evaluationRepository->SavePCTemplate($request);
+        }
+        $this->data['category'] = ProcedureCategories::findOrNew($request->category);
+        $this->data['categories'] = ProcedureCategories::all();
+        return view('evaluation::setup.templates_cat', ['data' => $this->data]);
     }
 
     public function save_procedure_cat(ProcedureCategoriesRequest $request) {

@@ -160,8 +160,13 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
                         <a class="btn btn-primary btn-xs"
                            href="{{route('evaluation.setup.procedures',$procedure->id)}}">
                             <i class="fa fa-pencil-square-o"></i></a> |
+
                         <button class="btn btn-danger btn-xs delete" value="">
-                            <i class="fa fa-trash-o"></i></button>
+                            <i class="fa fa-trash-o"></i></button>|
+
+                        <a class="btn btn-primary btn-xs"
+                           href="{{route('evaluation.setup.template',$procedure->id)}}">
+                            <i class="fa fa-table"></i> template</a>
                     </td>
                 </tr>
                 @endforeach

@@ -250,6 +250,20 @@ class EvaluationController extends AdminBaseController {
         // }
     }
 
+    public function RevertResult(Request $request) {
+        try {
+            $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
+            //$purged_results = json_decode($result->results);
+            session(['last_reverted' => array_combine(array($result->investigation), array($result->results))]);
+            $result->delete(); //send back to test phase literally
+            flash('Result status has been reverted... thank you', 'success');
+            return back();
+        } catch (\Exception $exc) {
+            flash('Result status could not be reverted... please try again', 'danger');
+            return back();
+        }
+    }
+
     public function updateResultStatus(Request $request, $flag, $type) {
         try {
             $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);

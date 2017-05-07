@@ -30,7 +30,7 @@ $discount_allowed = json_decode(m_setting('evaluation.discount'));
                         <td>
                             <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>
                             <br/>
-                            <input type="hidden" name="type{{$procedure->id}}" value="diagnostics" disabled/>
+                            <input type="hidden" name="type{{$procedure->id}}" value="physiotherapy" disabled/>
                             <span class="_instructions">
                                 <textarea placeholder="Comments/Instructions" name="instructions{{$procedure->id}}" cols="50"></textarea>
                             </span>

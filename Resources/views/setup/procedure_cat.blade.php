@@ -52,6 +52,7 @@
             <tbody>
                 @foreach($data['categories'] as $category)
                 <tr id="row_id{{$category->id}}">
+                    <td>{{$loop->iteration}}</td>
                     <td>{{$category->name}}</td>
                     <td>{{$category->applies}}</td>
                     <td>
@@ -59,15 +60,30 @@
                            href="{{route('evaluation.setup.procedure_cat',$category->id)}}" >
                             <i class="fa fa-pencil-square-o"></i></a> |
                         <button class="btn btn-danger btn-xs delete" value="{{$category->id}}">
-                            <i class="fa fa-trash-o"></i></button></td>
+                            <i class="fa fa-trash-o"></i></button>
+                    </td>
+                    <td>
+                        @if($category->templates)
+                        <a class="btn btn-success btn-xs"
+                           href="{{route('evaluation.setup.procedure_cat.template',$category->id)}}" >
+                            <i class="fa fa-pencil"></i> Edit</a>
+                        @else
+                        <a class="btn btn-primary btn-xs"
+                           href="{{route('evaluation.setup.procedure_cat.template',$category->id)}}" >
+                            <i class="fa fa-plus"></i> Create</a>
+                        @endif
+                    </td>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Category Name</th>
                     <th>Applies To</th>
                     <th>Actions</th>
+                    <th>Result Template</th>
                 </tr>
             </thead>
         </table>
