@@ -67,7 +67,7 @@
                 <i class="fa fa-print"></i> Print
             </a>
 
-            <a class="btn btn-danger btn-xs" target="blank"
+            <a class="btn btn-danger btn-xs"
                title="Note this will delete these results"
                style="color:white"
                href="{{route('evaluation.res.revert', $item->results->id)}}">
