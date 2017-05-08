@@ -30,6 +30,8 @@
                 <dt>Date:</dt><dd>{{smart_date_time($item->created_at)}}</dd>
             </dl>
             <hr/>
+            <!-- Consumables -->
+            <?php get_consumables($item->procedure) ?>
         </div>
         <div class="pull-right">
             <button type="submit" class="btn btn-xs btn-success">

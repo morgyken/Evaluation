@@ -8,7 +8,9 @@ $results = json_decode($item->results->results);
 if ($item->procedures->this_test) {
     #if this procedure has a subprocedure
     $titles = json_decode($item->procedures->this_test->titles);
+    //dd($titles);
     if (isset($titles)) {#only if titles is not null
+        asort($titles);
         foreach ($titles as $key => $value) {
             $title = \Ignite\Evaluation\Entities\HaemogramTitle::find($value);
             ?>
@@ -74,7 +76,7 @@ if ($item->procedures->this_test) {
                         <td>{{$p->name}}</td>
                         <td>{{$___r[1]}}</td>
                         <td><?php echo getUnit($p) ?></td>
-                        <td style="text-align:center; font-weight: bold">
+                        <td style="text-align:center">
                             @if(isset($min_range) && isset($max_range))
                             <?php echo getFlag($___r[1], $min_range, $max_range) ?>
                             @endif
@@ -173,3 +175,4 @@ if ($item->procedures->this_test) {
     </td>
 </tr>
 @endif
+<!--End of  is_array If Statement -->

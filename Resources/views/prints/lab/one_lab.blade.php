@@ -42,8 +42,7 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
         <th style="text-align:center">Flag</th>
         <th>Ref Range</th>
     </tr>
-    @include('evaluation::prints.lab.res')
-    <!--End of  is_array If Statement -->
+    @include('evaluation::partials.labs.result_list')
     <tr>
         <td><strong>Comments:</strong></td>
         <td colspan="4">

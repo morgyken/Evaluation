@@ -69,8 +69,6 @@
                                 ?>
                             </textarea>
                             @endif
-                            <!-- Consumables -->
-                            <?php get_consumables($test->procedure) ?>
                         </div>
                     </div>
                     @endforeach
@@ -111,8 +109,6 @@
                         <?php get_reverted_test($item->procedures->id) ?>
                     </textarea>
                     @endif
-                    <!-- Consumables -->
-                    <?php get_consumables($item->procedure) ?>
                     <label>Comments</label>
                     <textarea id="{{$item->id}}" rows="5" name="comments{{$item->id}}" class="form-control"></textarea>
                 </div>
@@ -132,6 +128,8 @@
                     <dt>Date:</dt><dd>{{smart_date_time($item->created_at)}}</dd>
                 </dl>
                 <hr/>
+                <!-- Consumables -->
+                <?php get_consumables($item->procedure) ?>
             </div>
             <div class = "pull-right">
                 <a href="" id="{{$item->id}}" class="save btn btn-xs btn-success"><i class="fa fa-save"></i> Save</a>
@@ -151,8 +149,6 @@
                     <textarea id="{{$item->id}}" name="results{{$item->id}}[]" class="form-control" >
                         <?php get_reverted_test($item->procedures->id) ?>
                     </textarea>
-                    <!-- Consumables -->
-                    <?php get_consumables($item->procedures->id) ?>
                 </div>
             </div>
             <div class="col-md-4 col-md-offset-2">
@@ -171,6 +167,8 @@
                     <dt>Date:</dt><dd>{{smart_date_time($item->created_at)}}</dd>
                 </dl>
                 <hr/>
+                <!-- Consumables -->
+                <?php get_consumables($item->procedures->id) ?>
             </div>
 
             <div class="pull-right">
@@ -185,6 +183,22 @@
 <script type="text/javascript">
     $(function () {
         //CKEDITOR.replaceAll();
+
+        function flag(id) {
+            //if (isInt(id)) {
+            $.ajax({
+                type: "get",
+                url: "{{route('api.evaluation.investigation_result')}}",
+                data: $('#results_form' + id + '').serialize(),
+                success: function () {
+                    alertify.success('<i class="fa fa-check-circle"></i> Results Posted');
+                },
+                error: function () {
+                    alertify.error('<i class="fa fa-check-warning"></i> Something went wrong, Retry');
+                }
+            });
+            //  }
+        }
     });
 </script>
 @else

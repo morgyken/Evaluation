@@ -28,7 +28,7 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
         <th style="text-align:center">Flag</th>
         <th>Ref Range</th>
     </tr>
-    @include('evaluation::prints.lab.res')
+    @include('evaluation::partials.labs.result_list')
     <tr>
         <td colspan="5">
             <strong>Comments:</strong>
