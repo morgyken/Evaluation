@@ -14,6 +14,7 @@ class Admission extends Model
         'cost',
         'reason',
         'external_doctor',
-        'visit_id'
+        'visit_id',
+        'bedposition_id'
     ];
 }

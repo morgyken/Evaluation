@@ -44,12 +44,11 @@
                                     <td>{{$admission->cost}}</td>
                                     <td>{{$admission->created_at}}</td>
                                     <td>
-                                       {{-- <a href="{{url('/evaluation/patients/visit/'.$admission->visit_id.'/manage/nurse')}}"
-                                           class="btn btn-primary btn-xs">Manage</a>--}}
-                                        {{--<a href="{{url('/evaluation/patients/visit/'.$admission->visit_id.'/evaluate/nurse')}}"
-                                           class="btn btn-primary btn-xs">Manage</a>--}}
-
-                                           <button class="btn btn-warning btn-xs checkOut" value="{{$admission->visit_id}}">Check-out</button>
+                                       <a href="{{url('/evaluation/patients/visit/'.$admission->visit_id.'/evaluate/nurse')}}"
+                                           class="btn btn-success btn-xs"> <i class="fa fa-ellipsis-h"></i> Manage</a>
+                                        <a href="{{url('/evaluation/patients/visit/'.$admission->visit_id.'/move')}}"
+                                           class="btn btn-primary btn-xs"> <i class="fa fa-share"></i> Move</a>
+                                        <a class="btn btn-warning btn-xs" href="{{url('/evaluation/inpatient/request_discharge/'.$admission->visit_id)}}">Request Discharge</a>   
                                     </td>
                                 </tr>
                             @endforeach

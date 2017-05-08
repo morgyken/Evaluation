@@ -4,8 +4,10 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
+$visit = $data['visit'];
 $history = $data['visits'];
 $patient = $data['patient'];
+$status = $data['status'];
 ?>
 @extends('layouts.app')
 @section('content_title','Manage Patient Visits')

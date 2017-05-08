@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('content_title','Admit Patient')
-@section('content_description','Action to admitting a patient')
+@section('content_title','Add ward')
+@section('content_description','Adding more wards')
 
 @section('content')
     @include('Evaluation::inpatient.success')

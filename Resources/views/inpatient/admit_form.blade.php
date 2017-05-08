@@ -18,6 +18,13 @@
                     <dt>Email:</dt><dd>{{$patient->email}}</dd>
                     <dt>Telephone:</dt><dd>{{$patient->telephone}}</dd>
                     <dt>Admission Time:</dt><dd id="time"><?php echo new Date() ?></dd>
+                     <strong><dt>Account Balance:</dt><dd style="font-size: bold">Kshs.
+            @if(\Ignite\Evaluation\Entities\PatientAccount::where('patient_id',$patient->id)->first())
+            {{number_format(\Ignite\Evaluation\Entities\PatientAccount::where('patient_id',$patient->id)->first()->balance)}}
+            @else
+            {{number_format(0.00)}}
+            @endif
+            </dd></strong>
 
                 </dl>
                 @if(!empty($patient->image))
@@ -36,6 +43,7 @@
                 {!! Form::open(['url'=>['/evaluation/inpatient/admit_patient']])!!}
                 <input type="hidden" name="patient_id" value="{{$patient->id}}"/>
                 <input type="hidden" name="visit_id" value="{{$visit->id}}"/>
+                <input type="hidden" name="request_id" value="{{$request_id}}"/>
                 <div class="form-group req {{ $errors->has('admission_doctor') ? ' has-error' : '' }}">
                     {!! Form::label('Admission Doctor', 'Admission Doctor'
                     ,['class'=>'control-label col-md-4']) !!}
@@ -138,7 +146,7 @@
                         <input type="number" name="max-allowed" class="form-control">
                     </div>
                 </div>
-                <div class="form-group {{ $errors->has('deposit') ? ' has-error' : '' }}" id="schemes">
+                <div class="cash form-group {{ $errors->has('deposit') ? ' has-error' : '' }}" id="schemes">
                     {!! Form::label('deposit', 'Charge Deposit',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
                         <select name="deposit" id="depositSel" class="form-control">
@@ -150,8 +158,21 @@
                         {!! $errors->first('deposit', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
+<!-- the admission and nursing charges -->
+                    
+            @foreach($admissions as $adm)
+
+                  <div class="form-group ">
+                    {!! Form::label($adm->name, $adm->name,['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        <input name="recurrent_charge[]" class="admission" type="checkbox" value="{{$adm->id}}">
+                        {{$adm->name}} @ price {{$adm->cost}}
+                    </div>
+                </div>
+
+            @endforeach()
                 <div class="pull-right">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Admit Patient</button>
+                    <button type="submit" id="admitPatient" class="btn btn-success"><i class="fa fa-user-plus"></i> Admit Patient</button>
                 </div>
                 {!! Form::close()!!}
             </div>
@@ -163,8 +184,10 @@
                 var pay = $('input[name=payment_mode]:checked').val();
                  if(pay == 'cash'){
                      $(".ins").hide();
+                     $(".cash").show();
                  }else{
                      $('.ins').show();
+                     $(".cash").hide();
                  }
             };
             var checkOther = function () {
@@ -178,6 +201,14 @@
                 checkPayment();
             });
             $(function () {
+
+                //on submit check if the button has class inactive.
+                $("#admitPatient").click(function(e){
+                    if($("#admitPatient").hasClass('disabled') & $('input[name=payment_mode]:checked').val()=='cash' ){
+                        e.preventDefault();
+                    }
+                })
+
                 checkBalance();
                 checkPayment();
                 checkOther();
@@ -235,18 +266,15 @@
                 }).done(function (data) {
                     if(data.status == 'insufficient'){
                         $("#errorRe").html('');
-                        $("#errorRe").removeClass('text-success').addClass('text-error').html(data.description);
+                        $("#errorRe").removeClass('text-success').addClass('text-danger').html(data.description);
                         $("button.btn").addClass('disabled');
                     }else{
                         $("#errorRe").html('');
                         $("button.btn").removeClass('disabled');
-                        $("#errorRe").removeClass('text-error').addClass('text-success').html(data.description);
+                        $("#errorRe").removeClass('text-danger').addClass('text-success').html(data.description);
                     }
                 })
             }
-
-
-
         </script>
 
 @endsection

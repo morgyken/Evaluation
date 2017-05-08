@@ -63,19 +63,18 @@
         <div class="col-md-12">
             <br>
             <strong>Name:</strong><span class="content"> {{$patient->full_name}}</span><br/>
-            <strong>Account Balance:</strong><span class="content"> Kshs. {{number_format($acc->balance,2)}}</span><br/>
             <strong>Date:</strong><span class="content"> {{(new Date())->format('j/m/Y H:i')}}</span><br/>
             <br/><br/>
         </div>
         <div class="col-md-6">
           
                 <table class="table table-striped" id="items">
-                <caption>Deposit Transactions</caption>
+                <caption>Withdraw Transactions</caption>
                     <thead>
                     <tr>
                     <th>#</th>
                     <th>Reference</th>
-                    <th>Deposit Amount</th>
+                    <th>Withdraw Amount</th>
                     <th>Mode</th>
                     </tr>
                     </thead>
@@ -88,18 +87,18 @@
                     <tr>
                         <td>{{$loop->index +1}}</td>
                         <td>{{$tran->reference}}</td>
-                        <td>{{$tran->credit}}</td>
+                        <td>Kshs. {{$tran->debit}}</td>
                         <td>{{$tran->mode}}</td>
                     </tr>
                         <?php
-                        $total += $tran->credit;
+                        $total += $tran->debit;
                         ?>
                     @endforeach()
 
                    </tbody>
                     <tfoot>
                     <tr>
-                        <th style="text-align:right" colspan='2'>Amount Paid</th>
+                        <th style="text-align:right" colspan='2'>Amount Withdrawn</th>
                         <th>Kshs. {{number_format($total,2)}}</th>
                     </tr>
                     </tfoot>

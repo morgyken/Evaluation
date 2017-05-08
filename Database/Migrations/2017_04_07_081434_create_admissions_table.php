@@ -19,6 +19,7 @@ class CreateAdmissionsTable extends Migration
             $table->integer('doctor_id')->unsigned()->nullable();
             $table->integer('ward_id')->unsigned();
             $table->integer('bed_id')->unsigned();
+            $table->integer('bedposition_id')->unsigned();
             $table->double('cost')->default(0.00);
             $table->longText('reason')->nullable();
             $table->string('external_doctor')->nullable();
@@ -29,6 +30,14 @@ class CreateAdmissionsTable extends Migration
                 ->on('reception_patients')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+
+            $table->foreign('bedposition_id')
+                ->references('id')
+                ->on('bed_position')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+    
 
 
             $table->foreign('visit_id')

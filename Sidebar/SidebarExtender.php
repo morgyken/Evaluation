@@ -197,9 +197,9 @@ class SidebarExtender implements Panda {
                         $item->weight(4);
                     });
                     //patients waiting admissions
-                    $item->item('Waiting admission', function(Item $item) {
+                    $item->item('Request Discharge ', function(Item $item) {
                         $item->icon('fa fa-exclamation-circle');
-                        $item->url('/evaluation/inpatient/awaitingAdmission');
+                        $item->url('/evaluation/inpatient/request_discharge');
                         //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
                         $item->weight(4);
                     });
@@ -237,6 +237,15 @@ class SidebarExtender implements Panda {
                     //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
                     $item->weight(4);
                 });
+
+                 //types of deposits
+                $item->item('Deposit', function(Item $item) {
+                    $item->icon('fa fa-gear');
+                    $item->url('/evaluation/inpatient/deposit');
+                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                    $item->weight(4);
+                });
+
                 //Account topUp
                 $item->item('Procedures', function(Item $item) {
                     $item->icon('fa fa-hourglass-1');
