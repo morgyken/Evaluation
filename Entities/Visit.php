@@ -90,9 +90,16 @@ class Visit extends Model {
 
     public function getModeAttribute() {
         if ($this->payment_mode == 'insurance') {
-            return ucfirst($this->payment_mode) . " | " .
+
+try{
+     return ucfirst($this->payment_mode) . " | " .
                     $this->patient_scheme->schemes->companies->name . " | " .
-                    $this->patient_scheme->schemes->name;
+                    $this->patient_scheme->schemes->name; 
+}
+catch(\Exception $exc){
+     return ($this->payment_mode);
+}
+           
         }
         return ucfirst($this->payment_mode);
     }

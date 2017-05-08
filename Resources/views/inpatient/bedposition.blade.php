@@ -68,15 +68,17 @@
                 
                 <table class="table table-responsive table-striped">
                     <tbody>
-                    @foreach($bedpositions as $ward)
+                    @foreach($bedpositions as $bedp)
                         <tr>
-                            <td>{{$ward->name}}</td>
-                            <td>{{$ward->category}}</td>
-                            <td>Ksh.{{$ward->cost}}</td>
-                            <td>{{$ward->created_at}}</td>
+                            <td></td>
+                            <td>{{$bedp->name}}</td>
+                            <td>{{$bedp->ward->number}}</td>
+                            <td>Ksh.{{$bedp->ward->cost}}</td>
+                            <td>{{$bedp->ward->gender}}</td>
+                            <td>{{($bedp->created_at)->format('d/M/y g:i a')}}</td>
                             <td>
-                                <a href="{{url('/evaluation/inpatient/bedPosition'.'/'.$ward->id)}}" class="btn btn-danger btn-xs">Delete</a>
-                                <button class="btn btn-primary btn-xs edit" id="{{$ward->id}}" data-toggle="modal" data-target="#myModal" >Edit</button>
+                                <a href="{{url('/evaluation/inpatient/bedPosition'.'/'.$bedp->id)}}" class="btn btn-danger btn-xs">Delete</a>
+                                <button class="btn btn-primary btn-xs edit" id="{{$bedp->id}}" data-toggle="modal" data-target="#myModal" >Edit</button>
 
                            <!--  <td>{{$ward->number}}</td>
                             <td>{{$ward->number}}</td>
@@ -90,10 +92,11 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Number</th>
+                            <th>Ward Number</th>
                             <th>Gender</th>
                             <th>Category</th>
-                            <th></th>
+                            <th>Category</th>
+                            <th>Options</th>
                         </tr>
                     </thead>
                 </table>
@@ -102,15 +105,12 @@
         </div>
     </div>
 </div>
-@endsection
+   <script>
+   $(function(){
+        $("table").dataTable();
 
 
- 
-    <script>
-        $(function () {
-            $("table").dataTable();
-
-            //edit ward
+               //edit ward
             $("button.edit").click(function () {
                 // AAX FETCH RECOrd
                 $("#wardId").val(this.id);
@@ -122,8 +122,14 @@
                     //attach data returned...
                     $("#name").val(data.name);
                     $("#category").val(data.category);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  })
             })
 
         })
+
+   })
     </script>
+@endsection
+
+
+ 
+ 

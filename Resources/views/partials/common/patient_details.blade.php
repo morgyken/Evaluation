@@ -44,15 +44,20 @@ try {
         </div>
         <hr/>
         <div class="col-md-4">
+            @if($status == 'admited')
+            <a class="btn btn-danger" href="{{url('evaluation/inpatient/request_discharge/'.$visit->id)}}">Request Discharge</a> 
+            @elseif($status == 'request admission')
+            <a class="btn btn-danger" href="{{url('evaluation/inpatient/cancel_request/'.$visit->id)}}">Cancel Request</a>
+            @else
             <dt>Request Admission:</dt>
             {!! Form::open(['url'=>['/evaluation/inpatient/admit_patientPostForm']])!!}
-                {{--<input type="hidden" name="_token" value="{{csrf_token()}}">--}}
+                
             <input type="hidden" name="patient_id" value="{{$patient->id}}">
-            <input type="hidden" name="visit_id" value="{{$visit->id}}">
-                <textarea name="reason" id="" class="form-control" required rows="2" placeholder="Reason For Admission"></textarea>
-                <br>
+            <input type="hidden" name="visit_id" class="form-control" value="{{$visit->id}}">
+            <input type="text" name="reason">"
                 <button class="btn btn-primary" type="submit">Request admission</button>
             {!! Form::close() !!}
+            @endif
         </div>
     </div>
 </div>

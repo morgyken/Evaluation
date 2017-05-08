@@ -28,12 +28,11 @@
                             <tbody>
                             @foreach($patient_awaiting as $admission)
                                 <tr>
-                                    <td>{{\Ignite\Reception\Entities\Patients::find($admission->patient)->first_name}}
-                                        {{\Ignite\Reception\Entities\Patients::find($admission->patient)->last_name}}
+                                    <td>{{\Ignite\Reception\Entities\Patients::find($admission->patient)->full_name}}
                                     </td>
                                     <td>{{$admission->external_doctor}}</td>
                                     <td>{{$admission->payment_mode}}</td>
-                                    <td>{{$admission->created_at}}</td>
+                                    <td>{{(new Date($admission->created_at))->format('m/d/y')}}</td>
                                     <td>
                                         <a href="{{url('/evaluation/inpatient/admit/'.$admission->patient.'/'.$admission->id)}}" class="btn btn-primary btn-xs" >Admit</a></td>
                                 </tr>

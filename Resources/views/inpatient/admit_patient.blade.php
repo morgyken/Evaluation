@@ -17,17 +17,20 @@
                     <thead>
                     <th>ID/Passport</th>
                     <th>Name</th>
+                    <th>Date</th>
                     <th>Options</th>
                     </thead>
                     <tbody>
                     @foreach($patients as $patient)
                         <tr>
                             <td>{{\Ignite\Reception\Entities\Patients::find($patient->id)->id_no}}</td>
-                            <td>{{\Ignite\Reception\Entities\Patients::find($patient->id)->first_name}}
-                                {{\Ignite\Reception\Entities\Patients::find($patient->id)->middle_name}}
-                                {{\Ignite\Reception\Entities\Patients::find($patient->id)->last_name}}</td>
+                            <td>{{\Ignite\Reception\Entities\Patients::find($patient->patient_id)->full_name}}
+                                </td>
+                                <td>
+                                    {{(new Date($patient->created_at))->format('m/d/y')}}
+                                </td>
                             <td>
-                                <a class="btn btn-primary btn-xs" href="{{url('evaluation/inpatient/admit/'.$patient->id).'/'.$patient->visit_id}}">Admit</a>
+                                <a class="btn btn-primary btn-xs" href="{{url('evaluation/inpatient/admit/'.$patient->patient_id).'/'.$patient->visit_id}}">Admit</a>
 
                                 <a class="btn btn-danger btn-xs" href="{{url('evaluation/inpatient/cancel/'.$patient->id).'/'.$patient->visit_id}}">Cancel Request</a>
                             </td>

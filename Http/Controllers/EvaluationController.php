@@ -9,6 +9,11 @@ use Ignite\Evaluation\Entities\Sample;
 use Ignite\Evaluation\Entities\Admission;
 use Ignite\Evaluation\Entities\Bed;
 use Ignite\Evaluation\Entities\Bedposition;
+use Ignite\Evaluation\Entities\NursingCharge;
+use Ignite\Evaluation\Entities\RecurrentCharge;
+use Ignite\Evaluation\Entities\RequestDischarge;
+use Ignite\Evaluation\Entities\Discharge;
+use Ignite\Evaluation\Entities\WardAssigned;
 
 use Ignite\Evaluation\Entities\Deposit;
 use Ignite\Evaluation\Entities\FinancePatientAccounts;
@@ -81,6 +86,17 @@ class EvaluationController extends AdminBaseController {
     }
 
     public function evaluate($visit, $section) {
+         $this->data['visit'] = Visit::find($visit);
+            if(count(Admission::where('visit_id',$visit)->get())){
+               $this->data['status'] = 'admited'; 
+            }else{
+                $this->data['status'] = 'none';
+            }
+            if(count(RequestAdmission::where('visit_id',$visit)->get())){
+                $this->data['status'] = 'request admission';
+            }
+        
+           
         try {
             $this->data['all'] = Visit::checkedAt('diagnostics')->get();
             $this->data['visit'] = Visit::find($visit);
@@ -358,11 +374,16 @@ class EvaluationController extends AdminBaseController {
         $wards = Ward::all();
         $beds = Bed::all();
         $deposits = Deposit::all();
-        return view('evaluation::inpatient.admit_form',compact('doctors','patient','wards','deposits','visit','beds'));
+        $request_id = RequestAdmission::where('visit_id',$visit_id)->first()->id;
+        $admissions = NursingCharge::all();
+        return view('evaluation::inpatient.admit_form',compact('doctors','patient','wards','deposits','visit','beds','request_id','admissions'));
     }
     public function post_admit_patient(Request $request)
     {//add a patient
+        
         Patients::create($request->all());
+        //remove the admit request
+
       return redirect('/evaluation/inpatient/admit')->with('success','Successfully admitted a patient');
 
     }
@@ -402,6 +423,19 @@ class EvaluationController extends AdminBaseController {
     }
     public function admit_patient_Post(Request $request)
     {
+        $request['bedposition_id'] = $request->bed_position_id; 
+        /*recurrent charges.*/
+        //indicate the recurrent charges for the patient.
+        if($request->recurrent_charge){
+            foreach ($request->recurrent_charge as $rc) {
+            RecurrentCharge::create([
+                'visit_id' => $request->visit_id,
+                'recurrent_charge_id' => $rc,
+                'status' => 'unpaid'
+                ]);    
+        }
+        }
+        $p_id = $request->patient_id;
         if(count(FinancePatientAccounts::where('patient',$request->patient_id)->get())){
             $patientAcc =FinancePatientAccounts::where('patient',$request->patient_id)->first();
         }else{
@@ -424,14 +458,17 @@ class EvaluationController extends AdminBaseController {
             $request_admission = RequestAdmission::where('patient_id',$request->patient_id)->first();
             $request_admission->delete();
         }
-        if(count(Visit::where('patient',$request->patient_id)->get())){
-            $v = Visit::where('patient',$request->patient_id)->first();
-            $v->delete();
-        }
         /*apply charges*/
         if($request->payment_mode == 'cash'){
+            $acc = PatientAccount::where('patient_id',$request->patient_id)->first();
             $depo_cost = Deposit::find($request->deposit);
-            $ward_cost = Ward::find($request->ward_id);
+            if($depo_cost->cost > $acc->balance ){
+                 $validator = Validator::make($request->all(),
+                []);
+            $validator->errors()->add('deposit','Please top up your account');
+            return redirect()->back()->withErrors($validator);
+            }
+            // $ward_cost = Ward::find($request->ward_id);
 
 
             FinancePatientAccounts::create([
@@ -441,21 +478,42 @@ class EvaluationController extends AdminBaseController {
                 'reference' => 'deposit_charge_'.str_random(5),
                 'patient' => $request->patient_id
         ]);
-            FinancePatientAccounts::create([
+            /*FinancePatientAccounts::create([
                 'debit' =>$ward_cost->cost,
                 'credit' => 0.00,
                 'details' => 'Charged for ward'.$ward_cost->name,
                 'reference' => 'Ward_charge'.str_random(5),
                 'patient' => $request->patient_id
-        ]);
-            $request['cost'] = $depo_cost->cost + $ward_cost->cost;
+        ]);*/
+            $request['cost'] = $depo_cost->cost ;
             /*debit the patient account*/
             $acc = PatientAccount::where('patient_id',$request->patient_id)->first();
             $acc->update(['balance' => $acc->balance - $request['cost']]);
 
         }
+        $request->patient_id = $p_id;
         Admission::create($request->all());
+          $adm_request = RequestAdmission::find($request->request_id);
+        if(count($adm_request)){
+            $adm_request->delete();
+        }
+        //the bed should change status to occupied
+        if(count(Bed::find($request->bed_id))){
+            $bed = Bed::find($request->bed_id);
+            $bed -> update(['status'=>'occupied']);
+        }
+        //create a record in ward awarded..
+        $price = Ward::find($request->ward_id)->cost;
+        WardAssigned::create([
+                'visit_id'=>$request->visit_id,
+'ward_id'=>$request->ward_id,
+/*'admitted_at'=> $request->admitted_at,*/
+/*'discharged_at',*/
+'price'=>$price,
+            ]);
         return redirect('/evaluation/inpatient/admissions')->with('success','Successfully admitted a patient');
+        //remove this admission request
+      
     }
     public function admissionList()
     {
@@ -494,7 +552,7 @@ class EvaluationController extends AdminBaseController {
         ///waiting admission queue.
         //charge the patient
         RequestAdmission::create($request->all());
-     return redirect('/evaluation/inpatient/admit')->with('success','successfully requested for admission');
+     return redirect()->back()->with('success','successfully requested for admission');
     }
     public function delete_ward(Request $request)
     {
@@ -538,7 +596,7 @@ class EvaluationController extends AdminBaseController {
 
         $deposit_amount = Deposit::find($request->depositTypeId)->cost;
         if($account_balance < ($deposit_amount )){
-            return array('status'=>'insufficient','description'=>'Your account balance is less than the deposit');
+            return array('status'=>'insufficient','description'=>'Your account balance is Kshs. '.(number_format($account_balance,2)).'. Please deposit kshs. '.number_format(($deposit_amount-$account_balance),2).' for the selected deposit type.');
         }
         return array('status'=>'sufficient','description'=>'Your account balance is sufficient');
     }
@@ -666,9 +724,10 @@ class EvaluationController extends AdminBaseController {
     public function topUpAccount(Request $request)
     {
         $acc = PatientAccount::where('patient_id',$request->patient_id)->first();
+
         if(!count($acc)){
             //create a patient account
-            PatientAccount::create([
+          $acc =  PatientAccount::create([
                     'patient_id' => $request->patient_id,
                     'balance' => 0 
                 ]);
@@ -737,4 +796,343 @@ class EvaluationController extends AdminBaseController {
         $admit_r->delete();
         return redirect()->back()->with('success','Successfully canceled admission request');
     }
+    public function move_patient($visit)
+    {
+        $admission = Admission::find($visit);
+        $visit = Admission::find($visit)->visit_id;
+        $v = Visit::find($visit);
+        $patient = Patients::find($v->patient);
+        $acc  = PatientAccount::where('patient_id',$v->patient)->first();
+        if(count($acc)){
+            $balance = $acc->balance;
+        }else{
+            $balance = 0;
+        }
+    $ward = Ward::find($admission->ward_id);
+    $bed =  Bed::find($admission->bed_id)->number;
+    $beds = Bed::all();
+    $wards = Ward::all();
+        return view('Evaluation::.inpatient.movePatient',compact('v','wards','bed','beds','ward','balance','patient','admission'));
+    }
+    public function getAvailableBedPosition($ward)
+    {
+
+        return Bedposition::where('status','available')->where('ward_id',$ward)->get();
+    }
+    public function change_bed(Request $request)
+    {
+        $admission = Admission::find($request->admission_id);
+
+     if($admission->ward_id != $request->ward_id){
+    //ward change to be indicated here..
+    $ward_assigned = WardAssigned::where('visit_id',$admission->visit_id)->orderBy('created_at','desc')->first();
+    if(count($ward_assigned)){
+        $ward_assigned->update(['discharged_at'=> date("Y-m-d G:i:s")]); 
+    }                 
+    //assign another ward
+    $ward = Ward::find($request->ward_id);
+    WardAssigned::create([
+        'visit_id' =>$admission->visit_id,
+        'ward_id' => $request->ward_id,
+        'price'=>$ward->cost
+        ]);
+    }
+        $admission -> update([
+            'ward_id' => $request->ward_id,
+            'bed_id' => $request->bed_id,
+            'bedPosition_id' => $request->bedposition_id
+            ]);
+         //if there is ward change
+
+        return redirect()->back()->with('success','Successfully moved the patient');
+    }
+    public function cancel_request($visit)
+    {
+        $request = RequestAdmission::where('visit_id',$visit)->first();
+        if(count($request)){
+            $request->delete();
+        }
+        return redirect()->back()->with('success','Successfully canceled the admission request');
+    }
+    public function Nursing_services(Request $request)
+    {
+        $charges = NursingCharge::all();
+        $wards = Ward::all();
+        return view('Evaluation::inpatient.Nursing_services',compact('charges','wards'));
+    }
+    public function AddReccurentCharge(Request $request)
+    {
+        $req = (request()->all());
+        if( $req['type'] != 'nursing'){
+            $req['ward_id'] = null;
+        }
+        NursingCharge::create($req);
+        return redirect()->back()->with('success','Successfully added a new recurrent charge');
+
+    }
+    public function request_discharge($id)
+    {
+        //add a record to request discharge table
+        $user_id = (\Auth::user()->id);
+
+        RequestDischarge::create([
+            'doctor_id' => $user_id,
+            'visit_id' =>$id,
+            'status' => 'unconfirmed'
+            ]);
+        return redirect()->back()->with('success','Successfully requested for discharge');
+
+    }
+    public function requested_discharge(Request $request)
+    {
+        $discharges = RequestDischarge::all();
+        return view('Evaluation::inpatient.discharges',compact('discharges'));
+    }
+    public function confirm_discharge($request_id)
+    {
+        $r = RequestDischarge::find($request_id);
+        $v = Visit::find($r->visit_id);
+        $patient = Patients::find($v->patient);
+        return view('Evaluation::inpatient.discharge_patient',compact('v','patient'));
+    }
+    public function Cancel_discharge($visit_id)
+    {
+        $v = RequestDischarge::find($visit_id);
+        $v->delete();
+        return redirect()->back()->with('success','Successfully canceled the discharge request');
+    }
+    public function postDischargePatient(Request $r)
+    {
+        $vid = $r->visit_id;
+        //the discharge for 
+        if($r->type != 'case'){
+            $r->dateofdeath = null;
+            $r->timeofdeath = null;
+        }
+        //check the pending reccurrent charges.
+        ///the ward's charges
+        $wardCharges = 0;
+        $wards = WardAssigned::where('visit_id',$r->visit_id)->get();
+        foreach ($wards as $ward) {
+            $wardCharges += ($ward->price /** date_diff($ward->discharged_at,$ward->created_at)*/);
+        }
+        $recuCharges = 0;
+        //subscribed reccurrent charges
+        $rcnt = RecurrentCharge::where('visit_id',$r->visit_id)->where('status','unpaid')->get();
+        foreach ($rcnt as $recurrent) {
+            //nursing charges times no. of days..
+            $recuCharges += NursingCharge::find($recurrent->recurrent_charge_id)->cost /** date_diff($ward->discharged_at,$ward->created_at)*/;
+        }
+        $totalCharges = $wardCharges + $recuCharges;
+
+        //check patient account balance..
+        $visit = Visit::find($r->visit_id);
+        $acc= PatientAccount::find($visit->patient);
+        $acc_balance = 0;
+        if($acc){
+            $acc_balance = $acc->balance;
+        }
+        if($totalCharges > $acc_balance){
+            return redirect()->back()->with('error','You have a pending charges of Kshs.'
+                .number_format($totalCharges).'. Your account balance is Kshs. '
+                .number_format($acc_balance).'. Please deposit Kshs.'
+                .number_format(($totalCharges-$acc_balance)).' to complete the discharge process.');
+            $validator =Validator::make($r->all(),
+                []);
+            $validator->errors()
+                ->add('amount','You have pending reccurrent charges. Please make the payment to proceed with the discharge');
+                return redirect()->back()->withErrors($validator);
+        }
+        //charge the recurrent charges from the patient acc.
+        $acc->update(['balance' => ($acc->balance - $totalCharges)]);
+
+        Discharge::create([
+            'visit_id'=>$r->visit_id,
+            'doctor_id'=>\Auth::user()->id,
+            'DischargeNote'=>$r->DischargeNote,
+            'dateofdeath'=>$r->dateofdeath,
+            'timeofdeath'=>$r->timeofdeath,
+            'type' => $r->type
+            ]);
+
+        //release the bed for reassignment.
+        $admission = Admission::orderBy('created_at','desc')->where('visit_id',$vid)->first();
+        $bed= Bed::find($admission->visit_id);
+        $bed->update(['status'=>'available']);
+        //record these charges to the patient
+
+        //remove the discharge request.
+        $request_dis = RequestDischarge::orderBy('created_at','desc')->where('visit_id',$vid)->first();
+        if($request_dis){
+            $request_dis->delete();
+        }
+       return redirect('/evaluation/inpatient/admit')->with('success','Successfully discharged patient');
+    }
+    public function delete_service($id)
+    {
+        $service = NursingCharge::find($id);
+        if($service){
+            $service->delete();
+        }
+        return redirect()->back()->with('success','Successfully deleted a recurrent charge.');
+    }
+///patient account operations
+    public function account_deposit_amount($patient_id)
+    {
+        $acc = PatientAccount::where('patient_id',$patient_id)->first();
+        if(! count($acc)){
+            $acc = PatientAccount::create([
+                'patient_id' => $patient_id,
+                'balance' => 0
+                ]);
+        }
+        $patient = Patients::find($patient_id);
+        $this->data['patient'] = $patient;
+        $this->data['acc'] = $acc;
+        return view('Evaluation::inpatient.account_deposit',['data'=>$this->data]);
+    }
+    public function topUpAccountPost(Request $request)
+    {   
+        $amount = 0;
+        $acc = PatientAccount::where('patient_id',$request->patient_id)->first();
+
+        $a='evaluation/inpatient/print?type=deposit&patient_id='.$request->patient_id;
+        //cash
+        if($request->cash){
+            $cash = FinancePatientAccounts::create([
+                 'patient' => $request->patient_id,
+                'reference' => 'deposit_'.str_random(5),
+                'details' => 'deposit to patient\'s account',
+                'debit' => 0.00,
+                'credit' => $request->cash,
+                'mode' => 'cash'
+            ]);
+            $amount  += $request->cash;
+            $a .= '&cash='.$cash;
+        }
+        if($request->cheque){
+             $cheque = FinancePatientAccounts::create([
+                 'patient' => $request->patient_id,
+                'reference' => $request->chequenumber.str_random(5),
+                'details' => 'deposit to patient\'s account',
+                'debit' => 0.00,
+                'credit' => $request->cheque,
+                'mode' => 'cheque'
+            ]);
+            $amount  += $request->cheque;
+            $a .= '&cheque='.$cheque;
+        }
+        if($request->mpesa){
+             $mpesa = FinancePatientAccounts::create([
+                 'patient' => $request->patient_id,
+                'reference' => $request->mpesaTransactionCode.str_random(5),
+                'details' => 'deposit to patient\'s account',
+                'debit' => 0.00,
+                'credit' => $request->mpesa,
+                'mode' => 'Mpesa'
+            ]);
+            $amount  += $request->mpesa;
+            $a .= '&mpesa='.$mpesa;
+        }
+        $patient = Patients::find($request->patient_id);
+        $acc->update(['balance' => ($acc->balance + $amount)]);
+$success = 'Successfully deposited Kshs.'.number_format($amount,2).' your account balance is Kshs.'.number_format($acc->balance,2).'.';
+        return view('Evaluation::inpatient.print',compact('success','a','patient'));
+}
+    public function account_withdraw_amount($patient_id)
+    {
+        $acc = PatientAccount::where('patient_id',$patient_id)->first();
+        if(! count($acc)){
+            $acc = PatientAccount::create([
+                'patient_id' => $patient_id,
+                'balance' => 0
+                ]);
+        }
+        $patient = Patients::find($patient_id);
+        $this->data['patient'] = $patient;
+        $this->data['acc'] = $acc;
+        return view('Evaluation::inpatient.account_withdraw',['data'=>$this->data]);
+    }
+    public function PostWithdrawAccount(Request $request)
+    {
+    $amount = 0;
+    $a = 'evaluation/inpatient/print?type=withdraw&patient_id'.$request->patient_id;
+        $acc = PatientAccount::where('patient_id',$request->patient_id)->first();
+        if($acc->balance< ($request->cash + $request->cheque + $request->mpesa)){
+            return redirect()->back()->with('error','Insufficient account balance. Your account balance is Kshs. '.number_format($acc->balance,2));
+        }
+        //cash
+        if($request->cash){
+            $cash = FinancePatientAccounts::create([
+                 'patient' => $request->patient_id,
+                'reference' => 'withdraw_'.str_random(5),
+                'details' => 'withdraw from patient\'s account',
+                'credit' => 0.00,
+                'debit' => $request->cash,
+                'mode' => 'cash'
+            ]);
+            $amount  += $request->cash;
+            $a .='&cash='.$cash;
+        }
+        if($request->cheque){
+             $cheque =FinancePatientAccounts::create([
+                 'patient' => $request->patient_id,
+                'reference' => $request->chequenumber.'_'.str_random(5),
+                'details' => 'withdraw from patient\'s account',
+                'credit' => 0.00,
+                'debit' => $request->cheque,
+                'mode' => 'cheque'
+            ]);
+            $amount  += $request->cheque;
+            $a .= '&cheque='.$cheque;
+        }
+        if($request->mpesa){
+             $mpesa =FinancePatientAccounts::create([
+                 'patient' => $request->patient_id,
+                'reference' => $request->mpesaTransactionCode.'_'.str_random(5),
+                'details' => 'withdraw from patient\'s account',
+                'credit' => 0.00,
+                'debit' => $request->mpesa,
+                'mode' => 'Mpesa'
+            ]);
+            $amount  += $request->mpesa;
+            $a .= '&mpesa='.$mpesa;
+        }
+ $patient = Patients::find($request->patient_id);
+        $acc->update(['balance' => ($acc->balance + $amount)]);
+        
+
+       /* $patient = Patients::find($request->patient_id);
+        $acc->update(['balance' => ($acc->balance - $amount)]);
+$a = '/a';*/
+$success = 'Successfully withdrawn Kshs.'.number_format($amount,2).' your account balance is Kshs.'.number_format($acc->balance,2).'.';
+        return view('evaluation::inpatient.print',compact('success','a','patient'));
+    }
+
+    public function print(Request $request)
+    {
+
+        $patient = \Ignite\Reception\Entities\Patients::find($request->patient_id);
+            $t = [];
+        if($request->cash){
+            array_push($t, $request->cash);
+        }if($request->mpesa){
+            array_push($t, $request->mpesa);
+        }if($request->cheque){
+            array_push($t, $request->cheque);
+        }
+
+        $trans = \Ignite\Evaluation\Entities\FinancePatientAccounts::findMany($t);
+        $acc = \Ignite\Evaluation\Entities\PatientAccount::where('patient_id',$request->patient_id)->first();
+        if($request->type == 'deposit'){
+             $pdf = \PDF::loadView('Evaluation::inpatient.print.topUpSlip', ['patient' => $patient,'trans'=>$trans,'type'=>$request->type,'acc'=>$acc]);
+        $pdf->setPaper('a4', 'Landscape');
+        return $pdf->stream('Bill' . $request->id . '.pdf');
+    }
+     $pdf = \PDF::loadView('Evaluation::inpatient.print.withdraw', ['patient' => $patient,'trans'=>$trans,'type'=>$request->type,'acc'=>$acc]);
+        $pdf->setPaper('a4', 'Landscape');
+        return $pdf->stream('Bill' . $request->id . '.pdf');
+       
+    }
+
 }
