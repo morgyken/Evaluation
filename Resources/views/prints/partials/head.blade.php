@@ -59,7 +59,7 @@
         </p>
     </div>
     <div class="right">
-        <img src="{{realpath(base_path('/public/logo.png'))}}"/>
+        <img src="{{realpath(base_path('/public/logo.jpg'))}}"/>
     </div>
     <div class="clear"></div>
     <div class="content">
