@@ -14,6 +14,7 @@ use Ignite\Evaluation\Entities\RecurrentCharge;
 use Ignite\Evaluation\Entities\RequestDischarge;
 use Ignite\Evaluation\Entities\Discharge;
 use Ignite\Evaluation\Entities\WardAssigned;
+use Ignite\Evaluation\Entities\DischargeNote;
 
 use Ignite\Evaluation\Entities\Deposit;
 use Ignite\Evaluation\Entities\FinancePatientAccounts;
@@ -576,10 +577,13 @@ class EvaluationController extends AdminBaseController {
         Deposit::create($request->all());
         return redirect()->back()->with('success','successfully added a new deposit type');
     }
-    public function delete_deposit(Request $request)
+    public function delete_deposit($deposit_id)
     {
-        $d = Deposit::find($request->deposit_id);
+        $d = Deposit::find($deposit_id);
         $d->delete();
+        if(Admission::where('cost',$d->cost)->count()){
+            return redirect()->back()->with('error','Could not delete the deposit.');
+        }
         return redirect()->back()->with('success','Successfully deleted');
     }
     public function admit_check(Request $request)
@@ -810,7 +814,7 @@ class EvaluationController extends AdminBaseController {
         }
     $ward = Ward::find($admission->ward_id);
     $bed =  Bed::find($admission->bed_id)->number;
-    $beds = Bed::all();
+    $beds = Bed::where('status','available')->get();
     $wards = Ward::all();
         return view('Evaluation::.inpatient.movePatient',compact('v','wards','bed','beds','ward','balance','patient','admission'));
     }
@@ -872,6 +876,28 @@ class EvaluationController extends AdminBaseController {
     }
     public function request_discharge($id)
     {
+        //THE Doctor should be able to write a note
+        $visit_id = $id;
+        $v = Visit::findorfail($visit_id);
+        $patient = Patients::findorfail($v->patient);
+        $account = PatientAccount::where('patient_id',$patient->id)->first();
+
+        $wardCharges = 0;
+        $wards = WardAssigned::where('visit_id',$id)->get();
+        foreach ($wards as $ward) {
+            $wardCharges += ($ward->price /** date_diff($ward->discharged_at,$ward->created_at)*/);
+        }
+        $recuCharges = 0;
+        //subscribed reccurrent charges
+        $rcnt = RecurrentCharge::where('visit_id',$id)->where('status','unpaid')->get();
+        foreach ($rcnt as $recurrent) {
+            //nursing charges times no. of days..
+            $recuCharges += NursingCharge::find($recurrent->recurrent_charge_id)->cost /** date_diff($ward->discharged_at,$ward->created_at)*/;
+        }
+        $totalCharges = $wardCharges + $recuCharges;
+
+        return view('Evaluation::inpatient.request_patient_discharge',compact('account','patient','visit_id','v','totalCharges'));
+
         //add a record to request discharge table
         $user_id = (\Auth::user()->id);
 
@@ -1008,7 +1034,7 @@ class EvaluationController extends AdminBaseController {
                 'mode' => 'cash'
             ]);
             $amount  += $request->cash;
-            $a .= '&cash='.$cash;
+            $a .= '&cash='.$cash->id;
         }
         if($request->cheque){
              $cheque = FinancePatientAccounts::create([
@@ -1020,7 +1046,7 @@ class EvaluationController extends AdminBaseController {
                 'mode' => 'cheque'
             ]);
             $amount  += $request->cheque;
-            $a .= '&cheque='.$cheque;
+            $a .= '&cheque='.$cheque->id;
         }
         if($request->mpesa){
              $mpesa = FinancePatientAccounts::create([
@@ -1032,7 +1058,7 @@ class EvaluationController extends AdminBaseController {
                 'mode' => 'Mpesa'
             ]);
             $amount  += $request->mpesa;
-            $a .= '&mpesa='.$mpesa;
+            $a .= '&mpesa='.$mpesa->id;
         }
         $patient = Patients::find($request->patient_id);
         $acc->update(['balance' => ($acc->balance + $amount)]);
@@ -1056,7 +1082,7 @@ $success = 'Successfully deposited Kshs.'.number_format($amount,2).' your accoun
     public function PostWithdrawAccount(Request $request)
     {
     $amount = 0;
-    $a = 'evaluation/inpatient/print?type=withdraw&patient_id'.$request->patient_id;
+    $a = 'evaluation/inpatient/print?type=withdraw&patient_id='.$request->patient_id;
         $acc = PatientAccount::where('patient_id',$request->patient_id)->first();
         if($acc->balance< ($request->cash + $request->cheque + $request->mpesa)){
             return redirect()->back()->with('error','Insufficient account balance. Your account balance is Kshs. '.number_format($acc->balance,2));
@@ -1072,7 +1098,7 @@ $success = 'Successfully deposited Kshs.'.number_format($amount,2).' your accoun
                 'mode' => 'cash'
             ]);
             $amount  += $request->cash;
-            $a .='&cash='.$cash;
+            $a .='&cash='.$cash->id;
         }
         if($request->cheque){
              $cheque =FinancePatientAccounts::create([
@@ -1084,7 +1110,7 @@ $success = 'Successfully deposited Kshs.'.number_format($amount,2).' your accoun
                 'mode' => 'cheque'
             ]);
             $amount  += $request->cheque;
-            $a .= '&cheque='.$cheque;
+            $a .= '&cheque='.$cheque->id;
         }
         if($request->mpesa){
              $mpesa =FinancePatientAccounts::create([
@@ -1096,7 +1122,7 @@ $success = 'Successfully deposited Kshs.'.number_format($amount,2).' your accoun
                 'mode' => 'Mpesa'
             ]);
             $amount  += $request->mpesa;
-            $a .= '&mpesa='.$mpesa;
+            $a .= '&mpesa='.$mpesa->id;
         }
  $patient = Patients::find($request->patient_id);
         $acc->update(['balance' => ($acc->balance + $amount)]);
@@ -1133,6 +1159,24 @@ $success = 'Successfully withdrawn Kshs.'.number_format($amount,2).' your accoun
         $pdf->setPaper('a4', 'Landscape');
         return $pdf->stream('Bill' . $request->id . '.pdf');
        
+    }
+    public function postDischargeNote(Request $request)
+    {
+        if($request->type == 'discharge'){
+            $dn = DischargeNote::create([
+                'summary_note' => $request->summaryNote,
+                'doctor_id' => \Auth::user()->id,
+                'visit_id' => $request->visit_id
+                ]);
+        }else{
+            $dn = DischargeNote::create([
+                 'case_note' => $request->caseNote,
+                'doctor_id' => \Auth::user()->id,
+                'visit_id' => $request->visit_id,
+                ]);
+        }
+        return redirect()->back()->with('success','Successfully saved discharge note..');
+        dd($request->all(),$dn);
     }
 
 }

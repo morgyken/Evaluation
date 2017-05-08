@@ -50,7 +50,7 @@ $router->group(['prefix' => 'inpatient', 'as' => 'inpatient.'], function (Router
     $router->get('deposit',['uses'=>'EvaluationController@deposit']);
     $router->post('addDepositType',['uses'=>'EvaluationController@addDepositType']);
     //delete deposit type
-    $router->post('delete_deposit',['uses'=>'EvaluationController@delete_deposit']);
+    $router->get('delete_deposit/{deposit_id}',['uses'=>'EvaluationController@delete_deposit']);
     $router->get('admit_check',['uses'=>'EvaluationController@admit_check']);
     $router->get('topUp',['uses'=>'EvaluationController@topUp']);
     $router->post('topUpAmount',['uses'=>'EvaluationController@topUpAmount']);
@@ -96,6 +96,8 @@ $router->group(['prefix' => 'inpatient', 'as' => 'inpatient.'], function (Router
     $router->post('PostWithdrawAccount',['uses'=>'EvaluationController@PostWithdrawAccount']);
 //print deposit slip
     $router->get('print',['uses'=>'EvaluationController@print']);
+    //post discharge note
+    $router->post('postDischargeNote',['uses'=>'EvaluationController@postDischargeNote']);
 
 });
 

@@ -30,11 +30,11 @@ try {
             }
             ?>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <dt>Payment Mode:</dt>
             <dd>{{$visit->mode}}</dd>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             @if(!$visit->sign_out)
             <a class="btn btn-primary" href="{{$checkout}}">
                 <i class="fa fa-sign-out"></i> Check out</a>
@@ -45,19 +45,26 @@ try {
         <hr/>
         <div class="col-md-4">
             @if($status == 'admited')
-            <a class="btn btn-danger" href="{{url('evaluation/inpatient/request_discharge/'.$visit->id)}}">Request Discharge</a> 
+                @if(\Ignite\Evaluation\Entities\Admission::where('patient_id',$patient->id)->count())
+                <button type="button" class="btn btn-warning"><i class="fa fa-share"></i> Awaiting Admission</button>
+                @else
+                <a class="btn btn-warning btn-xs" href="{{url('evaluation/inpatient/request_discharge/'.$visit->id)}}">Request Discharge</a> 
+                @endif
             @elseif($status == 'request admission')
-            <a class="btn btn-danger" href="{{url('evaluation/inpatient/cancel_request/'.$visit->id)}}">Cancel Request</a>
+            <a class="btn btn-danger btn-xs" href="{{url('evaluation/inpatient/cancel_request/'.$visit->id)}}">Cancel admission Request</a>
             @else
             <dt>Request Admission:</dt>
             {!! Form::open(['url'=>['/evaluation/inpatient/admit_patientPostForm']])!!}
                 
             <input type="hidden" name="patient_id" value="{{$patient->id}}">
             <input type="hidden" name="visit_id" class="form-control" value="{{$visit->id}}">
-            <input type="text" name="reason">"
-                <button class="btn btn-primary" type="submit">Request admission</button>
+            <input type="text" name="reason"><br>
+                <button class="btn btn-primary " type="submit">Request admission</button>
             {!! Form::close() !!}
             @endif
+        </div>
+        <div class="col-md-4">
+           
         </div>
     </div>
 </div>

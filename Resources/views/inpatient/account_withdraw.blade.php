@@ -41,37 +41,37 @@ extract($data);
                 <div class="form-group {{ $errors->has('cash') ? ' has-error' : '' }}">
                     <label class="control-label col-md-4">Cash Amount:</label>
                     <div class="col-md-8">
-                         <input type="number"  required name="cash" class="amount form-control" />
+                         <input type="number" name="cash" class="amount form-control" />
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('cheque') ? ' has-error' : '' }}">
                     <label class="control-label col-md-4">Cheque Amount:</label>
                     <div class="col-md-8">
-                         <input type="number"  required name="cheque" class="amount form-control" />
+                         <input type="number" id="cheque" name="cheque" class="amount form-control" />
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('chequenumber') ? ' has-error' : '' }}">
                     <label class="control-label col-md-4">Cheque Number:</label>
                     <div class="col-md-8">
-                         <input type="text"  required name="chequenumber" class="form-control" />
+                         <input type="text" id="chequenumber" name="chequenumber" class="form-control" />
                     </div>
                 </div>
                  <div class="form-group {{ $errors->has('cheque') ? ' has-error' : '' }}">
                     <label class="control-label col-md-4">Mpesa Amount:</label>
                     <div class="col-md-8">
-                         <input type="number"  required name="mpesa" class="amount form-control" />
+                         <input type="number" id="mpesa" name="mpesa" class="amount form-control" />
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('cheque') ? ' has-error' : '' }}">
                     <label class="control-label col-md-4">Mpesa Transaction Code:</label>
                     <div class="col-md-8">
-                         <input type="text"  required name="mpesaTransactionCode" class="mpesatrans form-control" />
+                         <input type="text" id="mpesanumber" name="mpesaTransactionCode" class="mpesatrans form-control" />
                     </div>
                 </div>
 
 
                 <div class="pull-right">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-money"></i> Withdraw</button>
+                    <button type="submit" id="Withdraw" class="btn btn-success"><i class="fa fa-money"></i> Withdraw</button>
                 </div>
             </div>
         </div> 
@@ -94,6 +94,23 @@ extract($data);
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#Withdraw").click(function(e){
+            //check if the bank acc has check no.
+            if($("#cheque").val() != null){
+                if(("#chequenumber").val() == null){
+                    alert("please enter cheque number");
+                    e.preventDefault();
+                }
+            }
+            //check if mpesa has mpesa code..
+             if($("#mpesa").val() != null){
+                if(("#mpesanumber").val() == null){
+                    alert("please enter mpesa Transaction code");
+                    e.preventDefault();
+                }
+            }
+        });
+
         try {
             $('table').DataTable();
         } catch (e) {

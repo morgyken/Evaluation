@@ -62,8 +62,8 @@
                     </div>
                 </div>
                 <div class="form-group external_doc">
-                    <label class="control-label">External Doc</label>
-                    <div class="col-md-8 col-md-offset-4">
+                    <label class="control-label col-md-4">External Doc</label>
+                    <div class="col-md-8">
                         <input type="text" class="form-control" placeholder="Name of the doctor" name="external_doc" id="specify_doc">
                     </div>
                 </div>
