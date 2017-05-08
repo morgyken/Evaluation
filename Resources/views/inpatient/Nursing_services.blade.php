@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('cost') ? ' has-error' : '' }} req">
-                    <label class="control-label col-md-4">Cost Amount</label>
+                    <label class="control-label col-md-4">Amount</label>
                     <div class="col-md-8">
                          <input required  type="number" name="cost" class="form-control" />
                     </div>
@@ -72,7 +72,7 @@
                  <div class="ward form-group {{ $errors->has('ward_id') ? ' has-error' : '' }}">
                     <label class="control-label col-md-4">Ward Number</label>
                     <div class="col-md-8">
-                    <select name="ward_id" class="form-control">
+                    <select name="ward_id" class="ward form-control" multiple="multiple">
                             
                            @foreach($wards as $ward)
                             <option value="{{$ward->id}}">{{$ward->name}} Ward No.: {{$ward->number}}</option>
@@ -105,7 +105,8 @@
                                 <td>{{$charge->type}}</td>
                                 <td>{{$charge->created_at}}</td>
                                 <td>
-                                    <a href="{{url('evaluation/inpatient/delete_service/'.$charge->id)}}" class="btn btn-danger btn-xs">Delete</a>
+                                <button class="btn btn-primary btn-xs"> <i class="fa fa-pencil"></i> Edit</button>
+                                    <a href="{{url('evaluation/inpatient/delete_service/'.$charge->id)}}" class="btn btn-danger btn-xs"> <i class="fa fa-trash"></i> Delete</a>
                                 </td>
                             </tr>
                         @endforeach()
@@ -146,6 +147,10 @@
             selBed();
         });
         selBed();
+        $("select.ward").select2({
+            multiple:true,
+            placeholder:'Select one or more wards'
+        });
     });
 </script>
 @endsection

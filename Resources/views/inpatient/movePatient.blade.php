@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('content_title','top up')
-@section('content_description','Credit the patient\'s account')
+@section('content_title','Move Patient')
+@section('content_description','Change patient wards and beds')
 
 @section('content')
     @include('Evaluation::inpatient.success')
@@ -20,21 +20,15 @@
               
                 <strong>Current Ward:</strong> {{$ward->name}}  <br>
             </div>
-        
-        </div>
-
-    </div>
-    <hr>
 
 
-<div class="box box-info">
-      <div class="col-lg-7 box-body">
-        <div class="form-horizontal">
+
+
+             <div class="form-horizontal">
         {!! Form::open(['url'=>'evaluation/inpatient/change_bed']) !!}
-        <div class="col-md-12">
-    <h3>Deposit</h2>
+        <div class="col-md-6">
        <input type="hidden" name="admission_id" value='{{$admission->id}}'>
-            <div class="col-md-12">
+            <div class="">
                 <div class="form-group {{ $errors->has('cash') ? ' has-error' : '' }}">
                     <label class="control-label col-md-4">Ward:</label>
                     <div class="col-md-8">
@@ -60,7 +54,7 @@
                         <select name="bed_id" class="form-control" id="bed">
                             @foreach($beds as $ward)
                                 <option value="{{$ward->id}}">
-                                    {{$ward->number}}
+                                   Bed Number: {{$ward->number}}
                                 </option>
                                 @endforeach
                         </select>
@@ -75,12 +69,13 @@
         </div> 
         {!! Form::close() !!}
     </div>
+        
+        </div>
+
+    </div>
+    <hr>
 
 
-
-    
-
-</div>
     <script>
 
         $(function () {

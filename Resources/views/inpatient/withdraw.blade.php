@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('content_title','Add Bed')
-@section('content_description','Allocate more beds to Existing wards')
+@section('content_title','Withdraw')
+@section('content_description','Withdraw from patient account')
 
 @section('content')
     @include('Evaluation::inpatient.success')

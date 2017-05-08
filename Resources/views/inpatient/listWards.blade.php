@@ -61,8 +61,8 @@
                     <select name="gender" class="form-control">
                             
                             <option value="male">Male</option>
-                            
                             <option  value="female">Female</option>
+                            <option value="both">Both</option>
                         </select>
                     </div>
                 </div>

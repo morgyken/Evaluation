@@ -48,9 +48,8 @@
                     <tbody>
                         @foreach($discharges as $charge)
                             <tr>
-                                
-                                <td>{{\Ignite\Users\Entities\User::find(\Ignite\Evaluation\Entities\Visit::find($charge->visit_id)->patient)->profile->full_name}}</td>
-                               
+                                <td>
+                                 {{\Ignite\Reception\Entities\Patients::find($charge->visit_id)->full_name}}</td>
                                 <td>
                                 @if(\Ignite\Evaluation\Entities\Visit::find($charge->visit_id)->external_doctor)
                                 {{\Ignite\Evaluation\Entities\Visit::find($charge->visit_id)->external_doctor}}
@@ -60,7 +59,6 @@
                                 <td>{{$charge->status}}</td>
                                 <td>{{(new Date($charge->created_at))->format('d/m/y h:i a')}}</td>
                                 <td>
-                                    <!-- discharge -->
                                     <a href="{{url('evaluation/inpatient/discharge/'.$charge->id)}}" class="btn btn-primary btn-xs">Discharge</a>
                                      <a href="{{url('evaluation/inpatient/Cancel_discharge/'.$charge->id)}}" class="btn btn-danger btn-xs">Cancel Request</a>
                                 </td>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('content_title','Add Bed')
-@section('content_description','Allocate more beds to Existing wards')
+@section('content_title','Deposit')
+@section('content_description','Manage deposits')
 
 @section('content')
     @include('Evaluation::inpatient.success')
@@ -8,25 +8,25 @@
 <div class="box box-info">
     <div class="box-body">
         <form action="{{url('/evaluation/inpatient/addDepositType')}}" method="post">
-            <div class="col-lg-6">
+            <div class="col-lg-5">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <label for="" class="control-label">Deposit Name</label>
                 <input type="text"  required name="name" class="form-control">
 
-                <label for="" class="control-label">Cost</label>
+                <label for="" class="control-label">Amount</label>
                 <input type="number"  required name="cost" class="form-control">
                 <br>
-                <button class="btn btn-primary" type="submit">Add Deposit</button>
+                <button class="btn btn-primary" type="submit"> <i class="fa fa-plus"></i> Add Deposit</button>
             </div>
         </form>
     </div>
 
     <div class="box-body">
         <table id="DepositTable" class="table table-stripped condensed">
-            <caption>The Beds List: All The Beds</caption>
+            <caption>Deposits</caption>
             <thead>
             <th>Deposit</th>
-            <th>Cost</th>
+            <th>Amount</th>
             <th>Actions</th>
             </thead>
             <tbody>
@@ -35,15 +35,8 @@
                     <td>{{$deposit->name}}</td>
                     <td>{{$deposit->cost}}</td>
                     <td>
-
-                        <div class="input-group">
-                            <form action="{{url('/evaluation/inpatient/delete_deposit')}}" class="btn btn-danger btn-xs" method="post">
-                                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                <input type="hidden" name="deposit_id" value="{{$deposit->id}}">
-                                <button class="btn btn-danger btn-xs">Delete</button>
-                            </form>
-                            <button class="btn btn-primary btn-xs delete"  value="{{$deposit->id}}">Edit</button>
-                        </div>
+                     <button class="btn btn-primary btn-xs delete"  value="{{$deposit->id}}">Edit</button>
+                    <a class="btn btn-danger btn-xs" href="{{url('/evaluation/inpatient/delete_deposit/'.$deposit->id)}}"> <i class="fa fa-trash"></i> Delete</a>
                     </td>
 
                 </tr>

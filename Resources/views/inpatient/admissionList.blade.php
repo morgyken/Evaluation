@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('content_title','Add Bed')
-@section('content_description','Allocate more beds to Existing wards')
+@section('content_title','Admitted patient')
+@section('content_description','Manage admitted patient')
 
 @section('content')
 

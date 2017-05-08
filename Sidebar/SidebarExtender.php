@@ -197,7 +197,7 @@ class SidebarExtender implements Panda {
                         $item->weight(4);
                     });
                     //patients waiting admissions
-                    $item->item('Request Discharge ', function(Item $item) {
+                    $item->item('Requested Discharge ', function(Item $item) {
                         $item->icon('fa fa-exclamation-circle');
                         $item->url('/evaluation/inpatient/request_discharge');
                         //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
@@ -213,17 +213,30 @@ class SidebarExtender implements Panda {
                     $item->weight(4);
                 });
 
-                $item->item('Wards', function(Item $item) {
+              
+                /*add recurrent services*/
+                $item->item('Nursing & Admission Fees',function(Item $item)
+                {
+                  $item->icon('fa fa-paypal');
+                  $item->url('/evaluation/inpatient/Nursing_services');
+                });
+                //wards
+                  $item->item('Wards', function(Item $item) {
                     $item->icon('fa fa-home');
                     $item->url('/evaluation/inpatient/list');
                     //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
                     $item->weight(4);
 
                 });
-                //there should be a way of adding beds and listing them
+                   $item->item('Bed Positions', function(Item $item) {
+                    $item->icon('fa fa-bed');
+                    $item->url('/evaluation/inpatient/bedPosition');
+                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                    $item->weight(4);
+                });
 
-                //list wards
-                $item->item('Beds List', function(Item $item) {
+                //there should be a way of adding beds and listing them
+                $item->item('Beds', function(Item $item) {
                     $item->icon('fa fa-bed');
                     $item->url('/evaluation/inpatient/bedList');
                     //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
@@ -231,12 +244,7 @@ class SidebarExtender implements Panda {
                 });
         
                 //list wards
-                $item->item('Beds Position', function(Item $item) {
-                    $item->icon('fa fa-bed');
-                    $item->url('/evaluation/inpatient/bedPosition');
-                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-                    $item->weight(4);
-                });
+               
 
                  //types of deposits
                 $item->item('Deposit', function(Item $item) {
