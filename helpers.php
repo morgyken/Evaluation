@@ -334,6 +334,41 @@ if (!function_exists('get_product_categories')) {
     }
 
 }
+
+if (!function_exists('get_parent_procedures')) {
+
+    /**
+     * @return \Illuminate\Support\Collection Procedure Collection
+     */
+    function get_parent_procedures() {
+        return Procedures::all()->pluck('name', 'id');
+    }
+
+}
+
+if (!function_exists('get_lab_cats')) {
+
+    /**
+     * @return \Illuminate\Support\Collection Procedure Collection
+     */
+    function get_lab_cats() {
+        return Ignite\Evaluation\Entities\LabtestCategories::all()->pluck('name', 'id');
+    }
+
+}
+
+if (!function_exists('get_lab_titles')) {
+
+    /**
+     * @return \Illuminate\Support\Collection Procedure Collection
+     */
+    function get_lab_titles() {
+        return Ignite\Evaluation\Entities\HaemogramTitle::all()->pluck('name', 'id');
+    }
+
+}
+
+
 if (!function_exists('get_clinic_name')) {
 
     /**

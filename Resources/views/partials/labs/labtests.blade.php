@@ -1,55 +1,59 @@
 <?php
 $lab = $procedure->this_test;
+$parent = null;
+$cat = null;
+$title = null;
+$type = null;
+if (isset($lab->parent)) {
+    $parent = $lab->parent;
+}
+if (isset($lab->category)) {
+    $cat = $lab->category;
+}
+
+if (isset($lab->title)) {
+    $title = $lab->title;
+}
+
+if (isset($lab->lab_result_type)) {
+    $type = $lab->lab_result_type;
+}
 ?>
 <div id="labs">
+
     <div class="form-group {{ $errors->has('parent') ? ' has-error' : '' }}">
-        {!! Form::label('parent', 'Parent',['class'=>'control-label col-md-4']) !!}
+        {!! Form::label('parent', 'Parent Procedure',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            <select class="form-control" name="parent">
-                <option>None</option>
-                @foreach($data['procedures'] as $procedure)
-                <option value="{{$procedure->id}}">{{$procedure->name}}</option>
-                @endforeach
-            </select>
+            {!! Form::select('parent',get_parent_procedures(),$parent, ['class' => 'form-control', 'placeholder' => 'Choose...']) !!}
             {!! $errors->first('parent', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
 
     <div class="form-group {{ $errors->has('lab_category') ? ' has-error' : '' }}">
-        {!! Form::label('lab_category', 'Lab Category',[' required class'=>'control-label col-md-4']) !!}
+        {!! Form::label('lab_category', 'Lab Category',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            <select class="form-control" name="lab_category">
-                <option>None</option>
-                @foreach($data['lab_categories'] as $cat)
-                <option value="{{$cat->id}}">{{$cat->name}}</option>
-                @endforeach
-            </select>
-            {!! $errors->first('parent', '<span class="help-block">:message</span>') !!}
+            {!! Form::select('lab_category',get_lab_cats(),$cat, ['class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+            {!! $errors->first('lab_category', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
 
-    <div class="form-group {{ $errors->has('lab_category') ? ' has-error' : '' }}">
-        {!! Form::label('lab_category', 'Title (If applicable)',[' required class'=>'control-label col-md-4']) !!}
+    <div class="form-group {{ $errors->has('title') ? ' has-error' : '' }}">
+        {!! Form::label('title', 'Title (If applicable)',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            <select class="form-control" name="title">
-                <option>None</option>
-                @foreach($data['titles'] as $tit)
-                <option value="{{$tit->id}}">{{$tit->name}}</option>
-                @endforeach
-            </select>
-            {!! $errors->first('parent', '<span class="help-block">:message</span>') !!}
+            {!! Form::select('lab_category',get_lab_titles(),$title, ['class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+            {!! $errors->first('title', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
 
     <div class="form-group {{ $errors->has('result_type') ? ' has-error' : '' }}">
         {!! Form::label('result_type', 'Result Type',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            <select class="form-control" id="result_type" name="result_type">
-                <option value="text">Free text</option>
-                <option value="number">Number</option>
-                <option value="select">Drop-down</option>
-                <option value="other">Other</option>
-            </select>
+            {!!Form::select('result_type', array(
+            'text' => 'Text',
+            'number' => 'Number',
+            'select' => 'Drop Down',
+            'other' => 'Other'
+            ), $type,['id'=>'result_type','class'=>'form-control'])!!}
             {!! $errors->first('parent', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
@@ -66,7 +70,7 @@ $lab = $procedure->this_test;
                 </div>
                 @endforeach
                 @endif
-                <?php
+            <?php
             } catch (\Exception $e) {
 
             }
