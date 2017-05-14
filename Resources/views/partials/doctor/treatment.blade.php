@@ -64,7 +64,7 @@ if ($visit->payment_mode == 'insurance') {
                                    id="cost{{$procedure->id}}" size="5" readonly=""/>
                         </td>
                         <td>
-                            <input size="5"onkeyup="siri_get_discount_given_amount(<?php echo $procedure->id ?>)" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly="" />
+                            <input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}"/>
                         </td>
                     </tr>
                     @endforeach
@@ -94,8 +94,8 @@ if ($visit->payment_mode == 'insurance') {
                             <table id="treatment" class=" table table-condensed">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Procedure</th>
+                                        <th>Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>

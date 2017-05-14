@@ -77,8 +77,6 @@ $(function () {
             $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
 
-
-
         if (total) {
             $('#diagnosisInfo > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
         }

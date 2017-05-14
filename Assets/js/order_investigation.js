@@ -26,7 +26,7 @@ $(function () {
         var to_add = "\<td><select name=\"item" + i + "\" id=\"item_" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td>\n\<td><input type=\"text\" id=\"price_" + i + "\" name=\"price" + i + "\" /></td>\n\
 <td><input value=\"1\" type=\"text\" id=\"quantity_" + i + "\" name=\"quantity" + i + "\" placeholder=\"No. Performed\"/></td>\n\
 <td><input value='0' type='text' id='discount_" + i + "' name='discount" + i + "' placeholder='Discount'/></td>\n\
-<td><input type='text' id='amount_" + i + "' name='amount" + i + "' placeholder='Amount' readonly=''/></td>\n\
+<td><input type='text' id='amount_" + i + "' name='amount" + i + "' placeholder='Amount'/></td>\n\
 <td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
         $('#addr' + i).html(to_add);
         $('#evaluation_order tbody').append('<tr id="addr' + (i + 1) + '"></tr>');
@@ -71,12 +71,14 @@ $(function () {
                 }
             }
         });
+
         $('#addr' + i + ' select').on('select2:select', function (evt) {
             var selected = $(this).find('option:selected');
             var price = selected.data().data.price;
             var discount = $("#discount_" + i).val();
             var quantity = $("#quantity_" + i).val();
             var amount = get_amount_given(price, quantity, discount);
+
             $('input[name=price' + i + ']').val(price);
             $('input[name=amount' + i + ']').val(amount);
             add_row();
@@ -107,6 +109,11 @@ $(function () {
             e.preventDefault();
             culculator(i);
         });
+
+        $("#amount_" + i).keyup(function (e) {
+            e.preventDefault();
+            embed_discount(i);
+        });
     }
 
     function culculator(i) {
@@ -114,7 +121,16 @@ $(function () {
         var dis = $("#discount_" + i).val();
         var qty = $("#quantity_" + i).val();
         var amnt = get_amount_given(prc, qty, dis);
-        $('input[name=amount' + i + ']').val(amnt);
+        $('input[name=amount' + i + ']').val(amnt.toFixed(2));
+    }
+
+    function embed_discount(i) {
+        var price = $("#price_" + i).val();
+        var qty = $("#quantity_" + i).val();
+        var amount = $("#amount_" + i).val();
+        var total = price * qty;
+        var discount = ((total - amount) * 100) / total;
+        $("#discount_" + i).val(discount.toFixed(2));
     }
 
     function get_amount_given(price, qty, discount) {

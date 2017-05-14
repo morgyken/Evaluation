@@ -14,11 +14,11 @@
 
 $(function () {
     $('#treatment_form input:text').keyup(function () {
-        show_selection();
+        show_selection($(this).attr('id'));
     });
 
     $('#treatment_form input').blur(function () {
-        show_selection();
+        show_selection($(this).attr('id'));
     });
 
     $('#treatment_form .check').change(function () {
@@ -29,10 +29,10 @@ $(function () {
             elements.prop('disabled', true);
         }
         $(this).prop('disabled', false);
-        show_selection();
+        show_selection($(this).attr('id'));
     });
 
-    function show_selection() {
+    function show_selection(field) {
         $('#selected_treatment').hide();
         $('#treatment > tbody > tr').remove();
         var total = 0;
@@ -40,9 +40,20 @@ $(function () {
         $("#treatment_form input:checkbox:checked").each(function () {
             var procedure_id = $(this).val();
             var name = $('#name' + procedure_id).html();
-            var amount = john_doe(procedure_id);
-            total += parseInt(amount);
-            $('#treatment > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            if (field.includes('amount')) {
+                var cost = $('#cost' + procedure_id).val();
+                var quantity = $('#quantity' + procedure_id).val();
+                var amount = $('#amount' + procedure_id).val();
+                var total = cost * quantity;
+                var discount = ((total - amount) * 100) / total;
+                $('#discount' + procedure_id).val(discount);
+                total += parseInt(amount);
+                $('#treatment > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            } else {
+                var amount = john_doe(procedure_id);
+                total += parseInt(amount);
+                $('#treatment > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            }
         });
 
         if (total) {
