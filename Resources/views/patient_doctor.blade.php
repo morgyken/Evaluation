@@ -33,7 +33,7 @@ extract($data);
                     @endif
                     <li><a href="#documents" data-toggle="tab">Documents</a></li>
                     <li><a href="#history" data-toggle="tab">History</a></li>
-                    <li><a href="#v1history" data-toggle="tab">V1 History</a></li>
+                    <!-- <li><a href="#v1history" data-toggle="tab">V1 History</a></li> -->
                     <li>
                         <a class="btn btn-primary pull-right" target="blank" href="{{route('evaluation.print.patient_notes',$data['visit'])}}"><i class="fa fa-print"></i> Print</a>
                     </li>
