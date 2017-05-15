@@ -33,7 +33,7 @@ $results = $visit->investigations->where('type', 'laboratory')->where('has_resul
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active " id="ordered">
-                            @include('evaluation::partials.labs.ordered')
+                            @include('evaluation::partials.labs._ordered')
                         </div>
                         <div class="tab-pane" id="new">
                             @include('evaluation::partials.labs.new')

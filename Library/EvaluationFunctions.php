@@ -43,6 +43,7 @@ use Jenssegers\Date\Date;
 use Ignite\Evaluation\Entities\SubProcedures;
 use Ignite\Evaluation\Entities\ProcedureTemplates;
 use Ignite\Evaluation\Entities\ProcedureCategoryTemplates;
+use Ignite\Evaluation\Entities\TemplateLab;
 
 /**
  * Description of FunctionsRepository
@@ -192,22 +193,96 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     public function SaveTemplate($request) {
-        try {
-            //dd($request->template_id);
+        // try {
+        if ($this->request->has('lab')) {
+            $this->saveLabBlueprint($request);
+        } else {
             $template = ProcedureTemplates::findOrNew($request->template_id);
             $template->procedure = $request->procedure;
             $template->template = $request->template;
             $template->save();
-            flash("Template Saved....", "success");
-        } catch (\Exception $e) {
-            flash("Template Could NOT be Saved, please try again", 'danger');
         }
+        // flash("Template Saved....", "success");
+        //} catch (\Exception $e) {
+        // flash("Template Could NOT be Saved, please try again", 'danger');
+        // }
         return redirect()->route('evaluation.setup.template');
+    }
+
+    public function saveLabBlueprint(Request $request) {
+        foreach ($request->subtest as $key => $value) {
+            $template = TemplateLab::findOrNew($request->template_id);
+            $template->procedure = $request->procedure;
+
+            if ($request->title[$key] > 0) {
+                $template->title = $request->title[$key];
+            }
+
+            try {
+                $template->subtest = $request->subtest[$key];
+            } catch (\Exception $e) {
+                flash('Subtest cannot be null', 'error');
+            }
+
+            if ($request->sort_order[$key]) {
+                $template->sort_order = $request->sort_order[$key];
+            }
+
+            if ($request->min_range[$key] !== '') {
+                $template->lab_min_range = $request->min_range[$key];
+            }
+            if ($request->max_range[$key] !== '') {
+                $template->lab_max_range = $request->max_range[$key];
+            }
+            //1.
+            if ($request->_0_3d_minrange[$key] !== '') {
+                $template->_0_3d_minrange = $request->_0_3d_minrange[$key];
+            }
+            if ($request->_0_3d_maxrange[$key] !== '') {
+                $template->_0_3d_maxrange = $request->_0_3d_maxrange[$key];
+            }
+            //2.
+            if ($request->_4_30d_minrange[$key] !== '') {
+                $template->_4_30d_minrange = $request->_4_30d_minrange[$key];
+            }
+            if ($request->_4_30d_maxrange[$key] !== '') {
+                $template->_4_30d_maxrange = $request->_4_30d_maxrange[$key];
+            }
+            //3.
+            if ($request->_1_24m_minrange[$key] !== '') {
+                $template->_1_24m_minrange = $request->_1_24m_minrange[$key];
+            }
+            if ($request->_1_24m_maxrange[$key] !== '') {
+                $template->_1_24m_maxrange = $request->_1_24m_maxrange[$key];
+            }
+            //4.
+            if ($request->_25_60m_minrange[$key] !== '') {
+                $template->_25_60m_minrange = $request->_25_60m_minrange[$key];
+            }
+            if ($request->_25_60m_maxrange[$key] !== '') {
+                $template->_25_60m_maxrange = $request->_25_60m_maxrange[$key];
+            }
+            //5.
+            if ($request->_5_19y_minrange[$key] !== '') {
+                $template->_5_19y_minrange = $request->_5_19y_minrange[$key];
+            }
+            if ($request->_5_19y_maxrange[$key] !== '') {
+                $template->_5_19y_maxrange = $request->_5_19y_maxrange[$key];
+            }
+            //6.
+            if ($request->adult_minrange[$key] !== '') {
+                $template->adult_minrange = $request->adult_minrange[$key];
+            }
+            if ($request->adult_maxrange[$key] !== '') {
+                $template->adult_maxrange = $request->adult_maxrange[$key];
+            }
+
+            $template->save();
+        }
     }
 
     public function SavePCTemplate($request) {
         try {
-            //dd($request->template_id);
             $template = ProcedureCategoryTemplates::findOrNew($request->template_id);
             $template->category = $request->category;
             $template->template = $request->template;
@@ -603,52 +678,52 @@ class EvaluationFunctions implements EvaluationRepository {
         $s->lab_result_type = $request->result_type;
         $s->lab_sample_type = $request->sample_type;
         $s->units = $request->units;
-        if ($request->min_range !== '') {
+        if ($request->min_range[$key] !== '') {
             $s->lab_min_range = $request->min_range;
         }
-        if ($request->max_range !== '') {
+        if ($request->max_range[$key] !== '') {
             $s->lab_max_range = $request->max_range;
         }
         //1.
-        if ($request->_0_3d_minrange !== '') {
+        if ($request->_0_3d_minrange[$key] !== '') {
             $s->_0_3d_minrange = $request->_0_3d_minrange;
         }
-        if ($request->_0_3d_maxrange !== '') {
+        if ($request->_0_3d_maxrange[$key] !== '') {
             $s->_0_3d_maxrange = $request->_0_3d_maxrange;
         }
         //2.
-        if ($request->_4_30d_minrange !== '') {
+        if ($request->_4_30d_minrange[$key] !== '') {
             $s->_4_30d_minrange = $request->_4_30d_minrange;
         }
-        if ($request->_4_30d_maxrange !== '') {
+        if ($request->_4_30d_maxrange[$key] !== '') {
             $s->_4_30d_maxrange = $request->_4_30d_maxrange;
         }
         //3.
-        if ($request->_1_24m_minrange !== '') {
+        if ($request->_1_24m_minrange[$key] !== '') {
             $s->_1_24m_minrange = $request->_1_24m_minrange;
         }
-        if ($request->_1_24m_maxrange !== '') {
+        if ($request->_1_24m_maxrange[$key] !== '') {
             $s->_1_24m_maxrange = $request->_1_24m_maxrange;
         }
         //4.
-        if ($request->_25_60m_minrange !== '') {
+        if ($request->_25_60m_minrange[$key] !== '') {
             $s->_25_60m_minrange = $request->_25_60m_minrange;
         }
-        if ($request->_25_60m_maxrange !== '') {
+        if ($request->_25_60m_maxrange[$key] !== '') {
             $s->_25_60m_maxrange = $request->_25_60m_maxrange;
         }
         //5.
-        if ($request->_5_19y_minrange !== '') {
+        if ($request->_5_19y_minrange[$key] !== '') {
             $s->_5_19y_minrange = $request->_5_19y_minrange;
         }
-        if ($request->_5_19y_maxrange !== '') {
+        if ($request->_5_19y_maxrange[$key] !== '') {
             $s->_5_19y_maxrange = $request->_5_19y_maxrange;
         }
         //6.
-        if ($request->adult_minrange !== '') {
+        if ($request->adult_minrange[$key] !== '') {
             $s->adult_minrange = $request->adult_minrange;
         }
-        if ($request->adult_maxrange !== '') {
+        if ($request->adult_maxrange[$key] !== '') {
             $s->adult_maxrange = $request->adult_maxrange;
         }
         $s->lab_result_options = \GuzzleHttp\json_encode($request->result_options);

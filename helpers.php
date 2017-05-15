@@ -111,6 +111,17 @@ if (!function_exists('get_template')) {
 
 }
 
+if (!function_exists('get_lab_template')) {
+
+    function get_lab_template($procedure) {
+        $p_template = ProcedureTemplates::where('procedure', '=', $procedure)
+                ->get()
+                ->first();
+    }
+
+}
+
+
 if (!function_exists('get_category_template')) {
 
     function get_category_template($cat) {

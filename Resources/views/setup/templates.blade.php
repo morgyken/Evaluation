@@ -36,11 +36,15 @@ $procedure = $data['procedure'];
                     </div>
                 </div>
 
-                <div class="form-group {{ $errors->has('template') ? ' has-error' : '' }} req">
+                <div class="form-group {{ $errors->has('template') ? ' has-error' : '' }}">
                     {!! Form::label('template', 'Template',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
+                        @if(!$procedure->categories->name == 'Lab')
                         <textarea rows="5" name="template" class="form-control">{{$procedure->templates?$procedure->templates->template:''}}</textarea>
                         {!! $errors->first('template', '<span class="help-block">:message</span>') !!}
+                        @else
+                        @include('evaluation::partials.labs.more_blueprints')
+                        @endif
                     </div>
                 </div>
             </div>
