@@ -43,8 +43,8 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
 
     $router->get('lab/test/categories/{id?}', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
     $router->post('lab/test/categories', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
-    $router->get('lab/tests/titles{id?}', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles']);
-    $router->post('lab/tests/titles', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles']);
+    $router->get('lab/test/{id?}/title/', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles']);
+    $router->post('lab/save/test/title', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles.save']);
 });
 
 $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $router) {
@@ -70,7 +70,6 @@ $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router
 
     Route::get('lab/results/{visit}', ['uses' => 'ReportsController@print_lab', 'as' => 'print_lab']);
     Route::get('lab/results/one/{id}/{visit}', ['uses' => 'ReportsController@print_lab_one', 'as' => 'print_lab.one']);
-
 
     Route::get('results/{visit}/{type}', ['uses' => 'ReportsController@print_results', 'as' => 'print_res']);
     Route::get('results/one/{id}/{visit}/{type}', ['uses' => 'ReportsController@print_results_one', 'as' => 'print_res.one']);

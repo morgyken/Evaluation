@@ -36,4 +36,8 @@ class HaemogramTitle extends Model {
         return $this->hasMany(SubProcedures::class, 'title');
     }
 
+    public function procedures() {
+        return $this->belongsTo(Procedures::class, 'procedure');
+    }
+
 }

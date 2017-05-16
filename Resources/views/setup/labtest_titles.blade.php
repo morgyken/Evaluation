@@ -13,10 +13,10 @@
 @section('content')
 <div class="box box-info">
     <div class="form-horizontal">
-        {!! Form::open(['route'=>'evaluation.setup.test.titles']) !!}
+        {!! Form::open(['route'=>'evaluation.setup.test.titles.save']) !!}
         {!! Form::hidden('id',$data['tit']->id) !!}
         <div class="box-body">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }} req">
                     {!! Form::label('name', 'Name',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
@@ -25,10 +25,31 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-4">
+                <div class="form-group {{ $errors->has('parent') ? ' has-error' : '' }}">
+                    {!! Form::label('procedure', 'Procedure',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        {!! Form::select('procedure',get_parent_procedures(),$data['tit']->procedure, ['class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+                        {!! $errors->first('procedure', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group {{ $errors->has('sort_order') ? ' has-error' : '' }}">
+                    {!! Form::label('sort_order', 'Sort Order',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        {!! Form::text('sort_order', old('sort_order',$data['tit']->sort_order), ['class' => 'form-control', 'placeholder' => 'Sort Order']) !!}
+                        {!! $errors->first('sort_order', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="box-footer">
             <div class="pull-right">
                 <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                <input type="submit" class="btn btn-primary">
             </div>
         </div>
         {!! Form::close() !!}
@@ -36,7 +57,7 @@
 </div>
 <div class="box box-info">
     <div class="box-header">
-        <h3 class="box-title">Labtest Titles</h3>
+        <h3 class="box-title">Subtest Titles</h3>
     </div>
     <div class="box-body">
         <table class="table table-responsive table-condensed table-borderless table-striped">
@@ -44,13 +65,17 @@
                 @foreach($data['tits'] as $tit)
                 <?php try { ?>
                     <tr id="row_id{{$tit->id}}">
+                        <td>{{$loop->iteration}}</td>
                         <td>{{$tit->name}}</td>
+                        <td>{{$tit->procedures->name}}</td>
+                        <td>{{$tit->sort_order}}</td>
                         <td>
                             <a class="btn btn-primary btn-xs"
-                               href="{{route('evaluation.setup.procedure_cat',$tit->id)}}" >
+                               href="{{route('evaluation.setup.test.titles',$tit->id)}}" >
                                 <i class="fa fa-pencil-square-o"></i></a> |
                             <button class="btn btn-danger btn-xs delete" value="{{$tit->id}}">
-                                <i class="fa fa-trash-o"></i></button></td>
+                                <i class="fa fa-trash-o"></i></button>
+                        </td>
                     </tr>
                     <?php
                 } catch (\Exception $ex) {
@@ -61,7 +86,10 @@
             </tbody>
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Title</th>
+                    <th>Procedure</th>
+                    <th>Sort Order</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -102,7 +130,7 @@
         id = to_delete;
         $.ajax({
             type: 'GET',
-            //url: "route('ajax.delete_procedure_cat')",
+            url: "{{route('api.evaluation.del.title')}}",
             data: {'id': id},
             success: function () {
                 $("#row_id" + id).remove();

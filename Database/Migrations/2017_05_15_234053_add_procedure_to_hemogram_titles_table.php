@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSortOrderToHaemogramTitlesTable extends Migration {
+class AddProcedureToHemogramTitlesTable extends Migration {
 
     /**
      * Run the migrations.
@@ -13,7 +13,16 @@ class AddSortOrderToHaemogramTitlesTable extends Migration {
      */
     public function up() {
         Schema::table('hemogram_titles', function (Blueprint $table) {
-            $table->integer('sort_order')->nullable()->after('description');
+            $table->integer('procedure')
+                    ->unsigned()
+                    ->after('name')
+                    ->nullable();
+
+            $table->foreign('procedure')
+                    ->references('id')
+                    ->on('evaluation_procedures')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
         });
     }
 

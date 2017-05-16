@@ -39,7 +39,7 @@ $results = $visit->investigations->where('type', 'laboratory')->where('has_resul
                             @include('evaluation::partials.labs.new')
                         </div>
                         <div class="tab-pane" id="results">
-                            @include('evaluation::partials.labs.results')
+                            @include('evaluation::partials.labs.res')
                         </div>
                     </div>
                 </div>

@@ -841,4 +841,9 @@ class EvaluationFunctions implements EvaluationRepository {
         return $partner->save();
     }
 
+    public function delete_title_lab(Request $request) {
+        $tit = \Ignite\Evaluation\Entities\HaemogramTitle::find($request->id);
+        return $tit->delete();
+    }
+
 }

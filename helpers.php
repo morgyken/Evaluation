@@ -30,6 +30,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use Ignite\Evaluation\Entities\ProcedureCategoryTemplates;
 use Ignite\Evaluation\Entities\ProcedureTemplates;
+use Ignite\Evaluation\Entities\TemplateLab;
 
 if (!function_exists('get_patient_queue')) {
 
@@ -113,10 +114,31 @@ if (!function_exists('get_template')) {
 
 if (!function_exists('get_lab_template')) {
 
-    function get_lab_template($procedure) {
-        $p_template = ProcedureTemplates::where('procedure', '=', $procedure)
-                ->get()
-                ->first();
+    function get_lab_template($id) {
+        $procedure = Procedures::find($id);
+        $template = TemplateLab::whereProcedure($id)->get();
+        if (!$template->isEmpty()) {
+            return $template;
+        }
+    }
+
+}
+
+if (!function_exists('get_titles_for_procedure')) {
+
+    function get_titles_for_procedure($procedures) {
+        return \Ignite\Evaluation\Entities\HaemogramTitle::whereProcedure($procedures)
+                        ->get();
+    }
+
+}
+
+if (!function_exists('get_title_procedures')) {
+
+    function get_title_procedures($procedure, $title) {
+        return TemplateLab::whereProcedure($procedure)
+                        ->whereTitle($title)
+                        ->get();
     }
 
 }
@@ -879,7 +901,7 @@ if (!function_exists('get_max_range')) {
             }
             return $max_range;
         } catch (\Exception $e) {
-            return $p->this_test->lab_max_range;
+            return $p->this_test->lab_max_range ? $p->this_test->lab_max_range : '';
         }
     }
 

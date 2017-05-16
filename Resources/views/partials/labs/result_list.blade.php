@@ -1,6 +1,4 @@
-<?php
-$results = json_decode($item->results->results);
-?>
+<?php $results = json_decode($item->results->results); ?>
 @if(is_array($results))
 <!-- Check if result is array -->
 <?php

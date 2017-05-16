@@ -143,12 +143,14 @@ class SetupController extends AdminBaseController {
             try {
                 $tit = new \Ignite\Evaluation\Entities\HaemogramTitle();
                 $tit->name = $request->name;
+                $tit->procedure = $request->procedure;
+                $tit->sort_order = $request->sort_order;
                 $tit->save();
                 flash("Category Saved");
             } catch (\Exception $ex) {
                 flash("Error saving data", 'danger');
             }
-            return redirect()->route('evaluation.setup.test.titles');
+            return back(); //->route('evaluation.setup.test.titles');
         }
         $this->data['tit'] = \Ignite\Evaluation\Entities\HaemogramTitle::findOrNew($request->id);
         $this->data['tits'] = \Ignite\Evaluation\Entities\HaemogramTitle::all();
