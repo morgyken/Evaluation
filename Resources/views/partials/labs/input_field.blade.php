@@ -4,9 +4,11 @@
 @if(isset($item->procedures->this_test->lab_result_options))
 <select id="{{$item->id}}" name="results{{$item->id}}[]" class="form-control">
     <option></option>
-    <?php $_options = json_decode($item->procedures->this_test->lab_result_options) ?>
+    <?php
+    $_options = json_decode($item->procedures->this_test->lab_result_options);
+    ?>
     @if(isset($_options))
-    @foreach ($_options as $option) {
+    @foreach ($_options as $option)
     <option value="{{$option}}">{{$option}}</option>
     @endforeach
     @endif

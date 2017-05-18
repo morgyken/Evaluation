@@ -1,6 +1,6 @@
 @if(!$investigations->isEmpty())
 <div class="accordion">
-    @foreach($investigations as $item)
+    @foreach($labs as $item)
     <?php
     $subtests = get_lab_template($item->procedures->id);
     ?>
