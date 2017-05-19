@@ -139,8 +139,6 @@ class SidebarExtender implements Panda {
                     $item->route('evaluation.review');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.review'));
                 });
-
-
             });
             try{
                 if(\Auth::user()->ex){
@@ -178,32 +176,32 @@ class SidebarExtender implements Panda {
 
             }
 
-                $group->item('In Patient Management', function(Item $item) {
-                    $item->icon('fa fa-hospital-o');
+            $group->item('In Patient Management', function(Item $item) {
+                $item->icon('fa fa-hospital-o');
+                //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                $item->weight(4);
+                //there should be a way of adding wards and listing them
+
+                $item->item('Awaiting admission', function(Item $item) {
+                    $item->icon('fa fa-user-plus');
+                    $item->route('evaluation.inpatient.admit');
                     //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
                     $item->weight(4);
-                    //there should be a way of adding wards and listing them
-
-                    $item->item('Awaiting admission', function(Item $item) {
-                        $item->icon('fa fa-user-plus');
-                        $item->route('evaluation.inpatient.admit');
-                        //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-                        $item->weight(4);
-                    });
-                    $item->item('Patient Management', function(Item $item) {
-                        $item->icon('fa fa-users');
-                        $item->url('/evaluation/inpatient/admissions');
-                        //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-                        $item->weight(4);
-                    });
-                    //patients waiting admissions
-                    $item->item('Requested Discharge ', function(Item $item) {
-                        $item->icon('fa fa-exclamation-circle');
-                        $item->url('/evaluation/inpatient/request_discharge');
-                        //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-                        $item->weight(4);
-                    });
                 });
+                $item->item('Patient Management', function(Item $item) {
+                    $item->icon('fa fa-users');
+                    $item->url('/evaluation/inpatient/admissions');
+                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                    $item->weight(4);
+                });
+                //patients waiting admissions
+                $item->item('Requested Discharge ', function(Item $item) {
+                    $item->icon('fa fa-exclamation-circle');
+                    $item->url('/evaluation/inpatient/request_discharge');
+                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+                    $item->weight(4);
+                });
+            });
 
             $group->item('Setup', function (Item $item) {
                 $item->item('Procedure Categories', function(Item $item) {
@@ -213,22 +211,20 @@ class SidebarExtender implements Panda {
                     $item->weight(4);
                 });
 
-              
-                /*add recurrent services*/
-                $item->item('Nursing & Admission Fees',function(Item $item)
-                {
-                  $item->icon('fa fa-paypal');
-                  $item->url('/evaluation/inpatient/Nursing_services');
+
+                /* add recurrent services */
+                $item->item('Nursing & Admission Fees', function(Item $item) {
+                    $item->icon('fa fa-paypal');
+                    $item->url('/evaluation/inpatient/Nursing_services');
                 });
                 //wards
-                  $item->item('Wards', function(Item $item) {
+                $item->item('Wards', function(Item $item) {
                     $item->icon('fa fa-home');
                     $item->url('/evaluation/inpatient/list');
                     //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
                     $item->weight(4);
-
                 });
-                   $item->item('Bed Positions', function(Item $item) {
+                $item->item('Bed Positions', function(Item $item) {
                     $item->icon('fa fa-bed');
                     $item->url('/evaluation/inpatient/bedPosition');
                     //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
@@ -242,11 +238,9 @@ class SidebarExtender implements Panda {
                     //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
                     $item->weight(4);
                 });
-        
-                //list wards
-               
 
-                 //types of deposits
+                //list wards
+                //types of deposits
                 $item->item('Deposit', function(Item $item) {
                     $item->icon('fa fa-gear');
                     $item->url('/evaluation/inpatient/deposit');
