@@ -1,7 +1,7 @@
 <table class="table table-condensed table-striped">
     <?php
-    $tests = get_lab_template($item->procedures->id);
     try {
+        $tests = get_lab_template($item->procedures->id);
         ?>
         @foreach($tests as $test)
         <tr>
@@ -23,7 +23,7 @@
         </tr>
         <?php
     } catch (\Ecxeption $e) {
-        
+
     }
     ?>
 </table>
