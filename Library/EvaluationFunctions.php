@@ -678,52 +678,52 @@ class EvaluationFunctions implements EvaluationRepository {
         $s->lab_result_type = $request->result_type;
         $s->lab_sample_type = $request->sample_type;
         $s->units = $request->units;
-        if ($request->min_range[$key] !== '') {
+        if ($request->min_range !== '') {
             $s->lab_min_range = $request->min_range;
         }
-        if ($request->max_range[$key] !== '') {
+        if ($request->max_range !== '') {
             $s->lab_max_range = $request->max_range;
         }
         //1.
-        if ($request->_0_3d_minrange[$key] !== '') {
+        if ($request->_0_3d_minrange !== '') {
             $s->_0_3d_minrange = $request->_0_3d_minrange;
         }
-        if ($request->_0_3d_maxrange[$key] !== '') {
+        if ($request->_0_3d_maxrange !== '') {
             $s->_0_3d_maxrange = $request->_0_3d_maxrange;
         }
         //2.
-        if ($request->_4_30d_minrange[$key] !== '') {
+        if ($request->_4_30d_minrange !== '') {
             $s->_4_30d_minrange = $request->_4_30d_minrange;
         }
-        if ($request->_4_30d_maxrange[$key] !== '') {
+        if ($request->_4_30d_maxrange !== '') {
             $s->_4_30d_maxrange = $request->_4_30d_maxrange;
         }
         //3.
-        if ($request->_1_24m_minrange[$key] !== '') {
+        if ($request->_1_24m_minrange !== '') {
             $s->_1_24m_minrange = $request->_1_24m_minrange;
         }
-        if ($request->_1_24m_maxrange[$key] !== '') {
+        if ($request->_1_24m_maxrange !== '') {
             $s->_1_24m_maxrange = $request->_1_24m_maxrange;
         }
         //4.
-        if ($request->_25_60m_minrange[$key] !== '') {
+        if ($request->_25_60m_minrange !== '') {
             $s->_25_60m_minrange = $request->_25_60m_minrange;
         }
-        if ($request->_25_60m_maxrange[$key] !== '') {
+        if ($request->_25_60m_maxrange !== '') {
             $s->_25_60m_maxrange = $request->_25_60m_maxrange;
         }
         //5.
-        if ($request->_5_19y_minrange[$key] !== '') {
+        if ($request->_5_19y_minrange !== '') {
             $s->_5_19y_minrange = $request->_5_19y_minrange;
         }
-        if ($request->_5_19y_maxrange[$key] !== '') {
+        if ($request->_5_19y_maxrange !== '') {
             $s->_5_19y_maxrange = $request->_5_19y_maxrange;
         }
         //6.
-        if ($request->adult_minrange[$key] !== '') {
+        if ($request->adult_minrange !== '') {
             $s->adult_minrange = $request->adult_minrange;
         }
-        if ($request->adult_maxrange[$key] !== '') {
+        if ($request->adult_maxrange !== '') {
             $s->adult_maxrange = $request->adult_maxrange;
         }
         $s->lab_result_options = \GuzzleHttp\json_encode($request->result_options);

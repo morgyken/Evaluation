@@ -24,7 +24,7 @@ if (isset($lab->lab_result_type)) {
     <div class="form-group {{ $errors->has('parent') ? ' has-error' : '' }}">
         {!! Form::label('parent', 'Parent Procedure',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            {!! Form::select('parent',get_parent_procedures(),$parent, ['class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+            {!! Form::select('parent',get_parent_procedures(),$parent, ['id' => 'parent_select','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
             {!! $errors->first('parent', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
@@ -32,7 +32,7 @@ if (isset($lab->lab_result_type)) {
     <div class="form-group {{ $errors->has('lab_category') ? ' has-error' : '' }}">
         {!! Form::label('lab_category', 'Lab Category',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            {!! Form::select('lab_category',get_lab_cats(),$cat, ['class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+            {!! Form::select('lab_category',get_lab_cats(),$cat, ['class' => 'form-control lab_cat', 'placeholder' => 'Choose...']) !!}
             {!! $errors->first('lab_category', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
@@ -70,7 +70,7 @@ if (isset($lab->lab_result_type)) {
                 </div>
                 @endforeach
                 @endif
-            <?php
+                <?php
             } catch (\Exception $e) {
 
             }

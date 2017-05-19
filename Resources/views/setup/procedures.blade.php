@@ -37,7 +37,7 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
                 <div class="form-group {{ $errors->has('category') ? ' has-error' : '' }} req">
                     {!! Form::label('category', 'Category',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        {!! Form::select('category',get_procedure_categories(),old('category'), ['class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+                        {!! Form::select('category',get_procedure_categories(),old('category'), ['class' => 'form-control cat', 'placeholder' => 'Choose...']) !!}
                         {!! $errors->first('category', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
@@ -203,6 +203,12 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
 
 <script type="text/javascript">
     var PRODUCTS_URL = "{{route('api.inventory.get_products')}}";
+
+    $(document).ready(function () {
+        $('#parent_select').select2();
+        $('.cat').select2();
+        $('.lab_cat').select2();
+    });
 </script>
 <script src="{!! m_asset('evaluation:js/procedures.js') !!}"></script>
 <script src="{!! m_asset('evaluation:js/inventory_items.js') !!}"></script>
