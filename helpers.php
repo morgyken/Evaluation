@@ -115,7 +115,7 @@ if (!function_exists('get_template')) {
 if (!function_exists('get_lab_template')) {
 
     function get_lab_template($id) {
-        $procedure = Procedures::find($id);
+        //$procedure = Procedures::find($id);
         $template = TemplateLab::whereProcedure($id)->get();
         if (!$template->isEmpty()) {
             return $template;

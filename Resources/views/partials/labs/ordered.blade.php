@@ -48,9 +48,12 @@
                 <?php get_consumables($item->procedure) ?>
             </div>
             <div class="pull-right">
+                <!--
                 <button type="submit" class="btn btn-xs btn-success">
                     <i class="fa fa-save"></i>
-                    Save</button>
+                    Save</button> -->
+                <a href="" style="color: white" class="btn btn-xs btn-success">
+                    <i class="fa fa-save"></i>Save</a>
                 <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
             </div>
             {!! Form::close()!!}

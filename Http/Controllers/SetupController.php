@@ -144,11 +144,13 @@ class SetupController extends AdminBaseController {
                 $tit = new \Ignite\Evaluation\Entities\HaemogramTitle();
                 $tit->name = $request->name;
                 $tit->procedure = $request->procedure;
-                $tit->sort_order = $request->sort_order;
+                if (is_int($request->sort_order)) {
+                    $tit->sort_order = $request->sort_order;
+                }
                 $tit->save();
                 flash("Category Saved");
-            } catch (\Exception $ex) {
-                flash("Error saving data", 'danger');
+            } catch (\Exception $e) {
+                flash("Error saving data, ensure all required fields were entered", 'danger');
             }
             return back(); //->route('evaluation.setup.test.titles');
         }
