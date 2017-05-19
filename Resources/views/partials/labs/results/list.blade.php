@@ -17,7 +17,6 @@ $test_res = array_combine($all_tests, $their_result);
     <th>Ref Range</th>
 </tr>
 @if(!$item->procedures->children->isEmpty())
-
 <!-- Procedure has children -->
 @if(!$item->procedures->titles->isEmpty())
 <!-- Procedure has titles (full haemogram) -->

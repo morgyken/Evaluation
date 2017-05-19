@@ -58,13 +58,6 @@ $age_years = $dob->age;
             <h4>Test Results</h4>
             <div class="well well-sm">
                 <table class="table table-condensed table-striped">
-                    <tr>
-                        <th>Test</th>
-                        <th>Result</th>
-                        <th>Units</th>
-                        <th style="text-align:center"><i class="fa fa-flag"></i> Flag</th>
-                        <th>Ref Range</th>
-                    </tr>
                     @include('evaluation::partials.labs.results.list')
                 </table>
             </div>

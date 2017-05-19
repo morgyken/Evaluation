@@ -1,6 +1,7 @@
 <?php
 $tests = get_lab_template($item->procedures->id);
 ?>
+@if(isset($tests))
 @foreach($tests as $test)
 <?php
 $u = getUnit($test->subtests);
@@ -23,3 +24,9 @@ $max_range = get_max_range($test->subtests, $age_days, $age_years);
     </td>
 </tr>
 @endforeach
+@else
+
+<tr>
+    <td colspan="5">Subtest(s) may have been deleted at templating, please revert this test</td>
+</tr>
+@endif

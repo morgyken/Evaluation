@@ -30,7 +30,7 @@
                 <div class="form-group {{ $errors->has('parent') ? ' has-error' : '' }}">
                     {!! Form::label('procedure', 'Procedure',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        {!! Form::select('procedure',get_parent_procedures(),$data['tit']->procedure, ['class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+                        {!! Form::select('procedure',get_parent_procedures(),$data['tit']->procedure, ['id' => 'select','class' => 'form-control procedure_select', 'placeholder' => 'Choose...']) !!}
                         {!! $errors->first('procedure', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
@@ -49,7 +49,6 @@
         <div class="box-footer">
             <div class="pull-right">
                 <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
-                <input type="submit" class="btn btn-primary">
             </div>
         </div>
         {!! Form::close() !!}
@@ -118,6 +117,9 @@
     </div>
 </div>
 <script type="text/javascript">
+    $(document).ready(function () {
+        $("#select").select2();
+    });
     var to_delete = null;
     $('.delete').click(function () {
         to_delete = $(this).val();
