@@ -846,4 +846,10 @@ class EvaluationFunctions implements EvaluationRepository {
         return $tit->delete();
     }
 
+    function delete_lab_template_test(Request $request) {
+        $test = TemplateLab::find($request->id);
+        $test->delete();
+        return "Test has been removed from template"; //
+    }
+
 }

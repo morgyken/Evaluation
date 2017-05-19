@@ -14,26 +14,14 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
 <strong>Sex:</strong> {{$data['visit']->patients->sex}}
 @foreach($results as $item)
 <br>
+<h5>{{$loop->iteration}}. {{$item->procedures->name}}</h5>
 <table class="table table-stripped">
-    <tr>
-        <th colspan="5">
-            <strong>Test#{{$loop->iteration}}:</strong>
-            {{$item->procedures->name}}
-        </th>
-    </tr>
-    <tr>
-        <th>Test</th>
-        <th>Results</th>
-        <th>Units</th>
-        <th style="text-align:center">Flag</th>
-        <th>Ref Range</th>
-    </tr>
-    @include('evaluation::partials.labs.result_list')
-    <tr>
-        <td colspan="5">
-            <strong>Comments:</strong>
-            <p>{{$item->results->comments ?? 'Not provided'}}</p>
-        </td>
+    @include('evaluation::partials.labs.results.list')
+    <tr style="font-weight: bold">
+        <th>Key:</th>
+        <th>L:Low</th>
+        <th>N:Normal</th>
+        <th colspan="2">H:High</th>
     </tr>
 </table>
 <strong>Ordered By:</strong>

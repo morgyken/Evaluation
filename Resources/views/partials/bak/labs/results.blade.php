@@ -65,7 +65,7 @@ $age_years = $dob->age;
                         <th style="text-align:center"><i class="fa fa-flag"></i> Flag</th>
                         <th>Ref Range</th>
                     </tr>
-                    @include('evaluation::partials.labs.results.list')
+                    @include('evaluation::partials.labs.result_list')
                 </table>
             </div>
             <!--Action Pane -->

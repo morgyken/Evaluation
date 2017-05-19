@@ -143,6 +143,16 @@ if (!function_exists('get_title_procedures')) {
 
 }
 
+if (!function_exists('get_lab_templates')) {
+
+    function get_lab_templates($procedure) {
+        return TemplateLab::whereProcedure($procedure)
+                        ->get();
+    }
+
+}
+
+
 
 if (!function_exists('get_category_template')) {
 

@@ -1,12 +1,7 @@
-<?php $titles = get_titles_for_procedure($item->procedures->id); ?>
 <table class="table table-condensed table-striped">
-    @foreach($titles as $title)
     <?php
-    $tests = get_title_procedures($item->procedures->id, $title->id);
+    $tests = get_lab_template($item->procedures->id);
     ?>
-    <tr>
-        <th colspan="2" style="background:#9999CC">{{$title->name}} ({{$tests->count()}})</th>
-    </tr>
     @foreach($tests as $test)
     <tr>
         <td>
@@ -19,7 +14,6 @@
             @include('evaluation::partials.labs.input_field')
         </td>
     </tr>
-    @endforeach
     @endforeach
     <tr>
         <td colspan="2">

@@ -142,4 +142,9 @@ class ApiController extends Controller {
         $this->evaluationRepository->delete_title_lab($request);
     }
 
+    //
+    public function delete_lab_template_test(Request $request) {
+        $this->evaluationRepository->delete_lab_template_test($request);
+    }
+
 }

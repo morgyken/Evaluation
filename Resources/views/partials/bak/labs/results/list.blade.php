@@ -9,13 +9,6 @@ foreach ($results as $_r) {
 }
 $test_res = array_combine($all_tests, $their_result);
 ?>
-<tr>
-    <th>Test</th>
-    <th>Result</th>
-    <th>Unit</th>
-    <th style="text-align:center">Flag</th>
-    <th>Ref Range</th>
-</tr>
 @if(!$item->procedures->children->isEmpty())
 
 <!-- Procedure has children -->
@@ -48,11 +41,12 @@ $test_res = array_combine($all_tests, $their_result);
 @endif
 <!--End of  is_array If Statement -->
 <tr>
-    <th colspan="5" style="background:#9999CC">Comments</th>
-</tr>
-<tr>
-    <td colspan="5">
+    <td colspan="2">
+        <strong>
+            Comments
+        </strong>
+    </td>
+    <td colspan="3">
         {{$item->results->comments?$item->results->comments:"Not Provided"}}
     </td>
 </tr>
-<br/>

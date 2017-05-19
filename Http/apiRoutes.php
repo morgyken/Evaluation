@@ -34,4 +34,6 @@ $router->get('get_products/', ['uses' => 'ApiController@get_drugs', 'as' => 'get
 
 $router->get('manage/inventory_items/', ['uses' => 'ApiController@manage_inventory_items', 'as' => 'manage_inventory_items']);
 $router->get('delete/title/lab', ['uses' => 'ApiController@delete_title_lab', 'as' => 'del.title']);
+//delete_lab_template_test
+$router->get('delete/template/test', ['uses' => 'ApiController@delete_lab_template_test', 'as' => 'delete_lab_template_test']);
 

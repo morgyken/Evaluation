@@ -57,7 +57,10 @@ $(document).ready(function () {
             $(".company").change(function () {
                 apply_templates(this);
             });
+            $('#wrapper' + x + ' select').select2();
         }
+
     });
+    $(".test_select").select2();
 
 });

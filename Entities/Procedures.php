@@ -65,6 +65,10 @@ class Procedures extends Model {
         return $this->hasOne(ProcedureTemplates::class, 'procedure');
     }
 
+    public function templates_lab() {
+        return $this->hasOne(TemplateLab::class, 'procedure');
+    }
+
     public function titles() {
         return $this->hasMany(HaemogramTitle::class, 'procedure');
     }

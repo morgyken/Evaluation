@@ -36,6 +36,35 @@ $procedure = $data['procedure'];
                     </div>
                 </div>
 
+                @if($procedure->templates_lab)
+                <?php
+                $saved = get_lab_templates($procedure->id)
+                ?>
+                <div class="form-group {{ $errors->has('existing') ? ' has-error' : '' }}">
+                    {!! Form::label('template', 'Saved Subtests',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        <p id="feedback" class="label label-primary"></p>
+                        <table class="table table-striped table-condensed">
+                            <tr>
+                                <th>#</th>
+                                <th>Test</th>
+                                <th>Title</th>
+                                <th></th>
+                            </tr>
+                            @foreach($saved as $s)
+                            <tr id="row{{$s->id}}">
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$s->subtests->name}}</td>
+                                <td>{{$s->titles?$s->titles->name:''}}</td>
+                                <td>
+                                    <a href="#" onclick="delete_test(<?php echo $s->id ?>)"style="color: red"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                </div>
+                @endif
                 <div class="form-group {{ $errors->has('template') ? ' has-error' : '' }}">
                     {!! Form::label('template', 'Template',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
@@ -74,7 +103,7 @@ $procedure = $data['procedure'];
                     <td>{{$p->name}}</td>
                     <td>{{$p->categories->name}}</td>
                     <td>
-                        @if($p->templates)
+                        @if($p->templates || $p->templates_lab)
                         <a class="btn btn-success btn-xs"
                            href="{{route('evaluation.setup.template',$p->id)}}">
                             <i class="fa fa-pencil"></i> Edit</a>
@@ -99,10 +128,20 @@ $procedure = $data['procedure'];
     </div>
 </div>
 <script type="text/javascript">
+    var DELETE_URL = "{{route('api.evaluation.delete_lab_template_test')}}";
     $(function () {
         CKEDITOR.replaceAll();
-
-        $('table').DataTable({});
+        $('#data').DataTable({});
     });
+
+    function delete_test(id) {
+        $.ajax({
+            url: DELETE_URL,
+            data: {'id': id},
+            success: function () {
+                //$('#feedback').html(data);
+                $("#row" + id).remove();
+            }});
+    }
 </script>
 @endsection

@@ -9,6 +9,7 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
 @include('evaluation::prints.partials.head')
 <strong>TEST RESULTS</strong><br/>
 <h5>Ref: 00{{$data['visit']->id}}/{{$item->results->id}}</h5>
+<h5>{{$item->procedures->name}}</h5>
 <strong>Date:</strong>
 {{smart_date_time($item->results->create_at)}}<br>
 <br/>
@@ -35,19 +36,19 @@ $item = $data['results']; //->investigations->where('type', 'laboratory')->where
             <br/>
         </td>
     </tr>
-    <tr>
-        <th>Test</th>
-        <th>Results</th>
-        <th>Units</th>
-        <th style="text-align:center">Flag</th>
-        <th>Ref Range</th>
-    </tr>
-    @include('evaluation::partials.labs.result_list')
-    <tr>
-        <td><strong>Comments:</strong></td>
-        <td colspan="4">
-            {{$item->results->comments ?? 'Not provided'}}
-        </td>
+    @include('evaluation::partials.labs.results.list')
+    <tr style="font-weight: bold">
+        <td>Key:</td>
+        <td>L:Low</td>
+        <td>N:Normal</td>
+        <td colspan="2">H:High</td>
     </tr>
 </table>
+<p>
+    Laboratory Technologist:
+    {{$item->results->users->profile->full_name}}
+</p>
+<p>
+    Clinical Pathologist:
+</p>
 @include('evaluation::prints.partials.footer')
