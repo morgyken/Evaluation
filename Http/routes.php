@@ -52,6 +52,14 @@ $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $rout
     $router->post('patients/sick_off/notes', ['uses' => 'ReportsController@sick_off', 'as' => 'sick_off']);
 });
 
+$router->group(['prefix' => 'externaldoctor', 'as' => 'exdoctor.'], function (Router $router) {
+    $router->match(['post', 'get'], 'patients/{id?}', ['uses' => 'ExternalController@patients', 'as' => 'patients']);
+    $router->match(['post', 'get'], 'order/{patient?}', ['uses' => 'ExternalController@orders', 'as' => 'order']);
+    $router->match(['post', 'get'], 'makeorder/{patient?}', ['uses' => 'ExternalController@make_order', 'as' => 'order.make']);
+    $router->match(['post', 'get'], 'queue/', ['uses' => 'ExternalController@queue', 'as' => 'queue']);
+});
+
+
 $router->group(['prefix' => 'lab', 'as' => 'lab.'], function (Router $router) {
     $router->get('result/verify/{result?}', ['as' => 'verify', 'uses' => 'EvaluationController@VerifyLabResult']);
     $router->get('result/revert/{result?}', ['as' => 'revert', 'uses' => 'EvaluationController@RejectLabResult']);

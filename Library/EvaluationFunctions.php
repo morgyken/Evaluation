@@ -841,6 +841,23 @@ class EvaluationFunctions implements EvaluationRepository {
         return $partner->save();
     }
 
+    public function make_external_order(Request $request) {
+        $order = new \Ignite\Evaluation\Entities\ExternalOrders;
+        $order->patient_id = $request->patient_id;
+        $order->institution = $request->institution;
+        $order->user = $request->user()->id;
+        $order->save();
+
+        foreach ($this->__get_selected_stack() as $index) {
+            $item = 'item' . $index;
+            \Ignite\Evaluation\Entities\ExternalOrderDetails::create([
+                'order_id' => $order->id,
+                'procedure_id' => $this->input[$item],
+            ]);
+        }
+        return true;
+    }
+
     public function delete_title_lab(Request $request) {
         $tit = \Ignite\Evaluation\Entities\HaemogramTitle::find($request->id);
         return $tit->delete();

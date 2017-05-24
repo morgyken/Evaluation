@@ -97,6 +97,28 @@ if (!function_exists('get_procedures_for')) {
 
 }
 
+
+if (!function_exists('get_all_procedures')) {
+
+    /**
+     * @param string $name
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    function get_all_procedures($term = null) {
+        return Procedures::where('name', 'like', "%$term%")->get();
+    }
+
+}
+if (!function_exists('get_external_patients')) {
+
+    function get_external_patients($id) {
+        $patients = Patients::where('external_institution', '=', $id)
+                ->get();
+        return $patients;
+    }
+
+}
+
 if (!function_exists('get_template')) {
 
     function get_template($procedure, $cat) {

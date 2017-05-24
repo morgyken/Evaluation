@@ -102,6 +102,17 @@ class ApiController extends Controller {
         return json_encode(['results' => $build]);
     }
 
+    public function get_all_procedures(Request $request) {
+        $term = $request->term['term'];
+        $build = [];
+        $found = get_all_procedures($term);
+
+        foreach ($found as $val) {
+            $build[] = ['text' => $val['name'], 'id' => $val['id'], 'price' => $price = $val['cash_charge']];
+        }
+        return json_encode(['results' => $build]);
+    }
+
     public function get_drugs(Request $request, $type) {
         $term = $request->term['term'];
         $build = [];

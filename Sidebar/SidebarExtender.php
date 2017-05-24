@@ -102,6 +102,25 @@ class SidebarExtender implements Panda {
                 });
             });
 
+
+            $group->item('External Doctor', function (Item $item) {
+                $item->weight(2);
+                $item->authorize($this->auth->hasAccess('external.*'));
+                $item->icon('fa fa-handshake-o');
+
+                $item->item('Manage Patients', function (Item $item) {
+                    $item->icon('fa fa-id-badge');
+                    $item->route('evaluation.exdoctor.patients');
+                    // $item->authorize($this->auth->hasAccess('evaluation.external'));
+                });
+
+                $item->item('Order Procedure', function (Item $item) {
+                    $item->icon('fa fa-grav');
+                    $item->route('evaluation.exdoctor.order');
+                    //$item->authorize($this->auth->hasAccess('evaluation.external'));
+                });
+            });
+
             $group->item('Setup', function (Item $item) {
                 $item->item('Procedure Categories', function(Item $item) {
                     $item->icon('fa fa-wpforms');

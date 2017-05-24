@@ -35,7 +35,7 @@
                 </div>
                 <hr/>
                 <dl class="dl-horizontal">
-                    <dt>Requested By:</dt><dd>{{$item->doctors->profile->full_name}}</dd>
+                    <dt>Requested By:</dt><dd>{{$item->doctors?$item->doctors->profile->full_name:''}}</dd>
                     <dt>Instructions:</dt><dd><p>{{$item->instructions ?? 'Not provided'}}</p></dd>
                     <dt>Price:</dt><dd>{{$item->pesa}}</dd>
                     <dt>Units performed:</dt><dd><p>{{$item->quantity}}</p></dd>

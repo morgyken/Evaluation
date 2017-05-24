@@ -27,5 +27,8 @@ return [
         'manage_procedures_cat' => 'Manage procedure categories',
         'procedures' => 'View procedures',
         'manage_procedures' => 'Manage procedures',
+    ],
+    'external' => [
+        'external' => 'External user dashboard',
     ]
 ];
