@@ -16,9 +16,9 @@
     ],
     "widgets": [
         "Ignite\\Evaluation\\Widgets\\VisitsWidget",
-        "Ignite\\Evaluation\\Widgets\\QueueWidget",
         "Ignite\\Evaluation\\Widgets\\TodayVisits",
-        "Ignite\\Evaluation\\Widgets\\ThisMonthVisits"
+        "Ignite\\Evaluation\\Widgets\\ThisMonthVisits",
+        "Ignite\\Evaluation\\Widgets\\QueueWidget"
     ],
     "core": 0,
     "version": "v1.0.0",
