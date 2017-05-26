@@ -8,8 +8,7 @@ use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Reception\Entities\Patients;
-use Ignite\Evaluation\Entities\DoctorNotes;
-use Ignite\Evaluation\Entities\DiagnosisCodes;
+use Ignite\Evaluation\Entities\ExternalOrders;
 use Ignite\Evaluation\Entities\Procedures;
 use Illuminate\Http\Request;
 

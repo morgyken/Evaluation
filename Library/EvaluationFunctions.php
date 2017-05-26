@@ -44,6 +44,7 @@ use Ignite\Evaluation\Entities\SubProcedures;
 use Ignite\Evaluation\Entities\ProcedureTemplates;
 use Ignite\Evaluation\Entities\ProcedureCategoryTemplates;
 use Ignite\Evaluation\Entities\TemplateLab;
+use Ignite\Evaluation\Entities\ExternalOrderDetails;
 
 /**
  * Description of FunctionsRepository

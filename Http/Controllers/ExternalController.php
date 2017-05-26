@@ -46,6 +46,11 @@ class ExternalController extends AdminBaseController {
         return view('evaluation::external.order', ['data' => $this->data]);
     }
 
+    public function view_order(Request $request) {
+        $this->data['order_details'] = \Ignite\Evaluation\Entities\ExternalOrderDetails::whereOrder_id($request->id)->get();
+        return view('evaluation::external.order_details', ['data' => $this->data]);
+    }
+
     public function make_order(Request $request) {
         if ($request->isMethod('post')) {
             if ($this->evaluationRepository->make_external_order($request)) {
@@ -56,13 +61,14 @@ class ExternalController extends AdminBaseController {
         $this->data['institution'] = $institution = $request->user()->profile->partner_institution;
         $this->data['orders'] = null;
         $this->data['patient'] = null;
+        $this->data['visit'] = 1;
         if (!is_null($institution)) {
             $this->data['orders'] = ExternalOrders::whereInstitution($institution)
                     ->wherePatient_id($request->patient)
                     ->get();
             $this->data['patient'] = Patients::find($request->patient);
         }
-        return view('evaluation::external.order_new', ['data' => $this->data]);
+        return view('evaluation::external_order', ['data' => $this->data]);
     }
 
 }

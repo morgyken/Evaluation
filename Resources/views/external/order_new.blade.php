@@ -7,7 +7,7 @@
 extract($data)
 ?>
 @extends('layouts.app')
-@section('content_title','Review Patient Visits')
+@section('content_title','Order Procedures')
 @section('content_description','Review previous visits')
 
 @section('content')

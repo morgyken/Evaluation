@@ -56,6 +56,7 @@ $router->group(['prefix' => 'externaldoctor', 'as' => 'exdoctor.'], function (Ro
     $router->match(['post', 'get'], 'patients/{id?}', ['uses' => 'ExternalController@patients', 'as' => 'patients']);
     $router->match(['post', 'get'], 'order/{patient?}', ['uses' => 'ExternalController@orders', 'as' => 'order']);
     $router->match(['post', 'get'], 'makeorder/{patient?}', ['uses' => 'ExternalController@make_order', 'as' => 'order.make']);
+    $router->match(['post', 'get'], 'view/order/{id?}', ['uses' => 'ExternalController@view_order', 'as' => 'order.view']);
     $router->match(['post', 'get'], 'queue/', ['uses' => 'ExternalController@queue', 'as' => 'queue']);
 });
 
