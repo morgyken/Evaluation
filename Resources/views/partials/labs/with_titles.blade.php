@@ -7,9 +7,7 @@
     <tr>
         <th colspan="2" style="background:#9999CC">{{$title->name}} ({{$tests->count()}})</th>
     </tr>
-    <?php
-    try {
-        ?>
+    <?php try { ?>
         @foreach($tests as $test)
         <tr>
             <td>
@@ -25,7 +23,7 @@
         @endforeach
         <?php
     } catch (\Exception $e) {
-        
+
     }
     ?>
     @endforeach
