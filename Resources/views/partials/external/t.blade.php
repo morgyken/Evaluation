@@ -1,7 +1,4 @@
-<?php
-$id = $type.='_form';
-?>
-<span id="{{$id}}">
+<span id="{{$type}}_form">
     <table class="table table-condensed table-borderless table-responsive" id="procedures">
         <tbody>
             @foreach($procedures as $procedure)
@@ -36,5 +33,4 @@ $id = $type.='_form';
             </tr>
         </thead>
     </table>
-    <input type="submit" class="btn btn-success" value="Save" name="Save">
 </span>

@@ -848,13 +848,16 @@ class EvaluationFunctions implements EvaluationRepository {
         $order->institution = $request->institution;
         $order->user = $request->user()->id;
         $order->save();
-
         foreach ($this->__get_selected_stack() as $index) {
             $item = 'item' . $index;
-            \Ignite\Evaluation\Entities\ExternalOrderDetails::create([
-                'order_id' => $order->id,
-                'procedure_id' => $this->input[$item],
-            ]);
+            $type = 'type' . $index;
+            $det = new ExternalOrderDetails;
+
+            $det->order_id = $order->id;
+            $det->procedure_id = $this->input[$item];
+            $det->type = $this->input[$type];
+
+            $det->save();
         }
         return true;
     }

@@ -46,15 +46,15 @@
                                         <tbody>
                                         </tbody>
                                     </table>
-                                    <div class="pull-right">
-                                        <input type="submit" class="btn btn-success" value="Save" name="Save">
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="pull-right">
+            <input type="submit" class="btn btn-success" value="Save" name="Save">
         </div>
         {!! Form::close()!!}
     </div>

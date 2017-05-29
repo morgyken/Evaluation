@@ -48,4 +48,5 @@ extract($data);
         $('.accordion').accordion({heightStyle: "content"});
     });
 </script>
+<script src="{{m_asset('evaluation:js/doctor-investigations.js')}}"></script>
 @endsection
