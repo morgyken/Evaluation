@@ -17,6 +17,10 @@ $router->get('diagnosis/{regex?}', ['uses' => 'ApiController@diagnosis_codes', '
 $router->post('auto_save_vitals', ['uses' => 'ApiController@save_vitals', 'as' => 'save_vitals']);
 $router->post('auto_save_notes', ['uses' => 'ApiController@save_notes', 'as' => 'save_notes']);
 $router->post('auto_save_diagnosis', ['uses' => 'ApiController@save_diagnosis', 'as' => 'save_diagnosis']);
+
+$router->post('auto_save_external_order', ['uses' => 'ApiController@save_external_order', 'as' => 'save_external_order']);
+$router->get('auto_save_external_order', ['uses' => 'ApiController@save_external_order', 'as' => 'save_external_order']);
+
 $router->post('save_prescription', ['uses' => 'ApiController@save_prescription', 'as' => 'save_prescription']);
 $router->post('save_opnotes', ['uses' => 'ApiController@save_opnotes', 'as' => 'save_opnotes']);
 $router->post('set_next_date', ['as' => 'set_next_date', 'uses' => 'ApiController@set_next_date']);

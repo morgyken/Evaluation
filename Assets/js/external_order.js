@@ -15,24 +15,15 @@ $(function () {
     //mock hide this
     $('.instructions').hide();
 
-    $('#radiology_form input,#radilogy_form textarea, #diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
+    $('form input,form textarea').blur(function () {
         show_selection_investigation();
     });
 
-
-    $('#diagnosis_form input:text').keyup(function () {
+    $('form input:text').keyup(function () {
         show_selection_investigation();
     });
 
-    $('#laboratory_form input:text').keyup(function () {
-        show_selection_investigation();
-    });
-
-    $('#radiology_form input:text').keyup(function () {
-        show_selection_investigation();
-    });
-
-    $('#radiology_form .check,#laboratory_form .check,#diagnosis_form .check').click(function () {
+    $('form .check').click(function () {
         var elements = $(this).parent().parent().find('input');
         var texts = $(this).parent().parent().find('textarea');
         if ($(this).is(':checked')) {
@@ -51,33 +42,14 @@ $(function () {
         $('#show_selection').hide();
         $('#diagnosisInfo > tbody > tr').remove();
         var total = 0;
-        $("#diagnosis_form input:checkbox:checked").each(function () {
+
+        $("form input:checkbox:checked").each(function () {
             var procedure_id = $(this).val();
             var name = $('#name' + procedure_id).html();
             var amount = john_doe(procedure_id);
             total += parseInt(amount);
             $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
-
-        //for labs
-        $("#laboratory_form input:checkbox:checked").each(function () {
-            var procedure_id = $(this).val();
-            var name = $('#name' + procedure_id).html();
-            var amount = john_doe(procedure_id);
-            total += parseInt(amount);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
-        });
-
-        //for radiology
-        $("#radiology_form input:checkbox:checked").each(function () {
-            var procedure_id = $(this).val();
-            var name = $('#name' + procedure_id).html();
-            var amount = john_doe(procedure_id);
-            total += parseInt(amount);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
-        });
-
-
 
         if (total) {
             $('#diagnosisInfo > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
@@ -91,8 +63,8 @@ $(function () {
     $('#saveDiagnosis').click(function (e) {
         e.preventDefault();
         $.ajax({type: "POST",
-            url: DIAGNOSIS_URL,
-            data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
+            url: EXTERNAL_ORDER_URL,
+            data: $('form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
                 location.reload();
@@ -104,9 +76,7 @@ $(function () {
         //location.reload();
     });
     //sick of this
-    $('#laboratory_form').find('input:radio, input:checkbox').prop('checked', false);
-    $('#diagnosis_form').find('input:radio, input:checkbox').prop('checked', false);
-    $('#radiology_form').find('input:radio, input:checkbox').prop('checked', false);
+    $('form').find('input:radio, input:checkbox').prop('checked', false);
     $('#show_selection').hide();
 
     function get_amount_given(price, qty, discount) {

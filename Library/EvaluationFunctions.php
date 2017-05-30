@@ -852,14 +852,11 @@ class EvaluationFunctions implements EvaluationRepository {
             $item = 'item' . $index;
             $type = 'type' . $index;
             $det = new ExternalOrderDetails;
-
             $det->order_id = $order->id;
             $det->procedure_id = $this->input[$item];
             $det->type = $this->input[$type];
-
             $det->save();
         }
-        return true;
     }
 
     public function delete_title_lab(Request $request) {

@@ -5,6 +5,8 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 extract($data);
+$results = getOrderResults($patient->id);
+$external = true;
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation')
@@ -17,8 +19,8 @@ extract($data);
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#investigations" data-toggle="tab">Investigations</a></li>
-                    <li ><a href="#ordered" data-toggle="tab">Ordered<span class="badge alert-success">{{$orders->count()}}</span></a></li>
-                    <li ><a href="#results" data-toggle="tab">Results<span class="badge alert-success">{{$orders->count()}}</span></a></li>
+                    <li ><a href="#ordered" data-toggle="tab">Ordered <span class="badge alert-success"> {{$orders->count()}}</span></a></li>
+                    <li ><a href="#results" data-toggle="tab">Results <span class="badge alert-success"> {{$results->count()}}</span></a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="investigations">
@@ -35,7 +37,7 @@ extract($data);
 
                     <div class="tab-pane" id="results">
                         <div>
-                            @include('evaluation::partials.external.res')
+                            @include('evaluation::partials.labs.results')
                         </div>
                     </div>
                 </div>
@@ -44,9 +46,10 @@ extract($data);
     </div>
 </div>
 <script type="text/javascript">
+    var EXTERNAL_ORDER_URL = "{{route('api.evaluation.save_external_order')}}";
     $(document).ready(function () {
         $('.accordion').accordion({heightStyle: "content"});
     });
 </script>
-<script src="{{m_asset('evaluation:js/doctor-investigations.js')}}"></script>
+<script src="{{m_asset('evaluation:js/external_order.js')}}"></script>
 @endsection

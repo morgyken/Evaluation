@@ -1,4 +1,7 @@
-<span id="{{$type}}_form">
+<form method="post" id="{{$type}}_form">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    {!! Form::hidden('patient_id',$patient->id) !!}
+    {!! Form::hidden('institution',$institution) !!}
     <table class="table table-condensed table-borderless table-responsive" id="procedures">
         <tbody>
             @foreach($procedures as $procedure)
@@ -9,8 +12,7 @@
                 <td>
                     <span id="name{{$procedure->id}}"> {{$procedure->name}}</span><br/>
                     <span class="instructions">
-                        <textarea placeholder="Instructions" name="instructions{{$procedure->id}}" disabled cols="50">
-                        </textarea>
+                        <textarea placeholder="Instructions" name="instructions{{$procedure->id}}" disabled cols="50"></textarea>
                     </span>
                     <input type="hidden" name="type{{$procedure->id}}" value="{{$type}}" disabled />
                 </td>
@@ -33,4 +35,4 @@
             </tr>
         </thead>
     </table>
-</span>
+</form>

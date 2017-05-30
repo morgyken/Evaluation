@@ -14,6 +14,7 @@ use Ignite\Evaluation\Entities\DiagnosisCodes;
 use Ignite\Evaluation\Entities\DoctorNotes;
 use Ignite\Evaluation\Entities\EyeExam;
 use Ignite\Evaluation\Entities\Investigations;
+use Ignite\Evaluation\Entities\InvestigationResult;
 use Ignite\Evaluation\Entities\OpNotes;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
@@ -73,7 +74,7 @@ if (!function_exists('get_procedures_for')) {
                 $to_fetch = 9;
                 break;
             case 'ultrasound':
-                $to_fetch = 8;
+                $to_fetch = 6;
                 break;
             case 'all':
                 $to_fetch = 'all';
@@ -935,6 +936,27 @@ if (!function_exists('get_max_range')) {
         } catch (\Exception $e) {
             return $p->this_test->lab_max_range ? $p->this_test->lab_max_range : '';
         }
+    }
+
+}
+
+if (!function_exists('getOrderResults')) {
+
+    /**
+     * Get Lab test unit
+     * @param $procedure/test
+     * @return $unit
+     */
+    function getOrderResults($patient) {
+        session(['p' => $patient]);
+        $results = Investigations::whereHas('visits', function($query2) {
+                    $query2->wherePatient(\Session::get('p'))
+                    ->whereNotNull('external_order');
+                })
+                //->where('has_result', true)
+                ->get();
+
+        return $results;
     }
 
 }

@@ -7,9 +7,6 @@
 ?>
 <div>
     <div class="row">
-        {!! Form::open(['id'=>'external_order_form'])!!}
-        {!! Form::hidden('patient_id',$patient->id) !!}
-        {!! Form::hidden('institution',$institution) !!}
         <div class="col-md-12">
             <div class="col-md-8">
                 <div class="accordion">
@@ -46,6 +43,10 @@
                                         <tbody>
                                         </tbody>
                                     </table>
+                                    <div class="pull-right">
+                                        <button class="btn btn-success" id="saveDiagnosis">
+                                            <i class="fa fa-save"></i> Save</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -53,10 +54,6 @@
                 </div>
             </div>
         </div>
-        <div class="pull-right">
-            <input type="submit" class="btn btn-success" value="Save" name="Save">
-        </div>
-        {!! Form::close()!!}
     </div>
 </div>
 <style>
