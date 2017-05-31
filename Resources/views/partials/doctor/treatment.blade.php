@@ -175,6 +175,7 @@ if ($visit->payment_mode == 'insurance') {
         </div>
     </div>
 </div>
+<!-- -->
 <style>
     #treatment_form {
         height: 400px;
