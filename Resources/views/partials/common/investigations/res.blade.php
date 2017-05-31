@@ -21,7 +21,7 @@
                 </tr>
                 <tr>
                     <td>Requested By:</td>
-                    <td>{{$item->doctors->profile->full_name}}</td>
+                    <td>{{$item->doctors?$item->doctors->profile->full_name:''}}</td>
                 </tr>
                 <tr>
                     <td>Instructions:</td>

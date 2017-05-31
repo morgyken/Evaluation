@@ -15,6 +15,17 @@ $external = true;
 @section('content')
 <div class="box box-default">
     <div class="box-body">
+        <div class="col-md-5">
+            <dt>Patient Name:</dt>
+            <dd>{{$patient->full_name}}
+                <strong><u>{{$patient->sex}}</u></strong>
+            </dd>
+            <dt>Age:</dt>
+            <dd>{{(new Date($patient->dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days')}} Old</dd>
+        </div>
+    </div>
+    <hr>
+    <div class="box-body">
         <div class="form-horizontal">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">

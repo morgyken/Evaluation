@@ -16,7 +16,9 @@
                 <input type="hidden" name="test{{$item->id}}[]" value="{{$test->subtest}}" />
             </td>
             <td>
-                <?php $type = $test->subtests->this_test->lab_result_type; ?>
+                <?php
+                $type = $test->subtests->this_test->lab_result_type;
+                ?>
                 @include('evaluation::partials.labs.input_subtest')
             </td>
         </tr>

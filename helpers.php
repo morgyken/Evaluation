@@ -953,7 +953,7 @@ if (!function_exists('getOrderResults')) {
                     $query2->wherePatient(\Session::get('p'))
                     ->whereNotNull('external_order');
                 })
-                //->where('has_result', true)
+                ->whereHas('results')
                 ->get();
 
         return $results;

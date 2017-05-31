@@ -1,7 +1,4 @@
 <?php $id = $type . '_form'; ?>
-{!! Form::open(['id'=>$id])!!}
-{!! Form::hidden('patient_id',$patient->id) !!}
-{!! Form::hidden('institution',$institution) !!}
 <table class="table table-condensed table-borderless table-responsive" id="procedures">
     <tbody>
         @foreach($procedures as $procedure)
@@ -35,4 +32,3 @@
         </tr>
     </thead>
 </table>
-{!! Form::close()!!}

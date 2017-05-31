@@ -14,7 +14,7 @@ $results = $visit->investigations->where('type', $type)
         </td>
         <td>
             <strong>Ordered By:</strong>
-            {{$result->investigations->doctors->profile->full_name}}<br>
+            {{$result->investigations->doctors?$result->investigations->doctors->profile->full_name:''}}<br>
             <strong>Conducted By:</strong>
             {{$result->investigations->results->users->profile->full_name}}<br>
             <strong>Date:</strong>

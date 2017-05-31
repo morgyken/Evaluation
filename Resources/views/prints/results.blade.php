@@ -29,7 +29,7 @@ $results = $visit->investigations->where('type', $type)->where('has_result', tru
         </td>
         <td>
             <strong>Ordered By:</strong>
-            {{$item->doctors->profile->full_name}}<br>
+            {{$item->doctors?$item->doctors->profile->full_name:''}}<br>
             <strong>Conducted By:</strong>
             {{$item->results->users->profile->full_name}}<br>
             <strong>Date:</strong>

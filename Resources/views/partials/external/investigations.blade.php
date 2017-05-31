@@ -11,17 +11,49 @@
             <div class="col-md-8">
                 <div class="accordion">
                     <h4>Laboratory</h4>
+                    {!! Form::open(['id'=>'laboratory_form'])!!}
+                    {!! Form::hidden('patient_id',$patient->id) !!}
+                    {!! Form::hidden('institution',$institution) !!}
                     <div class="investigation_item">
                         @include('evaluation::partials.external.laboratory')
                     </div>
+                    <hr>
+                    <div class="pull-right">
+                        <button class="btn btn-success">
+                            <i class="fa fa-save"></i> Save</button>
+                    </div>
+                    <br>
+                    {!! Form::close()!!}
+
                     <h4>Radiology</h4>
+                    {!! Form::open(['id'=>'radiology_form'])!!}
+                    {!! Form::hidden('patient_id',$patient->id) !!}
+                    {!! Form::hidden('institution',$institution) !!}
                     <div class="investigation_item">
                         @include('evaluation::partials.external.radiology')
                     </div>
+                    <hr>
+                    <div class="pull-right">
+                        <button class="btn btn-success">
+                            <i class="fa fa-save"></i> Save</button>
+                    </div>
+                    <br>
+                    {!! Form::close()!!}
+
                     <h4>Ultrasound</h4>
+                    {!! Form::open(['id'=>'ultrasound_form'])!!}
+                    {!! Form::hidden('patient_id',$patient->id) !!}
+                    {!! Form::hidden('institution',$institution) !!}
                     <div class="investigation_item">
                         @include('evaluation::partials.external.ultrasound')
                     </div>
+                    <hr>
+                    <div class="pull-right">
+                        <button class="btn btn-success">
+                            <i class="fa fa-save"></i> Save</button>
+                    </div>
+                    <br>
+                    {!! Form::close()!!}
                 </div>
             </div>
             <div class="col-md-4">
@@ -43,10 +75,6 @@
                                         <tbody>
                                         </tbody>
                                     </table>
-                                    <div class="pull-right">
-                                        <button class="btn btn-success" id="saveOrder">
-                                            <i class="fa fa-save"></i> Save</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
