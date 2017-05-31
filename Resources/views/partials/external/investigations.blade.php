@@ -44,7 +44,7 @@
                                         </tbody>
                                     </table>
                                     <div class="pull-right">
-                                        <button class="btn btn-success" id="saveDiagnosis">
+                                        <button class="btn btn-success" id="saveOrder">
                                             <i class="fa fa-save"></i> Save</button>
                                     </div>
                                 </div>

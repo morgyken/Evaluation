@@ -60,17 +60,17 @@ $(function () {
          save_lab_tests();
          */
     }
-    $('#saveDiagnosis').click(function (e) {
+    $('#saveOrder').click(function (e) {
         e.preventDefault();
         $.ajax({type: "POST",
             url: EXTERNAL_ORDER_URL,
-            data: $('form').serialize(),
+            data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
             success: function () {
-                alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
+                alertify.success('<i class="fa fa-check-circle"></i> Order for procedure(s) placed');
                 location.reload();
             },
             error: function () {
-                alertify.error('<i class="fa fa-check-warning"></i> Could not save evalaution');
+                alertify.error('<i class="fa fa-check-warning"></i> Error: Could not save order');
             }
         });
         //location.reload();
