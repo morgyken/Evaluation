@@ -10,7 +10,7 @@
         </td>
         <td>
             <?php $type = $test->subtests->this_test->lab_result_type; ?>
-            @include('evaluation::partials.labs.input_subtest')
+            @include('evaluation::partials.labs.input_field')
         </td>
     </tr>
     @endforeach
