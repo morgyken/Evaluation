@@ -9,6 +9,7 @@ use Ignite\Settings\Entities\Clinics;
 use Ignite\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Ignite\Finance\Entities\InsuranceInvoice;
 
 /**
  * Ignite\Evaluation\Entities\Visit
@@ -186,6 +187,10 @@ class Visit extends Model {
 
     public function external_doctors() {
         return $this->belongsTo(User::class, 'external_doctor');
+    }
+
+    public function insurance_invoices() {
+        return $this->hasOne(InsuranceInvoice::class, 'visit');
     }
 
 }
