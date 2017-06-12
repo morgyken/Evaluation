@@ -4,6 +4,7 @@ namespace Ignite\Evaluation\Widgets;
 
 use Ignite\Core\Library\BaseDashboardWidgets;
 use Ignite\Evaluation\Entities\VisitDestinations;
+use Ignite\Evaluation\Entities\Visit;
 
 class QueueWidget extends BaseDashboardWidgets {
 
@@ -46,11 +47,15 @@ class QueueWidget extends BaseDashboardWidgets {
         // $limit = $this->setting->get('blog::latest-posts-amount', locale(), 5);
         try {
             $user = \Auth::user()->id;
-            $queue = VisitDestinations::whereDestination($user)
-                    ->whereCheckout(0)
-                    ->oldest()
-                    ->get();
-            return ['queue' => $queue];
+
+            $seen = Visit::where('created_at', \DB::raw('CURDATE()'))->limit(100)->oldest()->get();
+
+            /* $queue = VisitDestinations::whereDestination($user)
+              ->whereCheckout(0)
+              ->oldest()
+              ->get(); */
+
+            return ['seen' => $seen];
         } catch (\Exception $e) {
 
         }
