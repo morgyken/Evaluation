@@ -47,14 +47,11 @@ class QueueWidget extends BaseDashboardWidgets {
         // $limit = $this->setting->get('blog::latest-posts-amount', locale(), 5);
         try {
             $user = \Auth::user()->id;
-
-            $seen = Visit::where('created_at', \DB::raw('CURDATE()'))->limit(100)->oldest()->get();
-
+            $seen = Visit::whereDate('created_at', \DB::raw('CURDATE()'))->get();
             /* $queue = VisitDestinations::whereDestination($user)
               ->whereCheckout(0)
               ->oldest()
               ->get(); */
-
             return ['seen' => $seen];
         } catch (\Exception $e) {
 
