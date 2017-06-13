@@ -5,9 +5,13 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 $checkout = '';
-$patient = $visit->patients;
-if (!empty($section)) {
-    $checkout = route('evaluation.sign_out', [$visit->id, $section]);
+try {
+    $patient = $visit->patients;
+    if (!empty($section)) {
+        $checkout = route('evaluation.sign_out', [$visit->id, $section]);
+    }
+} catch (\Exception $e) {
+
 }
 ?>
 <div class="box box-info">
@@ -20,9 +24,11 @@ if (!empty($section)) {
             <dt>Age:</dt>
             <?php try { ?>
                 <dd>{{(new Date($patient->dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days')}} Old</dd>
-            <?php } catch (\Exception $e) {
+                <?php
+            } catch (\Exception $e) {
 
-            } ?></div>
+            }
+            ?></div>
         <div class="col-md-4">
             <dt>Payment Mode:</dt>
             <dd>{{$visit->mode}}</dd>
