@@ -15,10 +15,10 @@ if (!empty($section)) {
         <div class="col-md-5">
             <dt>Name:</dt>
             <dd>{{$patient->full_name}}
-                <strong><u>{{$patient->sex}}</u></strong>
+                <strong><u>{{$patient->sex?$patient->sex:''}}</u></strong>
             </dd>
             <dt>Age:</dt>
-            <dd>{{(new Date($patient->dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days')}} Old</dd>
+            <dd>{{$patient->dob?(new Date($patient->dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days').' Old':''}}</dd>
         </div>
         <div class="col-md-4">
             <dt>Payment Mode:</dt>
