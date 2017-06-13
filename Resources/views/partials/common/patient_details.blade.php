@@ -18,8 +18,11 @@ if (!empty($section)) {
                 <strong><u>{{$patient->sex?$patient->sex:''}}</u></strong>
             </dd>
             <dt>Age:</dt>
-            <dd>{{$patient->dob?(new Date($patient->dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days').' Old':''}}</dd>
-        </div>
+            <?php try { ?>
+                <dd>{{(new Date($patient->dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days')}} Old</dd>
+            <?php } catch (\Exception $e) {
+
+            } ?></div>
         <div class="col-md-4">
             <dt>Payment Mode:</dt>
             <dd>{{$visit->mode}}</dd>
