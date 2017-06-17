@@ -14,48 +14,59 @@ use Ignite\Finance\Entities\InsuranceInvoice;
 /**
  * Ignite\Evaluation\Entities\Visit
  *
- * @property integer $id
- * @property integer $clinic
- * @property integer $patient
- * @property integer $purpose
- * @property integer $user
+ * @property int $id
+ * @property int $clinic
+ * @property int $patient
+ * @property int $purpose
+ * @property int $external_doctor
+ * @property string $inpatient
+ * @property int $user
  * @property string $payment_mode
- * @property integer $scheme
- * @property integer $next_appointment
+ * @property int $scheme
+ * @property int $next_appointment
+ * @property string $status
  * @property string $deleted_at
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read \Ignite\Reception\Entities\Appointments $appointments
+ * @property-read \Ignite\Settings\Entities\Clinics $clinics
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\VisitDestinations[] $destinations
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Dispensing[] $dispensing
+ * @property-read \Ignite\Users\Entities\User $doctors
+ * @property-read \Ignite\Evaluation\Entities\Drawings $drawings
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Inventory\Entities\InventoryBatchProductSales[] $drug_purchases
+ * @property-read \Ignite\Users\Entities\User $external_doctors
+ * @property-read mixed $doctor
+ * @property-read mixed $doctor_i_d
+ * @property-read mixed $mode
+ * @property-read mixed $signed_out
+ * @property-read mixed $total_bill
  * @property-read mixed $unpaid_amount
  * @property-read mixed $visit_destination
- * @property-read mixed $signed_out
- * @property-read mixed $mode
- * @property-read mixed $total_bill
- * @property-read \Ignite\Settings\Entities\Clinics $clinics
- * @property-read \Ignite\Reception\Entities\Patients $patients
- * @property-read \Ignite\Evaluation\Entities\Vitals $vitals
- * @property-read \Ignite\Evaluation\Entities\DoctorNotes $notes
- * @property-read \Ignite\Evaluation\Entities\Drawings $drawings
- * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Prescriptions[] $prescriptions
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Investigations[] $investigations
- * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Dispensing[] $dispensing
- * @property-read \Ignite\Evaluation\Entities\OpNotes $opnotes
- * @property-read \Ignite\Reception\Entities\Appointments $appointments
- * @property-read \Ignite\Users\Entities\User $doctors
- * @property-read \Ignite\Reception\Entities\PatientInsurance $patient_scheme
  * @property-read \Ignite\Evaluation\Entities\VisitMeta $metas
- * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\VisitDestinations[] $destinations
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereClinic($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePatient($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePurpose($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereUser($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePaymentMode($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereScheme($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereNextAppointment($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereUpdatedAt($value)
+ * @property-read \Ignite\Evaluation\Entities\DoctorNotes $notes
+ * @property-read \Ignite\Evaluation\Entities\OpNotes $opnotes
+ * @property-read \Ignite\Reception\Entities\PatientInsurance $patient_scheme
+ * @property-read \Ignite\Reception\Entities\Patients $patients
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Prescriptions[] $prescriptions
+ * @property-read \Ignite\Evaluation\Entities\PartnerInstitution $requesting_institutions
+ * @property-read \Ignite\Evaluation\Entities\Vitals $vitals
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit checkedAt($destination)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereClinic($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereExternalDoctor($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereInpatient($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereNextAppointment($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePatient($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePaymentMode($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit wherePurpose($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereScheme($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit whereUser($value)
  * @mixin \Eloquent
  */
 class Visit extends Model {

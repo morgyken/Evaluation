@@ -41,7 +41,8 @@ if (!function_exists('get_patient_queue')) {
      * @return mixed Collection
      * @deprecated Do not use this, revamped the visit model to new version
      */
-    function get_patient_queue() {
+    function get_patient_queue()
+    {
         return Appointments::whereStatus(2)->get();
     }
 
@@ -53,7 +54,8 @@ if (!function_exists('get_procedures_for')) {
      * @param string $name
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_procedures_for($name, $term = null) {
+    function get_procedures_for($name, $term = null)
+    {
         $to_fetch = 0;
         switch ($name) {
             case 'doctor':
@@ -91,12 +93,12 @@ if (!function_exists('get_procedures_for')) {
                 return Procedures::where('name', 'like', "%$term%")->get();
             }
             return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
-                        $query->where('applies_to', $to_fetch);
-                    })->where('name', 'like', "%$term%")->get();
+                $query->where('applies_to', $to_fetch);
+            })->where('name', 'like', "%$term%")->get();
         }
         return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
-                    $query->where('applies_to', $to_fetch);
-                })->get();
+            $query->where('applies_to', $to_fetch);
+        })->get();
     }
 
 }
@@ -123,12 +125,20 @@ if (!function_exists('get_external_patients')) {
 
 }
 
+if (!function_exists('getOrthanc')) {
+    function getOrthanc($patient, $test)
+    {
+        $orthanc = new \Ignite\Evaluation\Library\Pacs($patient, $test);
+        return $orthanc->processPacsServer();
+    }
+}
 if (!function_exists('get_template')) {
 
-    function get_template($procedure, $cat) {
+    function get_template($procedure, $cat)
+    {
         $p_template = ProcedureTemplates::where('procedure', '=', $procedure)
-                ->get()
-                ->first();
+            ->get()
+            ->first();
         if (isset($p_template->id)) {
             echo $p_template->template;
         } else {
@@ -213,11 +223,12 @@ if (!function_exists('get_lab_templates')) {
 
 if (!function_exists('get_category_template')) {
 
-    function get_category_template($cat) {
+    function get_category_template($cat)
+    {
         try {
             $cat_template = ProcedureCategoryTemplates::whereCategory($cat)
-                    ->get()
-                    ->first();
+                ->get()
+                ->first();
             echo $cat_template->template;
         } catch (\Exception $e) {
             return null;
@@ -234,10 +245,11 @@ if (!function_exists('get_vitals')) {
      * @param $id
      * @return \Illuminate\Database\Eloquent\Model|null|static
      */
-    function get_vitals($id) {
+    function get_vitals($id)
+    {
         return Vitals::whereHas('visits', function ($query) use ($id) {
-                    return $query->where('patient', $id);
-                })->first();
+            return $query->where('patient', $id);
+        })->first();
     }
 
 }
@@ -248,10 +260,11 @@ if (!function_exists('get_diagnosis_code')) {
      * @deprecated Use repository
      * @return array Diagnosis codes
      */
-    function get_diagnosis_codes($regex = null) {
+    function get_diagnosis_codes($regex = null)
+    {
         if (!empty($regex)) {
             return DiagnosisCodes::where('name', 'like', "%$regex%")
-                            ->get()->pluck('id', 'name')->toArray();
+                ->get()->pluck('id', 'name')->toArray();
         }
         return DiagnosisCodes::all()->pluck('name')->toArray();
     }
@@ -264,7 +277,8 @@ if (!function_exists('vitals_for_visit')) {
      * @return \Illuminate\Database\Eloquent\Model
      * @internal param $id
      */
-    function vitals_for_visit(Visit $visit) {
+    function vitals_for_visit(Visit $visit)
+    {
         return Vitals::firstOrNew(['visit' => $visit->id]);
     }
 
@@ -277,10 +291,11 @@ if (!function_exists('vitals_for_patient')) {
      * @return \Illuminate\Database\Eloquent\Model
      * @internal param $id
      */
-    function vitals_for_patient($patient) {
+    function vitals_for_patient($patient)
+    {
         try {
             $visit = Visit::wherePatient($patient)->get()->first();
-            return$visit->vitals;
+            return $visit->vitals;
         } catch (\Exception $e) {
             return null;
         }
@@ -294,7 +309,8 @@ if (!function_exists('patient_visits')) {
      * @param $patient_id
      * @return array|\Illuminate\Database\Eloquent\Collection|static[]
      */
-    function patient_visits($patient_id) {
+    function patient_visits($patient_id)
+    {
         return Visit::query()->where('patient', '=', $patient_id)->get();
     }
 
@@ -307,7 +323,8 @@ if (!function_exists('v1_history')) {
      * @param $patient_id
      * @return array|\Illuminate\Database\Eloquent\Collection|static[]
      */
-    function v1_history($patient_id) {
+    function v1_history($patient_id)
+    {
         try {
             $data['treatment'] = Ignite\Evaluation\Entities\V1Treatment::where('Patient_Id', '=', $patient_id)->get();
             $data['notes'] = Ignite\Evaluation\Entities\V1InvestigationNotes::where('Patient_Id', '=', $patient_id)->get();
@@ -328,7 +345,8 @@ if (!function_exists('get_patient_documents')) {
      * @param $patient_id
      * @return array|\Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_patient_documents($patient_id) {
+    function get_patient_documents($patient_id)
+    {
         return PatientDocuments::wherePatient($patient_id)->get();
     }
 
@@ -339,7 +357,8 @@ if (!function_exists('get_patient_doctor_notes')) {
      * @param $visit
      * @return mixed
      */
-    function get_patient_doctor_notes(Visit $visit) {
+    function get_patient_doctor_notes(Visit $visit)
+    {
         return DoctorNotes::firstOrNew(['visit' => $visit->id]);
     }
 
@@ -351,7 +370,8 @@ if (!function_exists('get_eye_exams')) {
      * @param $visit
      * @return mixed
      */
-    function get_eye_exams($visit) {
+    function get_eye_exams($visit)
+    {
         return EyeExam::firstOrNew(['visit' => $visit]);
     }
 
@@ -363,7 +383,8 @@ if (!function_exists('get_visit_meta')) {
      * @param $visit
      * @return \Illuminate\Database\Eloquent\Model
      */
-    function get_visit_meta(Visit $visit) {
+    function get_visit_meta(Visit $visit)
+    {
         return VisitMeta::firstOrNew(['visit' => $visit->id]);
     }
 
@@ -375,7 +396,8 @@ if (!function_exists('get_investigations')) {
      * @param $visit
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_investigations(Visit $visit, $type = null) {
+    function get_investigations(Visit $visit, $type = null)
+    {
         if (empty($type)) {
             return Investigations::where(['visit' => $visit->id])->get();
         }
@@ -390,7 +412,8 @@ if (!function_exists('get_op_notes')) {
      * @param $visit
      * @return $param
      */
-    function get_op_notes(Visit $visit) {
+    function get_op_notes(Visit $visit)
+    {
         return OpNotes::firstOrNew(['visit' => $visit->id]);
     }
 
@@ -404,7 +427,8 @@ if (!function_exists('get_visit_data')) {
      * @param $section
      * @return mixed
      */
-    function get_visit_data(Visit $visit, $section) {
+    function get_visit_data(Visit $visit, $section)
+    {
         switch ($section) {
             case 'treatment':
                 return get_treatments($visit);
@@ -429,7 +453,8 @@ if (!function_exists('get_product_categories')) {
     /**
      * @return \Illuminate\Support\Collection Procedure Collection
      */
-    function get_procedure_categories() {
+    function get_procedure_categories()
+    {
         return ProcedureCategories::all()->pluck('name', 'id');
     }
 
@@ -476,7 +501,8 @@ if (!function_exists('get_clinic_name')) {
      * @param int $id
      * @return string
      */
-    function get_clinic_name($id = null) {
+    function get_clinic_name($id = null)
+    {
         if (empty($id)) {
             $id = Cookie::get('clinic') || 1;
         }
@@ -489,7 +515,8 @@ if (!function_exists('get_procedures')) {
     /**
      * @return \Illuminate\Support\Collection
      */
-    function get_procedures() {
+    function get_procedures()
+    {
         return Procedures::all()->pluck('name', 'id');
     }
 
@@ -537,7 +564,8 @@ if (!function_exists('generate_receipt_no')) {
      * Genearte a nice receipt number reference
      * @return string
      */
-    function generate_receipt_no() {
+    function generate_receipt_no()
+    {
         return m_setting('evaluation.receipt_prefix') . date('dmyHis');
     }
 
@@ -550,7 +578,8 @@ if (!function_exists('payment_label')) {
      * @param bool $paid
      * @return string
      */
-    function payment_label($paid = null) {
+    function payment_label($paid = null)
+    {
         $fanc = '';
         if ($paid) {
             $fanc = "<span class='text-success'><i class='fa fa-check-circle-o'></i> Paid</span>";
@@ -566,23 +595,24 @@ if (!function_exists('get_patients_with_bills')) {
     /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_patients_with_bills() {
+    function get_patients_with_bills()
+    {
         return Patients::whereHas('visits', function ($query) {
-                            $query->wherePaymentMode('cash');
-                            $query->whereHas('investigations', function ($q3) {
-                                $q3->doesntHave('payments');
-                                $q3->doesntHave('removed_bills');
-                            });
-                            $query->orWhereHas('dispensing', function ($q) {
-                                $q->doesntHave('removed_bills');
-                                $q->whereHas('details', function($qd) {
-                                    $qd->whereStatus(0);
-                                });
-                                // $q->wherePayment_status(0);
-                            });
-                        })
-                        ->orderBy('created_at', 'desc')
-                        ->get();
+            $query->wherePaymentMode('cash');
+            $query->whereHas('investigations', function ($q3) {
+                $q3->doesntHave('payments');
+                $q3->doesntHave('removed_bills');
+            });
+            $query->orWhereHas('dispensing', function ($q) {
+                $q->doesntHave('removed_bills');
+                $q->whereHas('details', function ($qd) {
+                    $qd->whereStatus(0);
+                });
+                // $q->wherePayment_status(0);
+            });
+        })
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
 }
@@ -592,13 +622,14 @@ if (!function_exists('get_patients_with_drugs')) {
     /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_patients_with_drugs() {
+    function get_patients_with_drugs()
+    {
         return Patients::whereHas('visits', function ($query) {
-                    $query->wherePaymentMode('cash');
-                    $query->whereHas('dispensing', function ($q) {
-                        $q->wherePayment_status(0);
-                    });
-                })->get();
+            $query->wherePaymentMode('cash');
+            $query->whereHas('dispensing', function ($q) {
+                $q->wherePayment_status(0);
+            });
+        })->get();
     }
 
 }
@@ -609,13 +640,14 @@ if (!function_exists('get_patients_with_pharm')) {
     /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_patients_with_pharm() {
+    function get_patients_with_pharm()
+    {
         return Patients::whereHas('visits', function ($query) {
-                    $query->wherePaymentMode('cash');
-                    $query->whereHas('dispensing', function ($q) {
-                        $q->wherePayment_status(0);
-                    });
-                })->get();
+            $query->wherePaymentMode('cash');
+            $query->whereHas('dispensing', function ($q) {
+                $q->wherePayment_status(0);
+            });
+        })->get();
     }
 
 }
@@ -625,10 +657,11 @@ if (!function_exists('get_patients_from_pos')) {
     /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_patients_from_pos() {
+    function get_patients_from_pos()
+    {
         return Patients::whereHas('drug_purchases', function ($query) {
-                    $query->wherePaid(0);
-                })->get();
+            $query->wherePaid(0);
+        })->get();
     }
 
 }
@@ -640,7 +673,8 @@ if (!function_exists('visit_destination')) {
      * @param Visit $visit
      * @return string
      */
-    function visit_destination(Visit $visit) {
+    function visit_destination(Visit $visit)
+    {
         $build = [];
         if (!empty($visit->destination) and $visit->evaluation) {
             $build[] = 'Doctor: ' . $visit->doctors->profile->full_name;
@@ -679,7 +713,8 @@ if (!function_exists('exportSickOff')) {
      * @param int $patient
      * @return mixed
      */
-    function exportSickOff(Request $request, $patient) {
+    function exportSickOff(Request $request, $patient)
+    {
         $defaultFont = ['name' => 'Times New Roman', 'size' => 12];
         $date = (new Date())->format('j/m/Y');
         $runtext = "The above named was attended at our clinic and diagnosed to have a medical/ surgically condition. Please allow sickoff for a period of ";
@@ -721,7 +756,8 @@ if (!function_exists('exportSickOff')) {
         return IOFactory::createWriter($phpWord, 'Word2007');
     }
 
-    function exportPatientNotes($patient, $visit) {
+    function exportPatientNotes($patient, $visit)
+    {
         $history = patient_visits($patient->id);
         $vst = Visit::find($visit);
         if (empty($vst)) {
@@ -799,7 +835,7 @@ if (!function_exists('exportSickOff')) {
                 foreach ($vst->treatments as $item) {
                     $table->addRow();
                     $c = $table->addCell(900);
-                    $c->addText($n+=1);
+                    $c->addText($n += 1);
                     $c = $table->addCell(2000);
                     $c->addText(empty($item->procedures) ? '-' : str_limit($item->procedures->name, 20, '...'));
                     $c = $table->addCell(2000);
@@ -829,7 +865,8 @@ if (!function_exists('exportSickOff')) {
         return \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
     }
 
-    function exportPatientNotesDate($patient, $visit) {
+    function exportPatientNotesDate($patient, $visit)
+    {
         $history = patient_visits($patient);
         $v = Visit::find($visit);
         if (empty($v)) {
@@ -905,7 +942,7 @@ if (!function_exists('exportSickOff')) {
             foreach ($v->treatments as $item) {
                 $table->addRow();
                 $c = $table->addCell(900);
-                $c->addText($n+=1);
+                $c->addText($n += 1);
                 $c = $table->addCell(2000);
                 $c->addText(empty($item->procedures) ? '-' : str_limit($item->procedures->name, 20, '...'));
                 $c = $table->addCell(2000);
@@ -937,7 +974,8 @@ if (!function_exists('exportSickOff')) {
 
 }
 
-function paymentFor($procedures) {
+function paymentFor($procedures)
+{
     $stat = unserialize($procedures);
     $build = collect();
     foreach ($stat as $key => $procedure) {
@@ -951,7 +989,7 @@ if (!function_exists('get_min_range')) {
 
     /**
      * Get Minimum lab range depending on patient age
-     * @param $procedure, $age_days, $age_years
+     * @param $procedure , $age_days, $age_years
      * @return $range
      */
     function get_min_range($p, $age_days, $age_years) {
@@ -1393,10 +1431,11 @@ if (!function_exists('get_max_range')) {
 ///*********DEPRECEATED**********//////////
     /**
      * Get Maximum lab range depending on patient age
-     * @param $procedure, $age_days, $age_years
+     * @param $procedure , $age_days, $age_years
      * @return $range
      */
-    function get_max_range($p, $age_days, $age_years) {
+    function get_max_range($p, $age_days, $age_years)
+    {
         $max_range = null;
         try {
             if (!empty($p->ref_ranges)) {
@@ -1496,7 +1535,7 @@ if (!function_exists('getUnit')) {
 
     /**
      * Get Lab test unit
-     * @param $procedure/test
+     * @param $procedure /test
      * @return $unit
      */
     function getUnit($p) {
@@ -1527,7 +1566,7 @@ if (!function_exists('getFlag')) {
 
     /**
      * Get Appropriate flag for lab result
-     * @param $result, $min_range, $max_range
+     * @param $result , $min_range, $max_range
      * @return $flag
      */
     
@@ -1584,7 +1623,8 @@ if (!function_exists('has_ranges')) {
 
 if (!function_exists('get_reverted_test')) {
 
-    function get_reverted_test($test) {
+    function get_reverted_test($test)
+    {
         $reverted = \Session::get('last_reverted');
         $reverted_value = '';
         if (array_has($reverted, $test)) {
@@ -1703,29 +1743,30 @@ function get_res($name, $test, $results) {
 
 if (!function_exists('consumables')) {
 
-    function get_consumables($id) {
+    function get_consumables($id)
+    {
         $procedure = \Ignite\Evaluation\Entities\Procedures::whereId($id)->get()->first();
         if (!$procedure->items->isEmpty()) {
             echo ""
-            . "<table class='table table-striped table-condensed'>"
-            . "<tr>"
-            . "<th>Consumable(s)</th><th>Units</th>"
-            . "</tr>";
+                . "<table class='table table-striped table-condensed'>"
+                . "<tr>"
+                . "<th>Consumable(s)</th><th>Units</th>"
+                . "</tr>";
             $n = 0;
             //dd($procedure->items);
             foreach ($procedure->items as $item) {
-                $n+=1;
-                echo""
-                . "<tr>"
-                . "<td>" . $item->inventory->name . "</td>"
-                . "<td>"
-                . "<input type='text' name='item_product[]' value='$item->units'>"
-                . "<input type='hidden' name='item_procedure[]' value='$procedure->id'>"
-                . "</td>"
-                . "</tr>";
+                $n += 1;
+                echo ""
+                    . "<tr>"
+                    . "<td>" . $item->inventory->name . "</td>"
+                    . "<td>"
+                    . "<input type='text' name='item_product[]' value='$item->units'>"
+                    . "<input type='hidden' name='item_procedure[]' value='$procedure->id'>"
+                    . "</td>"
+                    . "</tr>";
             }
-            echo""
-            . "</table>";
+            echo ""
+                . "</table>";
         }
     }
 

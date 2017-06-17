@@ -8,29 +8,30 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Ignite\Evaluation\Entities\DoctorNotes
  *
- * @property integer $id
- * @property integer $visit
+ * @property int $id
+ * @property int $visit
  * @property string $presenting_complaints
  * @property string $past_medical_history
  * @property string $examination
  * @property string $diagnosis
  * @property string $investigations
  * @property string $treatment_plan
- * @property integer $user
+ * @property int $user
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read mixed $codes
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereVisit($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes wherePresentingComplaints($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes wherePastMedicalHistory($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereExamination($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereDiagnosis($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereInvestigations($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereTreatmentPlan($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereUser($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereDiagnosis($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereExamination($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereInvestigations($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes wherePastMedicalHistory($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes wherePresentingComplaints($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereTreatmentPlan($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereUser($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereVisit($value)
  * @mixin \Eloquent
  */
 class DoctorNotes extends Model {

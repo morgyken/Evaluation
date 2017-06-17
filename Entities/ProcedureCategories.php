@@ -8,16 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Ignite\Evaluation\Entities\ProcedureCategories
  *
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $applies_to
  * @property string $deleted_at
  * @property-read mixed $applied_to
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Procedures[] $procedures
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureCategories whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureCategories whereName($value)
+ * @property-read \Ignite\Evaluation\Entities\ProcedureCategoryTemplates $templates
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureCategories whereAppliesTo($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureCategories whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureCategories whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureCategories whereName($value)
  * @mixin \Eloquent
  */
 class ProcedureCategories extends Model {

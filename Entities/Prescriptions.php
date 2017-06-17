@@ -9,35 +9,38 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Ignite\Evaluation\Entities\Prescriptions
  *
- * @property integer $id
- * @property integer $visit
+ * @property int $id
+ * @property int $visit
  * @property string $drug
- * @property integer $take
- * @property integer $whereto
- * @property integer $method
- * @property integer $duration
- * @property boolean $allow_substitution
- * @property integer $time_measure
- * @property integer $user
+ * @property int $take
+ * @property int $whereto
+ * @property int $method
+ * @property int $duration
+ * @property bool $status
+ * @property bool $allow_substitution
+ * @property int $time_measure
+ * @property int $user
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Dispensing[] $dispensing
+ * @property-read \Ignite\Inventory\Entities\InventoryProducts $drugs
  * @property-read mixed $dose
  * @property-read mixed $sub
- * @property-read \Ignite\Evaluation\Entities\Visit $visits
- * @property-read \Ignite\Inventory\Entities\InventoryProducts $drugs
  * @property-read \Ignite\Users\Entities\User $users
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereVisit($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereDrug($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereTake($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereWhereto($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereMethod($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereDuration($value)
+ * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereAllowSubstitution($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereTimeMeasure($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereUser($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereDrug($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereDuration($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereMethod($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereTake($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereTimeMeasure($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereUser($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereVisit($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Prescriptions whereWhereto($value)
  * @mixin \Eloquent
  */
 class Prescriptions extends Model {
