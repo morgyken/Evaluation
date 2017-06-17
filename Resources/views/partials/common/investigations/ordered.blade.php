@@ -12,6 +12,51 @@
                 <textarea name="results{{$item->id}}" class="form-control" >
                     <?php get_template($item->procedures->id, $item->procedures->category) ?>
                 </textarea>
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    <div class="form-group">
+                        <label>File</label>
+                        <input type="file" class="form-control" name="file{{$item->id}}"/>
+                    </div>
+                    <hr/>
+                    <dl class="dl-horizontal">
+                        <dt>Requested By:</dt>
+                        <dd>{{$item->doctors->profile->full_name}}</dd>
+                        <dt>Instructions:</dt>
+                        <dd><p>{{$item->instructions ?? 'Not provided'}}</p></dd>
+                        <dt>Price:</dt>
+                        <dd>{{$item->pesa}}</dd>
+                        <dt>Units performed:</dt>
+                        <dd><p>{{$item->quantity}}</p></dd>
+                        <dt>Discount:</dt>
+                        <dd><p>{{$item->discount}}</p></dd>
+                        <dt>Charges:</dt>
+                        <dd>{{$item->amount>0?$item->amount:$item->pesa}}</dd>
+                        <dt>Date:</dt>
+                        <dd>{{smart_date_time($item->created_at)}}</dd>
+                    </dl>
+                    <hr/>
+                </div>
+                <div>
+                    <div class="pull-left">
+                        <?php $x = getOrthanc($visit->patient, $item->id); ?>
+                        @if(empty($x))
+                            <p class="text-warning">No dicom images</p>
+                        @else
+                            <a href="{{$x}}" target="_blank" class="btn btn-default"><i class="fa fa-eye"></i> View
+                                Dicom
+                                images</a>
+                        @endif
+                    </div>
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-xs btn-success">
+                            <i class="fa fa-save"></i>
+                            Save
+                        </button>
+                        <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
@@ -68,6 +113,6 @@
 </div>
 {!! Form::close()!!}
 @else
-<p>No radiology procedures have been ordered for this patient</p>
+    <p>No radiology procedures have been ordered for this patient</p>
 @endif
 
