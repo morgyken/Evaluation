@@ -159,6 +159,14 @@ class SidebarExtender implements Panda {
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });
+
+
+                    $item->item('Samples', function(Item $item) {
+                        $item->icon('fa fa-bars');
+                        $item->route('evaluation.setup.test.samples', 'partners');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
                 });
             });
         });

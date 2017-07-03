@@ -159,6 +159,27 @@ class SetupController extends AdminBaseController {
         return view('evaluation::setup.labtest_titles', ['data' => $this->data]);
     }
 
+    public function LabSamples(Request $request){
+        if ($request->isMethod('post')) {
+            try {
+                $tit = new \Ignite\Evaluation\Entities\HaemogramTitle();
+                $tit->name = $request->name;
+                $tit->procedure = $request->procedure;
+                if (is_int($request->sort_order)) {
+                    $tit->sort_order = $request->sort_order;
+                }
+                $tit->save();
+                flash("Category Saved");
+            } catch (\Exception $e) {
+                flash("Error saving data, ensure all required fields were entered", 'danger');
+            }
+            return back(); //->route('evaluation.setup.test.titles');
+        }
+        $this->data['tit'] = \Ignite\Evaluation\Entities\HaemogramTitle::findOrNew($request->id);
+        $this->data['tits'] = \Ignite\Evaluation\Entities\HaemogramTitle::all();
+        return view('evaluation::setup.samples', ['data' => $this->data]);
+    }
+
     public function temp() {
         $labs = \Ignite\Evaluation\Entities\Temp::all();
         foreach ($labs as $item) {
