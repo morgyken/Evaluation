@@ -56,6 +56,16 @@ class SetupController extends AdminBaseController {
         return view('evaluation::setup.templates', ['data' => $this->data]);
     }
 
+    public function SampleTypes(Request $request){
+        //Addition of result templates per procedure
+        if ($request->isMethod('post')) {
+            $this->evaluationRepository->SaveSampleType($request);
+        }
+        $this->data['type'] = Procedures::findOrNew($request->procedure);
+        $this->data['types'] = Procedures::all();
+        return view('evaluation::setup.sample_types', ['data' => $this->data]);
+    }
+
     public function ProcedureCategoryTemplates(Request $request) {
         //Addition of result templates per Category
         if ($request->isMethod('post')) {

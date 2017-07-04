@@ -41,9 +41,11 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
     $router->match(['post', 'get'], 'partners/manage/{id?}', ['uses' => 'SetupController@ManagePartnerInstitutions', 'as' => 'manage_partners']);
     $router->get('partners/{id?}', ['uses' => 'SetupController@partnerInstitutions', 'as' => 'partners']);
 
+    $router->match(['post', 'get'], 'sampletypes/{id?}', ['uses' => 'SetupController@SampleTypes', 'as' => 'samples.types']);
+
     $router->get('lab/samples/{id?}', ['uses' => 'SetupController@LabSamples', 'as' => 'test.samples']);
     $router->match(['post', 'get'], 'partners/manage/{id?}', ['uses' => 'SetupController@ManagePartnerInstitutions', 'as' => 'manage_partners']);
-    $router->post('lab/test/categories', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
+    $router->match(['get','post'],'lab/test/categories', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
     $router->get('lab/test/{id?}/title/', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles']);
     $router->post('lab/save/test/title', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles.save']);
 });

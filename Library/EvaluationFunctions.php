@@ -277,7 +277,6 @@ class EvaluationFunctions implements EvaluationRepository {
             if ($request->adult_maxrange[$key] !== '') {
                 $template->adult_maxrange = $request->adult_maxrange[$key];
             }
-
             $template->save();
         }
     }
@@ -678,6 +677,9 @@ class EvaluationFunctions implements EvaluationRepository {
 
         $s->lab_result_type = $request->result_type;
         $s->lab_sample_type = $request->sample_type;
+        $s->method = $request->method;
+        $s->gender = $request->gender;
+        $s->turn_around_time = $request->turn_around_time;
         $s->units = $request->units;
         if ($request->min_range !== '') {
             $s->lab_min_range = $request->min_range;

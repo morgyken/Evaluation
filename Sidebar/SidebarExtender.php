@@ -146,9 +146,16 @@ class SidebarExtender implements Panda {
                     $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                     $item->weight(4);
 
+                    $item->item('Sample Types', function(Item $item) {
+                        $item->icon('fa fa-copyright');
+                        $item->route('evaluation.setup.samples.types');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+
                     $item->item('Test Categories', function(Item $item) {
                         $item->icon('fa fa-copyright');
-                        $item->route('evaluation.setup.test.categories', 'partners');
+                        $item->route('evaluation.setup.test.categories');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });
@@ -159,7 +166,6 @@ class SidebarExtender implements Panda {
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });
-
 
                     $item->item('Samples', function(Item $item) {
                         $item->icon('fa fa-bars');

@@ -99,6 +99,23 @@ if (isset($lab->lab_result_type)) {
         </div>
     </div>
 
+    <div class="form-group {{ $errors->has('method') ? ' has-error' : '' }}">
+        {!! Form::label('method', 'Method',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-8">
+            <input type="text" value="{{$lab?$lab->method:''}}" name="method" class="form-control">
+            {!! $errors->first('method', '<span class="help-block">:message</span>') !!}
+        </div>
+    </div>
+
+
+    <div class="form-group {{ $errors->has('gender') ? ' has-error' : '' }}">
+        {!! Form::label('gender', 'Gender',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-8">
+            <input type="text" value="{{$lab?$lab->gender:''}}" name="gender" class="form-control">
+            {!! $errors->first('gender', '<span class="help-block">:message</span>') !!}
+        </div>
+    </div>
+
     <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
         {!! Form::label('min_range', 'Default Range',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-4">
@@ -175,7 +192,6 @@ if (isset($lab->lab_result_type)) {
         </div>
     </div>
 
-
     <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
         {!! Form::label('min_range', 'Adult Range',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-4">
@@ -185,6 +201,14 @@ if (isset($lab->lab_result_type)) {
         <div class="col-md-4">
             <input type="text" placeholder="Maximum" value="{{$lab?$lab->adult_maxrange:''}}" name="adult_maxrange" class="form-control">
             {!! $errors->first('max_range', '<span class="help-block">:message</span>') !!}
+        </div>
+    </div>
+
+    <div class="form-group {{ $errors->has('turn_around_time') ? ' has-error' : '' }}">
+        {!! Form::label('turn_around_time', 'Turn Around Time',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-8">
+            <input type="text" value="{{$lab?$lab->turn_around_time:''}}" placeholder="Turn around time" name="turn_around_time" class="form-control">
+            {!! $errors->first('turn_around_time', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
 
