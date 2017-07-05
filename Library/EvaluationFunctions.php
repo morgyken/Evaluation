@@ -24,6 +24,7 @@ use Ignite\Evaluation\Entities\Preliminary;
 use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
+use Ignite\Evaluation\Entities\SampleType;
 use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Entities\VisitMeta;
 use Ignite\Evaluation\Entities\Visit;
@@ -508,6 +509,15 @@ class EvaluationFunctions implements EvaluationRepository {
                     'indication' => $this->request->indication,
                     'user' => $this->user,
                     'visit' => $this->visit
+        ]);
+    }
+
+    public function SaveSampleType()
+    {
+        return SampleType::create([
+            'name'=>$this->request->name,
+            'procedure'=>$this->request->procedure,
+            'details'=>$this->request->details
         ]);
     }
 

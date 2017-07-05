@@ -5,6 +5,7 @@ namespace Ignite\Evaluation\Http\Controllers;
 use Ignite\Core\Http\Controllers\AdminBaseController;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
+use Ignite\Evaluation\Entities\SampleType;
 use Ignite\Evaluation\Http\Requests\ProcedureCategoriesRequest;
 use Ignite\Evaluation\Http\Requests\ProcedureRequest;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
@@ -61,8 +62,8 @@ class SetupController extends AdminBaseController {
         if ($request->isMethod('post')) {
             $this->evaluationRepository->SaveSampleType($request);
         }
-        $this->data['type'] = Procedures::findOrNew($request->procedure);
-        $this->data['types'] = Procedures::all();
+        $this->data['type'] = SampleType::findOrNew($request->id);
+        $this->data['types'] = SampleType::all();
         return view('evaluation::setup.sample_types', ['data' => $this->data]);
     }
 
