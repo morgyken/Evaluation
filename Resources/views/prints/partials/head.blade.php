@@ -22,12 +22,12 @@
         color: white;
     }
     .left{
-        width: 60%;
+        width: 40%;
         float: left;
     }
     .right{
-        float: left;
         width: 40%;
+        float: right;
     }
     .clear{
         clear: both;
@@ -42,13 +42,24 @@
     }
     div #footer{
         font-size: 70%;
+        float: right;
     }
     th{
         font-size: 80%;
     }
 </style>
+<?php
+extract($data);
+$patient = $data['visit']->patients;
+$dob = \Carbon\Carbon::parse($patient->dob);
+$age_days = $dob->diffInDays();
+$age_str = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');
+$age_years = $dob->age;
+$item = $data['results'];
+?>
 <div class="box box-info">
     <div class="left">
+        <img width="100" style="float: left" src="{{realpath(base_path('/public/logo.jpg'))}}"/><br>
         <p>
             <strong>{{config('practice.name')}}</strong><br/>
             {{config('practice.building')}},
@@ -58,8 +69,20 @@
             {{config('practice.email')?'Email:- '.config('practice.email'):''}}
         </p>
     </div>
-    <div class="right">
-        <img src="{{realpath(base_path('/public/logo.jpg'))}}"/>
+    <div class="right" style="text-align: left">
+        <strong>Clinic:</strong>
+        {{$item->visits->clinics->name}}<br>
+        <strong>Conducted By:</strong>
+        {{$item->results->users->profile->full_name}}<br>
+        @if(isset($item->visits->external_doctors))
+            <strong>Request From:</strong>
+            {{$item->visits->external_doctors->profile->full_name}}<br>
+            ({{$item->visits->external_doctors->profile->partnerInstitution->name}})
+        @endif
+        <br/>
+        <strong>Patient:</strong>{{$visit->patients->full_name}}<br>
+        <strong>Patient No:</strong>{{$visit->patients->id}}<br>
+        <strong>Genger:</strong> {{$visit->patients->sex}}<br>
     </div>
     <div class="clear"></div>
     <div class="content">

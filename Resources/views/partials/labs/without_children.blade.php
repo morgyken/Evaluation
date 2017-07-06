@@ -6,7 +6,7 @@
             <input type="hidden" name="test{{$item->id}}[]" value="{{$item->procedures->id}}" />
         </td>
         <td>
-            <?php $type = $item->procedures->this_test->lab_result_type; ?>
+            <?php $type = $item->procedures->this_test?$item->procedures->this_test->lab_result_type:''; ?>
             @include('evaluation::partials.labs.input_field')
         </td>
     </tr>
