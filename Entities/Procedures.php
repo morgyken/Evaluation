@@ -11,12 +11,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $code
  * @property int $category
- * @property int $template
+ * @property int|null $template
  * @property float $cash_charge
- * @property bool $charge_insurance
- * @property bool $precharge
- * @property string $description
- * @property bool $status
+ * @property int $charge_insurance
+ * @property int $precharge
+ * @property string|null $description
+ * @property int $status
  * @property-read \Ignite\Evaluation\Entities\ProcedureCategories $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\SubProcedures[] $children
  * @property-read mixed $price
@@ -24,16 +24,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\ProcedureInventoryItem[] $items
  * @property-read \Ignite\Evaluation\Entities\ProcedureTemplates $templates
  * @property-read \Ignite\Evaluation\Entities\SubProcedures $this_test
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereCashCharge($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereCategory($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereChargeInsurance($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereCode($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures wherePrecharge($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Procedures whereTemplate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereCashCharge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereCategory($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereChargeInsurance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures wherePrecharge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereTemplate($value)
  * @mixin \Eloquent
  */
 class Procedures extends Model {

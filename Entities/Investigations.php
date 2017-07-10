@@ -13,16 +13,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $visit
  * @property string $type
  * @property int $procedure
- * @property int $quantity
+ * @property int|null $quantity
  * @property float $price
- * @property float $discount
- * @property float $amount
- * @property int $user
- * @property string $instructions
- * @property bool $ordered
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property-read \Ignite\Users\Entities\User $doctors
+ * @property float|null $discount
+ * @property float|null $amount
+ * @property int|null $user
+ * @property string|null $instructions
+ * @property int $ordered
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Ignite\Users\Entities\User|null $doctors
  * @property-read mixed $cash
  * @property-read mixed $has_result
  * @property-read mixed $is_paid
@@ -32,22 +32,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Ignite\Finance\Entities\RemovedBills $removed_bills
  * @property-read \Ignite\Evaluation\Entities\InvestigationResult $results
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations diagnosis()
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations laboratory()
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations treatment()
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereAmount($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereDiscount($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereInstructions($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereOrdered($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations wherePrice($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereProcedure($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereQuantity($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereUser($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Investigations whereVisit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations diagnosis()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations laboratory()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations treatment()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereInstructions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereOrdered($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereProcedure($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereUser($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Investigations whereVisit($value)
  * @mixin \Eloquent
  */
 class Investigations extends Model {

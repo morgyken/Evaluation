@@ -10,16 +10,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $procedure
  * @property string $template
- * @property string $payload
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property string|null $payload
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
  * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates wherePayload($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates whereProcedure($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates whereTemplate($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates wherePayload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates whereProcedure($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates whereTemplate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ProcedureTemplates whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class ProcedureTemplates extends Model {

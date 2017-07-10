@@ -11,14 +11,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $number
  * @property string $type
  * @property string $status
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Bed whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Bed whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Bed whereNumber($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Bed whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Bed whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Bed whereUpdatedAt($value)
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Bed whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Bed whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Bed whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Bed whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Bed whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Bed whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Bed extends Model

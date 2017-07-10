@@ -9,15 +9,15 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property string $name
- * @property string $description
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property string|null $description
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\SubProcedures[] $tests
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class HaemogramTitle extends Model {
