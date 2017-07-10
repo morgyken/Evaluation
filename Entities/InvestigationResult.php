@@ -11,27 +11,27 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property int $investigation
- * @property int $user
- * @property string $instructions
- * @property string $results
- * @property string $comments
- * @property int $file
+ * @property int|null $user
+ * @property string|null $instructions
+ * @property string|null $results
+ * @property string|null $comments
+ * @property int|null $file
  * @property int $status
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property-read \Ignite\Reception\Entities\PatientDocuments $documents
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Ignite\Reception\Entities\PatientDocuments|null $documents
  * @property-read \Ignite\Evaluation\Entities\Investigations $investigations
- * @property-read \Ignite\Users\Entities\User $users
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereComments($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereFile($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereInstructions($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereInvestigation($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereResults($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereUser($value)
+ * @property-read \Ignite\Users\Entities\User|null $users
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereComments($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereInstructions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereInvestigation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereResults($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereUser($value)
  * @mixin \Eloquent
  */
 class InvestigationResult extends Model {

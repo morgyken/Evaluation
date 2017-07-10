@@ -13,16 +13,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $credit
  * @property float $debit
  * @property int $patient
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereCredit($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereDebit($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereDetails($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts wherePatient($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereReference($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereUpdatedAt($value)
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereCredit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereDebit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereDetails($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts wherePatient($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereReference($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class FinancePatientAccounts extends Model

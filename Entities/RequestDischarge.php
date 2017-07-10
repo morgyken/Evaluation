@@ -10,19 +10,19 @@ use Ignite\Users\Entities\User;
  * Ignite\Evaluation\Entities\RequestDischarge
  *
  * @property int $id
- * @property int $doctor_id
+ * @property int|null $doctor_id
  * @property int $visit_id
- * @property string $reason
+ * @property string|null $reason
  * @property string $status
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereDoctorId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereReason($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereVisitId($value)
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereDoctorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\RequestDischarge whereVisitId($value)
  * @mixin \Eloquent
  */
 class RequestDischarge extends Model

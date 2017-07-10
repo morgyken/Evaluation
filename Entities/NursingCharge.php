@@ -10,17 +10,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $name
  * @property float $cost
- * @property int $ward_id
+ * @property int|null $ward_id
  * @property string $type
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\NursingCharge whereCost($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\NursingCharge whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\NursingCharge whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\NursingCharge whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\NursingCharge whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\NursingCharge whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\NursingCharge whereWardId($value)
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\NursingCharge whereCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\NursingCharge whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\NursingCharge whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\NursingCharge whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\NursingCharge whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\NursingCharge whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\NursingCharge whereWardId($value)
  * @mixin \Eloquent
  */
 class NursingCharge extends Model

@@ -12,15 +12,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property int $level
  * @property string $diagnosis_type
- * @property string $created_at
- * @property string $updated_at
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereCode($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereDiagnosisType($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereLevel($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereUpdatedAt($value)
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereDiagnosisType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\DiagnosisCodes whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class DiagnosisCodes extends Model {
