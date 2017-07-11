@@ -3,7 +3,9 @@
 namespace Ignite\Evaluation\Http\Controllers;
 
 use Ignite\Core\Http\Controllers\AdminBaseController;
+use Ignite\Evaluation\Entities\Formula;
 use Ignite\Evaluation\Entities\Prescriptions;
+use Ignite\Evaluation\Entities\Sample;
 use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
@@ -92,6 +94,37 @@ class EvaluationController extends AdminBaseController {
         $this->data['drug_prescriptions'] = Prescriptions::whereVisit($id)->get();
         //$this->data['dispensed'] = \Ignite\Evaluation\Entities\Dispensing::whereVisit($id)->get();
         return view('evaluation::patient_pharmacy', ['data' => $this->data]);
+    }
+
+    public function labotomy(Request $request){
+        $sample = new Sample();
+        $sample->patient_id = $request->patient;
+        $sample->visit_id = $request->visit;
+        $sample->type_id = $request->type;
+        $sample->details = $request->details;
+        $sample->collection_method_id = $request->collection_method;
+        $sample->save();
+        flash("Sample collected successfully", "success");
+        return back();
+    }
+
+    public function Formulae(Request $request){
+        foreach ($request->formular as $key=>$value){
+            if (!empty($value)){
+                $formula = new Formula();
+                $formula->procedure_id = $request->procedure;
+                //$formula->template_id = $request->template_id;
+                $formula->formula = $value;
+                $formula->save();
+            }
+        }
+        flash("Formula saved successfully", "success");
+        return back();
+    }
+
+    public function labotomy_print()
+    {
+        return $this->assetManager;
     }
 
     public function pharmacy_prescription() {

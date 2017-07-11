@@ -4,6 +4,9 @@ use Ignite\Core\Contracts\Authentication;
 use Illuminate\Routing\Router;
 
 $router->get('patients/queue/{department}', ['uses' => 'EvaluationController@queues', 'as' => 'queues']);
+$router->match(['get','post'],'samples/{patient?}', ['uses' => 'EvaluationController@labotomy', 'as' => 'labotomy']);
+$router->match(['get','post'],'formulae/{id?}', ['uses' => 'EvaluationController@Formulae', 'as' => 'formulae']);
+$router->match(['get','post'],'sample/barcode/{id?}/print', ['uses' => 'EvaluationController@labotomy_print', 'as' => 'labotomy.print']);
 $router->get('patients/visits/{visit}/preview/{department}', ['uses' => 'EvaluationController@preview', 'as' => 'preview']);
 $router->get('patients/visit/{visit}/evaluate/{department}', ['uses' => 'EvaluationController@evaluate', 'as' => 'evaluate']);
 

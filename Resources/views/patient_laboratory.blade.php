@@ -20,11 +20,14 @@ $patient = $data['visit']->patients;
         <div class="form-horizontal">
             <div class="col-md-12">
                 <div class="nav-tabs-custom">
+
                     <ul id="tabs" class="nav nav-tabs">
                         <li class="active"><a href="#ordered" data-toggle="tab">
                                 Ordered Labs<span class="badge alert-info">{{$labs->count()}}</span></a></li>
                         <li><a href="#new" data-toggle="tab">
                                 Order labs   <span class="badge alert-success">new</span></a> </li>
+                        <li><a href="#labotomy" data-toggle="tab">
+                                Collect Sample   <span class="badge alert-info">new</span></a> </li>
                         <li><a href="#results" data-toggle="tab" id="view_results">
                                 Lab Results <span class="badge alert-success">{{$results->count()}}</span></a> </li>
                         @if($results->count()>0)
@@ -32,6 +35,7 @@ $patient = $data['visit']->patients;
                                 Print Results<span class="badge alert-success"></span></a></li>
                         @endif
                     </ul>
+
                     <div class="tab-content">
                         <div class="tab-pane active " id="ordered">
                             @include('evaluation::partials.labs.ordered')
@@ -39,10 +43,14 @@ $patient = $data['visit']->patients;
                         <div class="tab-pane" id="new">
                             @include('evaluation::partials.labs.new')
                         </div>
+                        <div class="tab-pane" id="labotomy">
+                            @include('evaluation::partials.labs.labotomy')
+                        </div>
                         <div class="tab-pane" id="results">
                             @include('evaluation::partials.labs.results')
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -56,7 +64,6 @@ $patient = $data['visit']->patients;
         e.preventDefault();
         reload();
     });
-
     function reload() {
         location.reload();
     }

@@ -43,7 +43,6 @@ if (isset($lab->lab_result_type)) {
                     </div>
                 </div>
                 -->
-
                 <div class="form-group {{ $errors->has('title') ? ' has-error' : '' }}">
                     {!! Form::label('title', 'Title',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
@@ -51,6 +50,16 @@ if (isset($lab->lab_result_type)) {
                         {!! $errors->first('title', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
+
+                <div class="form-group {{ $errors->has('title') ? ' has-error' : '' }}">
+                    {!! Form::label('title', 'Alias',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        <small>One word or letter to be used in formulae</small>
+                        <input type="text" value="" placeholder="Alias"  name="alias[]" class="form-control">
+                        {!! $errors->first('alias', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
+
                 <!--
                                 <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
                                     {!! Form::label('min_range', 'Default Range',['class'=>'control-label col-md-4']) !!}

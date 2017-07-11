@@ -17,6 +17,9 @@ $(function () {
     $('#notes_form').submit(function (e) {
         e.preventDefault();
         save_notes();
+    });    $('#notes_form').submit(function (e) {
+        e.preventDefault();
+        save_notes();
     });
     $('#notes_form input').blur(function () {
         save_notes();

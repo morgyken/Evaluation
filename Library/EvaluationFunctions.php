@@ -24,6 +24,7 @@ use Ignite\Evaluation\Entities\Preliminary;
 use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
+use Ignite\Evaluation\Entities\ReferenceRange;
 use Ignite\Evaluation\Entities\SampleType;
 use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Entities\VisitMeta;
@@ -204,7 +205,7 @@ class EvaluationFunctions implements EvaluationRepository {
             $template->template = $request->template;
             $template->save();
         }
-        // flash("Template Saved....", "success");
+        flash("Template Saved....", "success");
         //} catch (\Exception $e) {
         // flash("Template Could NOT be Saved, please try again", 'danger');
         // }
@@ -215,7 +216,7 @@ class EvaluationFunctions implements EvaluationRepository {
         foreach ($request->subtest as $key => $value) {
             $template = TemplateLab::findOrNew($request->template_id);
             $template->procedure = $request->procedure;
-
+            $template->alias = $request->alias[$key];
             if ($request->title[$key] > 0) {
                 $template->title = $request->title[$key];
             }
@@ -669,8 +670,7 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     public function saveSubProcedure($procedure, $request) {
-        $s = SubProcedures::whereProcedure($procedure)->first();
-        if (is_null($s)) {
+        if (!$s = SubProcedures::whereProcedure($procedure)->first()){
             $s = new SubProcedures;
         }
         $s->procedure = $procedure;
@@ -680,11 +680,9 @@ class EvaluationFunctions implements EvaluationRepository {
         if ($request->lab_category > 0) {
             $s->category = $request->lab_category;
         }
-
         if ($this->request->title) {
             $s->title = $this->request->title;
         }
-
         $s->lab_result_type = $request->result_type;
         $s->lab_sample_type = $request->sample_type;
         $s->method = $request->method;
@@ -742,7 +740,26 @@ class EvaluationFunctions implements EvaluationRepository {
         $s->lab_result_options = \GuzzleHttp\json_encode($request->result_options);
         $s->lab_ordered_independently = $request->ordered_independently;
         $s->lab_multiple_orders_allowed = $request->multiple_orders_allowed;
+        $this->save_reference_ranges($request, $procedure);
         return $s->save();
+    }
+
+    function save_reference_ranges(Request $request, $procedure){
+        foreach ($request->time_measure as $key=>$value){
+            $ref = new ReferenceRange();
+            $ref->procedure	=$procedure;
+            $ref->type	=
+            $ref->time_measure= $value;
+            //$ref->gender= $request->gender[$key];
+            $ref->time= $request->time[$key];
+            $ref->time_min=	$request->time_min[$key];
+            $ref->time_max=	$request->time_max[$key];
+            $ref->less_greater=	$request->less_greater[$key];
+            $ref->non_range	= $request->non_range[$key];
+            $ref->range_min	= $request->range_min[$key];
+            $ref->range_max = $request->range[$key];
+            $ref->save();
+        }
     }
 
     /**

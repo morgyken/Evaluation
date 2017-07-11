@@ -18,7 +18,7 @@ class CreateSamplesTable extends Migration
             $table->integer('patient_id')->unsigned();
             $table->integer('visit_id')->unsigned()->nullable();
             $table->integer('type_id')->unsigned()->nullable();
-            $table->string('details');
+            $table->string('details')->nullable();
             $table->timestamps();
 
             $table->foreign('patient_id')

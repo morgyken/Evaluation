@@ -7,7 +7,7 @@
 ?>
 
 @extends('layouts.app')
-@section('content_title','Lab Test Titles')
+@section('content_title','Test template subheaders')
 @section('content_description','')
 
 @section('content')
@@ -20,7 +20,7 @@
                 <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }} req">
                     {!! Form::label('name', 'Name',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        {!! Form::text('name', old('name',$data['tit']->name), ['class' => 'form-control', 'placeholder' => 'Category Name']) !!}
+                        {!! Form::text('name', old('name',$data['tit']->name), ['class' => 'form-control', 'placeholder' => 'Name']) !!}
                         {!! $errors->first('name', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
@@ -56,17 +56,16 @@
 </div>
 <div class="box box-info">
     <div class="box-header">
-        <h3 class="box-title">Subtest Titles</h3>
+        <h3 class="box-title">Test template subheaders</h3>
     </div>
     <div class="box-body">
         <table class="table table-responsive table-condensed table-borderless table-striped">
             <tbody>
                 @foreach($data['tits'] as $tit)
-                <?php try { ?>
                     <tr id="row_id{{$tit->id}}">
                         <td>{{$loop->iteration}}</td>
                         <td>{{$tit->name}}</td>
-                        <td>{{$tit->procedures->name}}</td>
+                        <td>{{$tit->procedures?$tit->procedures->name:''}}</td>
                         <td>{{$tit->sort_order}}</td>
                         <td>
                             <a class="btn btn-primary btn-xs"
@@ -76,11 +75,6 @@
                                 <i class="fa fa-trash-o"></i></button>
                         </td>
                     </tr>
-                    <?php
-                } catch (\Exception $ex) {
-                    //sip coffee
-                }
-                ?>
                 @endforeach
             </tbody>
             <thead>
@@ -119,6 +113,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#select").select2();
+        $("table").DataTable();
     });
     var to_delete = null;
     $('.delete').click(function () {

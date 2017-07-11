@@ -460,6 +460,22 @@ if (!function_exists('get_procedures')) {
     }
 
 }
+
+
+if(!function_exists('get_sample_types')){
+    function get_sample_types(){
+        return \Ignite\Evaluation\Entities\SampleType::all()->pluck('name','id');
+    }
+}
+
+if(!function_exists('get_sample_methods')){
+    function get_sample_methods(){
+        return \Ignite\Evaluation\Entities\SampleCollectionMethods::all()->pluck('name','id');
+    }
+}
+
+
+
 if (!function_exists('generate_receipt_no')) {
 
     /**
@@ -1019,6 +1035,15 @@ if (!function_exists('get_reverted_test')) {
     }
 
 }
+
+if (!function_exists('get_patient_samples')) {
+
+    function get_patient_samples($id) {
+        return \Ignite\Evaluation\Entities\Sample::wherePatient_id($id)->get();
+    }
+
+}
+
 
 if (!function_exists('consumables')) {
 
