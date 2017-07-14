@@ -14,17 +14,17 @@
                     <label>Results</label>
                     <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
                     @if(!$item->procedures->children->isEmpty())
-                    <!-- Procedure has children -->
-                    @if(!$item->procedures->titles->isEmpty())
-                    <!-- Procedure has titles (full haemogram) -->
-                    @include('evaluation::partials.labs.with_titles')
+                        <!-- Procedure has children -->
+                        @if(!$item->procedures->titles->isEmpty())
+                            <!-- Procedure has titles (full haemogram) -->
+                            @include('evaluation::partials.labs.with_titles')
+                        @else
+                            <!-- Procedure has no titles -->
+                            @include('evaluation::partials.labs.without_titles')
+                        @endif
                     @else
-                    <!-- Procedure has no titles -->
-                    @include('evaluation::partials.labs.without_titles')
-                    @endif
-                    @else
-                    <!--Procedure has no children -->
-                    @include('evaluation::partials.labs.without_children')
+                        <!--Procedure has no children -->
+                        @include('evaluation::partials.labs.without_children')
                     @endif
                 </div>
             </div>
@@ -48,10 +48,6 @@
                 <?php get_consumables($item->procedure) ?>
             </div>
             <div class="pull-right">
-                <!--
-                <button type="submit" class="btn btn-xs btn-success">
-                    <i class="fa fa-save"></i>
-                    Save</button> -->
                 <a href="" style="color: white" class="btn btn-xs btn-success">
                     <i class="fa fa-save"></i>Save</a>
                 <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
@@ -63,9 +59,7 @@
 <script type="text/javascript">
     $(function () {
         //CKEDITOR.replaceAll();
-
         function flag(id) {
-            //if (isInt(id)) {
             $.ajax({
                 type: "get",
                 url: "{{route('api.evaluation.investigation_result')}}",
@@ -77,7 +71,6 @@
                     alertify.error('<i class="fa fa-check-warning"></i> Something went wrong, Retry');
                 }
             });
-            //  }
         }
     });
 </script>

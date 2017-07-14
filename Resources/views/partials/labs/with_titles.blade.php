@@ -1,4 +1,6 @@
-<?php $titles = get_titles_for_procedure($item->procedures->id); ?>
+<?php
+$titles = get_titles_for_procedure($item->procedures->id);
+?>
 <table class="table table-condensed table-striped">
     @foreach($titles as $title)
     <?php
@@ -7,7 +9,7 @@
     <tr>
         <th colspan="2" style="background:#9999CC">{{$title->name}} ({{$tests->count()}})</th>
     </tr>
-    <?php try { ?>
+    <?php //try { ?>
         @foreach($tests as $test)
         <tr>
             <td>
@@ -24,9 +26,9 @@
         </tr>
         @endforeach
         <?php
-    } catch (\Exception $e) {
+   // } catch (\Exception $e) {
 
-    }
+   // }
     ?>
     @endforeach
     <tr>

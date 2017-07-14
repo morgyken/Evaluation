@@ -2,12 +2,16 @@
 <input value="<?php get_reverted_test($item->procedures->id) ?>" id="{{$item->id}}" type="number" step="any" name="results{{$item->id}}[]" class="form-control">
 @elseif ($type == 'select')
 @if(isset($item->procedures->this_test->lab_result_options))
+ <?php
+ if(isset($test)){
+     $_options = json_decode($test->subtests->this_test->lab_result_options);
+ }else{
+     $_options = json_decode($item->procedures->this_test->lab_result_options);
+ }
+ ?>
 <select id="{{$item->id}}" name="results{{$item->id}}[]" class="form-control">
     <option></option>
-    <?php
-    $_options = json_decode($item->procedures->this_test->lab_result_options);
-    ?>
-    @if(isset($_options))
+    @if(!empty($_options))
     @foreach ($_options as $option)
     <option value="{{$option}}">{{$option}}</option>
     @endforeach

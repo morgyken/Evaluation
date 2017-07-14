@@ -1,5 +1,7 @@
 <table class="table table-condensed table-striped">
-    <?php $tests = get_lab_template($item->procedures->id); ?>
+    <?php
+    $tests = get_lab_template($item->procedures->id);
+    ?>
     @if(isset($tests))
     @foreach($tests as $test)
     <tr>
@@ -9,7 +11,10 @@
             <input type="hidden" name="test{{$item->id}}[]" value="{{$test->subtest}}" />
         </td>
         <td>
-            <?php $type = $test->subtests->this_test->lab_result_type; ?>
+            <?php
+            $type = $test->subtests->this_test->lab_result_type;
+            $_options = $test->subtests->this_test->lab_result_options;
+            ?>
             @include('evaluation::partials.labs.input_field')
         </td>
     </tr>

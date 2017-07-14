@@ -7,6 +7,7 @@ $tests = get_lab_template($item->procedures->id);
 $u = getUnit($test->subtests);
 $min_range = get_min_range($test->subtests, $age_days, $age_years);
 $max_range = get_max_range($test->subtests, $age_days, $age_years);
+if(in_array($test->subtest, $test_res)){
 ?>
 <tr>
     <td>{{$test->subtests->name}}</td>
@@ -23,6 +24,7 @@ $max_range = get_max_range($test->subtests, $age_days, $age_years);
         @endif
     </td>
 </tr>
+<?php } ?>
 @endforeach
 @else
 
