@@ -11,7 +11,8 @@
     ],
     "aliases": [],
     "files": [
-        "helpers.php"
+        "helpers.php",
+        "string_functions.php"
     ],
     "core": 0,
     "version": "v1.0.0",

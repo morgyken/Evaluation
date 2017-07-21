@@ -73,4 +73,8 @@ class Procedures extends Model {
         return $this->hasMany(HaemogramTitle::class, 'procedure');
     }
 
+    public function formulae() {
+        return $this->hasMany(Formula::class, 'procedure');
+    }
+
 }

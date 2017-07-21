@@ -1044,6 +1044,38 @@ if (!function_exists('get_patient_samples')) {
 
 }
 
+if(!function_exists('get_aliases')){
+    function get_aliases($procedure_id){
+        return TemplateLab::whereProcedure($procedure_id)->pluck('alias','subtest');
+    }
+}
+
+if(!function_exists('get_formula')){
+    function get_formula($test_id){
+        $formula = \Ignite\Evaluation\Entities\Formula::whereTest_id($test_id)->get()->first();
+        if(!empty($formula)){
+            return $formula->formula;
+        }else{
+            return null;
+        }
+    }
+}
+
+
+if(!function_exists('handle_formula')){
+    function handle_formula($test_id){
+        $formula = \Ignite\Evaluation\Entities\Formula::whereTest_id($test_id)->get()->first();
+        if(!empty($formula)){
+            
+            $vars = preg_split("/[+,-,*]+/", $formula->formula);
+            return $formula->formula;
+        }else{
+            return null;
+        }
+    }
+}
+
+
 
 if (!function_exists('consumables')) {
 

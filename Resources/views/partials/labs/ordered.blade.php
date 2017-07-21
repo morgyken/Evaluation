@@ -11,7 +11,7 @@
             {!! Form::token() !!}
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Results</label>
+                    <label>Test Results</label>
                     <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
                     @if(!$item->procedures->children->isEmpty())
                         <!-- Procedure has children -->

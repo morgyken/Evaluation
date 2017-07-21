@@ -6,7 +6,6 @@
  */
 $procedure = $data['procedure'];
 ?>
-
 @extends('layouts.app')
 @section('content_title','Templates')
 @section('content_description','Add templates')
@@ -67,7 +66,9 @@ $procedure = $data['procedure'];
                         {!! Form::label('template', 'Template',['class'=>'control-label col-md-4']) !!}
                         <div class="col-md-8">
                             @if(!$procedure->categories->name == 'Lab')
-                                <textarea rows="5" name="template" class="form-control">{{$procedure->templates?$procedure->templates->template:''}}</textarea>
+                                <textarea rows="5" name="template" class="form-control">
+                                    {{$procedure->templates?$procedure->templates->template:''}}
+                                </textarea>
                                 {!! $errors->first('template', '<span class="help-block">:message</span>') !!}
                             @else
                                 @include('evaluation::partials.labs.more_blueprints')
@@ -119,30 +120,42 @@ $procedure = $data['procedure'];
                                         {!! Form::hidden('template_id',$procedure->templates->id) !!}
                                     @endif
                                     <input type="hidden" id="procd" value="{{$procedure->id}}">
-                                    <div class="form-group {{ $errors->has('template') ? ' has-error' : '' }}">
-                                        {!! Form::label('template', 'Formula 1',['class'=>'control-label col-md-4']) !!}
-                                        <div class="col-md-8">
-                                            <input class="form-control" type="text" name="formular[]" placeholder="Formular">
+                                    <div class="row">
+                                        <div class="col-xs-5">
+                                            {!! Form::select('test[]',get_aliases($procedure->id),null, ['class' => 'form-control col-md-4', 'placeholder' => 'Test']) !!}
+                                        </div>
+                                        <div class="col-xs-1">
+                                            =
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <input class="form-control col-md-4" type="text" name="formular[]" placeholder="Formular 1">
                                         </div>
                                     </div>
-                                    <div class="form-group {{ $errors->has('template') ? ' has-error' : '' }}">
-                                        {!! Form::label('template', 'Formula 2',['class'=>'control-label col-md-4']) !!}
-                                        <div class="col-md-8">
-                                            <input class="form-control" type="text" name="formular[]" placeholder="Formular">
+
+                                    <div class="row">
+                                        <div class="col-xs-5">
+                                            {!! Form::select('test[]',get_aliases($procedure->id),null, ['class' => 'form-control col-md-4', 'placeholder' => 'Test']) !!}
+                                        </div>
+                                        <div class="col-xs-1">
+                                            =
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <input class="form-control col-md-4" type="text" name="formular[]" placeholder="Formular 2">
                                         </div>
                                     </div>
-                                    <div class="form-group {{ $errors->has('template') ? ' has-error' : '' }}">
-                                        {!! Form::label('template', 'Formula 3',['class'=>'control-label col-md-4']) !!}
-                                        <div class="col-md-8">
-                                            <input class="form-control" type="text" name="formular[]" placeholder="Formular">
+
+                                    <div class="row">
+                                        <div class="col-xs-5">
+                                            {!! Form::select('test[]',get_aliases($procedure->id),null, ['class' => 'form-control col-md-4', 'placeholder' => 'Test']) !!}
+                                        </div>
+                                        <div class="col-xs-1">
+                                            =
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <input class="form-control col-md-4" type="text" name="formular[]" placeholder="Formular 2">
                                         </div>
                                     </div>
-                                    <div class="form-group {{ $errors->has('template') ? ' has-error' : '' }}">
-                                        {!! Form::label('template', 'Formula 4',['class'=>'control-label col-md-4']) !!}
-                                        <div class="col-md-8">
-                                            <input class="form-control" type="text" name="formular[]" placeholder="Formular">
-                                        </div>
-                                    </div>
+
                                     <div class="box-footer">
                                         <div class="pull-right">
                                             <br>

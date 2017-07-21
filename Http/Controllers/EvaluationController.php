@@ -113,7 +113,7 @@ class EvaluationController extends AdminBaseController {
             if (!empty($value)){
                 $formula = new Formula();
                 $formula->procedure_id = $request->procedure;
-                //$formula->template_id = $request->template_id;
+                $formula->test_id = $request->test[$key];
                 $formula->formula = $value;
                 $formula->save();
             }
@@ -124,7 +124,7 @@ class EvaluationController extends AdminBaseController {
 
     public function labotomy_print()
     {
-        return $this->assetManager;
+        //return $this->assetManager;
     }
 
     public function pharmacy_prescription() {
