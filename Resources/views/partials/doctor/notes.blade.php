@@ -29,11 +29,12 @@ $notes = get_patient_doctor_notes($visit);
         <label>Investigations</label>
         <textarea name='investigations' class="form-control" rows='3'>{{$notes->examination}}</textarea>
     </div>
-    <div class="form-group req">
-        <label>Diagnosis</label><br/>
-        <select multiple class="diagnosis_auto form-control" name="diagnosis[]" id="diagnosis_auto">s</select>
-        <br>{{$notes->codes}}
+
+    <div class="form-group">
+        <label>Diagnosis</label>
+        <textarea name='diagnosis' class="form-control" rows='3'>{{$notes->diagnosis}}</textarea>
     </div>
+
     <div class="form-group req">
         <label>Plan of Treatment / Management</label>
         <textarea name='treatment_plan' class="form-control" rows='3'>{{$notes->treatment_plan}}</textarea>
