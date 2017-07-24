@@ -19,7 +19,6 @@ $results = $visit->investigations->where('type', $type)->where('has_result', tru
         </th>
     </tr>
 </table>
-
 <table>
     <tr>
         <td>
@@ -44,11 +43,10 @@ $results = $visit->investigations->where('type', $type)->where('has_result', tru
 </table>
 <br/>
 {!!$item->results->results!!}
-
 <table>
     <tr>
         <td colspan="5">
-            <strong>Comments:</strong>
+            <strong>Remarks:</strong>
             <p>{{$item->results->comments ?? 'Not provided'}}</p>
         </td>
     </tr>

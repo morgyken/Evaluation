@@ -16,7 +16,6 @@
             $_options = $test->subtests->this_test->lab_result_options;
             ?>
             @include('evaluation::partials.labs.input_field')<br/>
-            {{get_formula($test->subtests->id)}}
         </td>
     </tr>
     @endforeach

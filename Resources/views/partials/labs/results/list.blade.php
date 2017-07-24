@@ -46,8 +46,10 @@ $test_res = array_combine($all_tests, $their_result);
 <!--End of  is_array If Statement -->
 @endif
 <!--End of  is_array If Statement -->
+<br/>
+<br/>
 <tr>
-    <th colspan="5" style="background:#9999CC">Comments</th>
+    <th colspan="5" style="background:#9999CC">Remarks</th>
 </tr>
 <tr>
     <td colspan="5">

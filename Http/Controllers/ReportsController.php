@@ -75,8 +75,9 @@ class ReportsController extends Controller {
     public function print_lab(Request $request) {
         //try {
             $this->data['visit'] = Visit::find($request->visit);
+            $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
             $pdf = \PDF::loadView('evaluation::prints.lab.results', ['data' => $this->data]);
-            $pdf->setPaper('A5', 'potrait');
+            $pdf->setPaper('A4', 'potrait');
             return $pdf->stream('LabResults.pdf');
         //} catch (\Exception $exc) {
           //  return back();
@@ -88,7 +89,7 @@ class ReportsController extends Controller {
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
             $pdf = \PDF::loadView('evaluation::prints.lab.one_lab', ['data' => $this->data]);
-            $pdf->setPaper('A5', 'potrait');
+            $pdf->setPaper('A4', 'potrait');
             return $pdf->stream('LabResult.pdf');
       //  } catch (\Exception $ex) {
       //      return back();

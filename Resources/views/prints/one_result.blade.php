@@ -43,7 +43,7 @@ $results = $visit->investigations->where('type', $type)
 <table>
     <tr>
         <th>
-            <strong>Comments:</strong>
+            <strong>Remarks:</strong>
         </th>
     </tr>
 

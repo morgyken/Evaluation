@@ -1,21 +1,26 @@
 <?php
-$item = $data['results']; //->investigations->where('type', 'laboratory')->where('has_result', true); ?>
+$item = $data['results'];
+?>
 @include('evaluation::prints.partials.head')
-<strong>TEST RESULTS</strong><br/>
-<h5>Ref: 00{{$data['visit']->id}}/{{$item->results->id}}</h5>
-<table>
-    <tr>
-        <td>Date: {{smart_date_time($item->results->create_at)}}<br></td>
-    </tr>
-</table>
-<table class="table table-stripped">
-    @include('evaluation::partials.labs.results.list')
-    <tr style="font-weight: bold">
-        <td>Key:</td>
-        <td>L:Low</td>
-        <td>N:Normal</td>
-        <td colspan="2">H:High</td>
-        <td></td>
-    </tr>
-</table>
+<br><br/>
 @include('evaluation::prints.partials.footer')
+<div id="content">
+    <center><strong>{{$item->procedures->name}}</strong><br/></center>
+    <table class="table table-stripped">
+        @include('evaluation::partials.labs.results.list')
+    </table>
+
+    <table class="table table-stripped">
+        <tr style="font-weight: bold">
+            <td>Key:</td>
+            <td>L:Low</td>
+            <td>N:Normal</td>
+            <td colspan="2">H:High</td>
+            <td></td>
+        </tr>
+    </table>
+
+    <p style="page-break-before: always;"></p>
+</div>
+</body>
+</html>

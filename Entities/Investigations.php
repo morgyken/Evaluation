@@ -84,6 +84,10 @@ class Investigations extends Model {
         return $this->belongsTo(User::class, 'user');
     }
 
+    public function p() {
+        return $this->belongsTo(Procedures::class, 'procedure');
+    }
+
     public function results() {
         return $this->hasOne(InvestigationResult::class, 'investigation');
     }

@@ -57,7 +57,6 @@ $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $rout
     $router->post('pay/{patient?}', ['as' => 'pay_receipt', 'uses' => 'ReportsController@payment_receipt']);
     $router->post('patients/sick_off/notes', ['uses' => 'ReportsController@sick_off', 'as' => 'sick_off']);
 });
-
 $router->group(['prefix' => 'externaldoctor', 'as' => 'exdoctor.'], function (Router $router) {
     $router->match(['post', 'get'], 'patients/{id?}', ['uses' => 'ExternalController@patients', 'as' => 'patients']);
     $router->match(['post', 'get'], 'order/{patient?}', ['uses' => 'ExternalController@orders', 'as' => 'order']);
@@ -65,8 +64,6 @@ $router->group(['prefix' => 'externaldoctor', 'as' => 'exdoctor.'], function (Ro
     $router->match(['post', 'get'], 'view/order/{id?}', ['uses' => 'ExternalController@view_order', 'as' => 'order.view']);
     $router->match(['post', 'get'], 'queue/', ['uses' => 'ExternalController@queue', 'as' => 'queue']);
 });
-
-
 $router->group(['prefix' => 'lab', 'as' => 'lab.'], function (Router $router) {
     $router->get('result/verify/{result?}', ['as' => 'verify', 'uses' => 'EvaluationController@VerifyLabResult']);
     $router->get('result/revert/{result?}', ['as' => 'revert', 'uses' => 'EvaluationController@RejectLabResult']);
@@ -75,7 +72,6 @@ $router->group(['prefix' => 'lab', 'as' => 'lab.'], function (Router $router) {
 });
 $router->get('results/{result?}/revert/', ['as' => 'res.revert', 'uses' => 'EvaluationController@RevertResult']);
 //printables
-
 $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router) {
     $router->get('prescription/{visit}', ['uses' => 'ReportsController@print_prescription', 'as' => 'prescription']);
     Route::get('patient/notes/{no}', ['uses' => 'ReportsController@patient_notes', 'as' => 'patient_notes']);

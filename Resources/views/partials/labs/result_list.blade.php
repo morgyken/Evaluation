@@ -167,7 +167,7 @@ if ($item->procedures->this_test) {
 </tr>
 <!--End of  is_array If Statement -->
 <tr>
-    <td><strong>Comments:</strong></td>
+    <td><strong>Remarks:</strong></td>
     <td colspan="4">
         {{$item->results->comments ?? 'Not provided'}}
     </td>

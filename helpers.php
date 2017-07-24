@@ -156,6 +156,17 @@ if (!function_exists('get_titles_for_procedure')) {
 
 }
 
+
+if (!function_exists('load_template')) {
+
+    function load_template($procedure) {
+        $loaded = TemplateLab::whereProcedure($procedure)->get();
+        dd($loaded);
+        return $loaded;
+    }
+
+}
+
 if (!function_exists('get_title_procedures')) {
 
     function get_title_procedures($procedure, $title) {
@@ -1066,7 +1077,7 @@ if(!function_exists('handle_formula')){
     function handle_formula($test_id){
         $formula = \Ignite\Evaluation\Entities\Formula::whereTest_id($test_id)->get()->first();
         if(!empty($formula)){
-            
+
             $vars = preg_split("/[+,-,*]+/", $formula->formula);
             return $formula->formula;
         }else{
