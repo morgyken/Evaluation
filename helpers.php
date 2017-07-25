@@ -147,6 +147,26 @@ if (!function_exists('get_lab_template')) {
 
 }
 
+if (!function_exists('has_headers')) {
+
+    function has_headers($procedure) {
+        $subtests = TemplateLab::whereProcedure($procedure)->pluck('title');
+        $headers = array();
+        foreach ($subtests as $test){
+            if(!empty($test)){
+                $headers[] = $test;
+            }
+        }
+
+        if (!empty($headers)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+}
+
 if (!function_exists('get_titles_for_procedure')) {
 
     function get_titles_for_procedure($procedures) {
@@ -961,7 +981,7 @@ if (!function_exists('get_max_range')) {
             }
             return $max_range;
         } catch (\Exception $e) {
-            return $p->this_test->lab_max_range ? $p->this_test->lab_max_range : '';
+            return null;
         }
     }
 
@@ -996,17 +1016,19 @@ if (!function_exists('getUnit')) {
      * @return $unit
      */
     function getUnit($p) {
-        $unit_str = $p->this_test->result_type_details;
-        preg_match("/\(([^\)]*)\)/", $unit_str, $matches);
-        if ($matches) {
-            $unit = $matches[1];
-        }
-        if (strpos($p->name, '%')) {
-            return '%';
-        } elseif ($matches) {
-            return html_entity_decode($unit);
-        } else {
-            return $p->this_test->units;
+        if (!empty($p->this_test)){
+            $unit_str = $p->this_test->result_type_details;
+            preg_match("/\(([^\)]*)\)/", $unit_str, $matches);
+            if ($matches) {
+                $unit = $matches[1];
+            }
+            if (strpos($p->name, '%')) {
+                return '%';
+            } elseif ($matches) {
+                return html_entity_decode($unit);
+            } else {
+                return $p->this_test->units;
+            }
         }
     }
 

@@ -13,19 +13,30 @@
                 <div class="form-group">
                     <label>Test Results</label>
                     <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
-                    @if(!$item->procedures->children->isEmpty())
-                        <!-- Procedure has children -->
-                        @if(!$item->procedures->titles->isEmpty())
-                            <!-- Procedure has titles (full haemogram) -->
-                            @include('evaluation::partials.labs.with_titles')
-                        @else
-                            <!-- Procedure has no titles -->
-                            @include('evaluation::partials.labs.without_titles')
-                        @endif
+                    @if(!empty($item->procedures->templates_lab))
+                         @if(has_headers($item->procedures->id))
+                            <!-- Procedure has pre-defined template -->
+                            @include('evaluation::partials.labs.preload')
+                         @else
+                            <!-- Procedure has pre-defined template -->
+                            @include('evaluation::partials.labs.preload_no_headers')
+                         @endif
                     @else
-                        <!--Procedure has no children -->
-                        @include('evaluation::partials.labs.without_children')
+                        @if(!$item->procedures->children->isEmpty())
+                            <!-- Procedure has children -->
+                            @if(!$item->procedures->titles->isEmpty())
+                                <!-- Procedure has titles (full haemogram) -->
+                                @include('evaluation::partials.labs.with_titles')
+                            @else
+                                <!-- Procedure has no titles -->
+                                @include('evaluation::partials.labs.without_titles')
+                            @endif
+                        @else
+                            <!--Procedure has no children -->
+                            @include('evaluation::partials.labs.without_children')
+                        @endif
                     @endif
+
                 </div>
             </div>
             <div class="col-md-4 col-md-offset-2">

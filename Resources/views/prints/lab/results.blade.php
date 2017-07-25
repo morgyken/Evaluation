@@ -16,6 +16,7 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
         <table class="table table-stripped">
             @include('evaluation::partials.labs.results.list')
         </table>
+
         <strong>Ordered By:</strong>
         {{$item->doctors->profile->full_name}}<br>
         <strong>Conducted By:</strong>

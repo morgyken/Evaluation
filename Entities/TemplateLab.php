@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TemplateLab extends Model {
 
     protected $fillable = [];
+    protected $guarded = [];
     protected $table = 'evaluation_templates_lab';
 
     public function procedures() {
@@ -18,6 +19,10 @@ class TemplateLab extends Model {
     }
 
     public function titles() {
+        return $this->belongsTo(HaemogramTitle::class, 'title');
+    }
+
+    public function header() {
         return $this->belongsTo(HaemogramTitle::class, 'title');
     }
 

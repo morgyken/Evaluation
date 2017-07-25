@@ -6,7 +6,6 @@
         #footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 150px; background-color: #eee; }
         #footer .page:after { content: counter(page) " of " counter(page); }
 
-
         table{
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
             border-collapse: collapse;
@@ -26,8 +25,8 @@
         table th{
             padding-top: 1px;
             padding-bottom: 1px;
-            background-color: /*#4CAF50*/ #BBBBBB;
-            color: white;
+            background-color: /*#4CAF50*/ #eee;
+            color: black;
         }
         .left{
             width: 40%;

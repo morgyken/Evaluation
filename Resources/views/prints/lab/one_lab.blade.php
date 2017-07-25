@@ -9,17 +9,15 @@ $item = $data['results'];
     <table class="table table-stripped">
         @include('evaluation::partials.labs.results.list')
     </table>
-
     <table class="table table-stripped">
         <tr style="font-weight: bold">
             <td>Key:</td>
             <td>L:Low</td>
             <td>N:Normal</td>
-            <td colspan="2">H:High</td>
+            <td>H:High</td>
             <td></td>
         </tr>
     </table>
-
     <p style="page-break-before: always;"></p>
 </div>
 </body>

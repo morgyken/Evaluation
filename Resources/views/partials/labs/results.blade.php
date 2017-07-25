@@ -60,9 +60,7 @@ $age_years = $dob->age;
                     @include('evaluation::partials.labs.results.list')
                 </table>
             </div>
-
             @include('evaluation::partials.labs.action')
-
             @if($item->results->documents)
             Uploaded File -
             <a href="{{route('reception.view_document',$item->results->documents->id)}}" target="_blank">
