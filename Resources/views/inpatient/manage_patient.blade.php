@@ -108,7 +108,7 @@
                     @else
                         <div class="col-lg-8">
 
-
+                            @include('graphs.input');
 
                         </div>
 
