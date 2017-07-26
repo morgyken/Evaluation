@@ -110,7 +110,6 @@ if (isset($lab->lab_result_type)) {
                                     </div>
                                 </div>
 
-
                                 <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
                                     {!! Form::label('min_range', '25-60 Months Range',['class'=>'control-label col-md-4']) !!}
                                     <div class="col-md-4">
