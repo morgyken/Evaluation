@@ -20,7 +20,6 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
         <table>
             @include('evaluation::partials.labs.results.list')
         </table>
-        <hr>
     @endforeach
     <div id="notices">
         <div>KEY:</div>

@@ -67,7 +67,7 @@ $test_res = array_combine($all_tests, $their_result);
 <br/>
 <br/>
 <tr>
-    <th colspan="5" style="background:#9999CC">Remarks:</th>
+    <th colspan="5" style="background:#eee">Remarks:</th>
 </tr>
 <tr>
     <td colspan="5">

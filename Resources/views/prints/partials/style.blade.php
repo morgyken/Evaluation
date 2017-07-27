@@ -69,7 +69,7 @@
 
 
     table th {
-        border-bottom: 1px solid #eee;
+       /* border-bottom: 1px solid #eee; */
         font-weight: bolder;
         text-align: left;
     }
