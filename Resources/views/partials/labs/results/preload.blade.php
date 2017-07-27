@@ -9,7 +9,7 @@
 $loaded = get_lab_template($item->procedures->id);
 $headers = array();
 foreach ($loaded as $l){
-    if (!null){
+    if (!empty($l->header)){
         $headers[] = $l->header;
     }
 }

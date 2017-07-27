@@ -1,8 +1,5 @@
-</div>
-</div>
-</div>
-<div id="footer" style="text-align: right">
-    <p>Clinical Pathologist:</p> <br/>
-    <p class="page">Page: </p>
-</div>
-</div>
+<footer>
+    <div class="info">Clinical Pathologist: </div>
+    <div class="page">Page: </div>
+</footer>
+<p style="page-break-before: always;"></p>
