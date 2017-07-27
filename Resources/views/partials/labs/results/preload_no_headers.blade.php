@@ -9,6 +9,7 @@ $tests = get_lab_template($item->procedures->id);
 ?>
 @foreach($tests as $test)
     <?php
+     try{
     if ($test_res[$test->subtest] !== '') {
         $u = getUnit($test->subtests);
         $min_range = get_min_range($test->subtests, $age_days, $age_years);
@@ -30,6 +31,9 @@ $tests = get_lab_template($item->procedures->id);
             </td>
         </tr>
     <?php
+    }
+    }catch(\Exception $e){
+
     }
     ?>
 @endforeach
