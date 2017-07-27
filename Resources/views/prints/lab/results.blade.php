@@ -13,13 +13,14 @@ $age_str = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m mo
 $age_years = $dob->age;
 $results = $data['visit']->investigations->where('type', 'laboratory')->where('has_result', true);
 ?>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <main>
     @foreach($results as $item)
         <h5>{{$loop->iteration}}. {{$item->procedures->name}}</h5>
         <table>
             @include('evaluation::partials.labs.results.list')
         </table>
+        <br>
     @endforeach
     <div id="notices">
         <div>KEY:</div>

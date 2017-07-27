@@ -1,5 +1,4 @@
-
-<header class="clearfix">
+<div id="header">
     <?php
     extract($data);
     $patient = $data['visit']->patients;
@@ -67,4 +66,4 @@
             </td>
         </tr>
     </table>
-</header>
+</div>

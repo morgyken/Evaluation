@@ -7,7 +7,6 @@
  */
 ?>
 <style>
-
     body {
         color: #001028;
         background: #FFFFFF;
@@ -15,17 +14,17 @@
         font-size: 12px;
         font-family: Arial;
     }
-
-    header {
+    footer .page:after { content: counter(page) " of " counter(page); }
+    #header {
         padding: 10px 0;
-        margin-bottom: 10%;
+        margin-bottom: 5%;
         position: fixed;
         height: auto;
     }
 
     #logo {
         text-align: center;
-        margin-bottom: 10%;
+        margin-bottom: 5%;
         width: 100%;
     }
 
@@ -59,7 +58,6 @@
 
     table {
         width: 100%;
-        border-spacing: 0;
         margin-bottom: 20px;
     }
 
@@ -69,7 +67,7 @@
 
 
     table th {
-       /* border-bottom: 1px solid #eee; */
+        /* border-bottom: 1px solid #eee; */
         font-weight: bolder;
         text-align: left;
     }
@@ -97,21 +95,12 @@
         height: 30px;
     }
 
-    footer .page:after { content: counter(page) " of " counter(page); }
+
     footer .page{
         text-align: right;
     }
 
     footer .info{
-        text-align: left;
-    }
-
-    .key{
-        float: left;
-    }
-
-    .key li{
-        display: inline;
         text-align: left;
     }
 </style>
