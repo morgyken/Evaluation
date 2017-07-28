@@ -58,13 +58,7 @@
 
     table {
         width: 100%;
-        margin-bottom: 20px;
     }
-
-    table tr:nth-child(2n-1) td {
-        /*background: #F5F5F5;*/
-    }
-
 
     table th {
         /* border-bottom: 1px solid #eee; */
