@@ -34,7 +34,7 @@ foreach ($loaded as $l){
             <tr>
                 <td>{{$test->subtests->name}}</td>
                 <td>
-                    {{get_res($item->procedures->name, $test, $test_res)}}
+                    {{$test_res[$test->subtest]}}
                 </td>
                 <td><?php echo $u ?></td>
                 <td>
