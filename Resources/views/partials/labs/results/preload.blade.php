@@ -8,6 +8,7 @@
 //$titles = get_titles_for_procedure($item->procedures->id);
 $loaded = get_lab_template($item->procedures->id);
 $headers = array();
+$calculated = array();
 foreach ($loaded as $l){
     if (!empty($l->header)){
         $headers[] = $l->header;
@@ -24,15 +25,17 @@ foreach ($loaded as $l){
             @foreach($tests as $test)
             <?php
             try{
-            if ($test_res[$test->subtest] !== '') {
+           if ($test_res[$test->subtest] !== '') {
                 $u = getUnit($test->subtests);
                 $min_range = get_min_range($test->subtests, $age_days, $age_years);
                 $max_range = get_max_range($test->subtests, $age_days, $age_years);
-             ?>
 
+             ?>
             <tr>
                 <td>{{$test->subtests->name}}</td>
-                <td>{{$test_res[$test->subtest]}}</td>
+                <td>
+                    {{get_res($item->procedures->name, $test, $test_res)}}
+                </td>
                 <td><?php echo $u ?></td>
                 <td>
                     @if(isset($min_range) && isset($max_range))
@@ -48,7 +51,6 @@ foreach ($loaded as $l){
             <?php
             }
             ?>
-
             <?php
             }catch (\Exception $e){
 

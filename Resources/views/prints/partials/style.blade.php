@@ -23,7 +23,7 @@
     }
 
     #logo {
-        text-align: center;
+        text-align: right;
         margin-bottom: 5%;
         width: 100%;
     }

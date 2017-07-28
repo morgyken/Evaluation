@@ -43,11 +43,11 @@
             <td style="text-align: left">
                 <strong style="float: top">Sample Details</strong><br>
                 <address>
-                    Accession Number: <br>
-                    Registered On:<br>
-                    Collected On<br>
-                    Received On<br>
-                    Reported On
+                    Visit Number: 00{{$visit->id}}<br>
+                    Registered On: {{$visit->created_at}}<br>
+                    Collected On: {{$visit->updated_at}}<br>
+                    Received On: {{$visit->created_at}}<br>
+                    Reported On:
                 </address>
             </td>
             <td style="text-align: left">
@@ -58,8 +58,9 @@
                     {{$item->visits->external_doctors?"(".$item->visits->external_doctors->profile->partnerInstitution->name.")":''}}
                     <br/>
                     <?php
-                    }catch(\Exception $e){
-
+                    }catch(\Exception $e){ ?>
+                        <span style="float:top">Self : {{$visit->patients->full_name}}<br></span>
+                    <?php
                     }
                     ?>
                 </address>

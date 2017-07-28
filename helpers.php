@@ -1109,6 +1109,50 @@ if(!function_exists('handle_formula')){
 }
 
 
+function get_res($name, $test,$results){
+    $data = array();
+    if(strpos($name, 'HEMOGRAM')){
+        if (str_contains(strtolower($test->subtests->name), 'wbc') ||
+            str_contains(strtolower($test->subtests->name), 'white blood cell count')){
+            $data['wbc']= $wbc = $results[$test->subtest];
+            return $data;
+        }
+
+        if (str_contains(strtolower($test->subtests->name), 'neutrophils') &&
+            str_contains($test->subtests->name, '%')){
+            $data['np']= $np = $results[$test->subtest];
+            return $data;
+        }
+
+        if (str_contains(strtolower($test->subtests->name), 'lymphocyte') &&
+            str_contains($test->subtests->name, '%')){
+            $data['lp']= $lp = $results[$test->subtest];
+            return $data;
+        }
+
+        if (str_contains(strtolower($test->subtests->name), 'monocyte') &&
+            str_contains($test->subtests->name, '%')){
+            $data['mp']= $mp = $results[$test->subtest];
+            return $data;
+        }
+
+        if (str_contains(strtolower($test->subtests->name), 'eosinophils') &&
+            str_contains($test->subtests->name, '%')){
+            $data['ep']= $ep = $results[$test->subtest];
+            return $data;
+        }
+
+        if (str_contains(strtolower($test->subtests->name), 'basophils') &&
+            str_contains($test->subtests->name, '%')){
+            $data['bp']= $bp = $results[$test->subtest];
+            return $data;
+        }
+    }
+}
+
+
+
+
 
 if (!function_exists('consumables')) {
 
