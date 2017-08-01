@@ -28,7 +28,7 @@
 
     .page-number:after {
         counter-increment: page;
-        content: "Page " counter(page) " of " counter(page);
+        content: "Page " counter(page);
     }
 
     .page-number {
