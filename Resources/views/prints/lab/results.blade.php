@@ -1,6 +1,7 @@
 <html>
 <head>
-    <title>Results</title>
+    <title>Lab results #</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     @include('evaluation::prints.partials.style')
 </head>
 <body>
@@ -13,23 +14,33 @@ $age_str = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m mo
 $age_years = $dob->age;
 $results = $data['visit']->investigations->where('type', 'laboratory')->where('has_result', true);
 ?>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div>
+    @include('evaluation::prints.partials.footer')
     @foreach($results as $item)
-        <h5>{{$loop->iteration}}. {{$item->procedures->name}}</h5>
-        <table>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <td colspan="5">
+                    {{$loop->iteration}}. {{$item->procedures->name}}
+                </td>
+            </tr>
             @include('evaluation::partials.labs.results.list')
         </table>
-        <br/>
+        <table>
+            <tr>
+                <td colspan="5"></td>
+            </tr>
+            <tr class="heading">
+                <th colspan="5" style="text-align: left">KEY</th>
+            </tr>
+            <tr>
+                <td>L: Low</td>
+                <td>H: High</td>
+                <td>C: Critical</td>
+                <td>A: Abnormal</td>
+            </tr>
+        </table>
     @endforeach
-    <table>
-        <tr>
-            <td>
-                <b>L:</b> Low,
-                <b>N:</b>Normal,
-                <b>H:</b>High.
-            </td>
-        </tr>
-    </table>
-@include('evaluation::prints.partials.footer')
+    <hr>
+</div>
 </body>
 </html>

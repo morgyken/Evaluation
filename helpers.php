@@ -932,19 +932,24 @@ if (!function_exists('get_min_range')) {
      */
     function get_min_range($p, $age_days, $age_years) {
         try {
-            if ($age_days < 4) {
-                return $p->this_test->_0_3d_minrange;
-            } elseif ($age_days >= 4 && $age_days <= 30) {
-                return $p->this_test->_4_30d_minrange;
-            } elseif ($age_days > 30 && $age_days <= 730) {
-                return $p->this_test->_1_24m_minrange;
-            } elseif ($age_days > 730 && $age_days <= 1825) {
-                return $p->this_test->_25_60m_minrange;
-            } else {
-                if ($age_years > 4 && $age_years <= 19) {
-                    return $p->this_test->_5_19y_minrange;
+            if(!empty($p->ref_ranges)){
+                dd($p->ref_ranges->type);
+
+            }else{
+                if ($age_days < 4) {
+                    return $p->this_test->_0_3d_minrange;
+                } elseif ($age_days >= 4 && $age_days <= 30) {
+                    return $p->this_test->_4_30d_minrange;
+                } elseif ($age_days > 30 && $age_days <= 730) {
+                    return $p->this_test->_1_24m_minrange;
+                } elseif ($age_days > 730 && $age_days <= 1825) {
+                    return $p->this_test->_25_60m_minrange;
                 } else {
-                    return $p->this_test->adult_minrange;
+                    if ($age_years > 4 && $age_years <= 19) {
+                        return $p->this_test->_5_19y_minrange;
+                    } else {
+                        return $p->this_test->adult_minrange;
+                    }
                 }
             }
         } catch (\Exception $e) {
@@ -955,7 +960,6 @@ if (!function_exists('get_min_range')) {
 }
 
 if (!function_exists('get_max_range')) {
-
     /**
      * Get Maximum lab range depending on patient age
      * @param $procedure, $age_days, $age_years
@@ -964,19 +968,23 @@ if (!function_exists('get_max_range')) {
     function get_max_range($p, $age_days, $age_years) {
         $max_range = null;
         try {
-            if ($age_days < 4) {
-                $max_range = $p->this_test->_0_3d_maxrange;
-            } elseif ($age_days >= 4 && $age_days <= 30) {
-                $max_range = $p->this_test->_4_30d_maxrange;
-            } elseif ($age_days > 30 && $age_days <= 730) {
-                $max_range = $p->this_test->_1_24m_maxrange;
-            } elseif ($age_days > 730 && $age_days <= 1825) {
-                $max_range = $p->this_test->_25_60m_maxrange;
-            } else {
-                if ($age_years > 4 && $age_years <= 19) {
-                    $max_range = $p->this_test->_5_19y_maxrange;
+            if(!empty($p->templates_lab)){
+
+            }else{
+                if ($age_days < 4) {
+                    $max_range = $p->this_test->_0_3d_maxrange;
+                } elseif ($age_days >= 4 && $age_days <= 30) {
+                    $max_range = $p->this_test->_4_30d_maxrange;
+                } elseif ($age_days > 30 && $age_days <= 730) {
+                    $max_range = $p->this_test->_1_24m_maxrange;
+                } elseif ($age_days > 730 && $age_days <= 1825) {
+                    $max_range = $p->this_test->_25_60m_maxrange;
                 } else {
-                    $max_range = $p->this_test->adult_maxrange;
+                    if ($age_years > 4 && $age_years <= 19) {
+                        $max_range = $p->this_test->_5_19y_maxrange;
+                    } else {
+                        $max_range = $p->this_test->adult_maxrange;
+                    }
                 }
             }
             return $max_range;
@@ -988,7 +996,6 @@ if (!function_exists('get_max_range')) {
 }
 
 if (!function_exists('getOrderResults')) {
-
     /**
      * Get Lab test unit
      * @param $procedure/test
@@ -1002,7 +1009,6 @@ if (!function_exists('getOrderResults')) {
                 })
                 ->whereHas('results')
                 ->get();
-
         return $results;
     }
 
@@ -1050,7 +1056,6 @@ if (!function_exists('getFlag')) {
         } else
             return "N";
     }
-
 }
 
 if (!function_exists('get_reverted_test')) {
@@ -1151,11 +1156,7 @@ function get_res($name, $test,$results){
 }
 
 
-
-
-
 if (!function_exists('consumables')) {
-
     function get_consumables($id) {
         $procedure = \Ignite\Evaluation\Entities\Procedures::whereId($id)->get()->first();
         if (!$procedure->items->isEmpty()) {

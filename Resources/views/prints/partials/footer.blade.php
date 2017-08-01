@@ -1,5 +1,5 @@
 <footer>
-    <div class="info">Clinical Pathologist: </div>
-    <div class="page">Page: </div>
+    <div style="float: right"><small>Pathologist: </small></div><br>
+    <div class="page-number"></div>
+    <div style="float: right"><small>All rights reserved<small> </div>
 </footer>
-<p style="page-break-before: always;"></p>

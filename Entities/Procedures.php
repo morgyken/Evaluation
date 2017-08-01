@@ -77,4 +77,8 @@ class Procedures extends Model {
         return $this->hasMany(Formula::class, 'procedure');
     }
 
+    public function ref_ranges() {
+        return $this->hasMany(ReferenceRange::class, 'procedure');
+    }
+
 }

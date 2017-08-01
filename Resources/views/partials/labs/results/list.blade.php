@@ -18,12 +18,12 @@ foreach ($results as $_r) {
 }
 $test_res = array_combine($all_tests, $their_result);
 ?>
-<tr>
-    <th>Test</th>
-    <th>Result</th>
-    <th>Unit</th>
-    <th style="text-align:center">Flag</th>
-    <th>Ref Range</th>
+<tr class="heading">
+    <td>Test</td>
+    <td>Result</td>
+    <td>Unit</td>
+    <td style="text-align:center">Flag</td>
+    <td>Ref Range</td>
 </tr>
     @if(!empty($item->procedures->templates_lab))
         @if(has_headers($item->procedures->id))
@@ -63,15 +63,19 @@ $test_res = array_combine($all_tests, $their_result);
 </tr>
 <!--End of  is_array If Statement -->
 @endif
+@if(!empty($item->results->comments))
+@if(isset($item->results->comments))
 <!--End of  is_array If Statement -->
 <br/>
 <br/>
 <tr>
-    <th colspan="5" style="background:#eee">Remarks:</th>
+    <td colspan="5" style="font-weight: bold">Remarks:</td>
 </tr>
 <tr>
     <td colspan="5">
         {{$item->results->comments?$item->results->comments:"Not Provided"}}
     </td>
 </tr>
+@endif
+@endif
 <br/>

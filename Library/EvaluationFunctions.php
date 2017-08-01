@@ -748,7 +748,7 @@ class EvaluationFunctions implements EvaluationRepository {
         foreach ($request->time_measure as $key=>$value){
             $ref = new ReferenceRange();
             $ref->procedure	=$procedure;
-            $ref->type	=
+            $ref->type	= $request->reference_range_type;
             $ref->time_measure= $value;
             //$ref->gender= $request->gender[$key];
             $ref->time= $request->time[$key];
@@ -757,7 +757,7 @@ class EvaluationFunctions implements EvaluationRepository {
             $ref->less_greater=	$request->less_greater[$key];
             $ref->non_range	= $request->non_range[$key];
             $ref->range_min	= $request->range_min[$key];
-            $ref->range_max = $request->range[$key];
+            $ref->range_max = $request->range_max[$key];
             $ref->save();
         }
     }

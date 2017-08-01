@@ -15,7 +15,6 @@ $(document).ready(function () {
 
 function toggle_options() {
     var selected = $('#result_type').val();
-    alert(selected);
     if (selected === 'select') {
         $('#result_type_options').fadeIn('slow');
     } else {

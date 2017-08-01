@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Results</title>
+    <title>Lab results #</title>
     @include('evaluation::prints.partials.style')
 </head>
 <body>
@@ -8,21 +8,32 @@
 <?php
 $item = $data['results'];
 ?>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<main>
-    <center><strong>{{$item->procedures->name}}</strong><br/></center>
-    <table class="table table-stripped">
-        @include('evaluation::partials.labs.results.list')
-    </table>
-    <div id="notices">
-        <div>KEY:</div>
-        <div class="notice">
-            <b>L:</b> Low,
-            <b>N:</b>Normal,
-            <b>H:</b>High.
-        </div>
-    </div>
-</main>
 @include('evaluation::prints.partials.footer')
+<table class="data" cellpadding="0" cellspacing="0">
+    <tr>
+        <td colspan="5">
+            <?php echo ucwords($item->procedures->name) ?>
+        </td>
+    </tr>
+    @include('evaluation::partials.labs.results.list')
+</table>
+<table>
+    <tr class="heading">
+        <th colspan="5" style="text-align: left">Requesting Pathologist</th>
+    </tr>
+    <tr>
+        <td colspan="5"></td>
+    </tr>
+    <tr class="heading">
+        <th colspan="5" style="text-align: left">KEY</th>
+    </tr>
+    <tr>
+        <td>L: Low</td>
+        <td>H: High</td>
+        <td>C: Critical</td>
+        <td>A: Abnormal</td>
+    </tr>
+</table>
+<i></i>
 </body>
-</html>
+</html>ss

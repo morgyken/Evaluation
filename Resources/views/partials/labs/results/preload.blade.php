@@ -15,26 +15,25 @@ foreach ($loaded as $l){
     }
 }
 ?>
-        @foreach(array_unique($headers) as $header)
-        <tr>
-            <th style="color:black; font-weight: bolder" colspan="5">{{$header->name}}</th>
-        </tr>
+@foreach(array_unique($headers) as $header)
+    <tr>
+        <td style="color:black; font-weight: bolder" colspan="5">{{$header->name}}</td>
+    </tr>
+    <?php
+    $tests = get_title_procedures($item->procedures->id, $header->id);
+    ?>
+    @foreach($tests as $test)
         <?php
-        $tests = get_title_procedures($item->procedures->id, $header->id);
-        ?>
-            @foreach($tests as $test)
-            <?php
-            try{
+        try{
            if ($test_res[$test->subtest] !== '') {
                 $u = getUnit($test->subtests);
                 $min_range = get_min_range($test->subtests, $age_days, $age_years);
                 $max_range = get_max_range($test->subtests, $age_days, $age_years);
-
-             ?>
+        ?>
             <tr>
-                <td>{{$test->subtests->name}}</td>
+                <td>{{ucfirst($test->subtests->name)}}</td>
                 <td>
-                    {{$test_res[$test->subtest]}}
+                    {{snake_case($test_res[$test->subtest])}}
                 </td>
                 <td><?php echo $u ?></td>
                 <td>
@@ -56,5 +55,5 @@ foreach ($loaded as $l){
 
             }
             ?>
-            @endforeach
-        @endforeach
+    @endforeach
+@endforeach

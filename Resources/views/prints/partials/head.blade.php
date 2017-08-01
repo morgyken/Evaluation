@@ -1,70 +1,83 @@
-<div id="header">
-    <?php
-    extract($data);
-    $patient = $data['visit']->patients;
-    $dob = \Carbon\Carbon::parse($patient->dob);
-    $age_days = $dob->diffInDays();
-    $age_str = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');
-    $age_years = $dob->age;
-    $item = $data['results'];
-    $clinic = $visit->clinics;
-    ?>
-    <div id="logo">
-        <img src="{{realpath(base_path('/public/logo.jpg'))}}"/>
-        <div style="float: right">
-            <address>
-                <strong>{{config('practice.name')}}, {{$visit->clinics->name}}<br></strong>
-                Visit us at: {{$clinic->bulding?$clinic->bulding.',':''}}<br>
-                {{$clinic->street?$clinic->street.',':''}}
-                {{$clinic->town}}<br>
-                {{$clinic->address?'Address:- '.$clinic->address:''}}<br/>
-                {{$clinic->telephone?'Telephone:- '.$clinic->telephone:''}}<br/>
-                {{$clinic->mobile?'Mobile:- '.$clinic->mobile:''}}
-            </address>
-        </div>
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <table class="topper">
+<?php
+extract($data);
+$patient = $data['visit']->patients;
+$dob = \Carbon\Carbon::parse($patient->dob);
+$age_days = $dob->diffInDays();
+$age_str = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');
+$age_years = $dob->age;
+$item = $data['results'];
+$clinic = $visit->clinics;
+?>
+<header>
+    <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+            <td colspan="5">
+                <table>
+                    <tr>
+                        <td class="title">
+                            <img width="200" src="{{realpath(base_path('/public/logo.jpg'))}}"/>
+                        </td>
+                        <td style="text-align: right">
+                            <small>
+                                <strong><?php echo ucfirst(config('practice.name')) ?>, {{ ucfirst($visit->clinics->name)}}<br></strong>
+                                {{$clinic->telephone?'Tel:- '.$clinic->telephone:','}}
+                                {{$clinic->mobile?', '.$clinic->mobile:''}}<br/>
+                                {{$clinic->email?'Email:- '.$clinic->email:''}}
+                            </small>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
         <tr>
-            <td style="text-align: left">
-                <strong style="float: top">Patient Details</strong><br>
-                <address>
-                    Names: {{$visit->patients->full_name}}.<br>
-                    Patient No: {{$visit->patients->id}}<br>
-                    DOB: {{$visit->patients->dob}}<br>
-                    Gender: {{$visit->patients->sex}}<br>
-                    Primary Number: {{$visit->patients->phone}}
-                </address>
+            <td colspan="5">
+                <table>
+                    <tr>
+                        <td style="text-align: center">
+                            <strong><h1 style="font-weight: bolder; font-size: 14px">Lab Report</h1></strong>
+                        </td>
+                    </tr>
+                </table>
             </td>
-            <td style="text-align: left">
-                <strong style="float: top">Sample Details</strong><br>
-                <address>
-                    Visit Number: 00{{$visit->id}}<br>
-                    Registered On: {{$visit->created_at}}<br>
-                    Collected On: {{$visit->updated_at}}<br>
-                    Received On: {{$visit->created_at}}<br>
-                    Reported On:
-                </address>
-            </td>
-            <td style="text-align: left">
-                <strong style="float: top">Client Details</strong>
-                <address>
-                    <?php try{ ?>
-                    {{$item->visits->external_doctors?$item->visits->external_doctors->profile->full_name:''}}<br>
-                    {{$item->visits->external_doctors?"(".$item->visits->external_doctors->profile->partnerInstitution->name.")":''}}
-                    <br/>
-                    <?php
-                    }catch(\Exception $e){ ?>
-                        <span style="float:top">Self : {{$visit->patients->full_name}}<br></span>
-                    <?php
-                    }
-                    ?>
-                </address>
+        </tr>
+        <tr style="border-bottom: 1px black" class="information">
+            <td colspan="5">
+                <table>
+                    <tr>
+                        <td>
+                                <strong style="float: top">Patient Details</strong><br>
+                                Name: {{$visit->patients->full_name}}.<br>
+                                Patient No: {{$visit->patients->id}}<br>
+                                DOB: {{smart_date($visit->patients->dob)}},
+                                {{$visit->patients->sex}}<br>
+                        </td>
+                        <td style="padding-left: 10%; font-size: 6px">
+                            <small>
+                                <strong style="float: top">Sample Details</strong><br>
+                                Visit Number: 00{{$visit->id}}<br>
+                                Registered: {{smart_date($visit->created_at)}}<br>
+                                Collected: {{smart_date_time($visit->updated_at)}}<br>
+                                Received: {{smart_date_time($visit->created_at)}}<br></small>
+                        </td>
+                        <td style="text-align: right">
+                                <strong style="float: top">Client Details</strong><br>
+                                <?php try{ ?>
+                                {{$item->visits->external_doctors?$item->visits->external_doctors->profile->full_name:''}}<br>
+                                {{$item->visits->external_doctors?"(".$item->visits->external_doctors->profile->partnerInstitution->name.")":''}}
+                                <br/>
+                                <?php
+                                }catch(\Exception $e){ ?>
+                                <span style="float:top">Name : {{$visit->patients->full_name}}<br></span>
+                                <span>Tel : {{$visit->patients->mobile}}<br></span>
+                                <span>Email : {{$visit->patients->email}}<br></span>
+                                <?php
+                                }
+                                ?>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>
-</div>
+</header>
+<br>

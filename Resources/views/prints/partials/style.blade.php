@@ -1,100 +1,86 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: bravo
- * Date: 7/27/17
- * Time: 10:27 AM
- */
-?>
+
 <style>
-    body {
-        color: #001028;
-        background: #FFFFFF;
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        font-family: Arial;
+    @page { margin: 100px 25px; }
+
+    *{
+        font-size:14px;
+        line-height:24px;
+        font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        color:#555;
     }
-    footer .page:after { content: counter(page) " of " counter(page); }
-    #header {
-        padding: 10px 0;
-        margin-bottom: 5%;
-        position: fixed;
+
+    header {
+        top: 0;
+        left: 0;
+        right: 0;
         height: auto;
     }
 
-    #logo {
-        text-align: right;
-        margin-bottom: 5%;
-        width: 100%;
-    }
-
-    #logo img {
-        width: 90px;
-        float: left;
-    }
-
-    #project {
-        float: left;
-    }
-
-    #project span {
-        color: #5D6975;
-        text-align: right;
-        width: 52px;
-        margin-right: 10px;
-        display: inline-block;
-        font-size: 0.8em;
-    }
-
-    #company {
-        float: right;
-        text-align: right;
-    }
-
-    #project div,
-    #company div {
-        white-space: nowrap;
-    }
-
-    table {
-        width: 100%;
-    }
-
-    table th {
-        /* border-bottom: 1px solid #eee; */
-        font-weight: bolder;
-        text-align: left;
-    }
-
-    .topper td {
-        padding: 20px;
-    }
-
-    table td {
-        text-align: left;
-    }
-
-    #notices .notice {
-        color: black;
-        font-size: 1.2em;
-    }
-
     footer {
-        width: 100%;
-        bottom: 0;
-        border-top: 1px solid #C1CED9;
         position: fixed;
-        left: 0px;
-        right: 0px;
+        bottom: 0;
+        left: 0;
+        right: 0;
         height: 30px;
-    }
-
-
-    footer .page{
+        border-top: 1px solid #C1CED9;
         text-align: right;
     }
 
-    footer .info{
+    .page-number:after {
+        counter-increment: page;
+        content: "Page " counter(page) " of " counter(page);
+    }
+
+    .page-number {
+        text-align: right;
+    }
+
+    hr {
+        page-break-after: always;
+        border: 0;
+    }
+
+    .titles th{
         text-align: left;
+    }
+
+    table{
+        width:100%;
+    }
+
+    table td{
+        padding:2px;
+    }
+
+    table th{
+        padding:5px;
+        vertical-align:top;
+        position: fixed;
+    }
+
+    table tr.top table td.title{
+        font-size:45px;
+        line-height:45px;
+        color:#333;
+    }
+
+
+    table tr.heading td{
+        background:#eee;
+        border-bottom:1px solid #ddd;
+        font-weight:bold;
+    }
+
+    table tr.item td{
+        border-bottom:1px solid #eee;
+    }
+
+    table tr.item.last td{
+        border-bottom:none;
+    }
+
+    table tr.total td:nth-child(2){
+        border-top:2px solid #eee;
+        font-weight:bold;
     }
 </style>
