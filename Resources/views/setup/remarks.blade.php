@@ -31,7 +31,7 @@ extract($data);
                     <div class="form-group {{ $errors->has('remarks') ? ' has-error' : '' }} req">
                         {!! Form::label('remarks', 'Remarks',['class'=>'control-label col-md-4']) !!}
                         <div class="col-md-8">
-                            {!! Form::text('remarks', old('remarks',$data['remark']->name), ['class' => 'form-control', 'placeholder' => 'Remarks']) !!}
+                            {!! Form::textarea('remarks', old('remarks',$data['remark']->remarks), ['class' => 'form-control', 'placeholder' => 'Remarks']) !!}
                             {!! $errors->first('remarks', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
@@ -59,7 +59,7 @@ extract($data);
                         <td>{{$item->procedures?$tit->procedures->name:''}}</td>
                         <td>
                             <a class="btn btn-primary btn-xs"
-                               href="{{route('evaluation.setup.test.titles',$item->id)}}" >
+                               href="{{route('evaluation.setup.remarks',$item->id)}}" >
                                 <i class="fa fa-pencil-square-o"></i></a>
                             <!--|
                             <button class="btn btn-danger btn-xs delete" value="{{$item->id}}">

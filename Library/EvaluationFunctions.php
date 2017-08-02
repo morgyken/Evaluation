@@ -548,6 +548,7 @@ class EvaluationFunctions implements EvaluationRepository {
     function save_remarks(Request $request){
         $item = Remarks::findOrNew($request->id);
         $item->remarks = $request->remarks;
+        $item->procedure = $request->procedure;
         $item->save();
     }
 
