@@ -5,6 +5,8 @@ namespace Ignite\Evaluation\Http\Controllers;
 use Ignite\Core\Http\Controllers\AdminBaseController;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
+use Ignite\Evaluation\Entities\ReferenceRange;
+use Ignite\Evaluation\Entities\SampleCollectionMethods;
 use Ignite\Evaluation\Entities\SampleType;
 use Ignite\Evaluation\Http\Requests\ProcedureCategoriesRequest;
 use Ignite\Evaluation\Http\Requests\ProcedureRequest;
@@ -12,6 +14,7 @@ use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Evaluation\Entities\LabtestCategories;
 use Ignite\Evaluation\Entities\PartnerInstitution;
 use Ignite\Evaluation\Entities\ProcedureTemplates;
+use Ignite\Evaluation\Entities\Unit;
 use Illuminate\Http\Request;
 
 class SetupController extends AdminBaseController {
@@ -65,6 +68,56 @@ class SetupController extends AdminBaseController {
         $this->data['type'] = SampleType::findOrNew($request->id);
         $this->data['types'] = SampleType::all();
         return view('evaluation::setup.sample_types', ['data' => $this->data]);
+    }
+
+    public function ManageRanges(Request $request){
+        //Addition of result templates per procedure
+        if ($request->isMethod('post')) {
+            $this->evaluationRepository->save_reference_ranges($request);
+        }
+        $this->data['type'] = ReferenceRange::findOrNew($request->id);
+        $this->data['types'] = ReferenceRange::all();
+        return view('evaluation::setup.ranges', ['data' => $this->data]);
+    }
+
+    public function ManageUnits(Request $request){
+        //Addition of result templates per procedure
+        if ($request->isMethod('post')) {
+            $this->evaluationRepository->save_unit($request);
+        }
+        $this->data['type'] = Unit::findOrNew($request->id);
+        $this->data['types'] = Unit::all();
+        return view('evaluation::setup.units', ['data' => $this->data]);
+    }
+
+    public function ManageAdditives(Request $request){
+        //Addition of result templates per procedure
+        if ($request->isMethod('post')) {
+            $this->evaluationRepository->save_additive($request);
+        }
+        $this->data['type'] = Additives::findOrNew($request->id);
+        $this->data['types'] = Additives::all();
+        return view('evaluation::setup.units', ['data' => $this->data]);
+    }
+
+    public function ManageRemarks(Request $request){
+        //Addition of result templates per procedure
+        if ($request->isMethod('post')) {
+            $this->evaluationRepository->save_remarks($request);
+        }
+        $this->data['type'] = Remarks::findOrNew($request->id);
+        $this->data['types'] = Remarks::all();
+        return view('evaluation::setup.units', ['data' => $this->data]);
+    }
+
+    public function SampleCollectionMethods(Request $request){
+        //Addition of result templates per procedure
+        if ($request->isMethod('post')) {
+            $this->evaluationRepository->save_collection_method($request);
+        }
+        $this->data['type'] = SampleCollectionMethods::findOrNew($request->id);
+        $this->data['types'] = SampleCollectionMethods::all();
+        return view('evaluation::setup.collection_methods', ['data' => $this->data]);
     }
 
     public function ProcedureCategoryTemplates(Request $request) {

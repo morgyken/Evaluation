@@ -9,7 +9,7 @@ $id = null;
 extract($data);
 ?>
 @extends('layouts.app')
-@section('content_typele','Samples')
+@section('content_title','Samples')
 @section('content_description','Sample Type')
 
 @section('content')
@@ -69,9 +69,13 @@ extract($data);
                         <tr>
                             <td>{{$loop->iteration}}</td>
                             <td>{{$item->name}}</td>
-                            <td>{{$item->procedure}}</td>
+                            <td>{{$item->procedures?$item->procedures->name:''}}</td>
                             <td>{{$item->details}}</td>
-                            <td></td>
+                            <td>
+                                <a class="btn btn-success btn-xs"
+                                   href="{{route('evaluation.setup.sample_types',$item->id)}}" >
+                                    <i class="fa fa-pencil"></i> Edit</a>
+                            </td>
                         </tr>
                         @endforeach
                         </tbody>

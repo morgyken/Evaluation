@@ -29,6 +29,7 @@ $router->get('patients/visit/checkout/{visit}/{section}', ['uses' => 'Evaluation
 $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router) {
     $router->get('procedures/show/{procedure?}', ['as' => 'procedures', 'uses' => 'SetupController@procedures']);
     $router->post('procedures/save', ['as' => 'procedures.save', 'uses' => 'SetupController@save_procedure']);
+
     $router->get('procedure_cat/show/{cat?}', ['as' => 'procedure_cat', 'uses' => 'SetupController@procedure_cat']);
     $router->post('procedure_cat/save', ['as' => 'procedure_cat.save', 'uses' => 'SetupController@save_procedure_cat']);
 
@@ -51,6 +52,13 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
     $router->match(['get','post'],'lab/test/categories', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
     $router->get('lab/test/{id?}/title/', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles']);
     $router->post('lab/save/test/title', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles.save']);
+
+    $router->match(['post', 'get'], 'lab/reference_ranges/{id?}', ['uses' => 'SetupController@ManageRanges', 'as' => 'ranges']);
+    $router->match(['post', 'get'], 'lab/sample_types/{id?}', ['uses' => 'SetupController@SampleTypes', 'as' => 'sample_types']);
+    $router->match(['post', 'get'], 'lab/methods/{id?}', ['uses' => 'SetupController@SampleCollectionMethods', 'as' => 'methods']);
+    $router->match(['post', 'get'], 'lab/units/{id?}', ['uses' => 'SetupController@ManageUnits', 'as' => 'units']);
+    $router->match(['post', 'get'], 'additives/{id?}', ['uses' => 'SetupController@ManageAdditives', 'as' => 'additives']);
+    $router->match(['post', 'get'], 'remarks/{id?}', ['uses' => 'SetupController@ManageRemarks', 'as' => 'remarks']);
 });
 
 $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $router) {

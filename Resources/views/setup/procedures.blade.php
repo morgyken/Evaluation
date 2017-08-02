@@ -26,6 +26,7 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
                         {!! $errors->first('name', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
+
                 <div class="form-group {{ $errors->has('code') ? ' has-error' : '' }} req">
                     {!! Form::label('code', 'Code',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
@@ -57,7 +58,7 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
                 <div class="form-group {{ $errors->has('cash_charge') ? ' has-error' : '' }}">
                     {!! Form::label('cash_charge', 'Cash Charge',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        {!! Form::text('cash_charge', old('cash_charge'), ['class' => 'form-control', 'placeholder' => 'Cash Charge']) !!}
+                        {!! Form::text('cash_charge', $procedure->cash_charge?$procedure->cash_charge:0, ['class' => 'form-control', 'placeholder' => 'Cash Charge']) !!}
                         {!! $errors->first('cash_charge', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>

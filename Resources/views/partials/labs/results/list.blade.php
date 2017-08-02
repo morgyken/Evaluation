@@ -6,7 +6,6 @@ $dob = \Carbon\Carbon::parse($patient->dob);
 $age_days = $dob->diffInDays();
 $age_str = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');
 $age_years = $dob->age;
-
 ?>
 @if(is_array($results))
 <?php

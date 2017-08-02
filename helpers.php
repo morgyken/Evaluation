@@ -505,6 +505,19 @@ if(!function_exists('get_sample_methods')){
     }
 }
 
+if(!function_exists('get_units')){
+    function get_units(){
+        return \Ignite\Evaluation\Entities\Unit::all()->pluck('name','name');
+    }
+}
+
+
+if(!function_exists('get_additives')){
+    function get_additives(){
+        return \Ignite\Evaluation\Entities\Additives::all()->pluck('name','id');
+    }
+}
+
 
 
 if (!function_exists('generate_receipt_no')) {
@@ -931,10 +944,12 @@ if (!function_exists('get_min_range')) {
      * @return $range
      */
     function get_min_range($p, $age_days, $age_years) {
-        try {
+        //try {
             if(!empty($p->ref_ranges)){
-                dd($p->ref_ranges->type);
-
+                $r = get_first_ranges($p->id);
+                if (!empty($r)){
+                    return $r->range_min;
+                }
             }else{
                 if ($age_days < 4) {
                     return $p->this_test->_0_3d_minrange;
@@ -952,7 +967,27 @@ if (!function_exists('get_min_range')) {
                     }
                 }
             }
-        } catch (\Exception $e) {
+       // } catch (\Exception $e) {
+
+       // }
+    }
+
+}
+
+
+if (!function_exists('get_first_ranges')) {
+    /**
+     * Get Lab test unit
+     * @param $procedure/test
+     * @return $unit
+     */
+    function get_first_ranges($procedure_id) {
+        try{
+            $ref = \Ignite\Evaluation\Entities\ReferenceRange::whereProcedure($procedure_id)->first();
+            if (!empty($ref)){
+                return $ref;
+            }
+        }catch (\Exception $e){
 
         }
     }
@@ -968,8 +1003,11 @@ if (!function_exists('get_max_range')) {
     function get_max_range($p, $age_days, $age_years) {
         $max_range = null;
         try {
-            if(!empty($p->templates_lab)){
-
+            if(!empty($p->ref_ranges)){
+                $r = get_first_ranges($p->id);
+                if (!empty($r)){
+                    return $r->range_max;
+                }
             }else{
                 if ($age_days < 4) {
                     $max_range = $p->this_test->_0_3d_maxrange;
@@ -988,8 +1026,8 @@ if (!function_exists('get_max_range')) {
                 }
             }
             return $max_range;
-        } catch (\Exception $e) {
-            return null;
+       } catch (\Exception $e) {
+            //return null;
         }
     }
 

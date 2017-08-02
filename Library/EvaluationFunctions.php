@@ -25,7 +25,9 @@ use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
 use Ignite\Evaluation\Entities\ReferenceRange;
+use Ignite\Evaluation\Entities\SampleCollectionMethods;
 use Ignite\Evaluation\Entities\SampleType;
+use Ignite\Evaluation\Entities\Unit;
 use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Entities\VisitMeta;
 use Ignite\Evaluation\Entities\Visit;
@@ -47,6 +49,7 @@ use Ignite\Evaluation\Entities\ProcedureTemplates;
 use Ignite\Evaluation\Entities\ProcedureCategoryTemplates;
 use Ignite\Evaluation\Entities\TemplateLab;
 use Ignite\Evaluation\Entities\ExternalOrderDetails;
+
 
 /**
  * Description of FunctionsRepository
@@ -760,6 +763,18 @@ class EvaluationFunctions implements EvaluationRepository {
             $ref->range_max = $request->range_max[$key];
             $ref->save();
         }
+    }
+    
+    function save_collection_method(Request $request){
+        $method = new SampleCollectionMethods();
+        $method->name = $request->name;
+        $method->save();
+    }
+    
+    function save_unit(Request $request){
+        $unit = new Unit();
+        $unit->name = $request->name;
+        $unit->save();
     }
 
     /**

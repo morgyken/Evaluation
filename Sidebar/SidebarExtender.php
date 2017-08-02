@@ -160,9 +160,37 @@ class SidebarExtender implements Panda {
                         $item->weight(4);
                     });
 
+                    $item->item('Reference Ranges', function(Item $item) {
+                        $item->icon('fa fa-copyright');
+                        $item->route('evaluation.setup.ranges');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+
+                    $item->item('Sample Types', function(Item $item) {
+                        $item->icon('fa fa-bars');
+                        $item->route('evaluation.setup.sample_types');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+
+                    $item->item('Sample Collection Methods', function(Item $item) {
+                        $item->icon('fa fa-bars');
+                        $item->route('evaluation.setup.methods');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+
+                    $item->item('Units of Measure', function(Item $item) {
+                        $item->icon('fa fa-bars');
+                        $item->route('evaluation.setup.units');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+
                     $item->item('Test Titles', function(Item $item) {
                         $item->icon('fa fa-bars');
-                        $item->route('evaluation.setup.test.titles', 'partners');
+                        $item->route('evaluation.setup.test.titles');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });

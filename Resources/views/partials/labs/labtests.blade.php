@@ -36,7 +36,7 @@ if (isset($lab->lab_result_type)) {
             {!! $errors->first('lab_category', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
-
+<!--
     <div class="form-group {{ $errors->has('title') ? ' has-error' : '' }}">
         {!! Form::label('title', 'Title (If applicable)',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
@@ -44,6 +44,7 @@ if (isset($lab->lab_result_type)) {
             {!! $errors->first('title', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
+    -->
 
     <div class="form-group {{ $errors->has('result_type') ? ' has-error' : '' }}">
         {!! Form::label('result_type', 'Result Type',['class'=>'control-label col-md-4']) !!}
@@ -86,7 +87,7 @@ if (isset($lab->lab_result_type)) {
     <div class="form-group {{ $errors->has('result_type') ? ' has-error' : '' }}">
         {!! Form::label('result_type', 'Unit of measure',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
-            <input type="text" value="{{$lab?$lab->units:''}}" placeholder="mm, g, % etc." name="units" class="form-control">
+            {!! Form::select('units',get_units(),$lab?$lab->units:'', ['class' => 'form-control unit', 'placeholder' => 'Choose...']) !!}
             {!! $errors->first('unit', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
@@ -96,6 +97,14 @@ if (isset($lab->lab_result_type)) {
         <div class="col-md-8">
             {!! Form::select('sample_type',get_sample_types(),$lab?$lab->lab_sample_type:'', ['class' => 'form-control lab_cat', 'placeholder' => 'Choose...']) !!}
             {!! $errors->first('sample_type', '<span class="help-block">:message</span>') !!}
+        </div>
+    </div>
+
+    <div class="form-group {{ $errors->has('sample_type') ? ' has-error' : '' }}">
+        {!! Form::label('Additive/Container', 'Additive',['class'=>'control-label col-md-4']) !!}
+        <div class="col-md-8">
+            {!! Form::select('additive',get_additives(),$procedure->additive?$procedure->additive:'', ['class' => 'form-control lab_cat', 'placeholder' => 'Choose...']) !!}
+            {!! $errors->first('additive', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
 
@@ -111,7 +120,7 @@ if (isset($lab->lab_result_type)) {
             {!! $errors->first('gender', '<span class="help-block">:message</span>') !!}
         </div>
     </div>
-
+<!--
     <div class="form-group {{ $errors->has('min_range') ? ' has-error' : '' }}">
         {!! Form::label('min_range', 'Reference Ranges',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
@@ -198,6 +207,7 @@ if (isset($lab->lab_result_type)) {
             </table>
         </div>
     </div>
+    -->
     <div class="form-group {{ $errors->has('turn_around_time') ? ' has-error' : '' }}">
         {!! Form::label('turn_around_time', 'Turn Around Time',['class'=>'control-label col-md-4']) !!}
         <div class="col-md-8">
