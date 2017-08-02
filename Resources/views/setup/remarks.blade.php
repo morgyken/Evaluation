@@ -72,8 +72,8 @@ extract($data);
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Procedure</th>
                     <th>Remarks</th>
+                    <th>Procedure</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
