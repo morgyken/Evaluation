@@ -70,7 +70,7 @@ $test_res = array_combine($all_tests, $their_result);
 </tr>
 <tr>
     <td colspan="5">
-        <?php echo strip_tags($item->procedures->remarks->remarks) ?>
+        <?php echo html_entity_decode($item->procedures->remarks->remarks) ?>
     </td>
 </tr>
 @endif

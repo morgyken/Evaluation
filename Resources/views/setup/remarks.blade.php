@@ -55,7 +55,7 @@ extract($data);
                 @foreach($remarks as $item)
                     <tr id="row_id{{$item->id}}">
                         <td>{{$loop->iteration}}</td>
-                        <td><?php html_entity_decode($item->remarks) ?></td>
+                        <td><?php echo html_entity_decode($item->remarks) ?></td>
                         <td>{{$item->procedures?$item->procedures->name:''}}</td>
                         <td>
                             <a class="btn btn-primary btn-xs"
