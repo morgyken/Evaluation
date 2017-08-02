@@ -8,4 +8,8 @@ class Remarks extends Model
 {
     protected $guarded = [];
     protected $table = 'evaluation_remarks';
+
+    public function procedures() {
+        return $this->belongsTo(Procedures::class, 'procedure');
+    }
 }

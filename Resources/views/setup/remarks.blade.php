@@ -29,8 +29,8 @@ extract($data);
                 </div>
                 <div class="col-md-8">
                     <div class="form-group {{ $errors->has('remarks') ? ' has-error' : '' }} req">
-                        {!! Form::label('remarks', 'Remarks',['class'=>'control-label col-md-4']) !!}
-                        <div class="col-md-8">
+                        {!! Form::label('remarks', 'Remarks',['class'=>'control-label col-md-2']) !!}
+                        <div class="col-md-10">
                             {!! Form::textarea('remarks', old('remarks',$data['remark']->remarks), ['class' => 'form-control', 'placeholder' => 'Remarks']) !!}
                             {!! $errors->first('remarks', '<span class="help-block">:message</span>') !!}
                         </div>
@@ -56,7 +56,7 @@ extract($data);
                     <tr id="row_id{{$item->id}}">
                         <td>{{$loop->iteration}}</td>
                         <td>{{$item->remarks}}</td>
-                        <td>{{$item->procedures?$tit->procedures->name:''}}</td>
+                        <td>{{$item->procedures?$item->procedures->name:''}}</td>
                         <td>
                             <a class="btn btn-primary btn-xs"
                                href="{{route('evaluation.setup.remarks',$item->id)}}" >
@@ -102,6 +102,11 @@ extract($data);
         </div>
     </div>
     <script type="text/javascript">
+        $(function () {
+            CKEDITOR.replaceAll();
+            $('table').DataTable({});
+        });
+
         $(document).ready(function () {
             $("#select").select2();
             $("table").DataTable();

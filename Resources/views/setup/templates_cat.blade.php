@@ -89,7 +89,6 @@ $category = $data['category'];
 <script type="text/javascript">
     $(function () {
         CKEDITOR.replaceAll();
-
         $('table').DataTable({});
     });
 </script>
