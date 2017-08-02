@@ -62,13 +62,25 @@ $test_res = array_combine($all_tests, $their_result);
 </tr>
 <!--End of  is_array If Statement -->
 @endif
+@if(!empty($item->procedures->remarks))
+<br/>
+<br/>
+<tr>
+    <td colspan="5" style="font-weight: bold">Remarks:</td>
+</tr>
+<tr>
+    <td colspan="5">
+        <?php echo strip_tags($item->procedures->remarks->remarks) ?>
+    </td>
+</tr>
+@endif
 @if(!empty($item->results->comments))
 @if(isset($item->results->comments))
 <!--End of  is_array If Statement -->
 <br/>
 <br/>
 <tr>
-    <td colspan="5" style="font-weight: bold">Remarks:</td>
+    <td colspan="5" style="font-weight: bold">Comments:</td>
 </tr>
 <tr>
     <td colspan="5">

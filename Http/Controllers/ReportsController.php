@@ -102,6 +102,10 @@ class ReportsController extends Controller {
             $this->data['type'] = $request->type;
             $pdf = \PDF::loadView('evaluation::prints.results', ['data' => $this->data]);
             $pdf->setPaper('A4', 'potrait');
+
+            $pdf->render();
+            $font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
+            $pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
             return $pdf->stream('Results.pdf');
        // } catch (\Exception $exc) {
          //   return back();
