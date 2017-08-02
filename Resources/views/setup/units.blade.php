@@ -16,7 +16,7 @@ extract($data);
     <div class="box box-info">
         <div class="form-horizontal">
             {!! Form::open(['method'=>'post']) !!}
-            {!! Form::hidden('id',$id) !!}
+            {!! Form::hidden('id',old('id',$data['type']->id)) !!}
             <div class="col-md-12">
                 <!-- /.box-header -->
                 <div class="box-body">

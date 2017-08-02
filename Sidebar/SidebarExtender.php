@@ -146,13 +146,6 @@ class SidebarExtender implements Panda {
                     $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                     $item->weight(4);
 
-                    $item->item('Sample Types', function(Item $item) {
-                        $item->icon('fa fa-copyright');
-                        $item->route('evaluation.setup.samples.types');
-                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
-                        $item->weight(4);
-                    });
-
                     $item->item('Test Categories', function(Item $item) {
                         $item->icon('fa fa-copyright');
                         $item->route('evaluation.setup.test.categories');
@@ -161,39 +154,47 @@ class SidebarExtender implements Panda {
                     });
 
                     $item->item('Reference Ranges', function(Item $item) {
-                        $item->icon('fa fa-copyright');
+                        $item->icon('fa fa-arrows-h');
                         $item->route('evaluation.setup.ranges');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });
 
                     $item->item('Sample Types', function(Item $item) {
-                        $item->icon('fa fa-bars');
-                        $item->route('evaluation.setup.sample_types');
+                        $item->icon('fa fa-eyedropper');
+                        $item->route('evaluation.setup.samples.types');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });
 
                     $item->item('Sample Collection Methods', function(Item $item) {
-                        $item->icon('fa fa-bars');
+                        $item->icon('fa fa-hand-lizard-o');
                         $item->route('evaluation.setup.methods');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });
 
-                    $item->item('Units of Measure', function(Item $item) {
-                        $item->icon('fa fa-bars');
+                    $item->item('Test Units', function(Item $item) {
+                        $item->icon('fa fa-bookmark-o');
                         $item->route('evaluation.setup.units');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });
 
+                    $item->item('Additives/Containers', function(Item $item) {
+                        $item->icon('fa fa-flask');
+                        $item->route('evaluation.setup.additives');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+
                     $item->item('Test Titles', function(Item $item) {
-                        $item->icon('fa fa-bars');
+                        $item->icon('fa fa-dedent');
                         $item->route('evaluation.setup.test.titles');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });
+
                     /*
                     $item->item('Samples', function(Item $item) {
                         $item->icon('fa fa-bars');
@@ -201,6 +202,13 @@ class SidebarExtender implements Panda {
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     }); */
+                });
+
+                $item->item('Remarks Templates', function(Item $item) {
+                    $item->icon('fa fa-bars');
+                    $item->route('evaluation.setup.remarks');
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                    $item->weight(4);
                 });
             });
         });

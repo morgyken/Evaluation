@@ -12,6 +12,7 @@
 
 namespace Ignite\Evaluation\Library;
 
+use Ignite\Evaluation\Entities\Additives;
 use Ignite\Evaluation\Entities\ProcedureInventoryItem;
 use Ignite\Evaluation\Entities\DiagnosisCodes;
 use Ignite\Evaluation\Entities\DoctorNotes;
@@ -25,6 +26,7 @@ use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
 use Ignite\Evaluation\Entities\ReferenceRange;
+use Ignite\Evaluation\Entities\Remarks;
 use Ignite\Evaluation\Entities\SampleCollectionMethods;
 use Ignite\Evaluation\Entities\SampleType;
 use Ignite\Evaluation\Entities\Unit;
@@ -516,13 +518,37 @@ class EvaluationFunctions implements EvaluationRepository {
         ]);
     }
 
-    public function SaveSampleType()
+    public function SaveSampleType(Request $request)
     {
-        return SampleType::create([
-            'name'=>$this->request->name,
-            'procedure'=>$this->request->procedure,
-            'details'=>$this->request->details
-        ]);
+        $type= SampleType::findOrNew($request->id);
+        $type->name = $this->request->name;
+        $type->procedure = $this->request->procedure;
+        $type->details = $this->request->details;
+        $type->save();
+    }
+
+    function save_collection_method(Request $request){
+        $method = SampleCollectionMethods::findOrNew($request->id);
+        $method->name = $request->name;
+        $method->save();
+    }
+
+    function save_unit(Request $request){
+        $unit = Unit::findOrNew($request->id);
+        $unit->name = $request->name;
+        $unit->save();
+    }
+
+    function save_additives(Request $request){
+        $item = Additives::findOrNew($request->id);
+        $item->name = $request->name;
+        $item->save();
+    }
+
+    function save_remarks(Request $request){
+        $item = Remarks::findOrNew($request->id);
+        $item->remarks = $request->remarks;
+        $item->save();
     }
 
     /**
@@ -763,18 +789,6 @@ class EvaluationFunctions implements EvaluationRepository {
             $ref->range_max = $request->range_max[$key];
             $ref->save();
         }
-    }
-    
-    function save_collection_method(Request $request){
-        $method = new SampleCollectionMethods();
-        $method->name = $request->name;
-        $method->save();
-    }
-    
-    function save_unit(Request $request){
-        $unit = new Unit();
-        $unit->name = $request->name;
-        $unit->save();
     }
 
     /**

@@ -2,28 +2,28 @@
 /**
  * Created by PhpStorm.
  * User: bravo
- * Date: 8/1/17
- * Time: 9:11 PM
+ * Date: 8/2/17
+ * Time: 10:23 AM
  */
 $id = null;
 extract($data);
 ?>
 @extends('layouts.app')
-@section('content_title','Sample Collection Methods')
+@section('content_title','Additives/Container')
 @section('content_description','')
 
 @section('content')
     <div class="box box-info">
         <div class="form-horizontal">
             {!! Form::open(['method'=>'post']) !!}
-            {!! Form::hidden('id',old('id',$data['type']->id)) !!}
             <div class="col-md-12">
                 <!-- /.box-header -->
                 <div class="box-body">
                     <!-- text input -->
                     <div class="form-group req">
                         <label>Name</label>
-                        {!! Form::text('name', old('name',$data['type']->name), ['class' => 'form-control', 'placeholder' => 'Name']) !!}
+                        {!! Form::text('name', old('name',$data['additive']->name), ['class' => 'form-control', 'placeholder' => 'Name']) !!}
+                        {!! Form::hidden('id', old('id',$data['additive']->id)) !!}
                         {!! $errors->first('name', '<span class="help-block">:message</span>') !!}
                     </div>
                     <!-- textarea -->
@@ -58,13 +58,13 @@ extract($data);
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($types as $item)
+                        @foreach($additives as $item)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$item->name}}</td>
                                 <td>
                                     <a class="btn btn-success btn-xs"
-                                       href="{{route('evaluation.setup.methods',$item->id)}}" >
+                                       href="{{route('evaluation.setup.additives',$item->id)}}" >
                                         <i class="fa fa-pencil"></i> Edit</a>
                                 </td>
                             </tr>

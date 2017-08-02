@@ -13,7 +13,8 @@ use Ignite\Evaluation\Http\Requests\ProcedureRequest;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Evaluation\Entities\LabtestCategories;
 use Ignite\Evaluation\Entities\PartnerInstitution;
-use Ignite\Evaluation\Entities\ProcedureTemplates;
+use Ignite\Evaluation\Entities\Additives;
+use Ignite\Evaluation\Entities\Remarks;
 use Ignite\Evaluation\Entities\Unit;
 use Illuminate\Http\Request;
 
@@ -60,6 +61,36 @@ class SetupController extends AdminBaseController {
         return view('evaluation::setup.templates', ['data' => $this->data]);
     }
 
+    public function LabCategories(Request $request) {
+        if ($request->isMethod('post')) {
+            $cat = LabtestCategories::findOrNew($request->id);
+            $cat->name = $request->name;
+            $cat->save();
+            flash("Category Saved");
+            return redirect()->route('evaluation.setup.test.categories');
+        }
+        $this->data['cat'] = LabtestCategories::findOrNew($request->id);
+        $this->data['cats'] = LabtestCategories::all();
+        return view('evaluation::setup.labtest_cats', ['data' => $this->data]);
+    }
+
+    public function TestTitles(Request $request) {
+        if ($request->isMethod('post')) {
+            $tit = \Ignite\Evaluation\Entities\HaemogramTitle::findOrNew($request->id);
+            $tit->name = $request->name;
+            $tit->procedure = $request->procedure;
+            if (is_int($request->sort_order)) {
+                $tit->sort_order = $request->sort_order;
+            }
+            $tit->save();
+            flash("Category Saved");
+            return back(); //->route('evaluation.setup.test.titles');
+        }
+        $this->data['tit'] = \Ignite\Evaluation\Entities\HaemogramTitle::findOrNew($request->id);
+        $this->data['tits'] = \Ignite\Evaluation\Entities\HaemogramTitle::all();
+        return view('evaluation::setup.labtest_titles', ['data' => $this->data]);
+    }
+
     public function SampleTypes(Request $request){
         //Addition of result templates per procedure
         if ($request->isMethod('post')) {
@@ -93,11 +124,11 @@ class SetupController extends AdminBaseController {
     public function ManageAdditives(Request $request){
         //Addition of result templates per procedure
         if ($request->isMethod('post')) {
-            $this->evaluationRepository->save_additive($request);
+            $this->evaluationRepository->save_additives($request);
         }
-        $this->data['type'] = Additives::findOrNew($request->id);
-        $this->data['types'] = Additives::all();
-        return view('evaluation::setup.units', ['data' => $this->data]);
+        $this->data['additive'] = Additives::findOrNew($request->id);
+        $this->data['additives'] = Additives::all();
+        return view('evaluation::setup.additives', ['data' => $this->data]);
     }
 
     public function ManageRemarks(Request $request){
@@ -105,9 +136,9 @@ class SetupController extends AdminBaseController {
         if ($request->isMethod('post')) {
             $this->evaluationRepository->save_remarks($request);
         }
-        $this->data['type'] = Remarks::findOrNew($request->id);
-        $this->data['types'] = Remarks::all();
-        return view('evaluation::setup.units', ['data' => $this->data]);
+        $this->data['remark'] = Remarks::findOrNew($request->id);
+        $this->data['remarks'] = Remarks::all();
+        return view('evaluation::setup.remarks', ['data' => $this->data]);
     }
 
     public function SampleCollectionMethods(Request $request){
@@ -118,6 +149,27 @@ class SetupController extends AdminBaseController {
         $this->data['type'] = SampleCollectionMethods::findOrNew($request->id);
         $this->data['types'] = SampleCollectionMethods::all();
         return view('evaluation::setup.collection_methods', ['data' => $this->data]);
+    }
+
+    public function LabSamples(Request $request){
+        if ($request->isMethod('post')) {
+            try {
+                $tit = new \Ignite\Evaluation\Entities\HaemogramTitle();
+                $tit->name = $request->name;
+                $tit->procedure = $request->procedure;
+                if (is_int($request->sort_order)) {
+                    $tit->sort_order = $request->sort_order;
+                }
+                $tit->save();
+                flash("Category Saved");
+            } catch (\Exception $e) {
+                flash("Error saving data, ensure all required fields were entered", 'danger');
+            }
+            return back(); //->route('evaluation.setup.test.titles');
+        }
+        $this->data['tit'] = \Ignite\Evaluation\Entities\HaemogramTitle::findOrNew($request->id);
+        $this->data['tits'] = \Ignite\Evaluation\Entities\HaemogramTitle::all();
+        return view('evaluation::setup.samples', ['data' => $this->data]);
     }
 
     public function ProcedureCategoryTemplates(Request $request) {
@@ -183,65 +235,6 @@ class SetupController extends AdminBaseController {
         $this->data['partner'] = PartnerInstitution::findOrNew($id);
         $this->data['partners'] = PartnerInstitution::all();
         return view('evaluation::setup.lab_partners', ['data' => $this->data]);
-    }
-
-    public function LabCategories(Request $request) {
-        if ($request->isMethod('post')) {
-            try {
-                $cat = new LabtestCategories;
-                $cat->name = $request->name;
-                $cat->save();
-                flash("Category Saved");
-            } catch (\Exception $ex) {
-                flash("Category Saved", 'danger');
-            }
-            return redirect()->route('evaluation.setup.test.categories');
-        }
-        $this->data['cat'] = LabtestCategories::findOrNew($request->id);
-        $this->data['cats'] = LabtestCategories::all();
-        return view('evaluation::setup.labtest_cats', ['data' => $this->data]);
-    }
-
-    public function TestTitles(Request $request) {
-        if ($request->isMethod('post')) {
-            try {
-                $tit = new \Ignite\Evaluation\Entities\HaemogramTitle();
-                $tit->name = $request->name;
-                $tit->procedure = $request->procedure;
-                if (is_int($request->sort_order)) {
-                    $tit->sort_order = $request->sort_order;
-                }
-                $tit->save();
-                flash("Category Saved");
-            } catch (\Exception $e) {
-                flash("Error saving data, ensure all required fields were entered", 'danger');
-            }
-            return back(); //->route('evaluation.setup.test.titles');
-        }
-        $this->data['tit'] = \Ignite\Evaluation\Entities\HaemogramTitle::findOrNew($request->id);
-        $this->data['tits'] = \Ignite\Evaluation\Entities\HaemogramTitle::all();
-        return view('evaluation::setup.labtest_titles', ['data' => $this->data]);
-    }
-
-    public function LabSamples(Request $request){
-        if ($request->isMethod('post')) {
-            try {
-                $tit = new \Ignite\Evaluation\Entities\HaemogramTitle();
-                $tit->name = $request->name;
-                $tit->procedure = $request->procedure;
-                if (is_int($request->sort_order)) {
-                    $tit->sort_order = $request->sort_order;
-                }
-                $tit->save();
-                flash("Category Saved");
-            } catch (\Exception $e) {
-                flash("Error saving data, ensure all required fields were entered", 'danger');
-            }
-            return back(); //->route('evaluation.setup.test.titles');
-        }
-        $this->data['tit'] = \Ignite\Evaluation\Entities\HaemogramTitle::findOrNew($request->id);
-        $this->data['tits'] = \Ignite\Evaluation\Entities\HaemogramTitle::all();
-        return view('evaluation::setup.samples', ['data' => $this->data]);
     }
 
     public function temp() {

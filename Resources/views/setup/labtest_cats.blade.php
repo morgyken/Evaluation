@@ -13,7 +13,7 @@
 <div class="box box-info">
     <div class="form-horizontal">
         {!! Form::open(['route'=>'evaluation.setup.test.categories']) !!}
-        {!! Form::hidden('id',$data['cat']->id) !!}
+        {!! Form::hidden('id',old('id',$data['cat']->id)) !!}
         <div class="box-body">
             <div class="col-md-6">
                 <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }} req">
@@ -45,7 +45,7 @@
                     <td>{{$category->name}}</td>
                     <td>
                         <a class="btn btn-primary btn-xs"
-                           href="{{route('evaluation.setup.procedure_cat',$category->id)}}" >
+                           href="{{route('evaluation.setup.test.categories',$category->id)}}" >
                             <i class="fa fa-pencil-square-o"></i></a> |
                         <button class="btn btn-danger btn-xs delete" value="{{$category->id}}">
                             <i class="fa fa-trash-o"></i></button></td>

@@ -14,7 +14,7 @@
 <div class="box box-info">
     <div class="form-horizontal">
         {!! Form::open(['route'=>'evaluation.setup.test.titles.save']) !!}
-        {!! Form::hidden('id',$data['tit']->id) !!}
+        {!! Form::hidden('id',old('id',$data['tit']->id)) !!}
         <div class="box-body">
             <div class="col-md-4">
                 <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }} req">

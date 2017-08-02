@@ -49,15 +49,17 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
 
     $router->get('lab/samples/{id?}', ['uses' => 'SetupController@LabSamples', 'as' => 'test.samples']);
     $router->match(['post', 'get'], 'partners/manage/{id?}', ['uses' => 'SetupController@ManagePartnerInstitutions', 'as' => 'manage_partners']);
-    $router->match(['get','post'],'lab/test/categories', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
+    $router->match(['get','post'],'lab/test_categories/{id?}', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
+
     $router->get('lab/test_title/{id?}', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles']);
-    $router->post('lab/save/test/title', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles.save']);
+    $router->post('lab/save/test_title', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles.save']);
 
     $router->match(['post', 'get'], 'lab/reference_ranges/{id?}', ['uses' => 'SetupController@ManageRanges', 'as' => 'ranges']);
     $router->match(['post', 'get'], 'lab/sample_types/{id?}', ['uses' => 'SetupController@SampleTypes', 'as' => 'sample_types']);
     $router->match(['post', 'get'], 'lab/methods/{id?}', ['uses' => 'SetupController@SampleCollectionMethods', 'as' => 'methods']);
     $router->match(['post', 'get'], 'lab/units/{id?}', ['uses' => 'SetupController@ManageUnits', 'as' => 'units']);
     $router->match(['post', 'get'], 'additives/{id?}', ['uses' => 'SetupController@ManageAdditives', 'as' => 'additives']);
+
     $router->match(['post', 'get'], 'remarks/{id?}', ['uses' => 'SetupController@ManageRemarks', 'as' => 'remarks']);
 });
 

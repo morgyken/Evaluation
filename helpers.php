@@ -519,7 +519,6 @@ if(!function_exists('get_additives')){
 }
 
 
-
 if (!function_exists('generate_receipt_no')) {
 
     /**
