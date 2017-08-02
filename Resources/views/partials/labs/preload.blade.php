@@ -24,7 +24,7 @@ foreach ($loaded as $l){
             @foreach($tests as $test)
             <tr>
                 <td>
-                    {{$test->subtests->name}}
+                    {{strtoupper($test->subtests->name)}}
                     <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
                     <input type="hidden" name="test{{$item->id}}[]" value="{{$test->subtest}}" />
                 </td>

@@ -54,7 +54,7 @@ $age_years = $dob->age;
             </table>
         </div>
         <div class="col-md-8">
-            <h4>Test Results</h4>
+            <h4>{{$loop->iteration}}: {{$item->procedures->name}}</h4>
             <div class="well well-sm">
                 <table class="table table-condensed table-striped">
                     @include('evaluation::partials.labs.results.list')

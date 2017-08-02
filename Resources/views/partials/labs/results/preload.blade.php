@@ -31,7 +31,7 @@ foreach ($loaded as $l){
                 $max_range = get_max_range($test->subtests, $age_days, $age_years);
         ?>
             <tr>
-                <td>{{ucfirst($test->subtests->name)}}</td>
+                <td>{{strtoupper($test->subtests->name)}}</td>
                 <td>
                     {{snake_case($test_res[$test->subtest])}}
                 </td>
