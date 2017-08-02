@@ -77,8 +77,6 @@ $test_res = array_combine($all_tests, $their_result);
 @if(!empty($item->results->comments))
 @if(isset($item->results->comments))
 <!--End of  is_array If Statement -->
-<br/>
-<br/>
 <tr>
     <td colspan="5" style="font-weight: bold">Comments:</td>
 </tr>
