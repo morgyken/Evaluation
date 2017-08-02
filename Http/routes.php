@@ -50,7 +50,7 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
     $router->get('lab/samples/{id?}', ['uses' => 'SetupController@LabSamples', 'as' => 'test.samples']);
     $router->match(['post', 'get'], 'partners/manage/{id?}', ['uses' => 'SetupController@ManagePartnerInstitutions', 'as' => 'manage_partners']);
     $router->match(['get','post'],'lab/test/categories', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
-    $router->get('lab/test_titles/{id?}', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles']);
+    $router->get('lab/test_title/{id?}', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles']);
     $router->post('lab/save/test/title', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles.save']);
 
     $router->match(['post', 'get'], 'lab/reference_ranges/{id?}', ['uses' => 'SetupController@ManageRanges', 'as' => 'ranges']);
