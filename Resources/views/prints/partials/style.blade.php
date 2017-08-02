@@ -35,7 +35,7 @@
     }
 
     hr {
-        page-break-after: always;
+        page-break-after: never;
         border: 0;
     }
 

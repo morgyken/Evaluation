@@ -70,7 +70,9 @@ $test_res = array_combine($all_tests, $their_result);
 </tr>
 <tr>
     <td colspan="5">
-        <?php echo html_entity_decode($item->procedures->remarks->remarks) ?>
+        <small>
+            <?php echo html_entity_decode($item->procedures->remarks->remarks) ?>
+        </small>
     </td>
 </tr>
 @endif

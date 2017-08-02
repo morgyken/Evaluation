@@ -2,13 +2,12 @@
     <div style="float: right">
         <small>Pathologist:
             <?php
-            try{
-                echo $item?$item->doctors?$item->doctors->profile->full_name:'':\Auth::user()->full_name;
-            }catch(\Exception $e){
-                echo \Auth::user()->full_name;
+            if (isset($item)){
+                echo $item->doctors?$item->doctors->profile->full_name:'';
+            }else{
+                echo \Auth::user()->profile->full_name;
             }
             ?>
-
         </small>
     </div>
     <br>
