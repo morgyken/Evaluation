@@ -1,6 +1,6 @@
 
 <style>
-    @page { margin: 100px 25px; }
+    @page { margin: 100px 50px; }
 
     *{
         font-size:14px;

@@ -552,6 +552,19 @@ class EvaluationFunctions implements EvaluationRepository {
         $item->save();
     }
 
+    function save_range(Request $request){
+        $item = ReferenceRange::findOrNew($request->id);
+        $item->procedure = $request->procedure;
+        $item->gender = $request->gender;
+        $item->age = $request->age;
+        $item->type = $request->type;
+        $request->lower?$item->lower = $request->lower:'';
+        $request->upper?$item->upper = $request->upper:'';
+        $item->lg_type = $request->lg_type;
+        $request->lg_value?$item->lg_value = $request->lg_value:'';
+        $item->save();
+    }
+
     /**
      * Set manual visit date especially for back-dating
      * @return bool
@@ -770,26 +783,7 @@ class EvaluationFunctions implements EvaluationRepository {
         $s->lab_result_options = \GuzzleHttp\json_encode($request->result_options);
         $s->lab_ordered_independently = $request->ordered_independently;
         $s->lab_multiple_orders_allowed = $request->multiple_orders_allowed;
-        $this->save_reference_ranges($request, $procedure);
         return $s->save();
-    }
-
-    function save_reference_ranges(Request $request, $procedure){
-        foreach ($request->time_measure as $key=>$value){
-            $ref = new ReferenceRange();
-            $ref->procedure	=$procedure;
-            $ref->type	= $request->reference_range_type;
-            $ref->time_measure= $value;
-            //$ref->gender= $request->gender[$key];
-            $ref->time= $request->time[$key];
-            $ref->time_min=	$request->time_min[$key];
-            $ref->time_max=	$request->time_max[$key];
-            $ref->less_greater=	$request->less_greater[$key];
-            $ref->non_range	= $request->non_range[$key];
-            $ref->range_min	= $request->range_min[$key];
-            $ref->range_max = $request->range_max[$key];
-            $ref->save();
-        }
     }
 
     /**

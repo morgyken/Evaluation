@@ -15,6 +15,32 @@ return [
         'visa' => 'VISA',
         'discovery' => 'Discovery',
     ],
+    'age_groups' => [
+        'all' => 'All Age Groups',
+        'adult' => 'Adult',
+        'child' => 'Child',
+        '0-3d' => '0-3 Days',
+        '4-30d' => '4-30 Days',
+        '1-24m' => '1-24 Months',
+        '25-60m' => '25-60 Months',
+        '0-9y' => '0-9 Years',
+        '5-19y' => '5-19 Years',
+        '10-19y' => '10-19 Years',
+        'over19' => 'Over 19 Years',
+    ],
+    'range_types' => [
+        'range' => 'Range',
+        'less_greater' => 'Less/Greater Than',
+    ],
+    'sex' => [
+        'both' => 'both',
+        'male' => 'male',
+        'female' => 'female',
+    ],
+    'lg_type' => [
+        'less_than' => 'Less Than',
+        'greater_than' => 'Greater Than',
+    ],
     'applies_to' => [
         1 => 'Doctor',
         2 => 'Pharmacy',

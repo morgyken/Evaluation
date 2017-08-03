@@ -104,10 +104,10 @@ class SetupController extends AdminBaseController {
     public function ManageRanges(Request $request){
         //Addition of result templates per procedure
         if ($request->isMethod('post')) {
-            $this->evaluationRepository->save_reference_ranges($request);
+            $this->evaluationRepository->save_range($request);
         }
-        $this->data['type'] = ReferenceRange::findOrNew($request->id);
-        $this->data['types'] = ReferenceRange::all();
+        $this->data['range'] = ReferenceRange::findOrNew($request->id);
+        $this->data['ranges'] = ReferenceRange::all();
         return view('evaluation::setup.ranges', ['data' => $this->data]);
     }
 

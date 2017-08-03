@@ -16,14 +16,9 @@
     <div class="form-horizontal">
         {!! Form::open(['route'=>'evaluation.setup.test.titles.save']) !!}
         {!! Form::hidden('id',$data['tit']->id) !!}
-
-
-
-
         <div class="col-md-12">
             <!-- /.box-header -->
             <div class="box-body">
-                <form role="form">
                     <!-- text input -->
                     <div class="form-group req">
                         <label>Name</label>
@@ -46,11 +41,9 @@
                         <textarea class="form-control" name="pdi" rows="3" placeholder="Enter ..." ></textarea>
                         {!! $errors->first('pdi', '<span class="help-block">:message</span>') !!}
                     </div>
-                </form>
             </div>
             <!-- /.box-body -->
         </div>
-
         <div class="box-footer">
             <div class="pull-right">
                 <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
