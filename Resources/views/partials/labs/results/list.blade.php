@@ -69,7 +69,7 @@ $test_res = array_combine($all_tests, $their_result);
     <td colspan="5" style="font-weight: bold">Remarks:</td>
 </tr>
 <tr>
-    <td colspan="5">
+    <td colspan="5" style="width: 100%; overflow: hidden;">
         <small>
             <?php echo html_entity_decode($item->procedures->remarks->remarks) ?>
         </small>
