@@ -15,5 +15,6 @@
         <td>H: High</td>
         <td>C: Critical</td>
         <td>A: Abnormal</td>
+        <td></td>
     </tr>
 </table>
