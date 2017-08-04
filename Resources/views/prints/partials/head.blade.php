@@ -44,9 +44,8 @@ $clinic = $visit->clinics;
 </div>
 <h2 style="color: white">Section</h2>
 <h2 style="color: white">Section</h2>
-<h2 style="color: white">Section</h2>
 <div id="header_2">
-    <table>
+    <table style="font-size: 12px">
         <tr class="information">
             <td>
                 <strong style="float: top">Patient Details</strong><br>
