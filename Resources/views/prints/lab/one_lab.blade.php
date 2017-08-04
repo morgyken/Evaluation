@@ -1,6 +1,8 @@
-<html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-    <title>Lab results #</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Lab Result</title>
     @include('evaluation::prints.partials.style')
 </head>
 <body>
@@ -9,6 +11,7 @@
 $item = $data['results'];
 ?>
 @include('evaluation::prints.partials.footer')
+<h2 style="color: white">Section</h2>
 <table class="data" cellpadding="0" cellspacing="0">
     <tr>
         <td colspan="5">
@@ -17,23 +20,7 @@ $item = $data['results'];
     </tr>
     @include('evaluation::partials.labs.results.list')
 </table>
-<table>
-    <tr class="heading">
-        <th colspan="5" style="text-align: left">Requesting Pathologist</th>
-    </tr>
-    <tr>
-        <td colspan="5"></td>
-    </tr>
-    <tr class="heading">
-        <th colspan="5" style="text-align: left">KEY</th>
-    </tr>
-    <tr>
-        <td>L: Low</td>
-        <td>H: High</td>
-        <td>C: Critical</td>
-        <td>A: Abnormal</td>
-    </tr>
-</table>
-<i></i>
+@include('evaluation::prints.partials.key')
+<hr/>
 </body>
 </html>
