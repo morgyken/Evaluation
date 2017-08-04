@@ -5,7 +5,9 @@ $dob = \Carbon\Carbon::parse($patient->dob);
 $age_days = $dob->diffInDays();
 $age_str = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');
 $age_years = $dob->age;
-$item = $data['results'];
+ if(!isset($data['type'])) {
+     $item = $data['results'];
+ }
 $clinic = $visit->clinics;
 ?>
 <header>
@@ -34,7 +36,18 @@ $clinic = $visit->clinics;
                 <table>
                     <tr>
                         <td style="text-align: center">
-                            <strong><h1 style="font-weight: bolder; font-size: 14px">Lab Report</h1></strong>
+                            @if(!isset($data['type']))
+                                <strong>
+                                    <h1 style="font-weight: bolder;">
+                                        Lab Report
+                                    </h1>
+                                </strong>
+                            @else
+                                <strong>
+                                    <h1 style="font-weight: bolder;">
+                                            {{ucfirst($data['type'])}} Report</h1>
+                                </strong>
+                            @endif
                         </td>
                     </tr>
                 </table>

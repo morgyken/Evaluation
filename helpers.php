@@ -495,6 +495,7 @@ if (!function_exists('get_procedures')) {
 
 if(!function_exists('get_sample_types')){
     function get_sample_types(){
+        ///dd(\Ignite\Evaluation\Entities\SampleType::all());
         return \Ignite\Evaluation\Entities\SampleType::all()->pluck('name','id');
     }
 }
@@ -947,7 +948,7 @@ if (!function_exists('get_min_range')) {
             if(!empty($p->ref_ranges)){
                 $r = get_first_ranges($p->id);
                 if (!empty($r)){
-                    return $r->range_min;
+                    return $r->lower;
                 }
             }else{
                 if ($age_days < 4) {
@@ -983,6 +984,7 @@ if (!function_exists('get_first_ranges')) {
     function get_first_ranges($procedure_id) {
         try{
             $ref = \Ignite\Evaluation\Entities\ReferenceRange::whereProcedure($procedure_id)->first();
+            ///dd($ref);
             if (!empty($ref)){
                 return $ref;
             }
@@ -1005,7 +1007,7 @@ if (!function_exists('get_max_range')) {
             if(!empty($p->ref_ranges)){
                 $r = get_first_ranges($p->id);
                 if (!empty($r)){
-                    return $r->range_max;
+                    return $r->upper;
                 }
             }else{
                 if ($age_days < 4) {

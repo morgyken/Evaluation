@@ -26,7 +26,7 @@ $samples = get_patient_samples($visit->patient);
                     <td><label>Type</label></td>
                     <td>
                         <div class="form-group">
-                            {!! Form::select('type',get_sample_types(), ['size'=>'50','id' => 'types', 'class' => 'types form-control', 'placeholder' => 'Choose...']) !!}
+                            {!! Form::select('type',get_sample_types(), ['id' => 'types', 'class' => 'types form-control', 'placeholder' => 'Choose...']) !!}
                             {!! $errors->first('type', '<span class="help-block">:message</span>') !!}
                         </div>
                     </td>
@@ -101,6 +101,6 @@ $samples = get_patient_samples($visit->patient);
 </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#sample_form select').select2();
+           // $('#sample_form select').select2();
         });
     </script>

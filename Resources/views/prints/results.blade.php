@@ -1,57 +1,28 @@
+<html>
 <?php
 extract($data);
 $results = $visit->investigations->where('type', $type)->where('has_result', true);
 ?>
+<head>
+    <title>{{ucfirst($type)}} Results</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    @include('evaluation::prints.partials.style')
+</head>
+<body>
 @include('evaluation::prints.partials.head')
-<h2>{{ucfirst($type)}} Results</h2>
-<strong>Patient:</strong>{{$visit->patients->full_name}}<br>
-<strong>Age: </strong><br>
-<strong>Sex:</strong> {{$visit->patients->sex}}<br>
-<hr/>
-@foreach($results as $item)
-<table class="table table-stripped">
-    <tr>
-        <th>
-            <strong>PROCEDURE#{{$loop->iteration}}</strong>
-        </th>
-        <th>
-            {{$item->procedures->name}}<br>
-        </th>
-    </tr>
-</table>
-<table>
-    <tr>
-        <td>
-            <strong>Patient:</strong>{{$visit->patients->full_name}}<br>
-            <strong>Age: </strong><br>
-            <strong>Sex:</strong> {{$visit->patients->sex}}<br>
-        </td>
-        <td>
-            <strong>Ordered By:</strong>
-            {{$item->doctors?$item->doctors->profile->full_name:''}}<br>
-            <strong>Conducted By:</strong>
-            {{$item->results->users->profile->full_name}}<br>
-            <strong>Date:</strong>
-            {{smart_date_time($item->results->create_at)}}<br/>
-            @if(isset($item->visits->external_doctors))
-            <strong>Request From:</strong>
-            {{$item->visits->external_doctors->profile->full_name}}<br>
-            ({{$item->visits->external_doctors->profile->partnerInstitution->name}})
-            @endif
-        </td>
-    </tr>
-</table>
-<br/>
-{!!$item->results->results!!}
-<table>
-    <tr>
-        <td colspan="5">
-            <strong>Remarks:</strong>
-            <p>{{$item->results->comments ?? 'Not provided'}}</p>
-        </td>
-    </tr>
-</table>
-<hr>
-<br/>
-@endforeach
-@include('evaluation::prints.partials.footer')
+<div>
+    @include('evaluation::prints.partials.footer')
+    @foreach($results as $item)
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <td colspan="5">
+                    {{$loop->iteration}}. {{$item->procedures->name}}
+                </td>
+            </tr>
+        </table>
+        {!!$item->results->results!!}
+        <hr>
+    @endforeach
+</div>
+</body>
+</html>

@@ -74,11 +74,11 @@ class ReportsController extends Controller {
 
     public function print_lab(Request $request) {
         //try {
-            $this->data['visit'] = Visit::find($request->visit);
-            $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
-            $pdf = \PDF::loadView('evaluation::prints.lab.results', ['data' => $this->data]);
-            $pdf->setPaper('A4', 'potrait');
-            return $pdf->stream('LabResults.pdf');
+        $this->data['visit'] = Visit::find($request->visit);
+        $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
+        $pdf = \PDF::loadView('evaluation::prints.lab.results', ['data' => $this->data]);
+        $pdf->setPaper('A4', 'potrait');
+        return $pdf->stream('LabResults.pdf');
         //} catch (\Exception $exc) {
           //  return back();
        // }
@@ -86,11 +86,11 @@ class ReportsController extends Controller {
 
     public function print_lab_one(Request $request) {
        // try {
-            $this->data['visit'] = Visit::find($request->visit);
-            $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
-            $pdf = \PDF::loadView('evaluation::prints.lab.one_lab', ['data' => $this->data]);
-            $pdf->setPaper('A4', 'potrait');
-            return $pdf->stream('LabResult.pdf');
+        $this->data['visit'] = Visit::find($request->visit);
+        $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
+        $pdf = \PDF::loadView('evaluation::prints.lab.one_lab', ['data' => $this->data]);
+        $pdf->setPaper('A4', 'potrait');
+        return $pdf->stream('LabResult.pdf');
       //  } catch (\Exception $ex) {
       //      return back();
       //  }
@@ -98,14 +98,11 @@ class ReportsController extends Controller {
 
     public function print_results(Request $request) {
         //try {
+            //dd($request->server());
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['type'] = $request->type;
             $pdf = \PDF::loadView('evaluation::prints.results', ['data' => $this->data]);
             $pdf->setPaper('A4', 'potrait');
-
-            $pdf->render();
-            $font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
-            $pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
             return $pdf->stream('Results.pdf');
        // } catch (\Exception $exc) {
          //   return back();
