@@ -48,14 +48,14 @@ extract($data);
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">
-                    <label>Type</label>
-                    {!! Form::select('type',mconfig('evaluation.options.range_types'),$range->type?$range->type:'range', ['id' => 'select','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+                    <label>Type (Range or Greater/Less Than)</label>
+                    {!! Form::select('type',mconfig('evaluation.options.range_types'),$range->type?$range->type:'range', ['id' => 'type','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
                     {!! $errors->first('type', '<span class="help-block">:message</span>') !!}
                 </div>
                 <!-- /.form-group -->
 
-                <div class="row">
-                    <p style="text-align: center">Lower and Upper Level Values</p>
+                <div class="row" id="range">
+                    <p style="text-align: center">Lower and Upper Range Values</p>
                     <div class="col-xs-6">
                         <input type="text" name="lower" class="form-control" placeholder="Lower Value">
                         {!! $errors->first('lower', '<span class="help-block">:message</span>') !!}
@@ -66,7 +66,7 @@ extract($data);
                     </div>
                 </div>
                 <br/>
-                <div class="row">
+                <div class="row" id="lg">
                     <p style="text-align: center">Less/Greater Than Value</p>
                     <div class="col-xs-6">
                         {!! Form::select('lg_type',mconfig('evaluation.options.lg_type'),$range->less_greater?$range->less_greater:'both', ['id' => 'select','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
@@ -158,15 +158,34 @@ extract($data);
         </div>
     </div>
     <script type="text/javascript">
-        $(function () {
-            CKEDITOR.replaceAll();
-            $('table').DataTable({});
-        });
-
         $(document).ready(function () {
             $("#select").select2();
             $("table").DataTable();
+            $('#lg').hide();
+            $('#range').hide();
         });
+
+        $('#type').change(function () {
+            var type = $(this).val();
+            toggle_type(type)
+        });
+
+        $('#type').click(function () {
+            var type = $(this).val();
+            toggle_type(type)
+        });
+
+
+        function toggle_type(type){
+            if(!(type==='range')){
+                $('#lg').show();
+                $('#range').hide();
+            }else{
+                $('#range').show();
+                $('#lg').hide();
+            }
+        }
+
 
         var to_delete = null;
         $('.delete').click(function () {

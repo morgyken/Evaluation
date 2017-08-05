@@ -62,8 +62,10 @@ return [
         'female' => 'female',
     ],
     'lg_type' => [
-        'less_than' => 'Less Than',
-        'greater_than' => 'Greater Than',
+        '<' => 'Less Than',
+        '<=' => 'Less Than or Equal',
+        '>' => 'Greater Than',
+        '>=' => 'Greater Than or Equal',
     ],
     'applies_to' => [
         1 => 'Doctor',
