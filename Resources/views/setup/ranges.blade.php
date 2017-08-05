@@ -98,6 +98,9 @@ extract($data);
         <div class="box-body">
             <table class="table table-responsive table-condensed table-borderless table-striped">
                 <tbody>
+                <?php
+                $age_group = mconfig('evaluation.options.age_groups');
+                ?>
                 @foreach($ranges as $item)
                     <tr id="row_id{{$item->id}}">
                         <td>{{$loop->iteration}}</td>
@@ -109,7 +112,7 @@ extract($data);
                                 {{$item->lg_type}} {{$item->lg_value}}
                             @endif
                         </td>
-                        <td>{{$item->age}}</td>
+                        <td>{{$item->age?$age_group[$item->age]:'*Undefined'}}</td>
                         <td>{{$item->gender}}</td>
                         <td>
                             <a class="btn btn-primary btn-xs"
