@@ -18,8 +18,6 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
 @include('evaluation::prints.partials.footer')
 @foreach($results as $item)
     <h2 style="color: white">Section</h2>
-    <h2 style="color: white">Section</h2>
-    <h2 style="color: white">Section</h2>
     <table cellpadding="0" cellspacing="0">
         <tr>
             <td colspan="5">
@@ -27,18 +25,11 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
             </td>
         </tr>
         @include('evaluation::partials.labs.results.list')
-        <tr class="heading">
-            <th colspan="5" style="text-align: left">KEY:</th>
-        </tr>
-        <tr>
-            <td>L: Low</td>
-            <td>H: High</td>
-            <td>C: Critical</td>
-            <td>A: Abnormal</td>
-            <td></td>
-        </tr>
     </table>
-    <hr/>
 @endforeach
+<p>
+    <strong>KEY:</strong>L: Low, H: High, C: Critical, A: Abnormal.
+</p>
+<hr/>
 </body>
 </html>

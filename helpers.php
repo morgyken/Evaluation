@@ -975,6 +975,7 @@ if (!function_exists('get_min_range')) {
 }
 
 
+
 if (!function_exists('get_first_ranges')) {
     /**
      * Get Lab test unit
@@ -1092,8 +1093,7 @@ if (!function_exists('getFlag')) {
             return "<span style = 'color: red;'> L</span>";
         } elseif ($r > $max_range) {
             return "<span style = 'color: red;'> H</span>";
-        } else
-            return "N";
+        }
     }
 }
 

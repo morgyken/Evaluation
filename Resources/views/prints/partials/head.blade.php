@@ -32,7 +32,7 @@ $clinic = $visit->clinics;
             </td>
             <td style="color:black; text-align: right;">
                 <small>
-                    <span style="text-align: left; font-size: 12"><?php echo ucfirst(config('practice.name')) ?>, {{ ucfirst($visit->clinics->name)}}</span>
+                    {{ ucfirst($visit->clinics->name)}}
                     <br>
                     {{$clinic->telephone?'Tel:- '.$clinic->telephone:','}}
                     {{$clinic->mobile?', '.$clinic->mobile:''}}<br/>
@@ -41,6 +41,7 @@ $clinic = $visit->clinics;
             </td>
         </tr>
     </table>
+    <br/>
 </div>
 <h2 style="color: white">Section</h2>
 <h2 style="color: white">Section</h2>
