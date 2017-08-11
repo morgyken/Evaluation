@@ -1,6 +1,5 @@
 <div id="footer">
     <div style="text-align: right; color: black">
-        <br/>
         <small>
             Pathologist:
             <?php
@@ -11,7 +10,7 @@
             }
             ?>
         </small><br/>
-        <small class="page-number"></small><br/>
+        <small class="page-number"></small>|<small>Printed on {{date("d-m-y") }}</small><br/>
         <small style="color: black">&copy;All rights reserved<small>
     </div>
 </div>

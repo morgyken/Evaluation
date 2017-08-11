@@ -35,8 +35,8 @@ foreach ($loaded as $l){
                 <td>
                     {{snake_case($test_res[$test->subtest])}}
                 </td>
-                <td><?php echo $u ?></td>
-                <td>
+                <td><?php echo str_replace(' ','',$u) ?></td>
+                <td style="text-align: center">
                     @if(isset($min_range) && isset($max_range))
                         <?php echo getFlag($test_res[$test->subtest], $min_range, $max_range) ?>
                     @endif

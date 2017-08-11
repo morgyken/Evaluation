@@ -27,7 +27,7 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
         @include('evaluation::partials.labs.results.list')
     </table>
 @endforeach
-<p><strong>KEY:</strong>L: Low, H: High, C: Critical, A: Abnormal.</p>
+@include('evaluation::prints.partials.key')
 <hr/>
 </body>
 </html>

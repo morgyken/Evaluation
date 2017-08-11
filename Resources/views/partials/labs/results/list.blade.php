@@ -22,7 +22,7 @@ $test_res = array_combine($all_tests, $their_result);
     <td>Result</td>
     <td>Unit</td>
     <td style="text-align:center">Flag</td>
-    <td>Ref Range</td>
+    <td>Interval</td>
 </tr>
     @if(!empty($item->procedures->templates_lab))
         @if(has_headers($item->procedures->id))
@@ -71,7 +71,9 @@ $test_res = array_combine($all_tests, $their_result);
 <tr>
     <td colspan="5" style="width: 100%; overflow: hidden;">
         <small>
-            <?php echo html_entity_decode($item->procedures->remarks->remarks) ?>
+            <?php
+            echo strip_tags($item->procedures->remarks->remarks)
+            ?>
         </small>
     </td>
 </tr>

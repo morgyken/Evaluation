@@ -27,7 +27,22 @@
 
     #header {
         top: 0;
+        /*border-bottom: 0.1pt solid #aaa;*/
+    }
+
+    #header_2 {
         border-bottom: 0.1pt solid #aaa;
+        border-top: 0.1pt solid #aaa;
+    }
+
+    #key {
+        border-bottom: 0.1pt solid #aaa;
+        border-top: 0.1pt solid #aaa;
+        border-right: 0.1pt solid #aaa;
+        border-left: 0.1pt solid #aaa;
+        text-align: center;
+        width: 60%;
+        margin-left: 25%;
     }
 
     #footer {
