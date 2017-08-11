@@ -1078,6 +1078,10 @@ if (!function_exists('getUnit')) {
      */
     function getUnit($p) {
         if (!empty($p->this_test)){
+            if ($p->this_test->units!=='NULL'){
+                return $p->this_test->units;
+            }
+            /*
             $unit_str = $p->this_test->result_type_details;
             preg_match("/\(([^\)]*)\)/", $unit_str, $matches);
             if ($matches) {
@@ -1089,7 +1093,7 @@ if (!function_exists('getUnit')) {
                 return html_entity_decode($unit);
             } else {
                 return $p->this_test->units;
-            }
+            }*/
         }
     }
 
