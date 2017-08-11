@@ -943,9 +943,10 @@ if (!function_exists('get_min_range')) {
      * @param $procedure, $age_days, $age_years
      * @return $range
      */
+
     function get_min_range($p, $age_days, $age_years) {
-        //try {
-            if(!empty($p->ref_ranges)){
+
+        if(!empty($p->ref_ranges)){
                 $r = get_first_ranges($p->id);
                 if (!empty($r)){
                     return $r->lower;
@@ -964,17 +965,31 @@ if (!function_exists('get_min_range')) {
                         return $p->this_test->_5_19y_minrange;
                     } else {
                         return $p->this_test->adult_minrange;
-                    }
                 }
             }
-       // } catch (\Exception $e) {
-
-       // }
+        }
     }
 
 }
 
 
+function get_age_string($dob) {
+    $str = '';
+    $days = (new Date($dob))->diff(Carbon\Carbon::now())->format('%d');
+    $months = (new Date($dob))->diff(Carbon\Carbon::now())->format('%m');
+    $years = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y');
+    //$years = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');
+    if ($years<0 && $months<0){
+        $str.=$days.' days old';
+    }elseif ($months>0 && $years<0){
+        $str.=$months.' months old';
+    }elseif ($years<=5 && $months>0){
+        $str.=$years.'years, '.$months.' months old';
+    }else{
+        $str.=$years.' years old';
+    }
+    return $str;
+}
 
 if (!function_exists('get_first_ranges')) {
     /**
@@ -1082,7 +1097,6 @@ if (!function_exists('getUnit')) {
 
 
 if (!function_exists('getFlag')) {
-
     /**
      * Get Appropriate flag for lab result
      * @param $result, $min_range, $max_range

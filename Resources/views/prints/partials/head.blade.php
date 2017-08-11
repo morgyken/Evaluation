@@ -3,8 +3,8 @@ extract($data);
 $patient = $data['visit']->patients;
 $dob = \Carbon\Carbon::parse($patient->dob);
 $age_days = $dob->diffInDays();
-$age_str = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');
 $age_years = $dob->age;
+$age_str = get_age_string($dob);
 if(!isset($data['type'])) {
     $item = $data['results'];
 }
@@ -41,7 +41,6 @@ $clinic = $visit->clinics;
             </td>
         </tr>
     </table>
-    <br/>
 </div>
 <h2 style="color: white">Section</h2>
 <h2 style="color: white">Section</h2>
@@ -52,8 +51,9 @@ $clinic = $visit->clinics;
                 <strong style="float: top">Patient Details</strong><br>
                 Name: {{$visit->patients->full_name}}.<br>
                 Patient No: {{$visit->patients->id}}<br>
-                DOB: {{smart_date($visit->patients->dob)}},
-                {{$visit->patients->sex}}<br>
+                DOB: {{smart_date($visit->patients->dob)}}.<br/>
+                Age: {{$age_str}}<br>
+                Gender: {{$visit->patients->sex}}<br>
             </td>
             <td style="padding-left: 10%;">
                 <strong style="float: top">Sample Details</strong><br>

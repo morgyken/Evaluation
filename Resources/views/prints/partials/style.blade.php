@@ -77,4 +77,8 @@
         padding:1px;
     }
 
+    #results td{
+        font-size: 12px;
+    }
+
 </style>
