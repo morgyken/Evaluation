@@ -86,7 +86,7 @@ $test_res = array_combine($all_tests, $their_result);
 </tr>
 <tr>
     <td colspan="5">
-        {{$item->results->comments?$item->results->comments:"Not Provided"}}
+        {{$item->results->comments?strip_tags($item->results->comments):"Not Provided"}}
     </td>
 </tr>
 @endif

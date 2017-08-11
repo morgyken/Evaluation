@@ -33,7 +33,7 @@ foreach ($loaded as $l){
             <tr>
                 <td>{{strtoupper($test->subtests->name)}}</td>
                 <td>
-                    {{snake_case($test_res[$test->subtest])}}
+                    {{strip_tags($test_res[$test->subtest])}}
                 </td>
                 <td><?php echo str_replace(' ','',$u) ?></td>
                 <td style="text-align: center">
