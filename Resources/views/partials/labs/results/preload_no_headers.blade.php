@@ -17,7 +17,9 @@ $tests = get_lab_template($item->procedures->id);
         ?>
         <tr>
             <td>{{$test->subtests->name}}</td>
-            <td>{{strip_tags($test_res[$test->subtest])}}</td>
+            <td @if(strlen(strip_tags($test_res[$test->subtest]))>10)style="width: 60%"@endif>
+                {{strip_tags($test_res[$test->subtest])}}
+            </td>
             <td><?php echo $u ?></td>
             <td style="text-align:center">
                 @if(isset($min_range) && isset($max_range))

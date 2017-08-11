@@ -32,7 +32,7 @@ foreach ($loaded as $l){
         ?>
             <tr>
                 <td>{{strtoupper($test->subtests->name)}}</td>
-                <td>
+                <td @if(strlen(strip_tags($test_res[$test->subtest]))>10)style="width: 60%"@endif>
                     {{strip_tags($test_res[$test->subtest])}}
                 </td>
                 <td><?php echo str_replace(' ','',$u) ?></td>
