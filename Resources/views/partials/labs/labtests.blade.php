@@ -279,7 +279,7 @@ if (isset($lab->lab_result_type)) {
 
     var numAdd = 1;
     var add = function () {
-        if (numAdd >= 10)
+        if (numAdd >= 100)
             return;
         $('#options').append('<div><input type="text"  name="result_options[]"><a href="#" onclick="del(this)"><i style="color:red" class="fa fa-trash"></i></a></div>');
         numAdd++;
