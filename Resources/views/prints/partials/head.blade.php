@@ -13,7 +13,7 @@ $clinic = $visit->clinics;
 <div id="header">
     <table>
         <tr>
-            <td><img width="200" src="{{realpath(base_path('/public/logo.jpg'))}}"/></td>
+            <td><img width="100" src="{{realpath(base_path('/public/logo.jpg'))}}"/></td>
             <td>
                 <div style="text-align: center; color:black">
                     @if(!isset($data['type']))
