@@ -80,3 +80,4 @@ $clinic = $visit->clinics;
         </tr>
     </table>
 </div>
+<h2 style="color: white">Section</h2>
