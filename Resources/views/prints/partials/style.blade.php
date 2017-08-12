@@ -36,10 +36,10 @@
     }
 
     #key {
-        border-bottom: 0.1pt solid #aaa;
-        border-top: 0.1pt solid #aaa;
-        border-right: 0.1pt solid #aaa;
-        border-left: 0.1pt solid #aaa;
+        border-bottom: 0.1pt solid deepskyblue;
+        border-top: 0.1pt solid deepskyblue;
+        border-right: 0.1pt solid deepskyblue;
+        border-left: 0.1pt solid deepskyblue;
         text-align: center;
         width: 60%;
         margin-left: 25%;
@@ -47,7 +47,7 @@
 
     #footer {
         bottom: 0;
-        border-top: 0.1pt solid #aaa;
+        border-top: 0.1pt solid deepskyblue;
     }
 
     #header table,
