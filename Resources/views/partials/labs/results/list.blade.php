@@ -77,9 +77,11 @@ $test_res = array_combine($all_tests, $their_result);
 <tr>
     <td colspan="5" style="width: 100%; overflow: hidden;">
         <small>
-            <?php
-            echo strip_tags($item->procedures->remarks->remarks)
-            ?>
+            @if(isset($item->procedures->remarks->title))
+                <?php echo html_entity_decode($item->procedures->remarks->remarks) ?>
+            @else
+                <?php echo strip_tags($item->procedures->remarks->remarks) ?>
+            @endif
         </small>
     </td>
 </tr>

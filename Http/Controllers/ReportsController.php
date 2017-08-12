@@ -78,6 +78,8 @@ class ReportsController extends Controller {
         $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
         $pdf = \PDF::loadView('evaluation::prints.lab.results', ['data' => $this->data]);
         $pdf->setPaper('A4', 'potrait');
+        //$pages = $pdf->get_canvas()->get_page_count();
+        //dd($pages);
         return $pdf->stream('LabResults.pdf');
         //} catch (\Exception $exc) {
           //  return back();
