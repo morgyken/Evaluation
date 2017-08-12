@@ -60,43 +60,45 @@ $test_res = array_combine($all_tests, $their_result);
     <td style="text-align:center"> - </td>
     <td> - </td>
 </tr>
+</table>
 <!--End of  is_array If Statement -->
 @endif
 @if(!empty($item->procedures->remarks))
-<br/>
-<br/>
-<tr>
-    <td colspan="5" style="font-weight: bold">
-        @if(isset($item->procedures->remarks->title))
-            {{ucwords($item->procedures->remarks->title)}}
-        @else
-            Remarks
-        @endif
-    </td>
-</tr>
-<tr>
-    <td colspan="5" style="width: 100%; overflow: hidden;">
-        <small>
+<table>
+    <tr>
+        <td colspan="5" style="font-weight: bold">
             @if(isset($item->procedures->remarks->title))
-                <?php echo html_entity_decode($item->procedures->remarks->remarks) ?>
+                {{ucwords($item->procedures->remarks->title)}}
             @else
-                <?php echo strip_tags($item->procedures->remarks->remarks) ?>
+                Remarks
             @endif
-        </small>
-    </td>
-</tr>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5" style="width: 100%; overflow: hidden;">
+            <small>
+                @if(isset($item->procedures->remarks->title))
+                    <?php echo html_entity_decode($item->procedures->remarks->remarks) ?>
+                @else
+                    <?php echo strip_tags($item->procedures->remarks->remarks) ?>
+                @endif
+            </small>
+        </td>
+    </tr>
+</table>
 @endif
 @if(!empty($item->results->comments))
 @if(isset($item->results->comments))
 <!--End of  is_array If Statement -->
-<tr>
-    <td colspan="5" style="font-weight: bold">Comments:</td>
-</tr>
-<tr>
-    <td colspan="5">
-        {{$item->results->comments?strip_tags($item->results->comments):"Not Provided"}}
-    </td>
-</tr>
+<table>
+    <tr>
+        <td colspan="5" style="font-weight: bold">Comments:</td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            {{$item->results->comments?strip_tags($item->results->comments):"Not Provided"}}
+        </td>
+    </tr>
+</table>
 @endif
 @endif
-<br/>
