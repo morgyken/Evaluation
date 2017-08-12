@@ -22,7 +22,7 @@ $test_res = array_combine($all_tests, $their_result);
     <td>Result</td>
     <td>Unit</td>
     <td style="text-align:center">Flag</td>
-    <td>Interval</td>
+    <td>Ref Interval</td>
 </tr>
     @if(!empty($item->procedures->templates_lab))
         @if(has_headers($item->procedures->id))
@@ -66,7 +66,13 @@ $test_res = array_combine($all_tests, $their_result);
 <br/>
 <br/>
 <tr>
-    <td colspan="5" style="font-weight: bold">Remarks:</td>
+    <td colspan="5" style="font-weight: bold">
+        @if(isset($item->procedures->remarks->title))
+            {{ucwords($item->procedures->remarks->title)}}
+        @else
+            Remarks
+        @endif
+    </td>
 </tr>
 <tr>
     <td colspan="5" style="width: 100%; overflow: hidden;">

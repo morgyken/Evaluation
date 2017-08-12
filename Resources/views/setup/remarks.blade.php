@@ -27,6 +27,15 @@ extract($data);
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="form-group {{ $errors->has('parent') ? ' has-error' : '' }}">
+                        {!! Form::label('title', 'Title',['class'=>'control-label col-md-4']) !!}
+                        <div class="col-md-8">
+                            {!! Form::text('title',old('title',$data['remark']->title), ['class' => 'form-control', 'placeholder' => 'Title to show']) !!}
+                            {!! $errors->first('title', '<span class="help-block">:message</span>') !!}
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-8">
                     <div class="form-group {{ $errors->has('remarks') ? ' has-error' : '' }} req">
                         {!! Form::label('remarks', 'Remarks',['class'=>'control-label col-md-2']) !!}
@@ -55,7 +64,7 @@ extract($data);
                 @foreach($remarks as $item)
                     <tr id="row_id{{$item->id}}">
                         <td>{{$loop->iteration}}</td>
-                        <td><?php echo html_entity_decode($item->remarks) ?></td>
+                        <td><?php echo strip_tags($item->remarks) ?></td>
                         <td>{{$item->procedures?$item->procedures->name:''}}</td>
                         <td>
                             <a class="btn btn-primary btn-xs"
