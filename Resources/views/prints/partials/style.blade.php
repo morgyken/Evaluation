@@ -41,8 +41,9 @@
         border-right: 0.1pt solid deepskyblue;
         border-left: 0.1pt solid deepskyblue;
         text-align: center;
-        width: 60%;
-        margin-left: 25%;
+        font-weight: bolder;
+        width: 70%;
+        margin-left: 20%;
     }
 
     #footer {

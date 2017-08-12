@@ -51,7 +51,6 @@ $clinic = $visit->clinics;
                 <strong style="float: top">Patient Details</strong><br>
                 Name: {{$visit->patients->full_name}}.<br>
                 Patient No: {{$visit->patients->id}}<br>
-                DOB: {{smart_date($visit->patients->dob)}}.<br/>
                 Age: {{$age_str}}<br>
                 Gender: {{$visit->patients->sex}}<br>
             </td>
@@ -80,5 +79,4 @@ $clinic = $visit->clinics;
         </tr>
     </table>
 </div>
-<h2 style="color: white">Section</h2>
 <h2 style="color: white">Section</h2>
