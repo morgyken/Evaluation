@@ -64,15 +64,15 @@ $clinic = $visit->clinics;
             </td>
             <td style="text-align: right">
                 <strong style="float: top">Client Details</strong><br>
-                <?php try{ ?>
+                <?php if (!empty($item->visits->external_doctors)){?>
                 {{$item->visits->external_doctors?$item->visits->external_doctors->profile->full_name:''}}<br>
                 {{$item->visits->external_doctors?"(".$item->visits->external_doctors->profile->partnerInstitution->name.")":''}}
                 <br/>
                 <?php
-                }catch(\Exception $e){ ?>
-                <span style="float:top">Name : {{$visit->patients->full_name}}<br></span>
-                <span>Tel : {{$visit->patients->mobile}}<br></span>
-                <span>Email : {{$visit->patients->email}}<br></span>
+                }else{ ?>
+                Name: {{$visit->patients->full_name}}<br>
+                Tel: {{$visit->patients->mobile}}<br>
+                Email: {{$visit->patients->email}}<br>
                 <?php
                 }
                 ?>

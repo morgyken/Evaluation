@@ -17,7 +17,6 @@ $results = $data['visit']->investigations->where('type', 'laboratory')->where('h
 ?>
 @include('evaluation::prints.partials.footer')
 @foreach($results as $item)
-    <h2 style="color: white">Section</h2>
     <table id="results" cellpadding="0" cellspacing="0">
         <tr>
             <td colspan="5" style="text-align: center">

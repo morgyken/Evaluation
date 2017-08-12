@@ -31,8 +31,8 @@
     }
 
     #header_2 {
-        border-bottom: 0.1pt solid #aaa;
-        border-top: 0.1pt solid #aaa;
+        border-bottom: 0.1pt solid deepskyblue;
+        border-top: 0.1pt solid deepskyblue;
     }
 
     #key {
