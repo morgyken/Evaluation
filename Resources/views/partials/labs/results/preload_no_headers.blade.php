@@ -17,7 +17,7 @@ $tests = get_lab_template($item->procedures->id);
         ?>
         <tr>
             <td>{{$test->subtests->name}}</td>
-            <td @if(strlen(strip_tags($test_res[$test->subtest]))>10)style="width: 60%"@endif>
+            <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
                 {{strip_tags($test_res[$test->subtest])}}
             </td>
             <td><?php echo $u ?></td>
