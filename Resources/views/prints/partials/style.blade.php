@@ -1,5 +1,5 @@
+@include('evaluation::prints.partials.garamond')
 <style type="text/css">
-
     @page {
         margin: 2cm;
     }
@@ -7,7 +7,8 @@
     *{
         font-size:12px;
         /* line-height:24px;*/
-        font-family:Serif,'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        /*font-family:Serif,'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;*/
+        font-family: 'EB Garamond', serif;
     }
 
     body {
