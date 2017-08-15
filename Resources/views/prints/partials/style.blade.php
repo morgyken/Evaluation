@@ -5,7 +5,7 @@
     }
 
     *{
-        font-size:11px;
+        font-size:10px;
         /* line-height:24px;*/
         /*font-family:Serif,'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;*/
         font-family: 'EB Garamond', serif;
