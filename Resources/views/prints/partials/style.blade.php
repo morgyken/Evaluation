@@ -5,7 +5,7 @@
     }
 
     *{
-        font-size:11px;
+        font-size:13px;
         /* line-height:24px;*/
         font-family:Serif,'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
     }
