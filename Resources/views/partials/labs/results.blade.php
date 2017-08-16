@@ -11,6 +11,7 @@
 $dob = \Carbon\Carbon::parse($patient->dob);
 $age_days = $dob->diffInDays();
 $age_years = $dob->age;
+session(['active_patient' => $patient]);
 ?>
 <div class="row" id="stripper">
     @foreach($results as $item)

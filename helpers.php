@@ -945,12 +945,16 @@ if (!function_exists('get_min_range')) {
      */
 
     function get_min_range($p, $age_days, $age_years) {
-
         if(!empty($p->ref_ranges)){
-                $r = get_first_ranges($p->id);
-                if (!empty($r)){
-                    return $r->lower;
-                }
+               if(get_gender_range($p)){
+                   $range = get_gender_range($p);
+                   return $range->lower;
+               }else{
+                   $r = get_first_ranges($p->id);
+                   if (!empty($r)){
+                       return $r->lower;
+                   }
+               }
             }else{
                 if ($age_days < 4) {
                     return $p->this_test->_0_3d_minrange;
@@ -971,6 +975,67 @@ if (!function_exists('get_min_range')) {
     }
 
 }
+
+if(!function_exists('get_gender_range')){
+    function get_gender_range($p){
+        $patient = \Session::get('active_patient');
+        $range = \Ignite\Evaluation\Entities\ReferenceRange::whereProcedure($p->id)
+            ->whereGender(strtolower($patient->sex))
+            ->get()
+            ->first();
+        if (!empty($range)){
+            return $range;
+        }else{
+            return false;
+        }
+    }
+}
+
+if (!function_exists('get_max_range')) {
+    /**
+     * Get Maximum lab range depending on patient age
+     * @param $procedure, $age_days, $age_years
+     * @return $range
+     */
+    function get_max_range($p, $age_days, $age_years) {
+        $max_range = null;
+        try {
+            if(!empty($p->ref_ranges)){
+                if(get_gender_range($p)){
+                    $range = get_gender_range($p);
+                    return $range->upper;
+                }else{
+                    $r = get_first_ranges($p->id);
+                    if (!empty($r)){
+                        return $r->upper;
+                    }
+                }
+            }else{
+                if ($age_days < 4) {
+                    $max_range = $p->this_test->_0_3d_maxrange;
+                } elseif ($age_days >= 4 && $age_days <= 30) {
+                    $max_range = $p->this_test->_4_30d_maxrange;
+                } elseif ($age_days > 30 && $age_days <= 730) {
+                    $max_range = $p->this_test->_1_24m_maxrange;
+                } elseif ($age_days > 730 && $age_days <= 1825) {
+                    $max_range = $p->this_test->_25_60m_maxrange;
+                } else {
+                    if ($age_years > 4 && $age_years <= 19) {
+                        $max_range = $p->this_test->_5_19y_maxrange;
+                    } else {
+                        $max_range = $p->this_test->adult_maxrange;
+                    }
+                }
+            }
+            return $max_range;
+        } catch (\Exception $e) {
+            //return null;
+        }
+    }
+
+}
+
+
 
 
 function get_age_string($dob) {
@@ -1011,44 +1076,6 @@ if (!function_exists('get_first_ranges')) {
 
 }
 
-if (!function_exists('get_max_range')) {
-    /**
-     * Get Maximum lab range depending on patient age
-     * @param $procedure, $age_days, $age_years
-     * @return $range
-     */
-    function get_max_range($p, $age_days, $age_years) {
-        $max_range = null;
-        try {
-            if(!empty($p->ref_ranges)){
-                $r = get_first_ranges($p->id);
-                if (!empty($r)){
-                    return $r->upper;
-                }
-            }else{
-                if ($age_days < 4) {
-                    $max_range = $p->this_test->_0_3d_maxrange;
-                } elseif ($age_days >= 4 && $age_days <= 30) {
-                    $max_range = $p->this_test->_4_30d_maxrange;
-                } elseif ($age_days > 30 && $age_days <= 730) {
-                    $max_range = $p->this_test->_1_24m_maxrange;
-                } elseif ($age_days > 730 && $age_days <= 1825) {
-                    $max_range = $p->this_test->_25_60m_maxrange;
-                } else {
-                    if ($age_years > 4 && $age_years <= 19) {
-                        $max_range = $p->this_test->_5_19y_maxrange;
-                    } else {
-                        $max_range = $p->this_test->adult_maxrange;
-                    }
-                }
-            }
-            return $max_range;
-       } catch (\Exception $e) {
-            //return null;
-        }
-    }
-
-}
 
 if (!function_exists('getOrderResults')) {
     /**
