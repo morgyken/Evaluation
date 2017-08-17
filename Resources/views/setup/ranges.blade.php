@@ -166,6 +166,8 @@ extract($data);
             $("table").DataTable();
             $('#lg').hide();
             $('#range').hide();
+            var ref = $('#type').val();
+            toggle_type(ref);
         });
 
         $('#type').change(function () {
