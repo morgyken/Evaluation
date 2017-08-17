@@ -24,7 +24,7 @@ foreach ($loaded as $l) {
     ?>
     @foreach($tests as $test)
         <?php
-        // try{
+        try{
         if ($test_res[$test->subtest] !== '') {
         $u = getUnit($test->subtests);
         $interval = null;
@@ -60,9 +60,9 @@ foreach ($loaded as $l) {
         }
         ?>
         <?php
-        // }catch (\Exception $e){
+        }catch (\Exception $e){
 
-        //  }
+        }
         ?>
     @endforeach
 @endforeach
