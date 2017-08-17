@@ -12,8 +12,20 @@ $tests = get_lab_template($item->procedures->id);
      try{
     if ($test_res[$test->subtest] !== '') {
         $u = getUnit($test->subtests);
-        $min_range = get_min_range($test->subtests, $age_days, $age_years);
-        $max_range = get_max_range($test->subtests, $age_days, $age_years);
+
+        $interval = null;
+        try {
+            $range = get_ref_range($test->subtests);
+            if (isset($range->lower) && isset($range->upper)){
+                $min_range = $range->lower;
+                $max_range = $range->upper;
+                $interval = $range->lower.' - '.$range->upper;
+            }else{
+                $interval = $range->lg_type.' '.$range->lg_value;
+            }
+        } catch (\Exception $e) {
+            //$interval = null;
+        }
         ?>
         <tr>
             <td>{{$test->subtests->name}}</td>
@@ -21,15 +33,13 @@ $tests = get_lab_template($item->procedures->id);
                 {{strip_tags($test_res[$test->subtest])}}
             </td>
             <td><?php echo $u ?></td>
-            <td style="text-align:center">
-                @if(isset($min_range) && isset($max_range))
+            <td style="text-align: center">
+                @if(!is_null($interval))
                     <?php echo getFlag($test_res[$test->subtest], $min_range, $max_range) ?>
                 @endif
             </td>
             <td>
-                @if(isset($min_range) && isset($max_range))
-                    {{$min_range}} - {{$max_range}}
-                @endif
+                {{$interval}}
             </td>
         </tr>
     <?php

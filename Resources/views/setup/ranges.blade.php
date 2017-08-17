@@ -93,7 +93,7 @@ extract($data);
 <!-- /.box -->
 <div class="box box-info">
         <div class="box-header">
-            <h3 class="box-title">ranges Templates</h3>
+            <h3 class="box-title">Saved Reference Ranges</h3>
         </div>
         <div class="box-body">
             <table class="table table-responsive table-condensed table-borderless table-striped">

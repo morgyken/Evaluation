@@ -9,8 +9,8 @@
 $loaded = get_lab_template($item->procedures->id);
 $headers = array();
 $calculated = array();
-foreach ($loaded as $l){
-    if (!empty($l->header)){
+foreach ($loaded as $l) {
+    if (!empty($l->header)) {
         $headers[] = $l->header;
     }
 }
@@ -24,36 +24,45 @@ foreach ($loaded as $l){
     ?>
     @foreach($tests as $test)
         <?php
-        try{
-           if ($test_res[$test->subtest] !== '') {
-                $u = getUnit($test->subtests);
-                $min_range = get_min_range($test->subtests, $age_days, $age_years);
-                $max_range = get_max_range($test->subtests, $age_days, $age_years);
+        // try{
+        if ($test_res[$test->subtest] !== '') {
+        $u = getUnit($test->subtests);
+        $interval = null;
+        $range = get_ref_range($test->subtests);
+        try {
+            if (isset($range->lower) && isset($range->upper)){
+                $min_range = $range->lower;
+                $max_range = $range->upper;
+                $interval = $range->lower.' - '.$range->upper;
+            }else{
+                $interval = $range->lg_type.' '.$range->lg_value;
+            }
+        } catch (\Exception $e) {
+            //$interval = null;
+        }
         ?>
-            <tr>
-                <td>{{strtoupper($test->subtests->name)}}</td>
-                <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
-                    {{strip_tags($test_res[$test->subtest])}}
-                </td>
-                <td><?php echo str_replace(' ','',$u) ?></td>
-                <td style="text-align: center">
-                    @if(isset($min_range) && isset($max_range))
-                        <?php echo getFlag($test_res[$test->subtest], $min_range, $max_range) ?>
-                    @endif
-                </td>
-                <td>
-                    @if(isset($min_range) && isset($max_range))
-                        {{$min_range}} - {{$max_range}}
-                    @endif
-                </td>
-            </tr>
-            <?php
-            }
-            ?>
-            <?php
-            }catch (\Exception $e){
+        <tr>
+            <td>{{strtoupper($test->subtests->name)}}</td>
+            <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
+                {{strip_tags($test_res[$test->subtest])}}
+            </td>
+            <td><?php echo str_replace(' ', '', $u) ?></td>
+            <td style="text-align: center">
+                @if(!is_null($interval))
+                    <?php echo getFlag($test_res[$test->subtest], $range) ?>
+                @endif
+            </td>
+            <td>
+                {{$interval}}
+            </td>
+        </tr>
+        <?php
+        }
+        ?>
+        <?php
+        // }catch (\Exception $e){
 
-            }
-            ?>
+        //  }
+        ?>
     @endforeach
 @endforeach

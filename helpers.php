@@ -32,6 +32,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use Ignite\Evaluation\Entities\ProcedureCategoryTemplates;
 use Ignite\Evaluation\Entities\ProcedureTemplates;
 use Ignite\Evaluation\Entities\TemplateLab;
+use Ignite\Evaluation\Entities\ReferenceRange;
 
 if (!function_exists('get_patient_queue')) {
 
@@ -978,8 +979,9 @@ if (!function_exists('get_min_range')) {
 
 if(!function_exists('get_gender_range')){
     function get_gender_range($p){
+        get_ref_range($p);
         $patient = \Session::get('active_patient');
-        $range = \Ignite\Evaluation\Entities\ReferenceRange::whereProcedure($p->id)
+        $range = ReferenceRange::whereProcedure($p->id)
             ->whereGender(strtolower($patient->sex))
             ->get()
             ->first();
@@ -990,6 +992,140 @@ if(!function_exists('get_gender_range')){
         }
     }
 }
+
+
+if(!function_exists('get_ref_range')){
+    function get_ref_range($p){
+        $interval = null;
+        if (gender_specific_interval($p)){
+            $interval = gender_specific_interval($p);
+        }else{
+            $interval = general_interval($p);
+        }
+        return $interval;
+    }
+}
+
+function general_interval($p){
+    $patient = \Session::get('active_patient');
+    $dob = \Carbon\Carbon::parse($patient->dob);
+    $today = new DateTime();
+    $age = $dob->diff($today);
+
+    $age_d = $dob->diffInDays();
+    $age_y = $dob->age;
+    $age_m = ($age->format('%y')*12)+$age->format('%m');
+
+    $all = ReferenceRange::whereProcedure($p->id)
+        ->whereAge('all')
+        ->whereGender('both')
+        ->get()
+        ->first();
+
+    $adult = ReferenceRange::whereProcedure($p->id)
+        ->whereAge('adult')
+        ->whereGender('both')
+        ->get()
+        ->first();
+
+    $child = ReferenceRange::whereProcedure($p->id)
+        ->whereAge('child')
+        ->whereGender('both')
+        ->get()
+        ->first();
+
+    $birth = ReferenceRange::whereProcedure($p->id)
+        ->whereAge('birth')
+        ->whereGender('both')
+        ->get();
+
+    if ($age_y>18){
+        if (!empty($adult)){
+            return $adult;
+        }else{
+            return $all;
+        }
+    }elseif (($age_y>0 && $age_y<18)&&$age_d>0){
+        if (!empty($child)){
+            return $child;
+        }else{
+            return $all;
+        }
+    }else{
+        if (isset($dob)&&$age_d<0){
+            if (!empty($birth)){
+                return $birth;
+            }else{
+                return $all;
+            }
+        }else{
+            return false;
+        }
+    }
+}
+
+
+function gender_specific_interval($p){
+    $patient = \Session::get('active_patient');
+    $dob = \Carbon\Carbon::parse($patient->dob);
+    $today = new DateTime();
+    $age = $dob->diff($today);
+
+    $age_d = $dob->diffInDays();
+    $age_y = $dob->age;
+    $age_m = ($age->format('%y')*12)+$age->format('%m');
+
+    $range = null;
+
+    $all = ReferenceRange::whereProcedure($p->id)
+        ->whereAge('all')
+        ->whereGender(strtolower($patient->sex))
+        ->get()
+        ->first();
+
+    $adult = ReferenceRange::whereProcedure($p->id)
+        ->whereAge('adult')
+        ->whereGender(strtolower($patient->sex))
+        ->get()
+        ->first();
+
+    $child = ReferenceRange::whereProcedure($p->id)
+        ->whereAge('child')
+        ->whereGender(strtolower($patient->sex))
+        ->get()
+        ->first();
+
+    $birth = ReferenceRange::whereProcedure($p->id)
+        ->whereAge('birth')
+        ->whereGender(strtolower($patient->sex))
+        ->get();
+
+    if ($age_y>18){
+        if (!empty($adult)){
+            return $adult;
+        }else{
+            return $all;
+        }
+    }elseif (($age_y>0 && $age_y<18)&&$age_d>0){
+        if (!empty($child)){
+            return $child;
+        }else{
+            return $all;
+        }
+    }else{
+        if (isset($dob)&&$age_d<0){
+            if (!empty($birth)){
+                return $birth;
+            }else{
+                return $all;
+            }
+        }else{
+            return false;
+        }
+    }
+}
+
+
 
 if (!function_exists('get_max_range')) {
     /**
@@ -1133,11 +1269,31 @@ if (!function_exists('getFlag')) {
      * @param $result, $min_range, $max_range
      * @return $flag
      */
-    function getFlag($r, $min_range, $max_range) {
-        if ($r < $min_range) {
-            return "<span style = 'color: red;'> L</span>";
-        } elseif ($r > $max_range) {
-            return "<span style = 'color: red;'> H</span>";
+    function getFlag($r, $range) {
+        if ($range->type=='range'){
+            if ($r < $range->lower) {
+                return "<span style = ''> L</span>";
+            } elseif ($r > $range->upper) {
+                return "<span style = ''> H</span>";
+            }
+        }elseif($range->type=='less_greater'){
+            if($range->lg_type =='>'||$range->lg_type =='greater_than'){
+                if ($r < $range->lg_value) {
+                    return "<span style = ''> L </span>";
+                }
+            }elseif ($range->lg_type =='>='||$range->lg_type =='greater_than_or'){
+                if ($r < $range->lg_value) {
+                    return "<span style = ''> L</span>";
+                }
+            }elseif ($range->lg_type =='<'||$range->lg_type =='less_than'){
+                if ($r > $range->lg_value) {
+                    return "<span style = ''> H </span>";
+                }
+            }elseif ($range->lg_type =='<='||$range->lg_type =='less_than_or'){
+                if ($r > $range->lg_value) {
+                    return "<span style = ''> H </span>";
+                }
+            }
         }
     }
 }
