@@ -55,6 +55,19 @@ class SidebarExtender implements Panda {
                     $item->route('evaluation.queues', 'doctor');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.doctor'));
                 });
+
+                $item->item('Laboratory Queue', function (Item $item) {
+                    $item->icon('fa fa-diamond');
+                    $item->route('evaluation.queues', 'laboratory');
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                });
+
+                $item->item('Pharmacy Queue', function (Item $item) {
+                    $item->icon('fa fa-tablet');
+                    $item->route('evaluation.queues', 'pharmacy');
+                    $item->authorize($this->auth->hasAccess('evaluation.examination.pharmacy'));
+                });
+                
                 /*
                   $item->item('Radiology Queue', function (Item $item) {
                   $item->icon('fa fa-braille');
@@ -72,12 +85,6 @@ class SidebarExtender implements Panda {
                   $item->icon('fa fa-hotel');
                   $item->route('evaluation.queues', 'diagnostics');
                   $item->authorize($this->auth->hasAccess('evaluation.examination.diagnostics'));
-                  });
-
-                  $item->item('Laboratory Queue', function (Item $item) {
-                  $item->icon('fa fa-diamond');
-                  $item->route('evaluation.queues', 'laboratory');
-                  $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                   });
 
                   $item->item('Theatre Queue', function (Item $item) {
