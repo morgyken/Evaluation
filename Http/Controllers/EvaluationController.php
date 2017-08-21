@@ -96,7 +96,7 @@ class EvaluationController extends AdminBaseController {
         return view('evaluation::patient_pharmacy', ['data' => $this->data]);
     }
 
-    public function labotomy(Request $request){
+    public function labotomy(Request $request) {
         $sample = new Sample();
         $sample->patient_id = $request->patient;
         $sample->visit_id = $request->visit;
@@ -108,9 +108,9 @@ class EvaluationController extends AdminBaseController {
         return back();
     }
 
-    public function Formulae(Request $request){
-        foreach ($request->formular as $key=>$value){
-            if (!empty($value)){
+    public function Formulae(Request $request) {
+        foreach ($request->formular as $key => $value) {
+            if (!empty($value)) {
                 $formula = new Formula();
                 $formula->procedure_id = $request->procedure;
                 $formula->test_id = $request->test[$key];
@@ -122,8 +122,7 @@ class EvaluationController extends AdminBaseController {
         return back();
     }
 
-    public function labotomy_print()
-    {
+    public function labotomy_print() {
         //return $this->assetManager;
     }
 

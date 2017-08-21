@@ -19,7 +19,7 @@ return [
         'all' => 'All Age Groups',
         'adult' => 'Adult',
         'child' => 'Child',
-        'birth' => 'At Birth',
+        'birth' => 'At birth',
         '0-3d' => '0-3 Days',
         '1-7d' => '1-7 Days',
         '0-13d' => '0-13 Days',

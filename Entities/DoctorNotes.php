@@ -35,6 +35,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class DoctorNotes extends Model {
 
+    //use SoftDeletes;
+
     public $primaryKey = 'visit';
     public $incrementing = false;
     protected $guarded = [];

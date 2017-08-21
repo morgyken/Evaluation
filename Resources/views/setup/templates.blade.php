@@ -15,7 +15,7 @@ $procedure = $data['procedure'];
 @if($procedure->id)
     <div class="box box-info">
         <div class="box-header">
-            <h3 class="box-title">Create or edit procedure template</h3>
+            <h3 class="box-title">Create or Edit Procedure Template</h3>
         </div>
         <div class="box-body">
             <div class="row show-grid">

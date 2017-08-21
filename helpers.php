@@ -153,15 +153,15 @@ if (!function_exists('has_headers')) {
     function has_headers($procedure) {
         $subtests = TemplateLab::whereProcedure($procedure)->pluck('title');
         $headers = array();
-        foreach ($subtests as $test){
-            if(!empty($test)){
+        foreach ($subtests as $test) {
+            if (!empty($test)) {
                 $headers[] = $test;
             }
         }
 
         if (!empty($headers)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -494,30 +494,38 @@ if (!function_exists('get_procedures')) {
 }
 
 
-if(!function_exists('get_sample_types')){
-    function get_sample_types(){
+if (!function_exists('get_sample_types')) {
+
+    function get_sample_types() {
         ///dd(\Ignite\Evaluation\Entities\SampleType::all());
-        return \Ignite\Evaluation\Entities\SampleType::all()->pluck('name','id');
+        return \Ignite\Evaluation\Entities\SampleType::all()->pluck('name', 'id');
     }
+
 }
 
-if(!function_exists('get_sample_methods')){
-    function get_sample_methods(){
-        return \Ignite\Evaluation\Entities\SampleCollectionMethods::all()->pluck('name','id');
+if (!function_exists('get_sample_methods')) {
+
+    function get_sample_methods() {
+        return \Ignite\Evaluation\Entities\SampleCollectionMethods::all()->pluck('name', 'id');
     }
+
 }
 
-if(!function_exists('get_units')){
-    function get_units(){
-        return \Ignite\Evaluation\Entities\Unit::all()->pluck('name','name');
+if (!function_exists('get_units')) {
+
+    function get_units() {
+        return \Ignite\Evaluation\Entities\Unit::all()->pluck('name', 'name');
     }
+
 }
 
 
-if(!function_exists('get_additives')){
-    function get_additives(){
-        return \Ignite\Evaluation\Entities\Additives::all()->pluck('name','id');
+if (!function_exists('get_additives')) {
+
+    function get_additives() {
+        return \Ignite\Evaluation\Entities\Additives::all()->pluck('name', 'id');
     }
+
 }
 
 
@@ -944,32 +952,31 @@ if (!function_exists('get_min_range')) {
      * @param $procedure, $age_days, $age_years
      * @return $range
      */
-
     function get_min_range($p, $age_days, $age_years) {
-        if(!empty($p->ref_ranges)){
-               if(get_gender_range($p)){
-                   $range = get_gender_range($p);
-                   return $range->lower;
-               }else{
-                   $r = get_first_ranges($p->id);
-                   if (!empty($r)){
-                       return $r->lower;
-                   }
-               }
-            }else{
-                if ($age_days < 4) {
-                    return $p->this_test->_0_3d_minrange;
-                } elseif ($age_days >= 4 && $age_days <= 30) {
-                    return $p->this_test->_4_30d_minrange;
-                } elseif ($age_days > 30 && $age_days <= 730) {
-                    return $p->this_test->_1_24m_minrange;
-                } elseif ($age_days > 730 && $age_days <= 1825) {
-                    return $p->this_test->_25_60m_minrange;
+        if (!empty($p->ref_ranges)) {
+            if (get_gender_range($p)) {
+                $range = get_gender_range($p);
+                return $range->lower;
+            } else {
+                $r = get_first_ranges($p->id);
+                if (!empty($r)) {
+                    return $r->lower;
+                }
+            }
+        } else {
+            if ($age_days < 4) {
+                return $p->this_test->_0_3d_minrange;
+            } elseif ($age_days >= 4 && $age_days <= 30) {
+                return $p->this_test->_4_30d_minrange;
+            } elseif ($age_days > 30 && $age_days <= 730) {
+                return $p->this_test->_1_24m_minrange;
+            } elseif ($age_days > 730 && $age_days <= 1825) {
+                return $p->this_test->_25_60m_minrange;
+            } else {
+                if ($age_years > 4 && $age_years <= 19) {
+                    return $p->this_test->_5_19y_minrange;
                 } else {
-                    if ($age_years > 4 && $age_years <= 19) {
-                        return $p->this_test->_5_19y_minrange;
-                    } else {
-                        return $p->this_test->adult_minrange;
+                    return $p->this_test->adult_minrange;
                 }
             }
         }
@@ -977,36 +984,44 @@ if (!function_exists('get_min_range')) {
 
 }
 
-if(!function_exists('get_gender_range')){
-    function get_gender_range($p){
+if (!function_exists('get_gender_range')) {
+
+    function get_gender_range($p) {
         get_ref_range($p);
         $patient = \Session::get('active_patient');
         $range = ReferenceRange::whereProcedure($p->id)
-            ->whereGender(strtolower($patient->sex))
-            ->get()
-            ->first();
-        if (!empty($range)){
+                ->whereGender(strtolower($patient->sex))
+                ->get()
+                ->first();
+        if (!empty($range)) {
             return $range;
-        }else{
+        } else {
             return false;
         }
     }
+
 }
 
 
-if(!function_exists('get_ref_range')){
-    function get_ref_range($p){
+if (!function_exists('get_ref_range')) {
+
+    function get_ref_range($p) {
         $interval = null;
-        if (gender_specific_interval($p)){
+        if (gender_specific_interval($p)) {
             $interval = gender_specific_interval($p);
-        }else{
-            $interval = general_interval($p);
+        } else {
+            if (specified_time_intervals($p)) {
+                $interval = specified_time_intervals($p);
+            } else {
+                $interval = general_interval($p);
+            }
         }
         return $interval;
     }
+
 }
 
-function general_interval($p){
+function general_interval($p) {
     $patient = \Session::get('active_patient');
     $dob = \Carbon\Carbon::parse($patient->dob);
     $today = new DateTime();
@@ -1014,58 +1029,57 @@ function general_interval($p){
 
     $age_d = $dob->diffInDays();
     $age_y = $dob->age;
-    $age_m = ($age->format('%y')*12)+$age->format('%m');
+    $age_m = ($age->format('%y') * 12) + $age->format('%m');
 
     $all = ReferenceRange::whereProcedure($p->id)
-        ->whereAge('all')
-        ->whereGender('both')
-        ->get()
-        ->first();
+            ->whereAge('all')
+            ->whereGender('both')
+            ->get()
+            ->first();
 
     $adult = ReferenceRange::whereProcedure($p->id)
-        ->whereAge('adult')
-        ->whereGender('both')
-        ->get()
-        ->first();
+            ->whereAge('adult')
+            ->whereGender('both')
+            ->get()
+            ->first();
 
     $child = ReferenceRange::whereProcedure($p->id)
-        ->whereAge('child')
-        ->whereGender('both')
-        ->get()
-        ->first();
+            ->whereAge('child')
+            ->whereGender('both')
+            ->get()
+            ->first();
 
     $birth = ReferenceRange::whereProcedure($p->id)
-        ->whereAge('birth')
-        ->whereGender('both')
-        ->get();
+            ->whereAge('birth')
+            ->whereGender('both')
+            ->get();
 
-    if ($age_y>18){
-        if (!empty($adult)){
+    if ($age_y > 18) {
+        if (!empty($adult)) {
             return $adult;
-        }else{
+        } else {
             return $all;
         }
-    }elseif (($age_y>0 && $age_y<18)&&$age_d>0){
-        if (!empty($child)){
+    } elseif (($age_y > 0 && $age_y < 18) && $age_d > 0) {
+        if (!empty($child)) {
             return $child;
-        }else{
+        } else {
             return $all;
         }
-    }else{
-        if (isset($dob)&&$age_d<0){
-            if (!empty($birth)){
+    } else {
+        if (isset($dob) && $age_d < 0) {
+            if (!empty($birth)) {
                 return $birth;
-            }else{
+            } else {
                 return $all;
             }
-        }else{
+        } else {
             return false;
         }
     }
 }
 
-
-function gender_specific_interval($p){
+function gender_specific_interval($p) {
     $patient = \Session::get('active_patient');
     $dob = \Carbon\Carbon::parse($patient->dob);
     $today = new DateTime();
@@ -1073,61 +1087,151 @@ function gender_specific_interval($p){
 
     $age_d = $dob->diffInDays();
     $age_y = $dob->age;
-    $age_m = ($age->format('%y')*12)+$age->format('%m');
+    $age_m = ($age->format('%y') * 12) + $age->format('%m');
 
     $range = null;
 
     $all = ReferenceRange::whereProcedure($p->id)
-        ->whereAge('all')
-        ->whereGender(strtolower($patient->sex))
-        ->get()
-        ->first();
+            ->whereAge('all')
+            ->whereGender(strtolower($patient->sex))
+            ->get()
+            ->first();
 
     $adult = ReferenceRange::whereProcedure($p->id)
-        ->whereAge('adult')
-        ->whereGender(strtolower($patient->sex))
-        ->get()
-        ->first();
+            ->whereAge('adult')
+            ->whereGender(strtolower($patient->sex))
+            ->get()
+            ->first();
 
     $child = ReferenceRange::whereProcedure($p->id)
-        ->whereAge('child')
-        ->whereGender(strtolower($patient->sex))
-        ->get()
-        ->first();
+            ->whereAge('child')
+            ->whereGender(strtolower($patient->sex))
+            ->get()
+            ->first();
 
     $birth = ReferenceRange::whereProcedure($p->id)
-        ->whereAge('birth')
-        ->whereGender(strtolower($patient->sex))
-        ->get();
+            ->whereAge('birth')
+            ->whereGender(strtolower($patient->sex))
+            ->get();
 
-    if ($age_y>18){
-        if (!empty($adult)){
+    if ($age_y > 18) {
+        if (!empty($adult)) {
             return $adult;
-        }else{
+        } else {
             return $all;
         }
-    }elseif (($age_y>0 && $age_y<18)&&$age_d>0){
-        if (!empty($child)){
+    } elseif (($age_y > 0 && $age_y < 18) && $age_d > 0) {
+        if (!empty($child)) {
             return $child;
-        }else{
+        } else {
             return $all;
         }
-    }else{
-        if (isset($dob)&&$age_d<0){
-            if (!empty($birth)){
+    } else {
+        if (isset($dob) && $age_d < 0) {
+            if (!empty($birth)) {
                 return $birth;
-            }else{
+            } else {
                 return $all;
             }
-        }else{
+        } else {
             return false;
         }
     }
 }
 
+function specified_time_intervals($p) {
+    /**
+     * Get ranges for more specified time ranges
+     * i.e 0-3 days etc.
+     * last character of age string denotes time ie d=days, w=weeks, m=months etc
+     * @param $procedure_id
+     * @return $interval
+     */
+    $patient = \Session::get('active_patient');
+    $dob = \Carbon\Carbon::parse($patient->dob);
 
+    $interval = null;
+    $patient_age = null;
+    $search = '-';
+
+    $gender_specific = ReferenceRange::whereProcedure($p->id)
+            ->where('age', 'LIKE', '%' . $search . '%')
+            ->whereGender(strtolower($patient->sex))
+            ->get();
+
+
+
+    $ranges_default = ReferenceRange::whereProcedure($p->id)
+            ->where('age', 'LIKE', '%' . $search . '%')
+            ->whereGender('both')
+            ->get();
+
+    if ($gender_specific->count() > 0) {
+        $interval = get_interval($gender_specific, $dob);
+    } else {
+        $interval = get_interval($ranges_default, $dob);
+    }
+
+    if (!empty($interval)) {
+        return $interval;
+    } else {
+        return false;
+    }
+}
+
+if (!function_exists('get_specified_age')) {
+
+    function get_interval($ranges, $dob) {
+        if (!empty($ranges)) {
+            foreach ($ranges as $r) {
+                $patient_age = get_specified_age($r->age, $dob);
+                $time_range = explode('-', $r->age);
+                $min = $time_range[0];
+                $max = substr($time_range[1], 0, -1);
+
+                if ($patient_age >= $min && $patient_age <= $max) {
+                    return $r;
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+
+}
+
+if (!function_exists('get_specified_age')) {
+
+    /**
+     * Choose time measure to use and return patient's age in the specified time unit
+     * @param string $age_str i.e. 0-3d
+     * @param date $age Patient's age
+     * @return $patient_age age in specified time unit
+     */
+    function get_specified_age($age_str, $dob) {
+        $today = new DateTime();
+        $age = $dob->diff($today);
+
+        $age_d = $dob->diffInDays();
+        $age_y = $dob->age;
+        $age_m = ($age->format('%y') * 12) + $age->format('%m');
+
+        $patient_age = null;
+        if (substr($age_str, -1) == 'd') {
+            $patient_age = $age_d;
+        } elseif (substr($age_str, -1) == 'm') {
+            $patient_age = $age_m;
+        } elseif (substr($age_str, -1) == 'y') {
+            $patient_age = $age_y;
+        }
+        return $patient_age;
+    }
+
+}
 
 if (!function_exists('get_max_range')) {
+
+///*********DEPRECEATED**********//////////
     /**
      * Get Maximum lab range depending on patient age
      * @param $procedure, $age_days, $age_years
@@ -1136,17 +1240,17 @@ if (!function_exists('get_max_range')) {
     function get_max_range($p, $age_days, $age_years) {
         $max_range = null;
         try {
-            if(!empty($p->ref_ranges)){
-                if(get_gender_range($p)){
+            if (!empty($p->ref_ranges)) {
+                if (get_gender_range($p)) {
                     $range = get_gender_range($p);
                     return $range->upper;
-                }else{
+                } else {
                     $r = get_first_ranges($p->id);
-                    if (!empty($r)){
+                    if (!empty($r)) {
                         return $r->upper;
                     }
                 }
-            }else{
+            } else {
                 if ($age_days < 4) {
                     $max_range = $p->this_test->_0_3d_maxrange;
                 } elseif ($age_days >= 4 && $age_days <= 30) {
@@ -1171,41 +1275,39 @@ if (!function_exists('get_max_range')) {
 
 }
 
-
-
-
 function get_age_string($dob) {
     $str = '';
     $days = (new Date($dob))->diff(Carbon\Carbon::now())->format('%d');
     $months = (new Date($dob))->diff(Carbon\Carbon::now())->format('%m');
     $years = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y');
     //$years = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');
-    if ($years<0 && $months<0){
-        $str.=$days.' days old';
-    }elseif ($months>0 && $years<0){
-        $str.=$months.' months old';
-    }elseif ($years<=5 && $months>0){
-        $str.=$years.'years, '.$months.' months old';
-    }else{
-        $str.=$years.' years old';
+    if ($years < 0 && $months < 0) {
+        $str.=$days . ' days old';
+    } elseif ($months > 0 && $years < 0) {
+        $str.=$months . ' months old';
+    } elseif ($years <= 5 && $months > 0) {
+        $str.=$years . 'years, ' . $months . ' months old';
+    } else {
+        $str.=$years . ' years old';
     }
     return $str;
 }
 
 if (!function_exists('get_first_ranges')) {
+
     /**
      * Get Lab test unit
      * @param $procedure/test
      * @return $unit
      */
     function get_first_ranges($procedure_id) {
-        try{
+        try {
             $ref = \Ignite\Evaluation\Entities\ReferenceRange::whereProcedure($procedure_id)->first();
             ///dd($ref);
-            if (!empty($ref)){
+            if (!empty($ref)) {
                 return $ref;
             }
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
         }
     }
@@ -1214,6 +1316,7 @@ if (!function_exists('get_first_ranges')) {
 
 
 if (!function_exists('getOrderResults')) {
+
     /**
      * Get Lab test unit
      * @param $procedure/test
@@ -1240,23 +1343,23 @@ if (!function_exists('getUnit')) {
      * @return $unit
      */
     function getUnit($p) {
-        if (!empty($p->this_test)){
-            if ($p->this_test->units!=='NULL'){
+        if (!empty($p->this_test)) {
+            if ($p->this_test->units !== 'NULL') {
                 return $p->this_test->units;
             }
             /*
-            $unit_str = $p->this_test->result_type_details;
-            preg_match("/\(([^\)]*)\)/", $unit_str, $matches);
-            if ($matches) {
-                $unit = $matches[1];
-            }
-            if (strpos($p->name, '%')) {
-                return '%';
-            } elseif ($matches) {
-                return html_entity_decode($unit);
-            } else {
-                return $p->this_test->units;
-            }*/
+              $unit_str = $p->this_test->result_type_details;
+              preg_match("/\(([^\)]*)\)/", $unit_str, $matches);
+              if ($matches) {
+              $unit = $matches[1];
+              }
+              if (strpos($p->name, '%')) {
+              return '%';
+              } elseif ($matches) {
+              return html_entity_decode($unit);
+              } else {
+              return $p->this_test->units;
+              } */
         }
     }
 
@@ -1264,38 +1367,40 @@ if (!function_exists('getUnit')) {
 
 
 if (!function_exists('getFlag')) {
+
     /**
      * Get Appropriate flag for lab result
      * @param $result, $min_range, $max_range
      * @return $flag
      */
     function getFlag($r, $range) {
-        if ($range->type=='range'){
+        if ($range->type == 'range') {
             if ($r < $range->lower) {
                 return "<span style = ''> L</span>";
             } elseif ($r > $range->upper) {
                 return "<span style = ''> H</span>";
             }
-        }elseif($range->type=='less_greater'){
-            if($range->lg_type ='>'||$range->lg_type =='greater_than'){
+        } elseif ($range->type == 'less_greater') {
+            if ($range->lg_type = '>' || $range->lg_type == 'greater_than') {
                 if ($r < $range->lg_value) {
                     return "<span style = ''> L </span>";
                 }
-            }elseif ($range->lg_type ='>='||$range->lg_type =='greater_than_or'){
+            } elseif ($range->lg_type = '>=' || $range->lg_type == 'greater_than_or') {
                 if ($r < $range->lg_value) {
                     return "<span style = ''> L</span>";
                 }
-            }elseif ($range->lg_type ='<'||$range->lg_type =='less_than'){
+            } elseif ($range->lg_type = '<' || $range->lg_type == 'less_than') {
                 if ($r > $range->lg_value) {
                     return "<span style = ''> H </span>";
                 }
-            }elseif ($range->lg_type ='<='||$range->lg_type =='less_than_or'){
+            } elseif ($range->lg_type = '<=' || $range->lg_type == 'less_than_or') {
                 if ($r > $range->lg_value) {
                     return "<span style = ''> H </span>";
                 }
             }
         }
     }
+
 }
 
 if (!function_exists('get_reverted_test')) {
@@ -1322,81 +1427,86 @@ if (!function_exists('get_patient_samples')) {
 
 }
 
-if(!function_exists('get_aliases')){
-    function get_aliases($procedure_id){
-        return TemplateLab::whereProcedure($procedure_id)->pluck('alias','subtest');
+if (!function_exists('get_aliases')) {
+
+    function get_aliases($procedure_id) {
+        return TemplateLab::whereProcedure($procedure_id)->pluck('alias', 'subtest');
     }
+
 }
 
-if(!function_exists('get_formula')){
-    function get_formula($test_id){
+if (!function_exists('get_formula')) {
+
+    function get_formula($test_id) {
         $formula = \Ignite\Evaluation\Entities\Formula::whereTest_id($test_id)->get()->first();
-        if(!empty($formula)){
+        if (!empty($formula)) {
             return $formula->formula;
-        }else{
+        } else {
             return null;
         }
     }
+
 }
 
 
-if(!function_exists('handle_formula')){
-    function handle_formula($test_id){
+if (!function_exists('handle_formula')) {
+
+    function handle_formula($test_id) {
         $formula = \Ignite\Evaluation\Entities\Formula::whereTest_id($test_id)->get()->first();
-        if(!empty($formula)){
+        if (!empty($formula)) {
 
             $vars = preg_split("/[+,-,*]+/", $formula->formula);
             return $formula->formula;
-        }else{
+        } else {
             return null;
         }
     }
+
 }
 
-
-function get_res($name, $test,$results){
+function get_res($name, $test, $results) {
     $data = array();
-    if(strpos($name, 'HEMOGRAM')){
+    if (strpos($name, 'HEMOGRAM')) {
         if (str_contains(strtolower($test->subtests->name), 'wbc') ||
-            str_contains(strtolower($test->subtests->name), 'white blood cell count')){
-            $data['wbc']= $wbc = $results[$test->subtest];
+                str_contains(strtolower($test->subtests->name), 'white blood cell count')) {
+            $data['wbc'] = $wbc = $results[$test->subtest];
             return $data;
         }
 
         if (str_contains(strtolower($test->subtests->name), 'neutrophils') &&
-            str_contains($test->subtests->name, '%')){
-            $data['np']= $np = $results[$test->subtest];
+                str_contains($test->subtests->name, '%')) {
+            $data['np'] = $np = $results[$test->subtest];
             return $data;
         }
 
         if (str_contains(strtolower($test->subtests->name), 'lymphocyte') &&
-            str_contains($test->subtests->name, '%')){
-            $data['lp']= $lp = $results[$test->subtest];
+                str_contains($test->subtests->name, '%')) {
+            $data['lp'] = $lp = $results[$test->subtest];
             return $data;
         }
 
         if (str_contains(strtolower($test->subtests->name), 'monocyte') &&
-            str_contains($test->subtests->name, '%')){
-            $data['mp']= $mp = $results[$test->subtest];
+                str_contains($test->subtests->name, '%')) {
+            $data['mp'] = $mp = $results[$test->subtest];
             return $data;
         }
 
         if (str_contains(strtolower($test->subtests->name), 'eosinophils') &&
-            str_contains($test->subtests->name, '%')){
-            $data['ep']= $ep = $results[$test->subtest];
+                str_contains($test->subtests->name, '%')) {
+            $data['ep'] = $ep = $results[$test->subtest];
             return $data;
         }
 
         if (str_contains(strtolower($test->subtests->name), 'basophils') &&
-            str_contains($test->subtests->name, '%')){
-            $data['bp']= $bp = $results[$test->subtest];
+                str_contains($test->subtests->name, '%')) {
+            $data['bp'] = $bp = $results[$test->subtest];
             return $data;
         }
     }
 }
 
-
 if (!function_exists('consumables')) {
+
     function get_consumables($id) {
         $procedure = \Ignite\Evaluation\Entities\Procedures::whereId($id)->get()->first();
         if (!$procedure->items->isEmpty()) {
