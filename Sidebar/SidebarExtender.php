@@ -176,32 +176,32 @@ class SidebarExtender implements Panda {
 
             }
 
-            $group->item('In Patient Management', function(Item $item) {
-                $item->icon('fa fa-hospital-o');
-                //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-                $item->weight(4);
-                //there should be a way of adding wards and listing them
+            // $group->item('In Patient Management', function(Item $item) {
+            //     $item->icon('fa fa-hospital-o');
+            //     //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+            //     $item->weight(4);
+            //     //there should be a way of adding wards and listing them
 
-                $item->item('Awaiting admission', function(Item $item) {
-                    $item->icon('fa fa-user-plus');
-                    $item->route('evaluation.inpatient.admit');
-                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-                    $item->weight(4);
-                });
-                $item->item('Patient Management', function(Item $item) {
-                    $item->icon('fa fa-users');
-                    $item->url('/evaluation/inpatient/admissions');
-                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-                    $item->weight(4);
-                });
-                //patients waiting admissions
-                $item->item('Requested Discharge ', function(Item $item) {
-                    $item->icon('fa fa-exclamation-circle');
-                    $item->url('/evaluation/inpatient/request_discharge');
-                    //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-                    $item->weight(4);
-                });
-            });
+            //     $item->item('Awaiting admission', function(Item $item) {
+            //         $item->icon('fa fa-user-plus');
+            //         $item->route('evaluation.inpatient.admit');
+            //         //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+            //         $item->weight(4);
+            //     });
+            //     $item->item('Patient Management', function(Item $item) {
+            //         $item->icon('fa fa-users');
+            //         $item->url('/evaluation/inpatient/admissions');
+            //         //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+            //         $item->weight(4);
+            //     });
+            //     //patients waiting admissions
+            //     $item->item('Requested Discharge ', function(Item $item) {
+            //         $item->icon('fa fa-exclamation-circle');
+            //         $item->url('/evaluation/inpatient/request_discharge');
+            //         //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
+            //         $item->weight(4);
+            //     });
+            // });
 
             $group->item('Setup', function (Item $item) {
                 $item->item('Procedure Categories', function(Item $item) {

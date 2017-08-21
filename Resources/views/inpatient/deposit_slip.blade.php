@@ -33,7 +33,7 @@
     <h2>
        Deposit Slip
     </h2>
-    <p>Name: {{$patient->first_name}} {{$patient->last_name}}</p>
+    <p>Name: {{$patient->full_name}}</p>
     <p>Date: <?php echo(date_format(new Date(),'y/d/m'))?></p>
     <p>Reference: {{$depo->reference}}</p>
     <p>Amount Deposited: {{$depo->credit}}</p>
