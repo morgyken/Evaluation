@@ -8,17 +8,17 @@
         <div class="box-body">
             <h2>Patient Details</h2>
             <div class="col-lg-6">
-                <strong> Name: </strong> {{$patient->name}}<br>
-                <strong>Number:</strong>  {{$patient->id}}<br>
-                <strong>Ward Name:</strong>  {{\Ignite\Evaluation\Entities\Ward::find($ward->ward_id)->name}}<br>
+                <strong> Name: </strong> <br>
+                <strong>Number:</strong>  <br>
+                <strong>Ward Name:</strong>  <br>
                 <strong>Account Balance:</strong>  <br>
             </div>
             <div class="col-lg-6">
 
-                <strong> Age: </strong> {{$patient->age}}<br>
-                <strong>Number:</strong>  {{date_format($admission->created_at,'Y-M-d')}}<br>
-                <strong>Bed:</strong>  {{\Ignite\Evaluation\Entities\Bed::find($ward->bed_id)->number}}<br>
-                <strong>Name:</strong>  {{$patient->name}}<br>
+                <strong> Age: </strong> <br>
+                <strong>Number:</strong>  <br>
+                <strong>Bed:</strong>  <br>
+                <strong>Name:</strong>  <br>
             </div>
         </div>
 

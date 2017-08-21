@@ -25,4 +25,8 @@ class PatientAccount extends Model
         'patient_id','balance'
     ];
     protected $table = 'Patient_account';
+
+    public function patient(){
+    	return $this->belongsTo(Patient::class, 'patient_id', 'id');
+    }
 }

@@ -7,11 +7,12 @@
 /* global VITALS_URL, alertify */
 
 $(function () {
-    $('.wh').keyup(function () {
+
+    $('.wh').on('keyup', function () {
         calculateRatio();
     });
-    $('.bmi').keyup(function () {
-        calculateBMI();
+    $('.bmi').on('keyup', function () {
+        calculateBMI(); 
     });
     /*
      * Calculate the BMI
@@ -39,6 +40,8 @@ $(function () {
                 status = "Underweight"
             }
         }
+
+        console.log("BMI: " + bmi);
         $('#bmi').html(bmi);
         $('#bmi_status').html(status);
     }
@@ -68,13 +71,13 @@ $(function () {
     });
     function save_vitals() {
         $.ajax({type: "POST",
-            url: VITALS_URL,
+            url: "/inpatient/manage/vitals",
             data: $('#vitals_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Vitals saved');
             },
-            error: function () {
-                alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
+            error: function (xhr, status, errorThrown) {
+                alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry' + errorThrown + ', status ' + status + ', xhr ' + xhr);
             }
         });
     }

@@ -70,7 +70,6 @@
                     <tbody>
                     @foreach($bedpositions as $bedp)
                         <tr>
-                            <td></td>
                             <td>{{$bedp->name}}</td>
                             <td>{{$bedp->ward->number}}</td>
                             <td>Ksh.{{$bedp->ward->cost}}</td>
@@ -90,8 +89,7 @@
                     </tbody>
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Name</th>
+                            <th>No.</th>
                             <th>Ward Number</th>
                             <th>Gender</th>
                             <th>Category</th>
