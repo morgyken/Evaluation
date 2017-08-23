@@ -43,15 +43,20 @@ extract($data);
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Formula</label>
-                    <input type="text" name="formula" value="{{$item->formula}}" class="form-control" placeholder="Formula">
+                    <input type="text" name="formula" value="{{$item->formula}}" class="form-control" placeholder="Formula i.e P1+P2">
                     {!! $errors->first('formula', '<span class="help-block">:message</span>') !!}
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">
-                    <label>Tip</label>
+                    <label>Tip: Formulae follow Excel format (C is replaced with P for Procedure)</label>
                     <p>
                         <span class="help-block">
-                            Use procedure id's to represent procedures in formulae
+                            Use procedure id's to represent procedures in formulae. Search Procedure id's here, indicated in brackets.
+                            <select id="ids">
+                                <?php foreach (get_parent_procedures() as $key => $value) { ?>
+                                    <option>{{$value}}<strong> ({{$key}})</strong></option>
+                                <?php } ?>
+                            </select>
                         </span>
                     </p>
                 </div>
@@ -132,6 +137,7 @@ extract($data);
     $(document).ready(function () {
         $("#select").select2();
         $("#tests").select2();
+        $("#ids").select2();
         $("table").DataTable();
         $('#lg').hide();
         $('#range').hide();
