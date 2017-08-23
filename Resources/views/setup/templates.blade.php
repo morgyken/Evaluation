@@ -48,7 +48,7 @@ $procedure = $data['procedure'];
                             @foreach($saved as $s)
                             <tr id="row{{$s->id}}">
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$s->subtests->name}} ($s->subtests->id)</td>
+                                <td>{{$s->subtests->name}} {{($s->subtests->id)}}</td>
                                 <td>{{$s->titles?$s->titles->name:''}}</td>
                                 <td>
                                     <a href="#" onclick="delete_test(<?php echo $s->id ?>)"style="color: red"><i class="fa fa-trash"></i></a>
