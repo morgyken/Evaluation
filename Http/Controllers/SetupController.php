@@ -16,6 +16,7 @@ use Ignite\Evaluation\Entities\PartnerInstitution;
 use Ignite\Evaluation\Entities\Additives;
 use Ignite\Evaluation\Entities\Remarks;
 use Ignite\Evaluation\Entities\Unit;
+use Ignite\Evaluation\Entities\Formula;
 use Illuminate\Http\Request;
 
 class SetupController extends AdminBaseController {
@@ -91,7 +92,7 @@ class SetupController extends AdminBaseController {
         return view('evaluation::setup.labtest_titles', ['data' => $this->data]);
     }
 
-    public function SampleTypes(Request $request){
+    public function SampleTypes(Request $request) {
         //Addition of result templates per procedure
         if ($request->isMethod('post')) {
             $this->evaluationRepository->SaveSampleType($request);
@@ -101,7 +102,7 @@ class SetupController extends AdminBaseController {
         return view('evaluation::setup.sample_types', ['data' => $this->data]);
     }
 
-    public function ManageRanges(Request $request){
+    public function ManageRanges(Request $request) {
         //Addition of result templates per procedure
         if ($request->isMethod('post')) {
             $this->evaluationRepository->save_range($request);
@@ -111,7 +112,7 @@ class SetupController extends AdminBaseController {
         return view('evaluation::setup.ranges', ['data' => $this->data]);
     }
 
-    public function ManageUnits(Request $request){
+    public function ManageUnits(Request $request) {
         //Addition of result templates per procedure
         if ($request->isMethod('post')) {
             $this->evaluationRepository->save_unit($request);
@@ -121,7 +122,7 @@ class SetupController extends AdminBaseController {
         return view('evaluation::setup.units', ['data' => $this->data]);
     }
 
-    public function ManageAdditives(Request $request){
+    public function ManageAdditives(Request $request) {
         //Addition of result templates per procedure
         if ($request->isMethod('post')) {
             $this->evaluationRepository->save_additives($request);
@@ -131,7 +132,7 @@ class SetupController extends AdminBaseController {
         return view('evaluation::setup.additives', ['data' => $this->data]);
     }
 
-    public function ManageRemarks(Request $request){
+    public function ManageRemarks(Request $request) {
         //Addition of result templates per procedure
         if ($request->isMethod('post')) {
             $this->evaluationRepository->save_remarks($request);
@@ -141,7 +142,16 @@ class SetupController extends AdminBaseController {
         return view('evaluation::setup.remarks', ['data' => $this->data]);
     }
 
-    public function SampleCollectionMethods(Request $request){
+    public function ManageFormulae(Request $request) {
+        if ($request->isMethod('post')) {
+            $this->evaluationRepository->save_formula($request);
+        }
+        $this->data['item'] = Formula::findOrNew($request->id);
+        $this->data['items'] = Formula::all();
+        return view('evaluation::setup.formula', ['data' => $this->data]);
+    }
+
+    public function SampleCollectionMethods(Request $request) {
         //Addition of result templates per procedure
         if ($request->isMethod('post')) {
             $this->evaluationRepository->save_collection_method($request);
@@ -151,7 +161,7 @@ class SetupController extends AdminBaseController {
         return view('evaluation::setup.collection_methods', ['data' => $this->data]);
     }
 
-    public function LabSamples(Request $request){
+    public function LabSamples(Request $request) {
         if ($request->isMethod('post')) {
             try {
                 $tit = new \Ignite\Evaluation\Entities\HaemogramTitle();

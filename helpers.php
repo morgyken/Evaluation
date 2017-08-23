@@ -1021,6 +1021,42 @@ if (!function_exists('get_ref_range')) {
 
 }
 
+if (!function_exists('get_result')) {
+
+    /**
+     * @return Test result
+     */
+    function get_result($results, $test) {
+        if (!empty($test->formula)) {
+            $formula = $test->formula->formula;
+            $signs = ['+', '-', '*', '/'];
+            $sign = '';
+
+            foreach ($signs as $s) {
+                if (strpos($formula, $s)) {
+                    $sign = $s;
+                }
+            }
+
+            $f = explode($sign, $formula);
+            $test1 = $results[substr($f[0], 1)];
+            $test2 = $results[substr($f[1], 1)];
+            if ($sign == '*') {
+                return $test1 * $test2;
+            } elseif ($sign == '/') {
+                return $test1 / $test2;
+            } elseif ($sign == '-') {
+                return $test1 - $test2;
+            } elseif ($sign == '+') {
+                return $test1 + $test2;
+            }
+        } else {
+            return strip_tags($results[$test->id]);
+        }
+    }
+
+}
+
 function general_interval($p) {
     $patient = \Session::get('active_patient');
     $dob = \Carbon\Carbon::parse($patient->dob);

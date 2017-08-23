@@ -5,7 +5,7 @@ $dob = \Carbon\Carbon::parse($patient->dob);
 $age_days = $dob->diffInDays();
 $age_years = $dob->age;
 $age_str = get_age_string($dob);
-if(!isset($data['type'])) {
+if (!isset($data['type'])) {
     $item = $data['results'];
 }
 $clinic = $visit->clinics;
@@ -17,16 +17,16 @@ $clinic = $visit->clinics;
             <td>
                 <div style="text-align: center; color:black">
                     @if(!isset($data['type']))
-                        <strong>
-                            <h2 style="font-weight: bolder;">
-                                Lab Report
-                            </h2>
-                        </strong>
+                    <strong>
+                        <h2 style="font-weight: bolder;">
+                            Lab Report
+                        </h2>
+                    </strong>
                     @else
-                        <strong>
-                            <h1 style="font-weight: bolder;">
-                                {{ucfirst($data['type'])}} Report</h1>
-                        </strong>
+                    <strong>
+                        <h1 style="font-weight: bolder;">
+                            {{ucfirst($data['type'])}} Report</h1>
+                    </strong>
                     @endif
                 </div>
             </td>
@@ -42,10 +42,8 @@ $clinic = $visit->clinics;
         </tr>
     </table>
 </div>
-<h2 style="color: white">Section</h2>
-<h2 style="color: white">Section</h2>
 <div id="header_2">
-    <table style="font-size: 12px">
+    <table style="font-size: 14px">
         <tr class="information">
             <td>
                 <strong style="float: top">Patient Details</strong><br>
@@ -63,22 +61,19 @@ $clinic = $visit->clinics;
             </td>
             <td style="text-align: right">
                 <strong style="float: top">Client Details</strong><br>
-                <?php if (!empty($item->visits->external_doctors)){?>
-                {{$item->visits->external_doctors?$item->visits->external_doctors->profile->full_name:''}}<br>
-                {{$item->visits->external_doctors?"(".$item->visits->external_doctors->profile->partnerInstitution->name.")":''}}
-                <br/>
-                <?php
-                }else{ ?>
-                Name: {{$visit->patients->full_name}}<br>
-                Tel: {{$visit->patients->mobile}}<br>
-                Email: {{$visit->patients->email}}<br>
-                <?php
+                <?php if (!empty($item->visits->external_doctors)) { ?>
+                    {{$item->visits->external_doctors?$item->visits->external_doctors->profile->full_name:''}}<br>
+                    {{$item->visits->external_doctors?"(".$item->visits->external_doctors->profile->partnerInstitution->name.")":''}}
+                    <br/>
+                <?php } else {
+                    ?>
+                    Name: {{$visit->patients->full_name}}<br>
+                    Tel: {{$visit->patients->mobile}}<br>
+                    Email: {{$visit->patients->email}}<br>
+                    <?php
                 }
                 ?>
             </td>
         </tr>
     </table>
 </div>
-<h2 style="color: white">Section</h2>
-<h2 style="color: white">Section</h2>
-    

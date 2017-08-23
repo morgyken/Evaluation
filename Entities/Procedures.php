@@ -72,13 +72,17 @@ class Procedures extends Model {
     public function remarks() {
         return $this->hasOne(Remarks::class, 'procedure');
     }
-    
+
     public function titles() {
         return $this->hasMany(HaemogramTitle::class, 'procedure');
     }
 
     public function formulae() {
-        return $this->hasMany(Formula::class, 'procedure');
+        return $this->hasMany(Formula::class, 'procedure_id');
+    }
+
+    public function formula() {
+        return $this->hasOne(Formula::class, 'test_id');
     }
 
     public function ref_ranges() {

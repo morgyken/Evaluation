@@ -62,5 +62,6 @@ $(document).ready(function () {
 
     });
     $(".test_select").select2();
+    $("#title_select").select2();
 
 });

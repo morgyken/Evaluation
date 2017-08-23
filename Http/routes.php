@@ -4,9 +4,9 @@ use Ignite\Core\Contracts\Authentication;
 use Illuminate\Routing\Router;
 
 $router->get('patients/queue/{department}', ['uses' => 'EvaluationController@queues', 'as' => 'queues']);
-$router->match(['get','post'],'samples/{patient?}', ['uses' => 'EvaluationController@labotomy', 'as' => 'labotomy']);
-$router->match(['get','post'],'formulae/{id?}', ['uses' => 'EvaluationController@Formulae', 'as' => 'formulae']);
-$router->match(['get','post'],'sample/barcode/{id?}/print', ['uses' => 'EvaluationController@labotomy_print', 'as' => 'labotomy.print']);
+$router->match(['get', 'post'], 'samples/{patient?}', ['uses' => 'EvaluationController@labotomy', 'as' => 'labotomy']);
+$router->match(['get', 'post'], 'formulae/{id?}', ['uses' => 'EvaluationController@Formulae', 'as' => 'formulae']);
+$router->match(['get', 'post'], 'sample/barcode/{id?}/print', ['uses' => 'EvaluationController@labotomy_print', 'as' => 'labotomy.print']);
 $router->get('patients/visits/{visit}/preview/{department}', ['uses' => 'EvaluationController@preview', 'as' => 'preview']);
 $router->get('patients/visit/{visit}/evaluate/{department}', ['uses' => 'EvaluationController@evaluate', 'as' => 'evaluate']);
 
@@ -49,10 +49,12 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
 
     $router->get('lab/samples/{id?}', ['uses' => 'SetupController@LabSamples', 'as' => 'test.samples']);
     $router->match(['post', 'get'], 'partners/manage/{id?}', ['uses' => 'SetupController@ManagePartnerInstitutions', 'as' => 'manage_partners']);
-    $router->match(['get','post'],'lab/test_categories/{id?}', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
+    $router->match(['get', 'post'], 'lab/test_categories/{id?}', ['uses' => 'SetupController@LabCategories', 'as' => 'test.categories']);
 
     $router->get('lab/test_title/{id?}', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles']);
     $router->post('lab/save/test_title', ['uses' => 'SetupController@TestTitles', 'as' => 'test.titles.save']);
+
+    $router->match(['post', 'get'], 'lab/formulae/{id?}', ['uses' => 'SetupController@ManageFormulae', 'as' => 'formulae']);
 
     $router->match(['post', 'get'], 'lab/reference_ranges/{id?}', ['uses' => 'SetupController@ManageRanges', 'as' => 'ranges']);
     $router->match(['post', 'get'], 'lab/sample_types/{id?}', ['uses' => 'SetupController@SampleTypes', 'as' => 'sample_types']);

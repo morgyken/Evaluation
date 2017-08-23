@@ -52,7 +52,6 @@ use Ignite\Evaluation\Entities\ProcedureCategoryTemplates;
 use Ignite\Evaluation\Entities\TemplateLab;
 use Ignite\Evaluation\Entities\ExternalOrderDetails;
 
-
 /**
  * Description of FunctionsRepository
  *
@@ -225,64 +224,13 @@ class EvaluationFunctions implements EvaluationRepository {
             if ($request->title[$key] > 0) {
                 $template->title = $request->title[$key];
             }
-
             try {
                 $template->subtest = $request->subtest[$key];
             } catch (\Exception $e) {
                 flash('Subtest cannot be null', 'error');
             }
-
             if ($request->sort_order[$key]) {
                 $template->sort_order = $request->sort_order[$key];
-            }
-
-            if ($request->min_range[$key] !== '') {
-                $template->lab_min_range = $request->min_range[$key];
-            }
-            if ($request->max_range[$key] !== '') {
-                $template->lab_max_range = $request->max_range[$key];
-            }
-            //1.
-            if ($request->_0_3d_minrange[$key] !== '') {
-                $template->_0_3d_minrange = $request->_0_3d_minrange[$key];
-            }
-            if ($request->_0_3d_maxrange[$key] !== '') {
-                $template->_0_3d_maxrange = $request->_0_3d_maxrange[$key];
-            }
-            //2.
-            if ($request->_4_30d_minrange[$key] !== '') {
-                $template->_4_30d_minrange = $request->_4_30d_minrange[$key];
-            }
-            if ($request->_4_30d_maxrange[$key] !== '') {
-                $template->_4_30d_maxrange = $request->_4_30d_maxrange[$key];
-            }
-            //3.
-            if ($request->_1_24m_minrange[$key] !== '') {
-                $template->_1_24m_minrange = $request->_1_24m_minrange[$key];
-            }
-            if ($request->_1_24m_maxrange[$key] !== '') {
-                $template->_1_24m_maxrange = $request->_1_24m_maxrange[$key];
-            }
-            //4.
-            if ($request->_25_60m_minrange[$key] !== '') {
-                $template->_25_60m_minrange = $request->_25_60m_minrange[$key];
-            }
-            if ($request->_25_60m_maxrange[$key] !== '') {
-                $template->_25_60m_maxrange = $request->_25_60m_maxrange[$key];
-            }
-            //5.
-            if ($request->_5_19y_minrange[$key] !== '') {
-                $template->_5_19y_minrange = $request->_5_19y_minrange[$key];
-            }
-            if ($request->_5_19y_maxrange[$key] !== '') {
-                $template->_5_19y_maxrange = $request->_5_19y_maxrange[$key];
-            }
-            //6.
-            if ($request->adult_minrange[$key] !== '') {
-                $template->adult_minrange = $request->adult_minrange[$key];
-            }
-            if ($request->adult_maxrange[$key] !== '') {
-                $template->adult_maxrange = $request->adult_maxrange[$key];
             }
             $template->save();
         }
@@ -518,34 +466,33 @@ class EvaluationFunctions implements EvaluationRepository {
         ]);
     }
 
-    public function SaveSampleType(Request $request)
-    {
-        $type= SampleType::findOrNew($request->id);
+    public function SaveSampleType(Request $request) {
+        $type = SampleType::findOrNew($request->id);
         $type->name = $this->request->name;
         $type->procedure = $this->request->procedure;
         $type->details = $this->request->details;
         $type->save();
     }
 
-    function save_collection_method(Request $request){
+    function save_collection_method(Request $request) {
         $method = SampleCollectionMethods::findOrNew($request->id);
         $method->name = $request->name;
         $method->save();
     }
 
-    function save_unit(Request $request){
+    function save_unit(Request $request) {
         $unit = Unit::findOrNew($request->id);
         $unit->name = $request->name;
         $unit->save();
     }
 
-    function save_additives(Request $request){
+    function save_additives(Request $request) {
         $item = Additives::findOrNew($request->id);
         $item->name = $request->name;
         $item->save();
     }
 
-    function save_remarks(Request $request){
+    function save_remarks(Request $request) {
         $item = Remarks::findOrNew($request->id);
         $item->remarks = $request->remarks;
         $item->procedure = $request->procedure;
@@ -553,16 +500,24 @@ class EvaluationFunctions implements EvaluationRepository {
         $item->save();
     }
 
-    function save_range(Request $request){
+    function save_formula(Request $request) {
+        $item = \Ignite\Evaluation\Entities\Formula::findOrNew($request->id);
+        $item->procedure_id = $request->procedure_id;
+        $item->test_id = $request->test_id;
+        $item->formula = $request->formula;
+        $item->save();
+    }
+
+    function save_range(Request $request) {
         $item = ReferenceRange::findOrNew($request->id);
         $item->procedure = $request->procedure;
         $item->gender = $request->gender;
         $item->age = $request->age;
         $item->type = $request->type;
-        $request->lower?$item->lower = $request->lower:'';
-        $request->upper?$item->upper = $request->upper:'';
+        $request->lower ? $item->lower = $request->lower : '';
+        $request->upper ? $item->upper = $request->upper : '';
         $item->lg_type = $request->lg_type;
-        $request->lg_value?$item->lg_value = $request->lg_value:'';
+        $request->lg_value ? $item->lg_value = $request->lg_value : '';
         $item->save();
     }
 
@@ -714,7 +669,7 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     public function saveSubProcedure($procedure, $request) {
-        if (!$s = SubProcedures::whereProcedure($procedure)->first()){
+        if (!$s = SubProcedures::whereProcedure($procedure)->first()) {
             $s = new SubProcedures;
         }
         $s->procedure = $procedure;

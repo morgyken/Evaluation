@@ -10,7 +10,7 @@ $tests = get_lab_template($item->procedures->id);
 @foreach($tests as $test)
 <?php
 try {
-    if ($test_res[$test->subtest] !== '') {
+    if (get_result($test_res, $test->subtests) !== '') {
         $u = getUnit($test->subtests);
 
         $interval = null;
@@ -30,17 +30,16 @@ try {
         <tr>
             <td>{{$test->subtests->name}}</td>
             <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
-                 {{strip_tags($test_res[$test->subtest])}}
-        </td>
-        <td><?php echo $u ?></td>
-        <td style="text-align: center">
-            @if(!is_null($interval))
-            <?php echo getFlag($test_res[$test->subtest], $min_range, $max_range) ?>
-            @endif
-        </td>
-        <td>
-            {{$interval}}
-        </td>
+                 {{get_result($test_res,$test->subtests)}}</td>
+            <td><?php echo $u ?></td>
+            <td style="text-align: center">
+                @if(!is_null($interval))
+                <?php echo getFlag($test_res[$test->subtest], $min_range, $max_range) ?>
+                @endif
+            </td>
+            <td>
+                {{$interval}}
+            </td>
         </tr>
         <?php
     }

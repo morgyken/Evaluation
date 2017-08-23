@@ -25,7 +25,7 @@ $tests = get_title_procedures($item->procedures->id, $header->id);
 @foreach($tests as $test)
 <?php
 try {
-    if ($test_res[$test->subtest] !== '') {
+    if (get_result($test_res, $test->subtests) !== '') {
         $u = getUnit($test->subtests);
         $interval = null;
         $range = get_ref_range($test->subtests);
@@ -42,9 +42,9 @@ try {
         }
         ?>
         <tr>
-            <td>{{strtoupper($test->subtests->name)}}</td>
+            <td>{{strtoupper($test->subtests->name)}} {{$test->subtests->id}}</td>
             <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
-                 {{strip_tags($test_res[$test->subtest])}}
+                 {{get_result($test_res,$test->subtests)}}
         </td>
         <td><?php echo str_replace(' ', '', $u) ?></td>
         <td style="text-align: center">

@@ -73,53 +73,57 @@ class ReportsController extends Controller {
     }
 
     public function print_lab(Request $request) {
-        //try {
-        $this->data['visit'] = Visit::find($request->visit);
-        $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
-        $pdf = \PDF::loadView('evaluation::prints.lab.results', ['data' => $this->data]);
-        $pdf->setPaper('A4', 'potrait');
-        return $pdf->stream('LabResults.pdf');
-        //} catch (\Exception $exc) {
-          //  return back();
-       // }
+        try {
+            $this->data['visit'] = Visit::find($request->visit);
+            $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
+            \PDF::setOptions(['isPhpEnabled' => true]);
+            $pdf = \PDF::loadView('evaluation::prints.lab.results', ['data' => $this->data]);
+            $pdf->setPaper('A4', 'potrait');
+            //dd($pdf->get_page_number());
+            return $pdf->stream('LabResults.pdf');
+        } catch (\Exception $exc) {
+            flash('something went wrong', 'error');
+            return back();
+        }
     }
 
     public function print_lab_one(Request $request) {
-       // try {
-        $this->data['visit'] = Visit::find($request->visit);
-        $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
-        $pdf = \PDF::loadView('evaluation::prints.lab.one_lab', ['data' => $this->data]);
-        $pdf->setPaper('A4', 'potrait');
-        return $pdf->stream('LabResult.pdf');
-      //  } catch (\Exception $ex) {
-      //      return back();
-      //  }
+        try {
+            $this->data['visit'] = Visit::find($request->visit);
+            $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
+            $pdf = \PDF::loadView('evaluation::prints.lab.one_lab', ['data' => $this->data]);
+            $pdf->setPaper('A4', 'potrait');
+            return $pdf->stream('LabResult.pdf');
+        } catch (\Exception $ex) {
+            flash('Something went wrong', 'error');
+            return back();
+        }
     }
 
     public function print_results(Request $request) {
-        //try {
+        try {
             //dd($request->server());
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['type'] = $request->type;
             $pdf = \PDF::loadView('evaluation::prints.results', ['data' => $this->data]);
             $pdf->setPaper('A4', 'potrait');
             return $pdf->stream('Results.pdf');
-       // } catch (\Exception $exc) {
-         //   return back();
-       // }
+        } catch (\Exception $exc) {
+            return back();
+        }
     }
 
     public function print_results_one(Request $request) {
-       // try {
+        try {
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['result'] = \Ignite\Evaluation\Entities\InvestigationResult::find($request->id);
             $this->data['type'] = $request->type;
             $pdf = \PDF::loadView('evaluation::prints.one_result', ['data' => $this->data]);
             $pdf->setPaper('A4', 'potrait');
             return $pdf->stream('Result.pdf');
-       // } catch (\Exception $ex) {
-        //    return back();
-       // }
+        } catch (\Exception $ex) {
+            return back();
+        }
     }
 
     public function invoice($invoice) {

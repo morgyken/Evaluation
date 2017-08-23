@@ -5,15 +5,16 @@
     }
 
     *{
-        font-size:11px;
+        font-size:14px;
         /* line-height:24px;*/
-        font-family:Serif,'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-        /*font-family: 'EB Garamond', serif;*/
+        /*font-family:Serif,'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;*/
+        font-family: 'EB Garamond', serif;
     }
 
     body {
-        font-family: sans-serif;
-        margin: 0.5cm 0;
+        /* font-family: sans-serif;*/
+        font-family: 'EB Garamond', serif;
+        margin: 2cm 0;
         text-align: justify;
     }
 
@@ -62,7 +63,7 @@
 
     #header td,
     #footer td {
-        padding: 0;
+        padding: 5px;
         width: 50%;
     }
 
@@ -72,7 +73,8 @@
     }
 
     .page-number:before {
-        content: "Page " counter(page) " of " counter(page);
+        /*content: "Page " counter(page) " of " counter(page);*/
+        content: "Page " counter(page) " ";
     }
 
     hr {
@@ -95,7 +97,7 @@
     }
 
     #results td{
-        font-size: 11px;
+        font-size: 12px;
     }
 
 </style>
