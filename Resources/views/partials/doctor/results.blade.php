@@ -38,20 +38,11 @@ extract($data);
             </div>
             <div class="col-md-6">
                 <h4>Test Results</h4>
+                @include('evaluation::partials.labs.results.list')
                 <div class="well well-sm">
-                    <?php
-                    try {
-                        $results = json_decode($item->results->results);
-                        ?>
-                        @foreach ($results as $r)
-                        <strong>{{$r[0]}}</strong>
-                        {{$r[1]}}<br>
-                        @endforeach
-                        <?php
-                    } catch (\Exception $e) {
-                        echo $item->results->results;
-                    }
-                    ?>
+                    <table class="table table-condensed table-striped">
+                        @include('evaluation::partials.labs.results.list')
+                    </table>
                 </div>
                 @if($item->results->documents)
                 Uploaded File -

@@ -1,6 +1,5 @@
 <div id="footer">
-    <br>
-    <div style="text-align: right; color: black">
+    <div style="text-align: right; color: black; margin-top: 10px">
         <small style="font-weight: bolder">
             Pathologist:
             <?php
@@ -11,7 +10,9 @@
             }
             ?>
         </small><br/>
-        <small class="page-number"></small>|<small> Printed on {{date("d-m-y") }}</small><br/>
-        <small style="color: black">&copy;All rights reserved</small>
+        <small class="page-number"></small>
+        <small><?php echo 'of '.\Session::get('pages').' ' ?></small>
+        |<small> Printed on {{date("d-m-y") }}</small><br/>
+        <small style="color: black">&copy;{{ config('practice.name') }} All rights reserved</small>
     </div>
 </div>

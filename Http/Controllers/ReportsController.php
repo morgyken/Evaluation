@@ -2,6 +2,7 @@
 
 namespace Ignite\Evaluation\Http\Controllers;
 
+use Dompdf\Dompdf;
 use Ignite\Evaluation\Entities\EvaluationPayments;
 use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Finance\Entities\InsuranceInvoice;
@@ -10,9 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Ignite\Evaluation\Entities\Visit;
 
-class ReportsController extends Controller {
+class ReportsController extends Controller
+{
 
-    public function sick_off(Request $request) {
+    public function sick_off(Request $request)
+    {
         $patient = Patients::find($request->patient);
         $name = 'Sick-off notes ' . $patient->full_name . '.docx';
 
@@ -33,14 +36,16 @@ class ReportsController extends Controller {
         echo "<script>window.close();</script>";
     }
 
-    public function payment_receipt(Request $request) {
+    public function payment_receipt(Request $request)
+    {
         $info = \Ignite\Finance\Entities\EvaluationPayments::find($request->payment);
         $pdf = \PDF::loadView('evaluation::prints.print_receipts', ['data' => $info]);
         $pdf->setPaper('a4');
         return $pdf->download($info->receipt . '.pdf');
     }
 
-    public function cashier(Request $request) {
+    public function cashier(Request $request)
+    {
         $temp = Payments::query();
         if ($request->has('start')) {
             $temp->where('created_at', '>=', $request->start);
@@ -60,7 +65,8 @@ class ReportsController extends Controller {
      * @param int $visit_id
      * @return \Illuminate\Http\Response
      */
-    public function print_prescription(Request $request) {
+    public function print_prescription(Request $request)
+    {
         try {
             $this->data['prescription'] = Prescriptions::whereVisit($request->visit)->get();
             $this->data['visit'] = Visit::find($request->visit);
@@ -72,22 +78,29 @@ class ReportsController extends Controller {
         }
     }
 
-    public function print_lab(Request $request) {
+    public function print_lab(Request $request)
+    {
         try {
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
             \PDF::setOptions(['isPhpEnabled' => true]);
-            $pdf = \PDF::loadView('evaluation::prints.lab.results', ['data' => $this->data]);
+            $pdf = new Dompdf();
             $pdf->setPaper('A4', 'potrait');
-            //dd($pdf->get_page_number());
-            return $pdf->stream('LabResults.pdf');
+            $html = view('evaluation::prints.lab.results', ['data' => $this->data])->render();
+
+            $pdf->loadHtml($html);
+            $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
+            session(['pages' => $pdf->getCanvas()->get_page_count()]);
+            //$pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
+            return $pdf->stream('LabResults.pdf',array("Attachment" => false));
         } catch (\Exception $exc) {
-            flash('something went wrong', 'error');
+            flash('Something went wrong', 'error');
             return back();
         }
     }
 
-    public function print_lab_one(Request $request) {
+    public function print_lab_one(Request $request)
+    {
         try {
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
@@ -100,7 +113,8 @@ class ReportsController extends Controller {
         }
     }
 
-    public function print_results(Request $request) {
+    public function print_results(Request $request)
+    {
         try {
             //dd($request->server());
             $this->data['visit'] = Visit::find($request->visit);
@@ -113,7 +127,8 @@ class ReportsController extends Controller {
         }
     }
 
-    public function print_results_one(Request $request) {
+    public function print_results_one(Request $request)
+    {
         try {
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['result'] = \Ignite\Evaluation\Entities\InvestigationResult::find($request->id);
@@ -126,13 +141,15 @@ class ReportsController extends Controller {
         }
     }
 
-    public function invoice($invoice) {
+    public function invoice($invoice)
+    {
         $this->data['invoice'] = InsuranceInvoice::find($invoice);
         $pdf = \PDF::loadView('system.prints.invoice', ['data' => $this->data]);
         return $pdf->stream('invoice.pdf');
     }
 
-    public function pn_specific(Request $request) {
+    public function pn_specific(Request $request)
+    {
         $visit = $request->visit;
         $this->data['visits'] = $v = Visit::find($visit);
         if (empty($v)) {
@@ -145,7 +162,8 @@ class ReportsController extends Controller {
         return $pdf->stream('patient_notes_summary.pdf');
     }
 
-    public function pn_towrd_specific(Request $request) {
+    public function pn_towrd_specific(Request $request)
+    {
         $visit = $request->visit;
         $this->data['visits'] = $v = Visit::find($visit);
         if (empty($v)) {
@@ -173,7 +191,8 @@ class ReportsController extends Controller {
         echo "<script>window.close();</script>";
     }
 
-    public function patient_notes($visit) {
+    public function patient_notes($visit)
+    {
         $this->data['visits'] = $v = Visit::find($visit);
         if (empty($v)) {
             return redirect()->back();
@@ -185,7 +204,8 @@ class ReportsController extends Controller {
         return $pdf->stream('patient_notes.pdf');
     }
 
-    public function patient_notes_to_word($visit) {
+    public function patient_notes_to_word($visit)
+    {
         $this->data['visits'] = $v = Visit::find($visit);
         if (empty($v)) {
             return redirect()->back();
