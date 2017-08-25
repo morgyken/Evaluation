@@ -21,7 +21,7 @@ $test_res = array_combine($all_tests, $their_result);
 <tr class="heading">
     <td>Test</td>
     <td>Result</td>
-    @if(has_strings($test_res))
+    @if(has_integer($test_res))
     @else
     <td>Unit</td>
     <td style="text-align:center">Flag</td>

@@ -1175,14 +1175,13 @@ function gender_specific_interval($p) {
     }
 }
 
-function has_strings($res){
-    $flag = false;
+function has_integer($res){
+
     foreach ($res as $key=>$value)  {
-        if(!is_numeric($value)){
-            $flag = true;
-        }
+        if(is_numeric($value)) return false;
     }
-    return $flag;
+
+    return true;
 }
 
 function specified_time_intervals($p) {
@@ -1419,6 +1418,7 @@ if (!function_exists('getFlag')) {
      * @param $result, $min_range, $max_range
      * @return $flag
      */
+    
     function getFlag($r, $range) {
         if ($range->type == 'range') {
             if ($r < $range->lower) {

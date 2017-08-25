@@ -31,7 +31,7 @@ try {
             <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
                 {{get_result($test_res,$test->subtests)}}
             </td>
-            @if(has_strings($test_res))
+            @if(has_integer($test_res))
             @else
                 <td><?php echo $u ?></td>
                 <td style="text-align: center">

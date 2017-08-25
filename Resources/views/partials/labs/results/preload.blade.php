@@ -17,7 +17,7 @@ foreach ($loaded as $l) {
 ?>
 @foreach(array_unique($headers) as $header)
 <tr>
-    @if(has_strings($test_res))
+    @if(has_integer($test_res))
         <td style="color:black; font-weight: bolder" colspan="2">{{$header->name}}</td>
     @else
         <td style="color:black; font-weight: bolder" colspan="5">{{$header->name}}</td>
@@ -50,7 +50,7 @@ try {
             <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
                  {{get_result($test_res,$test->subtests)}}
         </td>
-        @if(has_strings($test_res))
+        @if(has_integer($test_res))
         @else
         <td><?php echo str_replace(' ', '', $u) ?></td>
         <td style="text-align: center">
