@@ -57,11 +57,11 @@ extract($data);
                 <div class="row" id="range">
                     <p style="text-align: center">Lower and Upper Range Values</p>
                     <div class="col-xs-6">
-                        <input type="text" name="lower" class="form-control" placeholder="Lower Value">
+                        <input type="text" value="{{$range->lower}}" name="lower" class="form-control" placeholder="Lower Value">
                         {!! $errors->first('lower', '<span class="help-block">:message</span>') !!}
                     </div>
                     <div class="col-xs-6">
-                        <input type="text" name="upper" class="form-control" placeholder="Upper Value">
+                        <input type="text" value="{{$range->upper}}" name="upper" class="form-control" placeholder="Upper Value">
                         {!! $errors->first('upper', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
@@ -69,11 +69,11 @@ extract($data);
                 <div class="row" id="lg">
                     <p style="text-align: center">Less/Greater Than Value</p>
                     <div class="col-xs-6">
-                        {!! Form::select('lg_type',mconfig('evaluation.options.lg_type'),$range->less_greater?$range->less_greater:'both', ['id' => 'select','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+                        {!! Form::select('lg_type',mconfig('evaluation.options.lg_type'),$range->less_greater?$range->less_greater:'', ['id' => 'select','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
                         {!! $errors->first('lg_type', '<span class="help-block">:message</span>') !!}
                     </div>
                     <div class="col-xs-6">
-                        <input type="text" name="lg_value" class="form-control" placeholder="Value">
+                        <input type="text" name="lg_value" value="{{$range->lg_value}}" class="form-control" placeholder="Value">
                         {!! $errors->first('lg_value', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>

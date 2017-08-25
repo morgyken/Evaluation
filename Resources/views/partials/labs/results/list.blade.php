@@ -16,13 +16,17 @@ foreach ($results as $_r) {
     $their_result[] = $_r[1];
 }
 $test_res = array_combine($all_tests, $their_result);
+//dd(has_strings($test_res));
 ?>
 <tr class="heading">
     <td>Test</td>
     <td>Result</td>
+    @if(has_strings($test_res))
+    @else
     <td>Unit</td>
     <td style="text-align:center">Flag</td>
     <td>Ref Interval</td>
+    @endif
 </tr>
     @if(!empty($item->procedures->templates_lab))
         @if(has_headers($item->procedures->id))
@@ -78,7 +82,9 @@ $test_res = array_combine($all_tests, $their_result);
         <td colspan="5" style="width: 100%; overflow: hidden;">
             <small>
                 @if(isset($item->procedures->remarks->title))
-                    <?php echo html_entity_decode($item->procedures->remarks->remarks) ?>
+                    <?php //echo html_entity_decode($item->procedures->remarks->remarks)
+                    echo strip_tags($item->procedures->remarks->remarks)
+                    ?>
                 @else
                     <?php echo strip_tags($item->procedures->remarks->remarks) ?>
                 @endif

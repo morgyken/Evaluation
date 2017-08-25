@@ -13,7 +13,7 @@ try {
     if (get_result($test_res, $test->subtests) !== '') {
         $u = getUnit($test->subtests);
 
-        $interval = null;
+       // $interval = null;
         try {
             $range = get_ref_range($test->subtests);
             if (isset($range->lower) && isset($range->upper)) {
@@ -23,23 +23,27 @@ try {
             } else {
                 $interval = $range->lg_type . ' ' . $range->lg_value;
             }
-        } catch (\Exception $e) {
-            //$interval = null;
+       } catch (\Exception $e) {
+            $interval = null;
         }
         ?>
         <tr>
             <td>{{$test->subtests->name}}</td>
             <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
-                 {{get_result($test_res,$test->subtests)}}</td>
-            <td><?php echo $u ?></td>
-            <td style="text-align: center">
-                @if(!is_null($interval))
-                <?php echo getFlag($test_res[$test->subtest], $min_range, $max_range) ?>
-                @endif
+                {{get_result($test_res,$test->subtests)}}
             </td>
-            <td>
-                {{$interval}}
-            </td>
+            @if(has_strings($test_res))
+            @else
+                <td><?php echo $u ?></td>
+                <td style="text-align: center">
+                    @if(!is_null($interval))
+                        <?php echo getFlag($test_res[$test->subtest], $min_range, $max_range) ?>
+                    @endif
+                </td>
+                <td>
+                    {{$interval}}
+                </td>
+            @endif
         </tr>
         <?php
     }

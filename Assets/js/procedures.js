@@ -8,10 +8,18 @@ $('#special_price_check').change(function () {
         $('#_firm_prices').fadeOut('slow');
 });
 
+$('#result_type').change(function () {
+    toggle_options();
+});
+
+$('#result_type').click(function () {
+    toggle_options();
+});
 
 $(document).ready(function () {
     toggle_options();
 });
+
 
 function toggle_options() {
     var selected = $('#result_type').val();

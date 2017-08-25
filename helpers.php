@@ -1175,6 +1175,16 @@ function gender_specific_interval($p) {
     }
 }
 
+function has_strings($res){
+    $flag = false;
+    foreach ($res as $key=>$value)  {
+        if(!is_numeric($value)){
+            $flag = true;
+        }
+    }
+    return $flag;
+}
+
 function specified_time_intervals($p) {
     /**
      * Get ranges for more specified time ranges

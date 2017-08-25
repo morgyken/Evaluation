@@ -21,7 +21,7 @@ extract($data);
         @foreach($results as $item)
         <div class="col-md-12">
             <h4>Test #{{$loop->iteration}}: {{$item->procedures->name}}</h4>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <dl class="dl-horizontal">
                     <dt>Procedure</dt><dd>{{$item->procedures->name}}</dd>
                     <dt>Type:</dt><dd><u>{{ucwords($item->type)}}</u></dd>
@@ -36,7 +36,7 @@ extract($data);
                     <dt>Result Date:</dt><dd>{{smart_date_time($item->results->create_at)}}</dd>
                 </dl>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <h4>Test Results</h4>
                 @include('evaluation::partials.labs.results.list')
                 <div class="well well-sm">

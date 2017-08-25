@@ -17,7 +17,11 @@ foreach ($loaded as $l) {
 ?>
 @foreach(array_unique($headers) as $header)
 <tr>
-    <td style="color:black; font-weight: bolder" colspan="5">{{$header->name}}</td>
+    @if(has_strings($test_res))
+        <td style="color:black; font-weight: bolder" colspan="2">{{$header->name}}</td>
+    @else
+        <td style="color:black; font-weight: bolder" colspan="5">{{$header->name}}</td>
+    @endif
 </tr>
 <?php
 $tests = get_title_procedures($item->procedures->id, $header->id);
@@ -46,15 +50,16 @@ try {
             <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
                  {{get_result($test_res,$test->subtests)}}
         </td>
+        @if(has_strings($test_res))
+        @else
         <td><?php echo str_replace(' ', '', $u) ?></td>
         <td style="text-align: center">
-            @if(!is_null($interval))
-            <?php echo getFlag($test_res[$test->subtest], $range) ?>
-            @endif
+           @if(!is_null($interval))
+                <?php echo getFlag($test_res[$test->subtest], $range) ?>
+           @endif
         </td>
-        <td>
-            {{$interval}}
-        </td>
+        <td>{{$interval}}</td>
+         @endif
         </tr>
         <?php
     }
