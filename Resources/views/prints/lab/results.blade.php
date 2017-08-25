@@ -19,11 +19,19 @@
         @include('evaluation::prints.partials.footer')
         @foreach($results as $item)
         <table id="results" cellpadding="0" cellspacing="0">
-            <tr>
-                <td colspan="5" style="text-align: center">
-                    <h2>{{$loop->iteration}}. {{$item->procedures->name}}</h2>
-                </td>
-            </tr>
+            @if(contains_strings($results))
+                <tr>
+                    <td colspan="2" style="text-align: center">
+                        <h2>{{$loop->iteration}}. {{$item->procedures->name}}</h2>
+                    </td>
+                </tr>
+            @else
+                <tr>
+                    <td colspan="5" style="text-align: center">
+                        <h2>{{$loop->iteration}}. {{$item->procedures->name}}</h2>
+                    </td>
+                </tr>
+            @endif
             @include('evaluation::partials.labs.results.list')
         </table>
         @endforeach
