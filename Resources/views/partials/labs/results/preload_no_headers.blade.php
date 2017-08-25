@@ -12,7 +12,6 @@ $tests = get_lab_template($item->procedures->id);
 try {
     if (get_result($test_res, $test->subtests) !== '') {
         $u = getUnit($test->subtests);
-
        // $interval = null;
         try {
             $range = get_ref_range($test->subtests);
@@ -37,7 +36,7 @@ try {
                 <td><?php echo $u ?></td>
                 <td style="text-align: center">
                     @if(!is_null($interval))
-                        <?php echo getFlag($test_res[$test->subtest], $min_range, $max_range) ?>
+                        <?php echo getFlag($test_res[$test->subtest], $range) ?>
                     @endif
                 </td>
                 <td>
