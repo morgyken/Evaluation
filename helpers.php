@@ -1175,7 +1175,7 @@ function gender_specific_interval($p) {
     }
 }
 
-function has_integer($res){
+function contains_strings($res){
 
     foreach ($res as $key=>$value)  {
         if(is_numeric($value)) return false;

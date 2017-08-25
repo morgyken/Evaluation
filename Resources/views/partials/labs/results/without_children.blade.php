@@ -6,11 +6,12 @@
         echo strip_tags($res2[0][1]);
         ?>
     </td>
-    <td>
-        @if(strpos($item->procedures->name, '%'))
-        %
-        @endif
-    </td>
-    <td></td>
-    <td></td>
+    @if(contains_strings($test_res))
+    @else
+        <td>
+            @if(strpos($item->procedures->name, '%')) % @endif
+        </td>
+        <td></td>
+        <td></td>
+    @endif
 </tr>
