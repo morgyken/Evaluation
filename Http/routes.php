@@ -61,6 +61,7 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
     $router->match(['post', 'get'], 'lab/methods/{id?}', ['uses' => 'SetupController@SampleCollectionMethods', 'as' => 'methods']);
     $router->match(['post', 'get'], 'lab/units/{id?}', ['uses' => 'SetupController@ManageUnits', 'as' => 'units']);
     $router->match(['post', 'get'], 'additives/{id?}', ['uses' => 'SetupController@ManageAdditives', 'as' => 'additives']);
+    $router->match(['post', 'get'], 'lab/critical_values/{id?}', ['uses' => 'SetupController@CriticalValues', 'as' => 'critical_values']);
 
     $router->match(['post', 'get'], 'remarks/{id?}', ['uses' => 'SetupController@ManageRemarks', 'as' => 'remarks']);
 });

@@ -13,6 +13,7 @@
 namespace Ignite\Evaluation\Library;
 
 use Ignite\Evaluation\Entities\Additives;
+use Ignite\Evaluation\Entities\CriticalValues;
 use Ignite\Evaluation\Entities\ProcedureInventoryItem;
 use Ignite\Evaluation\Entities\DiagnosisCodes;
 use Ignite\Evaluation\Entities\DoctorNotes;
@@ -531,6 +532,20 @@ class EvaluationFunctions implements EvaluationRepository {
         $item->save();
     }
 
+
+    function save_critical_values(Request $request){
+        $item = CriticalValues::findOrNew($request->id);
+        $item->critical_value = $request->critical_value;
+        $item->type = $request->type;
+        $item->procedure = $request->procedure;
+        $item->save();
+    }
+
+    function delete_critical_value(Request $request){
+        return CriticalValues::find($request->id)->delete();
+    }
+
+
     /**
      * Set manual visit date especially for back-dating
      * @return bool
@@ -630,6 +645,7 @@ class EvaluationFunctions implements EvaluationRepository {
 
             $procedure->name = $this->request->name;
             $procedure->code = $this->request->code;
+            $procedure->gender = $this->request->gender;
             if ($this->request->category) {
                 $procedure->category = $this->request->category;
             }

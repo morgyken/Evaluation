@@ -77,10 +77,12 @@ class ApiController extends Controller {
     }
 
     public function get_procedures(Request $request, $type) {
+        $patient = \Session::get('active_patient');
+        $sex = strtolower($patient->sex);
+
         $term = $request->term['term'];
         $build = [];
         $found = get_procedures_for($type, $term);
-
         $co = null;
         if (isset($request->visit)) {
             $visit = \Ignite\Evaluation\Entities\Visit::find($request->visit);
@@ -101,7 +103,14 @@ class ApiController extends Controller {
             } else {
                 $price = $val['cash_charge'];
             }
-            $build[] = ['text' => $val['name'], 'id' => $val['id'], 'price' => $price];
+
+            if(!empty($val->gender)){
+                if ($val->gender == $sex){
+                    $build[] = ['text' => $val['name'], 'id' => $val['id'], 'price' => $price];
+                }
+            }else{
+                $build[] = ['text' => $val['name'], 'id' => $val['id'], 'price' => $price];
+            }
         }
         return json_encode(['results' => $build]);
     }
@@ -157,6 +166,9 @@ class ApiController extends Controller {
         $this->evaluationRepository->delete_title_lab($request);
     }
 
+    public function delete_critical_value(Request $request) {
+        $this->evaluationRepository->delete_critical_value($request);
+    }
     //
     public function delete_lab_template_test(Request $request) {
         $this->evaluationRepository->delete_lab_template_test($request);

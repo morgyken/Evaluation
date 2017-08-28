@@ -89,4 +89,9 @@ class Procedures extends Model {
         return $this->hasMany(ReferenceRange::class, 'procedure');
     }
 
+    public function critical_values() {
+       // return $this->hasMany(CriticalValues::class, 'procedure');
+        return $this->hasOne(CriticalValues::class, 'procedure');
+    }
+
 }

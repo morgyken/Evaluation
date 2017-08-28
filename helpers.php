@@ -1021,6 +1021,43 @@ if (!function_exists('get_ref_range')) {
 
 }
 
+if (!function_exists('is_critical')) {
+
+    function is_critical($test, $result) {
+        if (!empty($result)) {
+            try{
+                $r = $result[$test->subtests->id];
+                $cv = $test->subtests->critical_values;
+
+                if($cv->type =='>'){
+                    if($r>$cv->critical_value){
+                        return true;
+                    }
+                }elseif ($cv->type =='<'){
+                    if($r<$cv->critical_value){
+                        return true;
+                    }
+                }elseif ($cv->type =='>='){
+                    if($r>=$cv->critical_value){
+                        return true;
+                    }
+                }elseif ($cv->type =='<='){
+                    if($r<=$cv->critical_value){
+                        return true;
+                    }
+                }else{
+                    return false;
+                }
+            }catch (\Exception $exception){
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+}
+
 if (!function_exists('get_result')) {
 
     /**
@@ -1223,6 +1260,7 @@ function specified_time_intervals($p) {
         return false;
     }
 }
+
 
 if (!function_exists('get_specified_age')) {
 

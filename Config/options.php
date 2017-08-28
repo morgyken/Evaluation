@@ -72,6 +72,13 @@ return [
         '>' => 'Greater Than',
         '>=' => 'Greater Than or Equal',
     ],
+    'critical_value_types' => [
+        '=' => 'Equal',
+        '<' => 'Less than',
+        '>' => 'Greater than',
+        '<=' => 'Less than or Equal',
+        '>=' => 'Greater than or Equal',
+    ],
     'applies_to' => [
         1 => 'Doctor',
         2 => 'Pharmacy',

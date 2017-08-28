@@ -3,6 +3,7 @@
 namespace Ignite\Evaluation\Http\Controllers;
 
 use Ignite\Core\Http\Controllers\AdminBaseController;
+use Ignite\Evaluation\Entities\CriticalValues;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
 use Ignite\Evaluation\Entities\ReferenceRange;
@@ -110,6 +111,16 @@ class SetupController extends AdminBaseController {
         $this->data['range'] = ReferenceRange::findOrNew($request->id);
         $this->data['ranges'] = ReferenceRange::all();
         return view('evaluation::setup.ranges', ['data' => $this->data]);
+    }
+
+    public function CriticalValues(Request $request){
+        //Addition of result templates per procedure
+        if ($request->isMethod('post')) {
+            $this->evaluationRepository->save_critical_values($request);
+        }
+        $this->data['item'] = CriticalValues::findOrNew($request->id);
+        $this->data['items'] = CriticalValues::all();
+        return view('evaluation::setup.critical_values', ['data' => $this->data]);
     }
 
     public function ManageUnits(Request $request) {

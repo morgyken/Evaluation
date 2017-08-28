@@ -50,6 +50,7 @@ class SidebarExtender implements Panda {
                     $item->route('evaluation.queues', 'nurse');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.preliminary'));
                 });
+
                 $item->item('Doctor\'s queue', function (Item $item) {
                     $item->icon('fa fa-wheelchair-alt');
                     $item->route('evaluation.queues', 'doctor');
@@ -165,6 +166,14 @@ class SidebarExtender implements Panda {
                     $item->item('Reference Ranges', function(Item $item) {
                         $item->icon('fa fa-arrows-h');
                         $item->route('evaluation.setup.ranges');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+
+                    $item->item('Critical Values', function(Item $item) {
+                        $item->icon('fa fa-exclamation-circle');
+                        //$item->color('red');
+                        $item->route('evaluation.setup.critical_values');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });

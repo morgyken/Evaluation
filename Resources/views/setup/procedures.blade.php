@@ -42,15 +42,26 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
                         {!! $errors->first('category', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
-
                 @include('evaluation::partials.labs.labtests')
-
                 <div class="form-group {{ $errors->has('description') ? ' has-error' : '' }}">
                     {!! Form::label('description', 'Description',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
                         {!! Form::textarea('description', old('description'),
                         ['class' => 'form-control', 'placeholder' => 'Description ...','rows'=>3]) !!}
                         {!! $errors->first('description', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('gender') ? ' has-error' : '' }}">
+                    {!! Form::label('gender', 'Gender',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        {!!Form::select('gender', array(
+                        'male' => 'Male',
+                        'female' => 'Female',
+                        'other' => 'Other'
+                        ),old('gender'),['placeholder'=>'Select Gender','class'=>'form-control'])!!}
+                        {!! $errors->first('parent', '<span class="help-block">:message</span>') !!}
+
+                        {!! $errors->first('gender', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
             </div>

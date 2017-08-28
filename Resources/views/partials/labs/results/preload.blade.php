@@ -33,6 +33,7 @@ try {
         $u = getUnit($test->subtests);
         $interval = null;
         $range = get_ref_range($test->subtests);
+        $critical = is_critical($test,$test_res);
         try {
             if (isset($range->lower) && isset($range->upper)) {
                 $min_range = $range->lower;
@@ -54,11 +55,17 @@ try {
         @else
         <td><?php echo str_replace(' ', '', $u) ?></td>
         <td style="text-align: center">
-           @if(!is_null($interval))
-                <?php echo getFlag($test_res[$test->subtest], $range) ?>
-           @endif
+            @if(!$critical)
+                @if(!is_null($interval))
+                    <?php echo getFlag($test_res[$test->subtest], $range) ?>
+                @endif
+            @else
+                <p>Critical<p>
+            @endif
         </td>
-        <td>{{$interval}}</td>
+        <td>
+            {{$interval}}
+        </td>
          @endif
         </tr>
         <?php
