@@ -1465,22 +1465,26 @@ if (!function_exists('getFlag')) {
                 return "<span style = ''> H</span>";
             }
         } elseif ($range->type == 'less_greater') {
-            if ($range->lg_type = '>' || $range->lg_type == 'greater_than') {
+            if ($range->lg_type == '>' || $range->lg_type == 'greater_than') {
                 if ($r < $range->lg_value) {
                     return "<span style = ''> L </span>";
                 }
-            } elseif ($range->lg_type = '>=' || $range->lg_type == 'greater_than_or') {
+            } elseif ($range->lg_type == '>=' || $range->lg_type == 'greater_than_or') {
                 if ($r < $range->lg_value) {
                     return "<span style = ''> L</span>";
                 }
-            } elseif ($range->lg_type = '<' || $range->lg_type == 'less_than') {
+            } elseif ($range->lg_type == '<' || $range->lg_type == 'less_than') {
+                if ($r > $range->lg_value) {
+                    return "<span style = ''> H </span>";
+                }else{
+                    return null;
+                }
+            } elseif ($range->lg_type == '<=' || $range->lg_type == 'less_than_or') {
                 if ($r > $range->lg_value) {
                     return "<span style = ''> H </span>";
                 }
-            } elseif ($range->lg_type = '<=' || $range->lg_type == 'less_than_or') {
-                if ($r > $range->lg_value) {
-                    return "<span style = ''> H </span>";
-                }
+            }else{
+                return null;
             }
         }
     }

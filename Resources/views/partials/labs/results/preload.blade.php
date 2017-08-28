@@ -35,7 +35,7 @@ try {
         $range = get_ref_range($test->subtests);
         $critical = is_critical($test,$test_res);
         try {
-            if (isset($range->lower) && isset($range->upper)) {
+            if ($range->type =='range') {
                 $min_range = $range->lower;
                 $max_range = $range->upper;
                 $interval = $range->lower . ' - ' . $range->upper;
@@ -60,7 +60,7 @@ try {
                     <?php echo getFlag($test_res[$test->subtest], $range) ?>
                 @endif
             @else
-                <p>Critical<p>
+                <p>C<p>
             @endif
         </td>
         <td>
