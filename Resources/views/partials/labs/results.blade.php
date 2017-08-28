@@ -79,3 +79,4 @@ session(['active_patient' => $patient]);
         background: #e0e0e0;
     }
 </style>
+
