@@ -78,6 +78,7 @@ return [
         '>' => 'Greater than',
         '<=' => 'Less than or Equal',
         '>=' => 'Greater than or Equal',
+        'range' => 'Range',
     ],
     'applies_to' => [
         1 => 'Doctor',

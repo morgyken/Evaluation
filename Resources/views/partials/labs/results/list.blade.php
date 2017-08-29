@@ -18,13 +18,13 @@ foreach ($results as $_r) {
 $test_res = array_combine($all_tests, $their_result);
 ?>
 <tr class="heading">
-    <th>Test</th>
-    <th>Result</th>
+    <td>Test</td>
+    <td>Result</td>
     @if(contains_strings($test_res))
     @else
-    <th>Unit</th>
-    <th style="text-align:center">Flag</th>
-    <th>Ref Interval</th>
+    <td>Unit</td>
+    <td style="text-align:center">Flag</td>
+    <td>Ref Interval</td>
     @endif
 </tr>
     @if(!empty($item->procedures->templates_lab))
