@@ -15,6 +15,7 @@ try {
        // $interval = null;
         try {
             $range = get_ref_range($test->subtests);
+            $critical = is_critical($test,$test_res);
             if (isset($range->lower) && isset($range->upper)) {
                 $min_range = $range->lower;
                 $max_range = $range->upper;
@@ -35,8 +36,12 @@ try {
             @else
                 <td><?php echo $u ?></td>
                 <td style="text-align: center">
-                    @if(!is_null($interval))
-                        <?php echo getFlag($test_res[$test->subtest], $range) ?>
+                    @if(!$critical)
+                        @if(!is_null($interval))
+                            <?php echo getFlag($test_res[$test->subtest], $range) ?>
+                        @endif
+                    @else
+                        <p>C<p>
                     @endif
                 </td>
                 <td>
