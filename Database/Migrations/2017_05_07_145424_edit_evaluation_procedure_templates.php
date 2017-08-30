@@ -23,7 +23,7 @@ class EditEvaluationProcedureTemplates extends Migration {
      * @return void
      */
     public function down() {
-        $table->binary('template')->change();
+        // $table->binary('template')->change();
     }
 
 }
