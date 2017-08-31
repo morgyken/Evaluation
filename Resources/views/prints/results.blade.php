@@ -17,7 +17,10 @@
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <td colspan="5">
-                    {{$loop->iteration}}. {{$item->procedures->name}}
+                    <br>
+                    <h2>
+                        {{$loop->iteration}}. {{$item->procedures->name}}
+                    </h2>
                 </td>
             </tr>
         </table>

@@ -104,9 +104,16 @@ class ReportsController extends Controller
         try {
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
-            $pdf = \PDF::loadView('evaluation::prints.lab.one_lab', ['data' => $this->data]);
+            \PDF::setOptions(['isPhpEnabled' => true]);
+            $pdf = new Dompdf();
             $pdf->setPaper('A4', 'potrait');
-            return $pdf->stream('LabResult.pdf');
+            $html = view('evaluation::prints.lab.one_lab', ['data' => $this->data])->render();
+
+            $pdf->loadHtml($html);
+            $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
+            session(['pages' => $pdf->getCanvas()->get_page_count()]);
+            //$pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
+            return $pdf->stream('LabResults.pdf',array("Attachment" => false));
         } catch (\Exception $ex) {
             flash('Something went wrong', 'error');
             return back();
@@ -119,9 +126,17 @@ class ReportsController extends Controller
             //dd($request->server());
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['type'] = $request->type;
-            $pdf = \PDF::loadView('evaluation::prints.results', ['data' => $this->data]);
+
+            \PDF::setOptions(['isPhpEnabled' => true]);
+            $pdf = new Dompdf();
             $pdf->setPaper('A4', 'potrait');
-            return $pdf->stream('Results.pdf');
+            $html = view('evaluation::prints.results', ['data' => $this->data])->render();
+
+            $pdf->loadHtml($html);
+            $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
+            session(['pages' => $pdf->getCanvas()->get_page_count()]);
+            //$pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
+            return $pdf->stream('Results.pdf',array("Attachment" => false));
         } catch (\Exception $exc) {
             return back();
         }
@@ -129,16 +144,25 @@ class ReportsController extends Controller
 
     public function print_results_one(Request $request)
     {
-        try {
+       try {
+            //$request->session()->forget('pages');
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['result'] = \Ignite\Evaluation\Entities\InvestigationResult::find($request->id);
             $this->data['type'] = $request->type;
-            $pdf = \PDF::loadView('evaluation::prints.one_result', ['data' => $this->data]);
+
+            \PDF::setOptions(['isPhpEnabled' => true]);
+            $pdf = new Dompdf();
             $pdf->setPaper('A4', 'potrait');
-            return $pdf->stream('Result.pdf');
-        } catch (\Exception $ex) {
-            return back();
-        }
+            $html = view('evaluation::prints.one_result', ['data' => $this->data])->render();
+
+            $pdf->loadHtml($html);
+            $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
+            session(['pages' => $pdf->getCanvas()->get_page_count()]);
+            //$pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
+            return $pdf->stream('Results.pdf',array("Attachment" => false));
+      } catch (\Exception $ex) {
+           // return back();
+      }
     }
 
     public function invoice($invoice)
