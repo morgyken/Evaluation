@@ -26,11 +26,13 @@ extract($data);
         {!! Form::hidden('id',old('id',$item->id)) !!}
         <div class="row">
             <div class="col-md-6">
+                <!--
                 <div class="form-group">
                     <label>Procedure *</label>
                     {!! Form::select('procedure_id',get_parent_procedures(),$item->procedure?$item->procedure_id:'', ['id' => 'select','class' => 'form-control procedure_select', 'placeholder' => 'Choose...']) !!}
                     {!! $errors->first('procedure_id', '<span class="help-block">:message</span>') !!}
                 </div>
+                -->
                 <!-- /.form-group -->
                 <div class="form-group">
                     <label>Test</label>
@@ -38,27 +40,30 @@ extract($data);
                     {!! $errors->first('test_id', '<span class="help-block">:message</span>') !!}
                 </div>
                 <!-- /.form-group -->
-            </div>
-            <!-- /.col -->
-            <div class="col-md-6">
                 <div class="form-group">
                     <label>Formula</label>
                     <input type="text" name="formula" value="{{$item->formula}}" class="form-control" placeholder="Formula i.e P1+P2">
                     {!! $errors->first('formula', '<span class="help-block">:message</span>') !!}
                 </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-md-6">
                 <!-- /.form-group -->
                 <div class="form-group">
-                    <label>Tip: Formulae follow Excel format (C is replaced with P for Procedure)</label>
-                    <p>
+                    <label>Tip: Formulae follow Excel format (`C`is replaced with `P` for Procedure/Test)</label>
                         <span class="help-block">
-                            Use procedure id's to represent procedures in formulae. Search Procedure id's here, indicated in brackets.
+                            <p>Use procedure id's to represent procedures in formulae.</p>
+                            <p>Search Procedure id's here, indicated in brackets.</p>
                             <select id="ids">
                                 <?php foreach (get_parent_procedures() as $key => $value) { ?>
                                     <option>{{$value}}<strong> ({{$key}})</strong></option>
                                 <?php } ?>
                             </select>
                         </span>
-                    </p>
+                    <label>Examples:</label>
+                    <p>P100*P13</p>
+                    <p>(P51+P33)/(P121-P73)</p>
+                    <p>Pn implies a test/procedure whose id is `n`</p>
                 </div>
                 <!-- /.form-group -->
             </div>
@@ -85,7 +90,7 @@ extract($data);
                 @foreach($items as $item)
                 <tr id="row_id{{$item->id}}">
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$item->procedure?$item->procedure->name:''}}</td>
+                   <!-- <td>{{$item->procedure?$item->procedure->name:''}}</td> -->
                     <td>{{$item->test?$item->test->name:''}}</td>
                     <td>{{$item->formula}}</td>
                     <td>
@@ -103,7 +108,7 @@ extract($data);
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Procedure</th>
+                    <!--<th>Procedure</th> -->
                     <th>Test</th>
                     <th>Formula</th>
                     <th>Actions</th>

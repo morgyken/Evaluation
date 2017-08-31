@@ -1058,11 +1058,8 @@ if (!function_exists('is_critical')) {
 
 }
 
+/*
 if (!function_exists('get_result')) {
-
-    /**
-     * @return Test result
-     */
     function get_result($results, $test) {
         if (!empty($test->formula)) {
             $formula = $test->formula->formula;
@@ -1092,6 +1089,45 @@ if (!function_exists('get_result')) {
         }
     }
 
+}
+*/
+
+
+if (!function_exists('get_result')) {
+
+    /**
+     * @return Test result
+     */
+    function get_result($results, $test) {
+        if (!empty($test->formula)) {
+            $formula = $test->formula->formula;
+            $formula = str_replace(' ', '',strtoupper($test->formula->formula));
+
+            preg_match_all('/P\s*(\d+)/', $formula, $matches);
+            $test_ids = $matches[1];
+
+            $search = array();
+            $replace = array();
+            foreach ($test_ids as $id){
+                $search[] = "P".$id;
+                $replace[] = $results[$id];
+            }
+            $parsable = str_replace($search,$replace,$formula);
+
+            return parse_expression($parsable);
+        } else {
+            return strip_tags($results[$test->id]);
+        }
+    }
+
+}
+
+function parse_expression($expression){
+    $calculator = \Hoa\Compiler\Llk::load(new \Hoa\File\Read('hoa://Library/Math/Arithmetic.pp'));
+    $visitor    = new Hoa\Math\Visitor\Arithmetic();
+    //$expression = '1+1+1+1-1';
+    $ast        = $calculator->parse($expression);
+    return $visitor->visit($ast);
 }
 
 function general_interval($p) {

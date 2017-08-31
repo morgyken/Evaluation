@@ -34,6 +34,7 @@ try {
         $interval = null;
         $range = get_ref_range($test->subtests);
         $critical = is_critical($test,$test_res);
+
         try {
             if ($range->type =='range') {
                 $min_range = $range->lower;

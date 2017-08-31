@@ -69,7 +69,7 @@ class SidebarExtender implements Panda {
                     $item->authorize($this->auth->hasAccess('evaluation.examination.pharmacy'));
                 });
                 
-                /*
+
                   $item->item('Radiology Queue', function (Item $item) {
                   $item->icon('fa fa-braille');
                   $item->route('evaluation.queues', 'radiology');
@@ -81,6 +81,7 @@ class SidebarExtender implements Panda {
                   $item->route('evaluation.queues', 'ultrasound');
                   $item->authorize($this->auth->hasAccess('evaluation.examination.ultrasound'));
                   });
+                  /*
 
                   $item->item('Diagnostics Queue', function (Item $item) {
                   $item->icon('fa fa-hotel');
