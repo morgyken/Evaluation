@@ -145,7 +145,8 @@ class ReportsController extends Controller
     public function print_results_one(Request $request)
     {
        try {
-            //$request->session()->forget('pages');
+            //
+           //$request->session()->forget('pages');
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['result'] = \Ignite\Evaluation\Entities\InvestigationResult::find($request->id);
             $this->data['type'] = $request->type;
