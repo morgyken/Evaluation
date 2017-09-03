@@ -603,6 +603,10 @@ if (!function_exists('get_patients_with_bills')) {
                 $q3->doesntHave('payments');
                 $q3->doesntHave('removed_bills');
             });
+
+            //$query->orWhereHas('admission', function ($a){
+            //});
+
             $query->orWhereHas('dispensing', function ($q) {
                 $q->doesntHave('removed_bills');
                 $q->whereHas('details', function ($qd) {
