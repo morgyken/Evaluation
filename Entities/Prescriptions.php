@@ -4,6 +4,7 @@ namespace Ignite\Evaluation\Entities;
 
 use Ignite\Inventory\Entities\InventoryProducts;
 use Ignite\Users\Entities\User;
+use Ignite\Inpatient\Entities\Admission;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -58,6 +59,10 @@ class Prescriptions extends Model {
 
     public function getSubAttribute() {
         return $this->allow_substitution ? 'Yes' : 'No';
+    }
+
+    public function admission() {
+        return $this->belongsTo(Admission::class, 'admission_id');
     }
 
     public function visits() {
