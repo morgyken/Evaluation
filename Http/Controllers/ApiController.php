@@ -77,9 +77,13 @@ class ApiController extends Controller {
     }
 
     public function get_procedures(Request $request, $type) {
-        $patient = \Session::get('active_patient');
-        $sex = strtolower($patient->sex);
-
+        try{
+            $patient = \Session::get('active_patient');
+            $sex = strtolower($patient->sex);
+        }catch (\Exception $e){
+            $patient = null;
+            $sex = null;
+        }
         $term = $request->term['term'];
         $build = [];
         $found = get_procedures_for($type, $term);
