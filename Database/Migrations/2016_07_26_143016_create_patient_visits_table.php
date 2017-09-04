@@ -19,7 +19,7 @@ class CreatePatientVisitsTable extends Migration {
             $column->integer('purpose')->nullable()->unsigned();
             $column->integer('external_doctor')->nullable()->unsigned();
             //payments
-            $column->string('inpatient')->nullable();
+            //$column->string('inpatient')->nullable();
             $column->integer('user')->unsigned();
             $column->string('payment_mode')->default('cash');
             $column->integer('scheme')->unsigned()->nullable();
