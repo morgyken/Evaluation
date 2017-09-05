@@ -21,7 +21,7 @@ if ($visit->payment_mode == 'insurance') {
 @else
 {!! Form::open(['id'=>'diagnosis_form'])!!}
 {!! Form::hidden('visit',$visit->id) !!}
-<table class="table table-condensed table-borderless table-responsive" id="procedures">
+<table class="table table-condensed table-borderless table-responsive" id="di">
     <tbody>
         @foreach($diagnosis as $procedure)
         <?php
@@ -60,6 +60,7 @@ if ($visit->payment_mode == 'insurance') {
                 @endif
             </td>
             <td><input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly=""/></td>
+            <td></td>
         </tr>
         @endforeach
     </tbody>
@@ -76,4 +77,13 @@ if ($visit->payment_mode == 'insurance') {
     </thead>
 </table>
 {!! Form::close()!!}
+<script>
+
+    $(document).ready(function() {
+        $('#di').DataTable( {
+            "scrollY":        "400px",
+            "paging":         false
+        } );
+    } );
+</script>
 @endif

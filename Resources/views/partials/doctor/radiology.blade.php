@@ -20,8 +20,19 @@ if ($visit->payment_mode == 'insurance') {
 @else
 {!! Form::open(['id'=>'radiology_form'])!!}
 {!! Form::hidden('visit',$visit->id) !!}
-<table class="table table-condensed table-borderless table-responsive" id="procedures">
+<table class="table table-condensed table-borderless table-responsive" id="rad">
     <tbody>
+    <thead>
+    <tr>
+        <th></th>
+        <th>Test</th>
+        <th>Price</th>
+        <th>Number Performed</th>
+        <th>Discount</th>
+        <th>Amount</th>
+        <th></th>
+    </tr>
+    </thead>
         @foreach($radiology as $procedure)
         <?php
         $c_price = \Ignite\Settings\Entities\CompanyPrice::whereCompany(intval($co))
@@ -60,20 +71,18 @@ if ($visit->payment_mode == 'insurance') {
                 @endif
             </td>
             <td><input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly=""/></td>
+            <td></td>
         </tr>
         @endforeach
     </tbody>
-    <thead>
-        <tr>
-            <th></th>
-            <th>Test</th>
-            <th>Price</th>
-            <th>Number Performed</th>
-            <th>Discount</th>
-            <th>Amount</th>
-            <th></th>
-        </tr>
-    </thead>
 </table>
+<script>
+    $(document).ready(function() {
+        $('#rad').DataTable( {
+            "scrollY":        "400px",
+            "paging":         false,
+        } );
+    } );
+</script>
 {!! Form::close()!!}
 @endif

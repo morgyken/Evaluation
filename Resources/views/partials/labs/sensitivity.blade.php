@@ -6,7 +6,8 @@
  * Time: 5:35 PM
  */
 ?>
-
+<input type='hidden' id='__test_id' name='__test_id' value='{{$item->procedures->id}}'>
+<input type='hidden' id='__visit_id' name='__visit_id' value='{{$visit->id}}'>
 <table class="sensitivity table  table-striped" id="sense_logic">
     <thead>
     <tr>
@@ -21,10 +22,8 @@
         <td>
             <select name="drug0" class="drugs" style="width: 100%"></select>
         </td>
-        <td>
-            <input type="text" name='sensitive0' placeholder='Sensitive' value="1"/>
-        </td>
-        <td><input type="text" name='reactive0' placeholder='Reactive' value="1"/></td>
+        <td><input onclick="save_sensitivity(0,'reactive')" style="margin-left: 40%" type="checkbox" class="radio" value="reactive" name="rs0" /></td>
+        <td><input onclick="save_sensitivity(0,'sensitive')" style='margin-left: 40%' type="checkbox" class="radio" value="sensitive" name="rs0" /></td>
         <td>
             <button style="float: right" class="btn btn-xs btn-danger remove">
                 <i class="fa fa-trash-o"></i>
@@ -45,13 +44,15 @@
     </tfoot>
 </table>
 <script>
-    function update_item(id, type) {
-        var procedure = $('#item_procedure' + id).val();
-        var item = $('#inventory_item' + id).val();
-        var quantity = $('#item_quantity' + id).val();
+    function save_sensitivity(id,type) {
+        var test_id = $('#item_procedure' + id).val();
+        var visit_id = $('#inventory_item' + id).val();
+        var drug_id = $('#item_quantity' + id).val();
+        var sensitivity = type;
+
         $.ajax({
             type: 'GET',
-            url: '{{route("api.evaluation.manage_inventory_items")}}',
+            url: '{{route("api.evaluation.save_sensitivity")}}',
             data: {'procedure': procedure, 'item': item, 'quantity': quantity, 'type': type},
             success: function (data) {
                 alertify.success(data);

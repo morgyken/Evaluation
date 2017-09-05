@@ -13,6 +13,9 @@
                 <div class="form-group">
                     <label>Test Results</label>
                     <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
+                    @if($item->procedures->sensitivity)
+                    @include('evaluation::partials.labs.sensitivity')
+                    @endif
                     @if(!empty($item->procedures->templates_lab))
                          @if(has_headers($item->procedures->id))
                             <!-- Procedure has pre-defined template -->

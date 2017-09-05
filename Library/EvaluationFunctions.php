@@ -642,7 +642,6 @@ class EvaluationFunctions implements EvaluationRepository {
             } else {
                 $procedure = Procedures::findOrNew($this->request->id);
             }
-
             $procedure->name = $this->request->name;
             $procedure->code = $this->request->code;
             $procedure->gender = $this->request->gender;
@@ -661,6 +660,7 @@ class EvaluationFunctions implements EvaluationRepository {
             }
 
             $procedure->status = $this->request->status;
+            $procedure->sensitivity = $this->request->sense;
             $procedure->save();
             /*
               if (isset($this->request->special_price)) {

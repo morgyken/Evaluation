@@ -9,76 +9,24 @@
 
 //$('table').hide();
 $(document).ready(function () {
-    $('#data').DataTable();
 
-    $("#has_items").click(function () {
-        show_items();
-    });
-
-    $("#procedure_form").hover(function () {
-        show_lab();
-    });
-
-    $("#category").change(function () {
-        show_lab()
-    });
-
-    $("#category").click(function () {
-        show_lab()
-    });
-
-    function show_lab() {
-        var selected = parseInt($("#category").val());
-        if (selected === 4) {
-            $("#labs").show();
-        } else {
-            $("#labs").hide();
-        }
-    }
-
-    $("#has_items").click(function () {
-        show_items();
-    });
-
-    function show_items() {
-        var status = $("#has_items").is(':checked');
-        if (status)
-            $("#items").removeClass('hidden');
-        else
-            $("#items").addClass('hidden');
-    }
-
-    show_items();
-
-    $("#special_price").click(function () {
-        show_firms();
-    });
-
-    function show_firms() {
-        var status = $("#special_price").is(':checked');
-        if (status)
-            $("#firm_prices").removeClass('hidden');
-        else
-            $("#firm_prices").addClass('hidden');
-    }
-    show_firms();
-
-
-    $('select[name=supplier]').select2({theme: "bootstrap"});
-    $('.date').datepicker({minDate: "0"});
     var i = 1;
     $("#add_row").click(function () {
-        var to_add = "<td><select name=\"item" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td><td><input type=\"text\" name='qty" + i + "' placeholder='Quantity' value=\"1\"/></td><td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
-        $('#addr' + i).html(to_add);
-        $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+        var to_add = "" +
+            "<td><select name=\"drug" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td>" +
+            "<td><input style='margin-left: 40%' type=\"checkbox\" class=\"radio\" name='rs"+i+"' value='reactive'/></td>" +
+            "<td><input style='margin-left: 40%' type=\"checkbox\" class=\"radio\" name='rs"+i+"' value='sensitive'/></td>" +
+            "<td><button style='float: right' class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
+        $('#row' + i).html(to_add);
+        $('#sense_logic').append('<tr id="row' + (i + 1) + '"></tr>');
         map_select2(i);
         i++;
     });
 
     function map_select2(i) {
-        $('#addr' + i + ' select').select2({
+        $('#row' + i + ' select').select2({
             "theme": "classic",
-            "placeholder": 'Please select an item',
+            "placeholder": 'Please select an drug',
             "formatNoMatches": function () {
                 return "No matches found";
             },
@@ -113,18 +61,21 @@ $(document).ready(function () {
                 }
             }
         });
-        $('#addr' + i + ' select').on('select2:select', function (evt) {
-            var selected = $(this).find('option:selected');
-            var price = selected.data().data.prices.price;
-            $('input[name=price' + i + ']').val(price);
-            calculate_total();
-        });
-        $('#addr' + i + ' input').keyup(function () {
-            calculate_total();
-        });
+
         $(".remove").click(function (e) {
             e.preventDefault();
             $(this).closest('tr').remove();
+        });
+
+        $("input:checkbox").on('click', function() {
+            var $box = $(this);
+            if ($box.is(":checked")) {
+                var group = "input:checkbox[name='" + $box.attr("name") + "']";
+                $(group).prop("checked", false);
+                $box.prop("checked", true);
+            } else {
+                $box.prop("checked", false);
+            }
         });
     }
     map_select2(0);

@@ -60,13 +60,12 @@ $performed_radio = get_investigations($visit, ['radiology']);
     </div>
     <div class="row">
         <div class="col-md-12">
-
             <div class="box box-success">
                 <div class="box-header">
                     <h4 class="box-title">Previously ordered tests</h4>
                 </div>
                 <div class="box-body">
-                    <table class="table table-condensed">
+                    <table id="t" class="table table-condensed table-striped">
                         <thead>
                             <tr>
                                 <th>Procedure</th>
@@ -100,7 +99,6 @@ $performed_radio = get_investigations($visit, ['radiology']);
                             </tr>
                             @endforeach
                             @endif
-
                             @if(!$performed_labs->isEmpty())
                             @foreach($performed_labs as $item)
                             <tr>
@@ -119,8 +117,6 @@ $performed_radio = get_investigations($visit, ['radiology']);
                             </tr>
                             @endforeach
                             @endif
-
-
                             @if(!$performed_radio->isEmpty())
                             @foreach($performed_radio as $item)
                             <tr>
@@ -149,7 +145,6 @@ $performed_radio = get_investigations($visit, ['radiology']);
 </div>
 <style>
     .investigation_item{
-        height:400px;
-        overflow-y: scroll;
+        overflow: auto;
     }
 </style>

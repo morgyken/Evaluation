@@ -90,6 +90,17 @@ $companies = \Ignite\Settings\Entities\Insurance::all();
                         {!! $errors->first('status', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
+
+                <div class="form-group {{ $errors->has('sensitivity') ? ' has-error' : '' }}">
+                    {!! Form::label('sense', 'Sensitivity Panel',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        <p>Has sensitivity at result entry</p>
+                        {!! Form::radio('sense',1) !!} Yes
+                        {!! Form::radio('sense',0,true) !!} No
+                        {!! $errors->first('sense', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
+
                 <div class="form-group {{ $errors->has('precharge') ? ' has-error' : '' }}">
                     {!! Form::label('precharge', 'Charge at Reception',['class'=>'control-label col-md-4']) !!}
                     <div class="col-md-8">
