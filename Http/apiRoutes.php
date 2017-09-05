@@ -35,7 +35,7 @@ $router->post('save_preliminary', ['uses' => 'ApiController@save_preliminary', '
 $router->post('auto_save_results', ['uses' => 'ApiController@investigation_result', 'as' => 'investigation_result']);
 //$router->post('auto_save_results', ['uses' => 'ApiController@save_sensitivity', 'as' => 'save_sensitivity']);
 
-$router->post('save_sensitivity', ['uses' => 'ApiController@save_sensitivity', 'as' => 'save_sensitivity']);
+$router->get('save_sensitivity', ['uses' => 'ApiController@save_sensitivity', 'as' => 'save_sensitivity']);
 
 $router->get('get_procedures/{type}/{visit?}', ['uses' => 'ApiController@get_procedures', 'as' => 'get_procedures']);
 $router->get('get_all_procedures/', ['uses' => 'ApiController@get_all_procedures', 'as' => 'get_all_procedures']);

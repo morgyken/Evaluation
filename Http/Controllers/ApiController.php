@@ -3,6 +3,7 @@
 namespace Ignite\Evaluation\Http\Controllers;
 
 use Ignite\Evaluation\Entities\Prescriptions;
+use Ignite\Evaluation\Entities\Sensitivity;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -70,6 +71,21 @@ class ApiController extends Controller {
 
     public function save_preliminary() {
         $this->evaluationRepository->save_preliminary_eye();
+    }
+
+    public function save_sensitivity(Request $request)
+    {
+        try{
+            $s = new Sensitivity();
+            $s->visit_id = $request->visit_id;
+            $s->drug_id = $request->drug_id;
+            $s->sensitivity = $request->sensitivity;
+            $s->test_id = $request->test_id;
+            $s->save();
+            return 'Saved';
+        }catch (\Exception $e){
+            return null;
+        }
     }
 
     public function checkout_patient() {

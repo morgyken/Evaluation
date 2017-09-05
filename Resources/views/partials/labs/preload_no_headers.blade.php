@@ -11,7 +11,9 @@ $tests = get_lab_template($item->procedures->id);
     <tr>
         @foreach($tests as $test)
         @if($test->subtests->sensitivity)
-            <?php $___name=$test->subtests->name ?>
+            <?php
+            $s_item =$test->subtests;
+            ?>
             @include('evaluation::partials.labs.sensitivity')
         @else
             <tr>

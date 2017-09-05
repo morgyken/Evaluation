@@ -14,8 +14,11 @@
                     <label>Test Results</label>
                     <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
                     @if($item->procedures->sensitivity)
-                        <?php $___name=$item->procedures->name ?>
+                        <?php
+                        $s_item =$item->procedures;
+                        ?>
                         @include('evaluation::partials.labs.sensitivity')
+                        @include('evaluation::partials.labs.comment')
                         @else
                         @if(!empty($item->procedures->templates_lab))
                             @if(has_headers($item->procedures->id))
