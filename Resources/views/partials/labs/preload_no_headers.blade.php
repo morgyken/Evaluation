@@ -10,6 +10,10 @@ $tests = get_lab_template($item->procedures->id);
 <table class="table table-condensed table-striped">
     <tr>
         @foreach($tests as $test)
+        @if($test->subtests->sensitivity)
+            <?php $___name=$test->subtests->name ?>
+            @include('evaluation::partials.labs.sensitivity')
+        @else
             <tr>
                 <td>
                     {{$test->subtests->name}}
@@ -27,6 +31,7 @@ $tests = get_lab_template($item->procedures->id);
                     @include('evaluation::partials.labs.input_field')
                 </td>
             </tr>
+        @endif
         @endforeach
     <td colspan="2">
         @include('evaluation::partials.labs.comment')

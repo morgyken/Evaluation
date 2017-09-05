@@ -60,7 +60,6 @@ $patient = $data['visit']->patients;
 <script type="text/javascript">
     var VISIT_ID = "{{ $visit->id }}";
     var SAVE_URL = "{{route('api.evaluation.investigation_result')}}";
-
     $("view_results").click(function (e) {
         e.preventDefault();
         reload();

@@ -13,8 +13,11 @@ $(function () {
      */
 
     $('form input').blur(function () {
-        var id = $(this).attr('id');
-        submit_form(id);
+        var type = $(this).attr('type');
+        if(type !=='checkbox'){
+            var id = $(this).attr('id');
+            submit_form(id);
+        }
     });
 
     $('form select').change(function () {

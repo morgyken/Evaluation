@@ -10,6 +10,7 @@
 <input type='hidden' id='__visit_id' name='__visit_id' value='{{$visit->id}}'>
 <table class="sensitivity table  table-striped" id="sense_logic">
     <thead>
+    <tr><td colspan="4">{{$___name}}</td></tr>
     <tr>
         <th>Drug</th>
         <th class="text-center" style="width: 10%;">Sensitive</th>
@@ -44,16 +45,15 @@
     </tfoot>
 </table>
 <script>
-    function save_sensitivity(id,type) {
+    function save_sensitivity(i,type,id) {
         var test_id = $('#item_procedure' + id).val();
         var visit_id = $('#inventory_item' + id).val();
         var drug_id = $('#item_quantity' + id).val();
         var sensitivity = type;
-
         $.ajax({
             type: 'GET',
             url: '{{route("api.evaluation.save_sensitivity")}}',
-            data: {'procedure': procedure, 'item': item, 'quantity': quantity, 'type': type},
+            data: {'test_id': test_id, 'visit_id': visit_id, 'drug_id': drug_id, 'sensitivity': sensitivity},
             success: function (data) {
                 alertify.success(data);
             },
