@@ -1,7 +1,11 @@
 <div id="footer">
     <div style="text-align: right; color: black; margin-top: 10px">
         <small style="font-weight: bolder">
-            Pathologist:
+            @if(isset($type))
+                Radiologist:
+            @else
+                Pathologist:
+            @endif
             <?php
             if (isset($item)) {
                 echo $item->doctors ? $item->doctors->profile->full_name : '';
