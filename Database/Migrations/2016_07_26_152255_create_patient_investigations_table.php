@@ -14,9 +14,9 @@ class CreatePatientInvestigationsTable extends Migration {
     public function up() {
         Schema::create('evaluation_investigations', function(Blueprint $column) {
             $column->increments('id');
-            $column->integer('visit')->unsigned();
+            $column->unsignedInteger('visit');
             $column->string('type')->default('diagnosis');
-            $column->integer('procedure')->unsigned();
+            $column->unsignedInteger('procedure');
             $column->double('price', 10, 2);
             $column->integer('user')->unsigned()->nullable();
             $column->longText('instructions')->nullable();
@@ -26,6 +26,11 @@ class CreatePatientInvestigationsTable extends Migration {
             $column->foreign('visit')
                     ->references('id')
                     ->on('evaluation_visits')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+            $column->foreign('procedure')
+                    ->references('id')
+                    ->on('evaluation_procedures')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $column->foreign('user')->references('id')->on('users')
