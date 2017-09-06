@@ -41,39 +41,40 @@ $clinic = $visit->clinics;
             </td>
         </tr>
     </table>
-</div>
-<div id="header_2">
-    <table style="font-size: 14px">
-        <tr class="information">
-            <td>
-                <strong style="float: top">Patient Details</strong><br>
-                Name: {{$visit->patients->full_name}}.<br>
-                Patient No: {{$visit->patients->id}}<br>
-                Age: {{$age_str}}<br>
-                Gender: {{$visit->patients->sex}}<br>
-            </td>
-            <td style="padding-left: 10%;">
-                <strong style="float: top">Sample Details</strong><br>
-                Visit Number: 00{{$visit->id}}<br>
-                Registered: {{smart_date($visit->created_at)}}<br>
-                Collected: {{smart_date_time($visit->updated_at)}}<br>
-                Received: {{smart_date_time($visit->created_at)}}<br>
-            </td>
-            <td style="text-align: right">
-                <strong style="float: top">Client Details</strong><br>
-                <?php if (!empty($item->visits->external_doctors)) { ?>
+    <div id="header_2">
+        <table style="font-size: 14px">
+            <tr class="information">
+                <td>
+                    <strong style="float: top">Patient Details</strong><br>
+                    Name: {{$visit->patients->full_name}}.<br>
+                    Patient No: {{$visit->patients->id}}<br>
+                    Age: {{$age_str}}<br>
+                    Gender: {{$visit->patients->sex}}<br>
+                </td>
+                <td style="padding-left: 10%;">
+                    <strong style="float: top">Sample Details</strong><br>
+                    Visit Number: 00{{$visit->id}}<br>
+                    Registered: {{smart_date($visit->created_at)}}<br>
+                    Collected: {{smart_date_time($visit->updated_at)}}<br>
+                    Received: {{smart_date_time($visit->created_at)}}<br>
+                </td>
+                <td style="text-align: right">
+                    <strong style="float: top">Client Details</strong><br>
+                    <?php if (!empty($item->visits->external_doctors)) { ?>
                     {{$item->visits->external_doctors?$item->visits->external_doctors->profile->full_name:''}}<br>
                     {{$item->visits->external_doctors?"(".$item->visits->external_doctors->profile->partnerInstitution->name.")":''}}
                     <br/>
-                <?php } else {
+                    <?php } else {
                     ?>
                     Name: {{$visit->patients->full_name}}<br>
                     Tel: {{$visit->patients->mobile}}<br>
                     Email: {{$visit->patients->email}}<br>
                     <?php
-                }
-                ?>
-            </td>
-        </tr>
-    </table>
+                    }
+                    ?>
+                </td>
+            </tr>
+        </table>
+    </div>
+
 </div>

@@ -14,7 +14,7 @@
     body {
         /* font-family: sans-serif;*/
         font-family: 'EB Garamond', serif;
-        margin: 2cm 0;
+        margin: 4.5cm 0;
         text-align: justify;
     }
 

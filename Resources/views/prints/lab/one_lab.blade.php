@@ -11,12 +11,8 @@
 $item = $data['results'];
 ?>
 @include('evaluation::prints.partials.footer')
-<table class="data" cellpadding="0" cellspacing="0">
-    <tr>
-        <td colspan="5" style="text-align: center">
-            <h1>1. <?php echo ucwords($item->procedures->name) ?></h1>
-        </td>
-    </tr>
+<h1 style="text-align: center">1. <?php echo ucwords($item->procedures->name) ?></h1>
+<table id="results" class="data" cellpadding="0" cellspacing="0">
     @include('evaluation::partials.labs.results.list')
 </table>
 @include('evaluation::prints.partials.key')

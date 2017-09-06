@@ -90,13 +90,14 @@ class ReportsController extends Controller
 
             $pdf->loadHtml($html);
             $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
-            session(['pages' => $pdf->getCanvas()->get_page_count()]);
+            session()->forget('pages');
+            session()->put('pages', $pdf->getCanvas()->get_page_count());
             //$pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
             return $pdf->stream('LabResults.pdf',array("Attachment" => false));
-        } catch (\Exception $exc) {
-            flash('Something went wrong', 'error');
-            return back();
-        }
+      } catch (\Exception $exc) {
+           flash('Something went wrong', 'error');
+           return back();
+       }
     }
 
     public function print_lab_one(Request $request)

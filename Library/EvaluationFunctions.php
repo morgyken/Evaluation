@@ -153,11 +153,12 @@ class EvaluationFunctions implements EvaluationRepository {
         $set = $this->__get_selected_stack();
         $user = null;
         foreach ($set as $item) {
-            if (empty($this->input['results' . $item])) {
-                continue;
-            }
-            $__in = InvestigationResult::firstOrNew(['investigation' => $item]);
-            try {
+            try{
+                if (empty($this->input['results' . $item])) {
+                    continue;
+                }
+                $__in = InvestigationResult::firstOrNew(['investigation' => $item]);
+                try {
                 $test_result = array();
                 $res_array = $this->input['results' . $item];
                 foreach ($this->input['test' . $item] as $key => $value) {
@@ -165,22 +166,25 @@ class EvaluationFunctions implements EvaluationRepository {
                 }
                 $result_array = \GuzzleHttp\json_encode($test_result);
                 $__in->results = $result_array;
-            } catch (\Exception $e) {
+                } catch (\Exception $e) {
                 $__in->results = $this->input['results' . $item];
-            }
+                }
 
-            if ($this->request->hasFile('file' . $item)) {
-                $temp = "file$item";
-                $file = $this->upload_patient_doc($this->request->$temp);
-                $__in->file = $file->id;
+                if ($this->request->hasFile('file' . $item)) {
+                    $temp = "file$item";
+                    $file = $this->upload_patient_doc($this->request->$temp);
+                    $__in->file = $file->id;
+                }
+                $comment = "comments" . $item;
+                $__in->comments = $this->request->$comment;
+                $__in->user = $this->user;
+                $__in->save();
+                $user = $__in->investigations->user;
+           }catch (\Exception $e){
+               return null;
             }
-            $comment = "comments" . $item;
-            $__in->comments = $this->request->$comment;
-            $__in->user = $this->user;
-            $__in->save();
-            $user = $__in->investigations->user;
         }
-        send_notification($user, 'Investigation results', 'Results have been added');
+        //send_notification($user, 'Investigation results', 'Results have been added');
         return true;
     }
 

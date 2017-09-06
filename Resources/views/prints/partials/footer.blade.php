@@ -15,7 +15,7 @@
             ?>
         </small><br/>
         <small class="page-number"></small>
-        <small><?php echo 'of '.\Session::get('pages').' ' ?></small>
+        <small><?php echo 'of '.session()->get('pages').' ' ?></small>
         |<small> Printed on {{date("d-m-y") }}</small><br/>
         <small style="color: black">&copy;{{ config('practice.name') }} All rights reserved</small>
     </div>
