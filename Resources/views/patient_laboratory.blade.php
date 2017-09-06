@@ -68,5 +68,10 @@ $patient = $data['visit']->patients;
         location.reload();
     }
 </script>
+<script type="text/javascript">
+    $(function () {
+        CKEDITOR.replaceAll();
+    });
+</script>
 <script src="{{m_asset('evaluation:js/results.js')}}"></script>
 @endsection
