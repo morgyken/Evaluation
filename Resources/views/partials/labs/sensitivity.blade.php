@@ -54,7 +54,7 @@
 <script>
     function save_sensitivity(i,type,id) {
         var test_id = $('#__test_id' + id).val();
-        var procedure_id = $('#__procedure_id' + id).val();
+       // var procedure_id = $('#__procedure_id' + id).val();
         var visit_id = $("#__visit_id").val();
         var drug_id = $('#drug' + i).val();
         var sensitivity = type;
@@ -65,8 +65,7 @@
                 'test_id': test_id,
                 'visit_id': visit_id,
                 'drug_id': drug_id,
-                'sensitivity': sensitivity,
-                'procedure_id': procedure
+                'sensitivity': sensitivity
             },
             success: function (data) {
                 alertify.success(data);
