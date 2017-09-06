@@ -81,6 +81,7 @@ class ApiController extends Controller {
             $s->drug_id = $request->drug_id;
             $s->sensitivity = $request->sensitivity;
             $s->test_id = $request->test_id;
+            $s->procedure_id = $request->procedure_id;
             $s->save();
             return 'Saved';
         }catch (\Exception $e){

@@ -6,8 +6,8 @@
  * Time: 5:35 PM
  */
 ?>
-
 <input type='hidden' id='__test_id{{$s_item->id}}' name='__test_id' value='{{$s_item->id}}'>
+<input type='hidden' id='__procedure_id{{$s_item->id}}_{{$item->procedures->id}}' value='{{$s_item->id}}'>
 <input type='hidden' id='__visit_id' name='__visit_id' value='{{$visit->id}}'>
 <script>
     var TEST_ID = "{{$s_item->id}}";
@@ -35,12 +35,11 @@
             </button>
         </td>
     </tr>
-    <tr id='row1'></tr>
     </tbody>
     <tfoot>
     <tr>
         <td>
-            <a id="add_row" class="btn btn-primary btn-xs pull-left">
+            <a  class="add_row btn btn-primary btn-xs pull-left">
                 <i class="fa fa-plus"></i>
                 Add
             </a>
@@ -55,13 +54,20 @@
 <script>
     function save_sensitivity(i,type,id) {
         var test_id = $('#__test_id' + id).val();
+        var procedure_id = $('#__procedure_id' + id).val();
         var visit_id = $("#__visit_id").val();
         var drug_id = $('#drug' + i).val();
         var sensitivity = type;
         $.ajax({
             type: 'GET',
             url: '{{route("api.evaluation.save_sensitivity")}}',
-            data: {'test_id': test_id, 'visit_id': visit_id, 'drug_id': drug_id, 'sensitivity': sensitivity},
+            data: {
+                'test_id': test_id,
+                'visit_id': visit_id,
+                'drug_id': drug_id,
+                'sensitivity': sensitivity,
+                'procedure_id': procedure
+            },
             success: function (data) {
                 alertify.success(data);
             },

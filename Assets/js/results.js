@@ -1,7 +1,5 @@
 $(function () {
     $('.accordion').accordion({heightStyle: "content"});
-
-
     /*$('form').submit(function (e) {
      e.preventDefault();
      var id = $(this).attr('id');

@@ -9,21 +9,21 @@
 
 //$('table').hide();
 $(document).ready(function () {
-
-    $('#sense_logic').each(function(n, obj) {
-        var i = 1;
-        $("#add_row").click(function () {
-            var to_add = "" +
-                "<td><select name=\"drug" + i + "\" id=\"drug"+i+"\" class=\"select2-single\" style=\"width: 100%\"></select></td>" +
-                "<td><input onclick=\"save_sensitivity("+i+",'R',"+TEST_ID+")\" style='margin-left: 40%' type=\"checkbox\" class=\"radio\" name='rs"+i+"' value='reactive'/></td>" +
-                "<td><input onclick=\"save_sensitivity("+i+",'S',"+TEST_ID+")\" style='margin-left: 40%' type=\"checkbox\" class=\"radio\" name='rs"+i+"' value='sensitive'/></td>" +
-                "<td><button style='float: right' class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
-            $('#row' + i).html(to_add);
-            $('#sense_logic').append('<tr id="row' + (i + 1) + '"></tr>');
-            map_select2(i);
-            i++;
-        });
+    var i = 1;
+    $('body').on('click','.add_row',function (e) {
+        e.stopImmediatePropagation();
+        var to_add = "<tr id=\"row"+i+"\"  >" +
+            "<td><select name=\"drug" + i + "\" id=\"drug"+i+"\" class=\"select2-single\" style=\"width: 100%\"></select></td>" +
+            "<td><input onclick=\"save_sensitivity("+i+",'R',"+TEST_ID+")\" style='margin-left: 40%' type=\"checkbox\" class=\"radio\" name='rs"+i+"' value='reactive'/></td>" +
+            "<td><input onclick=\"save_sensitivity("+i+",'S',"+TEST_ID+")\" style='margin-left: 40%' type=\"checkbox\" class=\"radio\" name='rs"+i+"' value='sensitive'/></td>" +
+            "<td><button style='float: right' class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td></tr>";
+        $(this).parents('table').find('tbody').append(to_add);
+        map_select2(i);
+        i++;
     });
+    // $(".add_row").click(function () {
+    //
+    // });
 
     function map_select2(i) {
         $('#row' + i + ' select').select2({

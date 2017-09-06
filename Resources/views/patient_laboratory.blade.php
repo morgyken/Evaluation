@@ -5,10 +5,10 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 extract($data);
-$labs = $visit->investigations->where('type', 'laboratory')->where('has_result', false);
+$labs = $visit->investigations->where('type', 'laboratory')
+    ->where('has_result', false);
 $results = $visit->investigations->where('type', 'laboratory')->where('has_result', true);
 $patient = $data['visit']->patients;
-
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation | Laboratory')
