@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * Ignite\Evaluation\Entities\WardAssigned
  *
  * @property int $id
+ * @property int $admission_id
  * @property int $visit_id
  * @property int $ward_id
  * @property string|null $admitted_at
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $status
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\WardAssigned whereAdmissionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\WardAssigned whereAdmittedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\WardAssigned whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\WardAssigned whereDischargedAt($value)

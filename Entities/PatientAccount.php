@@ -22,11 +22,13 @@ use Illuminate\Database\Eloquent\Model;
 class PatientAccount extends Model
 {
     protected $fillable = [
-        'patient_id','balance'
+        'patient_id', 'balance'
     ];
-    protected $table = 'Patient_account';
 
-    public function patient(){
-    	return $this->belongsTo(Patient::class, 'patient_id', 'id');
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class, 'patient_id', 'id');
     }
+
+    protected $table = 'patient_account';
 }
