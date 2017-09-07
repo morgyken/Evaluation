@@ -66,7 +66,7 @@
                 <?php get_consumables($item->procedure) ?>
             </div>
             <div class="pull-right">
-                <a href="" style="color: white" class="btn btn-xs btn-success">
+                <a style="color: white" class="btn btn-xs btn-success" onclick="flag({{$item->id}});location.reload">
                     <i class="fa fa-save"></i>Save</a>
                 <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
             </div>
