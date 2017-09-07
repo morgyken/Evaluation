@@ -66,7 +66,7 @@
                 <?php get_consumables($item->procedure) ?>
             </div>
             <div class="pull-right">
-                <a style="color: white" class="btn btn-xs btn-success" onclick="flag({{$item->id}});location.reload">
+                <a style="color: white" class="btn btn-xs btn-success" onclick="flag({{$item->id}})">
                     <i class="fa fa-save"></i>Save</a>
                 <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
             </div>
@@ -84,6 +84,7 @@
                 data: $('#results_form' + id + '').serialize(),
                 success: function () {
                     alertify.success('<i class="fa fa-check-circle"></i> Results Posted');
+                    location.reload();
                 },
                 error: function () {
                     alertify.error('<i class="fa fa-check-warning"></i> Something went wrong, Retry');
