@@ -32,7 +32,7 @@ $router->post('save_visit_metas', ['uses' => 'ApiController@save_visit_metas', '
 $router->post('auto_order_diagnosis', ['uses' => 'ApiController@order_diagnosis', 'as' => 'order_diagnosis']);
 $router->post('save_preliminary', ['uses' => 'ApiController@save_preliminary', 'as' => 'save_preliminary']);
 
-$router->post('auto_save_results', ['uses' => 'ApiController@investigation_result', 'as' => 'investigation_result']);
+$router->any('auto_save_results', ['uses' => 'ApiController@investigation_result', 'as' => 'investigation_result']);
 //$router->post('auto_save_results', ['uses' => 'ApiController@save_sensitivity', 'as' => 'save_sensitivity']);
 
 $router->get('save_sensitivity', ['uses' => 'ApiController@save_sensitivity', 'as' => 'save_sensitivity']);
