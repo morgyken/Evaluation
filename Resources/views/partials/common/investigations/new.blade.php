@@ -48,7 +48,7 @@
     <tfoot>
         <tr>
             <th>
-                <input type="submit" class="btn btn-success" value="Save" name="Save">
+                <input type="submit" class="btn btn-success" id = "save_investigations" value="Save" name="Save">
             </th>
         </tr>
     </tfoot>

@@ -15,7 +15,6 @@ class CreatePatientPrescriptionsTable extends Migration {
        try{
         Schema::create('evaluation_prescriptions', function(Blueprint $column) {
             $column->increments('id');
-            $column->unsignedInteger('admission_id')->nullable();
             $column->unsignedInteger('visit');
             $column->unsignedInteger('user');
             $column->string('drug');
@@ -26,6 +25,7 @@ class CreatePatientPrescriptionsTable extends Migration {
             $column->boolean('status')->default(false);
             $column->boolean('allow_substitution')->default(false);
             $column->integer('time_measure')->unsigned()->default(1);
+            $column->integer('type')->default(0); // 0 - Once only, 1- regular
             $column->timestamps();
 
             $column->foreign('visit')
@@ -39,6 +39,7 @@ class CreatePatientPrescriptionsTable extends Migration {
                     ->on('admissions')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
+
             $column->foreign('user')->references('id')->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
