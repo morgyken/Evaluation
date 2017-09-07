@@ -1,6 +1,5 @@
 <?php
 $results = json_decode($item->results->results);
-
 $patient = $data['visit']->patients;
 $dob = \Carbon\Carbon::parse($patient->dob);
 $age_days = $dob->diffInDays();
@@ -53,15 +52,19 @@ $test_res = array_combine($all_tests, $their_result);
 @else
 <!-- Just Display it if it is not an array -->
 <tr>
-    <td>{{$item->procedures->name}}</td>
-    <td>{{ strip_tags($item->results->results)}}</td>
-    <td>
-        @if(strpos($item->procedures->name, '%'))
-        %
-        @endif
-    </td>
-    <td style="text-align:center"> - </td>
-    <td> - </td>
+    @if(!empty($item->results->sensitivity_results))
+        @include('evaluation::partials.labs.results.sensitivity')
+    @else
+        <td>{{$item->procedures->name}}</td>
+        <td>{{ strip_tags($item->results->results)}}</td>
+        <td>
+            @if(strpos($item->procedures->name, '%'))
+                %
+            @endif
+        </td>
+        <td style="text-align:center"> - </td>
+        <td> - </td>
+    @endif
 </tr>
 </table>
 <!--End of  is_array If Statement -->

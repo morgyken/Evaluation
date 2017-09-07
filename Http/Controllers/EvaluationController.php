@@ -267,9 +267,13 @@ class EvaluationController extends AdminBaseController {
         $purged_results = json_decode($result->results);
         $test = array();
         $res = array();
-        foreach ($purged_results as $r) {
-            $test[] = $r[0];
-            $res[] = $r[1];
+        try{
+            foreach ($purged_results as $r) {
+                $test[] = $r[0];
+                $res[] = $r[1];
+            }
+        }catch (\Exception $e){
+
         }
         session(['last_reverted' => array_combine($test, $res)]);
         $result->delete(); //send back to test phase literally

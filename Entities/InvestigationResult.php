@@ -49,4 +49,7 @@ class InvestigationResult extends Model {
         return $this->belongsTo(User::class, 'user');
     }
 
+    public function sensitivity_results() {
+        return $this->hasMany(Sensitivity::class, 'result_id');
+    }
 }

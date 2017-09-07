@@ -1,21 +1,10 @@
 $(function () {
     $('.accordion').accordion({heightStyle: "content"});
-    /*$('form').submit(function (e) {
-     e.preventDefault();
-     var id = $(this).attr('id');
-     if (id.includes('results_form')) {
-     submit_form(id);
-     //location.reload();
-     }
-     });
-     */
 
     $('form input').blur(function () {
         var type = $(this).attr('type');
-        if(type !=='checkbox'){
             var id = $(this).attr('id');
             submit_form(id);
-        }
     });
 
     $('form select').change(function () {
@@ -29,7 +18,6 @@ $(function () {
         var id = $(this).attr('id');
         submit_form(id);
     });
-
 
     $('form .save').click(function () {
         var id = $(this).attr('id');
@@ -60,6 +48,5 @@ $(function () {
         var x = parseFloat(value);
         return (x | 0) === x;
     }
-
 });
 

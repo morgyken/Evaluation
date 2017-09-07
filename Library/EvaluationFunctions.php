@@ -30,6 +30,7 @@ use Ignite\Evaluation\Entities\ReferenceRange;
 use Ignite\Evaluation\Entities\Remarks;
 use Ignite\Evaluation\Entities\SampleCollectionMethods;
 use Ignite\Evaluation\Entities\SampleType;
+use Ignite\Evaluation\Entities\Sensitivity;
 use Ignite\Evaluation\Entities\Unit;
 use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Entities\VisitMeta;
@@ -153,10 +154,10 @@ class EvaluationFunctions implements EvaluationRepository {
         $set = $this->__get_selected_stack();
         $user = null;
         foreach ($set as $item) {
-            try{
-                if (empty($this->input['results' . $item])) {
-                    continue;
-                }
+           // try{
+               // if (empty($this->input['results' . $item])) {
+                    //continue;
+               // }
                 $__in = InvestigationResult::firstOrNew(['investigation' => $item]);
                 try {
                 $test_result = array();
@@ -167,7 +168,9 @@ class EvaluationFunctions implements EvaluationRepository {
                 $result_array = \GuzzleHttp\json_encode($test_result);
                 $__in->results = $result_array;
                 } catch (\Exception $e) {
-                $__in->results = $this->input['results' . $item];
+                    if(isset($this->input['results' . $item])){
+                        $__in->results = $this->input['results' . $item];
+                    }
                 }
 
                 if ($this->request->hasFile('file' . $item)) {
@@ -180,9 +183,24 @@ class EvaluationFunctions implements EvaluationRepository {
                 $__in->user = $this->user;
                 $__in->save();
                 $user = $__in->investigations->user;
-           }catch (\Exception $e){
-               return null;
-            }
+
+                if(isset($this->input['drug' . $item] )){
+                    //foreach($this->input['drug' . $item] as $d){
+                    try{
+                        $sens = new Sensitivity();
+                        $sens->visit_id = $this->input['visit'];
+                        $sens->drug_id = $this->input['drug' . $item];
+                        $sens->sensitivity = $this->input['rs'.$item];
+                        $sens->result_id = $__in->id;
+                        $sens->save();
+                    }catch (\Exception $e){
+
+                    }
+                   // }
+                }
+          // }catch (\Exception $e){
+               //return null;
+           // }
         }
         //send_notification($user, 'Investigation results', 'Results have been added');
         return true;

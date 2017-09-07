@@ -86,6 +86,11 @@
         width:100%;
     }
 
+    .sensitivity_table th{
+        text-align: left;
+        background-color: #eee;
+    }
+
     table tr.heading td{
         background:#eee;
         border-bottom:1px solid #ddd;

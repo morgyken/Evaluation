@@ -48,26 +48,30 @@ try {
         }
         ?>
         <tr>
-            <td>{{strtoupper($test->subtests->name)}}</td>
+            @if(!empty($item->results->sensitivity_results))
+                @include('evaluation::partials.labs.results.sensitivity')
+            @else
+                <td>{{strtoupper($test->subtests->name)}}</td>
             <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
                  {{get_result($test_res,$test->subtests)}}
-        </td>
-        @if(contains_strings($test_res))
-        @else
-        <td><?php echo str_replace(' ', '', $u) ?></td>
-        <td style="text-align: center">
-            @if(!$critical)
-                @if(!is_null($interval))
-                    <?php echo getFlag($test_res[$test->subtest], $range) ?>
-                @endif
+            </td>
+            @if(contains_strings($test_res))
             @else
-                <p>C<p>
-            @endif
-        </td>
-        <td>
+            <td><?php echo str_replace(' ', '', $u) ?></td>
+            <td style="text-align: center">
+                @if(!$critical)
+                    @if(!is_null($interval))
+                    <?php echo getFlag($test_res[$test->subtest], $range) ?>
+                    @endif
+                @else
+                    <p>C<p>
+                @endif
+            </td>
+            <td>
             {{$interval}}
-        </td>
-         @endif
+            </td>
+            @endif
+           @endif
         </tr>
         <?php
     }
