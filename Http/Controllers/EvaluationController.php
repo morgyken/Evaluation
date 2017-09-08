@@ -394,6 +394,7 @@ class EvaluationController extends AdminBaseController {
     }
 
     public function addwordFormPost(Request $request) {
+        $request['category'] = 'inpatients';
         Ward::create($request->all());
         return redirect('/evaluation/inpatient/list')->with('success', 'successfully added a ward');
     }
