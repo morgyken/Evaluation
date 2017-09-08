@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
  * Ignite\Evaluation\Entities\RequestAdmission
  *
  * @property int $id
+ * @property int $patient_id
  * @property int|null $visit_id
  * @property string|null $reason
- * @property int $patient_id
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\RequestAdmission whereCreatedAt($value)

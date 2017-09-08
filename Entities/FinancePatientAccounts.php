@@ -18,6 +18,7 @@ use Ignite\Reception\Entities\Patients;
  * @property int $patient
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Ignite\Reception\Entities\Patients $patients
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereBalance($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\FinancePatientAccounts whereCredit($value)
@@ -37,7 +38,7 @@ class FinancePatientAccounts extends Model
 
     protected $table = 'finance_patient_accounts';
 
-    public function patient()
+    public function patients()
     {
         return $this->belongsTo(Patients::class, "patient", "id");
     }

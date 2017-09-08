@@ -2,6 +2,7 @@
 
 namespace Ignite\Evaluation\Entities;
 
+use Ignite\Reception\Entities\Patients;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $patient_id
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Ignite\Reception\Entities\Patients $patient
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\PatientAccount whereBalance($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\PatientAccount whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\PatientAccount whereId($value)
@@ -27,7 +29,7 @@ class PatientAccount extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_id', 'id');
+        return $this->belongsTo(Patients::class, 'patient_id', 'id');
     }
 
     protected $table = 'patient_account';
