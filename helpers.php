@@ -405,6 +405,24 @@ if (!function_exists('get_investigations')) {
     }
 
 }
+
+if (!function_exists('get_inpatient_investigations')) {
+
+    /**
+     * Get investigations
+     * @param $visit
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    function get_inpatient_investigations($visit_id, $type = null)
+    {
+        if (empty($type)) {
+            return Investigations::where(['visit' => $visit_id])->get();
+        }
+        return Investigations::where(['visit' => $visit_id])->whereIn('type', $type)->get();
+    }
+
+}
+
 if (!function_exists('get_op_notes')) {
 
     /**
