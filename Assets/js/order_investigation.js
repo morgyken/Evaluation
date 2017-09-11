@@ -23,7 +23,7 @@ $(function () {
     map_select2(i);
     i++;
     function add_row() {
-        var to_add = "\<td><select name=\"item" + i + "\" id=\"item_" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td>\n\<td><input type=\"text\" id=\"price_" + i + "\" name=\"price" + i + "\" readonly=''/></td>\n\
+        var to_add = "\<td><select name=\"item" + i + "\" id=\"item_" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td>\n\<td><input type=\"text\" id=\"price_" + i + "\" name=\"price" + i + "\" /></td>\n\
 <td><input value=\"1\" type=\"text\" id=\"quantity_" + i + "\" name=\"quantity" + i + "\" placeholder=\"No. Performed\"/></td>\n\
 <td><input value='0' type='text' id='discount_" + i + "' name='discount" + i + "' placeholder='Discount'/></td>\n\
 <td><input type='text' id='amount_" + i + "' name='amount" + i + "' placeholder='Amount' readonly=''/></td>\n\
@@ -94,6 +94,11 @@ $(function () {
         });
 
         $("#discount_" + i).keyup(function (e) {
+            e.preventDefault();
+            culculator(i);
+        });
+
+        $("#price_" + i).keyup(function (e) {
             e.preventDefault();
             culculator(i);
         });

@@ -31,7 +31,7 @@ $discount_allowed = json_decode(m_setting('evaluation.discount'));
     <tbody>
     <tr id='addr0'>
         <td><select name="item0" id="item_0" class="select2-single" style="width: 100%" ></select></td>
-        <td><input type="text" id="price_0" name='price0' placeholder='Price' readonly=""/></td>
+        <td><input type="text" id="price_0" name='price0' placeholder='Price' /></td>
         <td><input type="text" id="quantity_0" name='quantity0' value="1" placeholder="No. Performed"/></td>
         <td>
             @if(is_array($discount_allowed) && in_array('laboratory', $discount_allowed))
