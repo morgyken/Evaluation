@@ -52,7 +52,7 @@ $test_res = array_combine($all_tests, $their_result);
 @else
 <!-- Just Display it if it is not an array -->
 <tr>
-    @if(!empty($item->results->sensitivity_results))
+    @if($item->procedures->sensitivity)
         @include('evaluation::partials.labs.results.sensitivity')
     @else
         <td>{{$item->procedures->name}}</td>

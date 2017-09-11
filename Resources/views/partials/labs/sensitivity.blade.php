@@ -27,10 +27,10 @@
     <tbody>
     <tr id='row0'>
         <td>
-            <select id="{{$item->id}}" name="drug{{$item->id}}" class="drugs" style="width: 100%"></select>
+            <select id="{{$item->id}}" name="drug{{$item->id}}[]" class="drugs" style="width: 100%"></select>
         </td>
-        <td><input id="{{$item->id}}" style="margin-left: 40%" type="checkbox" class="radio0{{$item->id}}" value="reactive" name="rs{{$item->id}}" /></td>
-        <td><input id="{{$item->id}}" style='margin-left: 40%' type="checkbox" class="radio0{{$item->id}}" value="sensitive" name="rs{{$item->id}}" /></td>
+        <td><input id="{{$item->id}}" style="margin-left: 40%" type="checkbox" class="radio0{{$item->id}}" value="R" name="rs{{$item->id}}[]" /></td>
+        <td><input id="{{$item->id}}" style='margin-left: 40%' type="checkbox" class="radio0{{$item->id}}" value="S" name="rs{{$item->id}}[]" /></td>
         <td>
             <button id="{{$item->id}}" style="float: right" class="btn btn-xs btn-danger remove">
                 <i class="fa fa-trash-o"></i>
@@ -58,9 +58,9 @@
     $('body').on('click','.add_row',function (e) {
         e.stopImmediatePropagation();
         var to_add = "<tr id=\"row"+i+"\"  >" +
-            "<td><select name=\"drug{{$item->id}}\" id=\"{{$item->id}}\" class=\"select2-single\" style=\"width: 100%\"></select></td>" +
-            "<td><input id=\"{{$item->id}}\" style='margin-left: 40%' type=\"checkbox\" class=\"radio"+i+"{{$item->id}}\" name='rs{{$item->id}}' value='reactive'/></td>" +
-            "<td><input id=\"{{$item->id}}\" style='margin-left: 40%' type=\"checkbox\" class=\"radio"+i+"{{$item->id}}\" name='rs{{$item->id}}' value='sensitive'/></td>" +
+            "<td><select name=\"drug{{$item->id}}[]\" id=\"{{$item->id}}\" class=\"select2-single\" style=\"width: 100%\"></select></td>" +
+            "<td><input id=\"{{$item->id}}\" style='margin-left: 40%' type=\"checkbox\" class=\"radio"+i+"{{$item->id}}\" name='rs{{$item->id}}[]' value='R'/></td>" +
+            "<td><input id=\"{{$item->id}}\" style='margin-left: 40%' type=\"checkbox\" class=\"radio"+i+"{{$item->id}}\" name='rs{{$item->id}}[]' value='S'/></td>" +
             "<td><button id=\"{{$item->id}}\" style='float: right' class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td></tr>";
         $(this).parents('table').find('tbody').append(to_add);
         map_select2(i);
@@ -112,6 +112,8 @@
 
         $("input:checkbox").on('click', function() {
             var $box = $(this);
+            var form_id = $(this).attr("id");
+            save_form(form_id);
             if ($box.is(":checked")) {
                 var group = "input:checkbox[class='" + $box.attr("class") + "']";
                 $(group).prop("checked", false);
@@ -121,8 +123,22 @@
             }
         });
     }
-    map_select2(0);
-        //$('table').show();
+    map_select2(0);    function
+
+        save_form(id) {
+            $.ajax({
+                type: "POST",
+                url: SAVE_URL,
+                data: $('#results_form' + id + '').serialize(),
+                success: function () {
+                    alertify.success('<i class="fa fa-check-circle"></i> Results Posted');
+                },
+                error: function () {
+                    alertify.error('<i class="fa fa-check-warning"></i> Something went wrong, Retry');
+                }
+            });
+        }
+
     });
 </script>
 

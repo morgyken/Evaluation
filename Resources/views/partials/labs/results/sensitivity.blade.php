@@ -20,7 +20,7 @@
             </tr>
         @endforeach
         <?php }catch (\Exception $e){
-            //
+            //$stvty = null;
         } ?>
     </table>
 </td>

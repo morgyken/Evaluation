@@ -1125,9 +1125,8 @@ if (!function_exists('get_result')) {
 function parse_expression($expression){
     $calculator = \Hoa\Compiler\Llk::load(new \Hoa\File\Read('hoa://Library/Math/Arithmetic.pp'));
     $visitor    = new Hoa\Math\Visitor\Arithmetic();
-    //$expression = '1+1+1+1-1';
     $ast        = $calculator->parse($expression);
-    return $visitor->visit($ast);
+    return number_format($visitor->visit($ast),4);
 }
 
 function general_interval($p) {

@@ -28,7 +28,7 @@ try {
         }
         ?>
         <tr>
-            @if(!empty($item->results->sensitivity_results))
+            @if($item->procedures->sensitivity)
                 @include('evaluation::partials.labs.results.sensitivity')
             @else
                 <td>{{$test->subtests->name}}</td>

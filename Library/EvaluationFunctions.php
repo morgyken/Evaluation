@@ -153,6 +153,7 @@ class EvaluationFunctions implements EvaluationRepository {
     public function save_results_investigations() {
         $set = $this->__get_selected_stack();
         $user = null;
+        //dd($this->input);
         foreach ($set as $item) {
            // try{
                // if (empty($this->input['results' . $item])) {
@@ -185,18 +186,18 @@ class EvaluationFunctions implements EvaluationRepository {
                 $user = $__in->investigations->user;
 
                 if(isset($this->input['drug' . $item] )){
-                    //foreach($this->input['drug' . $item] as $d){
+                    foreach($this->input['drug' . $item] as $key=>$value){
                     try{
                         $sens = new Sensitivity();
                         $sens->visit_id = $this->input['visit'];
-                        $sens->drug_id = $this->input['drug' . $item];
-                        $sens->sensitivity = $this->input['rs'.$item];
+                        $sens->drug_id = $value;
+                        $sens->sensitivity = $this->input['rs'.$item][$key];//$this->input['rs'.$item];
                         $sens->result_id = $__in->id;
                         $sens->save();
                     }catch (\Exception $e){
 
                     }
-                   // }
+                    }
                 }
           // }catch (\Exception $e){
                //return null;
