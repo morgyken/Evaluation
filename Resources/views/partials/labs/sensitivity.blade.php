@@ -6,14 +6,6 @@
  * Time: 5:35 PM
  */
 ?>
-
-{{--<input type='hidden' id='__test_id{{$s_item->id}}' name='__test_id' value='{{$s_item->id}}'>--}}
-{{--<input type='hidden' id='__procedure_id{{$s_item->id}}_{{$item->procedures->id}}' value='{{$s_item->id}}'>--}}
-{{--<input type='hidden' id='__visit_id' name='__visit_id' value='{{$visit->id}}'>--}}
-{{--<script>--}}
-    {{--var TEST_ID = "{{$s_item->id}}";--}}
-{{--</script>--}}
-
 <table class="sensitivity table  table-striped" id="sense_logic">
     <thead>
     <tr><td colspan="4">{{$s_item->name}}</td></tr>

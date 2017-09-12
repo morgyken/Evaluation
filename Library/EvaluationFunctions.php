@@ -193,16 +193,23 @@ class EvaluationFunctions implements EvaluationRepository {
 
                 if(isset($this->input['drug' . $item] )){
                     foreach($this->input['drug' . $item] as $key=>$value){
-                    try{
-                        $sens = new Sensitivity();
+                   // try{
+                        $s = Sensitivity::whereDrug_id($value)
+                            ->whereResult_id($__in->id)
+                            ->first();
+                        if(empty($s)){
+                            $sens = new Sensitivity();
+                        }else{
+                            $sens = $s;
+                        }
                         $sens->visit_id = $this->input['visit'];
                         $sens->drug_id = $value;
                         $sens->sensitivity = $this->input['rs'.$item][$key];//$this->input['rs'.$item];
                         $sens->result_id = $__in->id;
                         $sens->save();
-                    }catch (\Exception $e){
-
-                    }
+//                    }catch (\Exception $e){
+//
+//                    }
                     }
                 }
            }catch (\Exception $e){
