@@ -9,6 +9,7 @@
 
 $loaded = get_lab_template($item->procedures->id);
 $headers = array();
+$t_array = array();
 foreach ($loaded as $l){
     if (!empty($l->header)){
         $headers[] = $l->header;
@@ -23,6 +24,7 @@ foreach ($loaded as $l){
         </tr>
         <?php $tests = get_title_procedures($item->procedures->id, $header->id); ?>
             @foreach($tests as $test)
+            <?php $t_array[] = $test->subtests->id; ?>
             @if($test->subtests->sensitivity)
                 @include('evaluation::partials.labs.sensitivity')
             @else
@@ -42,6 +44,7 @@ foreach ($loaded as $l){
             @endif
             @endforeach
         @endforeach
+        <input type="hidden"  name="tests{{$item->id}}" value="{{json_encode($t_array)}}" />
         <td colspan="2">
             @include('evaluation::partials.labs.comment')
         </td>

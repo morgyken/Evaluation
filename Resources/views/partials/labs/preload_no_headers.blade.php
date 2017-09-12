@@ -11,9 +11,7 @@ $t_array = array();
 <table class="table table-condensed table-striped">
     <tr>
         @foreach($tests as $test)
-            <?php
-            $t_array[] = $test->subtests->id;
-            ?>
+        <?php $t_array[] = $test->subtests->id; ?>
         @if($test->subtests->sensitivity)
             <?php
             $s_item =$test->subtests;
