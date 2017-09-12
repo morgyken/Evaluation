@@ -11,8 +11,13 @@ $age_years = $dob->age;
 $all_tests = array();
 $their_result = array();
 foreach ($results as $_r) {
-    $all_tests[] = $_r[0];
-    $their_result[] = $_r[1];
+    try{
+        $all_tests[] = $_r[0];
+        $their_result[] = $_r[1];
+    }catch (\Exception $e) {
+        $all_tests[] = "";
+        $their_result[] = "";
+    }
 }
 $test_res = array_combine($all_tests, $their_result);
 ?>

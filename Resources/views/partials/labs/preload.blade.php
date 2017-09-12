@@ -24,9 +24,6 @@ foreach ($loaded as $l){
         <?php $tests = get_title_procedures($item->procedures->id, $header->id); ?>
             @foreach($tests as $test)
             @if($test->subtests->sensitivity)
-                <?php
-                $s_item =$test->subtests;
-                ?>
                 @include('evaluation::partials.labs.sensitivity')
             @else
                     <tr>

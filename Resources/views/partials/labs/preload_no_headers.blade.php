@@ -6,10 +6,14 @@
  * Time: 3:20 PM
  */
 $tests = get_lab_template($item->procedures->id);
+$t_array = array();
 ?>
 <table class="table table-condensed table-striped">
     <tr>
         @foreach($tests as $test)
+            <?php
+            $t_array[] = $test->subtests->id;
+            ?>
         @if($test->subtests->sensitivity)
             <?php
             $s_item =$test->subtests;
@@ -20,7 +24,7 @@ $tests = get_lab_template($item->procedures->id);
                 <td>
                     {{$test->subtests->name}}
                     <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
-                    <input type="hidden" name="test{{$item->id}}[]" value="{{$test->subtest}}" />
+                    {{--<input type="text"  name="test{{$item->id}}[]" value="{{$test->subtests->id}}" />--}}
                 </td>
                 <td>
                     <?php
@@ -35,6 +39,7 @@ $tests = get_lab_template($item->procedures->id);
             </tr>
         @endif
         @endforeach
+    <input type="hidden"  name="tests{{$item->id}}" value="{{json_encode($t_array)}}" />
     <td colspan="2">
         @include('evaluation::partials.labs.comment')
     </td>

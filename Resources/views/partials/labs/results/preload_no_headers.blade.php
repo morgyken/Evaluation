@@ -27,11 +27,11 @@ try {
             $interval = null;
         }
         ?>
+        @if($test->subtests->sensitivity)
+            @include('evaluation::partials.labs.results.sensitivity')
+        @else
         <tr>
-            @if($item->procedures->sensitivity)
-                @include('evaluation::partials.labs.results.sensitivity')
-            @else
-                <td>{{$test->subtests->name}}</td>
+            <td>{{$test->subtests->name}}</td>
             <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
                 {{get_result($test_res,$test->subtests)}}
             </td>
@@ -51,8 +51,8 @@ try {
                     {{$interval}}
                 </td>
             @endif
-           @endif
         </tr>
+        @endif
         <?php
     }
 } catch (\Exception $e) {

@@ -155,16 +155,22 @@ class EvaluationFunctions implements EvaluationRepository {
         $user = null;
         //dd($this->input);
         foreach ($set as $item) {
-           // try{
-               // if (empty($this->input['results' . $item])) {
-                    //continue;
-               // }
+            $_tests = \GuzzleHttp\json_decode($this->input['tests' . $item]);
+          try{
+                if (empty($this->input['results' . $item])) {
+                    continue;
+                }
                 $__in = InvestigationResult::firstOrNew(['investigation' => $item]);
                 try {
                 $test_result = array();
                 $res_array = $this->input['results' . $item];
-                foreach ($this->input['test' . $item] as $key => $value) {
-                    $test_result[] = array($value, $res_array[$key]);
+               // dd($_tests);
+                foreach ($_tests as $key => $value) {
+                    try{
+                        $test_result[] = array($value, $res_array[$key]);
+                    }catch (\Exception $e){
+                        $test_result[] = '';
+                    }
                 }
                 $result_array = \GuzzleHttp\json_encode($test_result);
                 $__in->results = $result_array;
@@ -199,9 +205,9 @@ class EvaluationFunctions implements EvaluationRepository {
                     }
                     }
                 }
-          // }catch (\Exception $e){
-               //return null;
-           // }
+           }catch (\Exception $e){
+               return null;
+            }
         }
         //send_notification($user, 'Investigation results', 'Results have been added');
         return true;

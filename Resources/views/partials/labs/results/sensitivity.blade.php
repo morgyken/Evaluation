@@ -6,21 +6,20 @@
  * Time: 7:53 PM
  */
 ?>
-<td>
-    <table class="table table-striped sensitivity_table">
-        <tr>
-            <th>Drug</th>
-            <th>Sensitivity</th>
-        </tr>
-        <?php try{ ?>
-        @foreach($item->results->sensitivity_results as $stvt)
+<tr>
+    <td>{{$test->subtests->name}}</td>
+    <td>
+        <table class="table table-striped sensitivity_table">
             <tr>
-                <td>{{$stvt->drug->name}}</td>
-                <td>{{$stvt->sensitivity}}</td>
+                <th>Drug</th>
+                <th>Sensitivity</th>
             </tr>
-        @endforeach
-        <?php }catch (\Exception $e){
-            //$stvty = null;
-        } ?>
-    </table>
-</td>
+            @foreach($item->results->sensitivity_results as $stvt)
+                <tr>
+                    <td>{{$stvt->drug->name}}</td>
+                    <td>{{$stvt->sensitivity}}</td>
+                </tr>
+            @endforeach
+        </table>
+    </td>
+</tr>
