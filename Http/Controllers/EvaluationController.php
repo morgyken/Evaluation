@@ -261,7 +261,7 @@ class EvaluationController extends AdminBaseController {
     }
 
     public function RejectLabResult(Request $request) {
-        // try {
+        try {
         $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
 
         $purged_results = json_decode($result->results);
@@ -279,10 +279,10 @@ class EvaluationController extends AdminBaseController {
         $result->delete(); //send back to test phase literally
         flash('Result status has been reverted... thank you', 'success');
         return back();
-        // } catch (\Exception $exc) {
-        //  flash('Result status could not be updated... please try again', 'danger');
-        //  return back();
-        // }
+         } catch (\Exception $exc) {
+          flash('Result status could not be updated... please try again', 'danger');
+          return back();
+         }
     }
 
     public function RevertResult(Request $request) {
