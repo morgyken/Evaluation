@@ -159,7 +159,11 @@ class EvaluationFunctions implements EvaluationRepository {
                 if (empty($this->input['results' . $item])) {
                     continue;
                 }
-                $_tests = \GuzzleHttp\json_decode($this->input['tests' . $item]);
+
+                if(isset($this->input['tests' . $item])){
+                    $_tests = \GuzzleHttp\json_decode($this->input['tests' . $item]);
+                }
+                
                 $__in = InvestigationResult::firstOrNew(['investigation' => $item]);
                 try {
                 $test_result = array();
