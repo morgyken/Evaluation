@@ -11,7 +11,6 @@ $external = true;
 @extends('layouts.app')
 @section('content_title','Patient Evaluation')
 @section('content_description','Patient evaluation and Treatment')
-
 @section('content')
 <div class="box box-default">
     <div class="box-body">

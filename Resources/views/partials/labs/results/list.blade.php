@@ -1,6 +1,10 @@
 <?php
 $results = json_decode($item->results->results);
-$patient = $data['visit']->patients;
+try{
+    $patient = $data['visit']->patients;
+}catch (\Exception $e){
+
+}
 $dob = \Carbon\Carbon::parse($patient->dob);
 $age_days = $dob->diffInDays();
 $age_str = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');

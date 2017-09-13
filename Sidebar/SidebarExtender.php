@@ -119,15 +119,27 @@ class SidebarExtender implements Panda {
                 $item->authorize($this->auth->hasAccess('external.*'));
                 $item->icon('fa fa-handshake-o');
 
+                $item->item('New Patient', function (Item $item) {
+                    $item->icon('fa fa-plus');
+                    $item->route('reception.add_patient');
+                    // $item->authorize($this->auth->hasAccess('evaluation.external'));
+                });
+
                 $item->item('Manage Patients', function (Item $item) {
                     $item->icon('fa fa-id-badge');
                     $item->route('evaluation.exdoctor.patients');
                     // $item->authorize($this->auth->hasAccess('evaluation.external'));
                 });
 
-                $item->item('Order Procedure', function (Item $item) {
+                $item->item('Order Tests', function (Item $item) {
                     $item->icon('fa fa-grav');
-                    $item->route('evaluation.exdoctor.order');
+                    $item->route('evaluation.exdoctor.patients');
+                    //$item->authorize($this->auth->hasAccess('evaluation.external'));
+                });
+
+                $item->item('View Results', function (Item $item) {
+                    $item->icon('fa fa-grav');
+                    $item->route('evaluation.exdoctor.patients');
                     //$item->authorize($this->auth->hasAccess('evaluation.external'));
                 });
             });

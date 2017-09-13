@@ -37,6 +37,9 @@
                     <td>{{$patient->id_no}}</td>
                     <td>
                         <a href="{{route('evaluation.exdoctor.order.make',$patient->id)}}" class="btn btn-xs btn-primary">
+                            <i class="fa fa-deafness"></i> View Results</a>
+
+                        <a href="{{route('evaluation.exdoctor.order.make',$patient->id)}}" class="btn btn-xs btn-primary">
                             <i class="fa fa-deafness"></i> Order Procedure</a>
 
                         <a class="btn  btn-xs btn-success" href="{{route('reception.add_patient',$patient->id)}}">
