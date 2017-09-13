@@ -1,8 +1,10 @@
 <table class="table table-condensed table-striped">
     <?php
     $tests = get_lab_template($item->procedures->id);
+    $t_array = array();
     ?>
     @foreach($tests as $test)
+    <?php $t_array[] = $test->subtests->id; ?>
     <tr>
         <td>
             {{$test->subtests->name}}

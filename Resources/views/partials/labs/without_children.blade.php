@@ -2,6 +2,11 @@
     <tr>
         <td>
             {{$item->procedures->name}}
+            <?php
+            $t_array = array();
+            ?>
+            <?php $t_array[] = $item->procedures->id; ?>
+            <input type="hidden"  name="tests{{$item->id}}" value="{{json_encode($t_array)}}" />
             <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
             <input type="hidden" name="test{{$item->id}}[]" value="{{$item->procedures->id}}" />
         </td>
