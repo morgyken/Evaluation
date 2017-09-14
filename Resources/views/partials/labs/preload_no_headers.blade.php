@@ -22,7 +22,6 @@ $t_array = array();
                 <td>
                     {{$test->subtests->name}}
                     <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}" />
-                    {{--<input type="text"  name="test{{$item->id}}[]" value="{{$test->subtests->id}}" />--}}
                 </td>
                 <td>
                     <?php

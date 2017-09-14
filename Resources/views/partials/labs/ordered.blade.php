@@ -12,8 +12,8 @@
                     {!! Form::token() !!}
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Test Results</label>
-                            <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}"/>
+                        <label>Test Results</label>
+                        <input type="hidden" name="item{{$item->id}}" value="{{$item->id}}"/>
                         @if($item->procedures->sensitivity)
                             <?php
                             $s_item = $item->procedures;
@@ -83,7 +83,6 @@
         @endforeach
     </div>
     <script type="text/javascript">
-
         function flag(id) {
             $.ajax({
                 type: "get",
@@ -98,6 +97,9 @@
                 }
             });
         }
+        $(function () {
+            CKEDITOR.replaceAll();
+        });
     </script>
 @else
     <p>No radiology procedures have been ordered for this patient</p>

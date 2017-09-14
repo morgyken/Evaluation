@@ -140,6 +140,10 @@ return [
         3 => 'month(s)',
         4 => 'year(s)',
     ],
+    'sensitivity' => [
+        'R' => 'R',
+        'S' => 'S',
+    ],
     'prescription_whereto' => [
         1 => 'Per Oris',
         2 => 'Per Rectum',

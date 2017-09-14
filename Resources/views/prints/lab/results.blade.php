@@ -8,7 +8,6 @@
     <body>
         @include('evaluation::prints.partials.head')
         <?php
-        //dd($pages);
         $patient = $data['visit']->patients;
         session(['active_patient' => $patient]);
         $dob = \Carbon\Carbon::parse($patient->dob);

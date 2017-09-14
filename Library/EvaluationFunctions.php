@@ -155,16 +155,16 @@ class EvaluationFunctions implements EvaluationRepository {
         $user = null;
         //dd($this->input);
         foreach ($set as $item) {
-          try{
-                if (empty($this->input['results' . $item])) {
-                    continue;
-                }
-
+            try{
+               // if (empty($this->input['results' . $item])) {
+                    ///continue;
+               // }
                 if(isset($this->input['tests' . $item])){
                     $_tests = \GuzzleHttp\json_decode($this->input['tests' . $item]);
                 }
 
                 $__in = InvestigationResult::firstOrNew(['investigation' => $item]);
+
                 try {
                 $test_result = array();
                 $res_array = $this->input['results' . $item];
@@ -193,6 +193,7 @@ class EvaluationFunctions implements EvaluationRepository {
                 $__in->comments = $this->request->$comment;
                 $__in->user = $this->user;
                 $__in->save();
+
                 $user = $__in->investigations->user;
 
                 if(isset($this->input['drug' . $item] )){
@@ -461,6 +462,7 @@ class EvaluationFunctions implements EvaluationRepository {
                 $price = 'prc' . $index;
                 $presc = 'presc' . $index;
                 $disc = 'discount' . $index;
+
                 $prescription = $this->request->$presc;
                 $details = new DispensingDetails;
                 $details->batch = $dis->id;
@@ -488,8 +490,6 @@ class EvaluationFunctions implements EvaluationRepository {
         // } catch (\Exception $ex) {
         //
        // }
-
-
 
         return true;
     }
@@ -702,21 +702,7 @@ class EvaluationFunctions implements EvaluationRepository {
             $procedure->status = $this->request->status;
             $procedure->sensitivity = $this->request->sense;
             $procedure->save();
-            /*
-              if (isset($this->request->special_price)) {
-              // dd(array_combine($this->request->special_price, $values));
-              foreach ($this->request->companies as $key => $value) {
-              try {
-              $price = new \Ignite\Settings\Entities\CompanyPrice;
-              $price->company = $value;
-              $price->procedure = $procedure->id;
-              $price->price = $this->request->prices[$key];
-              $price->save();
-              } catch (\Exception $ex) {
-              //sip coffee
-              }
-              }
-              } */
+
             if ($this->request->category == 4) {
                 $this->saveSubProcedure($procedure->id, $this->request);
             }
@@ -754,54 +740,7 @@ class EvaluationFunctions implements EvaluationRepository {
         $s->gender = $request->gender;
         $s->turn_around_time = $request->turn_around_time;
         $s->units = $request->units;
-        if ($request->min_range !== '') {
-            $s->lab_min_range = $request->min_range;
-        }
-        if ($request->max_range !== '') {
-            $s->lab_max_range = $request->max_range;
-        }
-        //1.
-        if ($request->_0_3d_minrange !== '') {
-            $s->_0_3d_minrange = $request->_0_3d_minrange;
-        }
-        if ($request->_0_3d_maxrange !== '') {
-            $s->_0_3d_maxrange = $request->_0_3d_maxrange;
-        }
-        //2.
-        if ($request->_4_30d_minrange !== '') {
-            $s->_4_30d_minrange = $request->_4_30d_minrange;
-        }
-        if ($request->_4_30d_maxrange !== '') {
-            $s->_4_30d_maxrange = $request->_4_30d_maxrange;
-        }
-        //3.
-        if ($request->_1_24m_minrange !== '') {
-            $s->_1_24m_minrange = $request->_1_24m_minrange;
-        }
-        if ($request->_1_24m_maxrange !== '') {
-            $s->_1_24m_maxrange = $request->_1_24m_maxrange;
-        }
-        //4.
-        if ($request->_25_60m_minrange !== '') {
-            $s->_25_60m_minrange = $request->_25_60m_minrange;
-        }
-        if ($request->_25_60m_maxrange !== '') {
-            $s->_25_60m_maxrange = $request->_25_60m_maxrange;
-        }
-        //5.
-        if ($request->_5_19y_minrange !== '') {
-            $s->_5_19y_minrange = $request->_5_19y_minrange;
-        }
-        if ($request->_5_19y_maxrange !== '') {
-            $s->_5_19y_maxrange = $request->_5_19y_maxrange;
-        }
-        //6.
-        if ($request->adult_minrange !== '') {
-            $s->adult_minrange = $request->adult_minrange;
-        }
-        if ($request->adult_maxrange !== '') {
-            $s->adult_maxrange = $request->adult_maxrange;
-        }
+
         $s->lab_result_options = \GuzzleHttp\json_encode($request->result_options);
         $s->lab_ordered_independently = $request->ordered_independently;
         $s->lab_multiple_orders_allowed = $request->multiple_orders_allowed;

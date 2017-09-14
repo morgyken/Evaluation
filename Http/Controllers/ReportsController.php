@@ -4,6 +4,7 @@ namespace Ignite\Evaluation\Http\Controllers;
 
 use Dompdf\Dompdf;
 use Ignite\Evaluation\Entities\EvaluationPayments;
+use Ignite\Evaluation\Entities\PageCount;
 use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Finance\Entities\InsuranceInvoice;
 use Ignite\Reception\Entities\Patients;
@@ -82,16 +83,15 @@ class ReportsController extends Controller
     {
         try {
             $this->data['visit'] = Visit::find($request->visit);
+            $this->data['test_id'] = null;
             $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
             \PDF::setOptions(['isPhpEnabled' => true]);
             $pdf = new Dompdf();
             $pdf->setPaper('A4', 'potrait');
             $html = view('evaluation::prints.lab.results', ['data' => $this->data])->render();
-
             $pdf->loadHtml($html);
             $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
-            session()->forget('pages');
-            session()->put('pages', $pdf->getCanvas()->get_page_count());
+            $this->save_page_count($request,$pdf->getCanvas()->get_page_count());
             //$pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
             return $pdf->stream('LabResults.pdf',array("Attachment" => false));
       } catch (\Exception $exc) {
@@ -104,16 +104,15 @@ class ReportsController extends Controller
     {
         try {
             $this->data['visit'] = Visit::find($request->visit);
+            $this->data['test_id'] = $request->id;
             $this->data['results'] = \Ignite\Evaluation\Entities\Investigations::find($request->id);
             \PDF::setOptions(['isPhpEnabled' => true]);
             $pdf = new Dompdf();
             $pdf->setPaper('A4', 'potrait');
             $html = view('evaluation::prints.lab.one_lab', ['data' => $this->data])->render();
-
             $pdf->loadHtml($html);
             $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
-            session(['pages' => $pdf->getCanvas()->get_page_count()]);
-            //$pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
+            $this->save_page_count($request,$pdf->getCanvas()->get_page_count());
             return $pdf->stream('LabResults.pdf',array("Attachment" => false));
         } catch (\Exception $ex) {
             flash('Something went wrong', 'error');
@@ -121,22 +120,31 @@ class ReportsController extends Controller
         }
     }
 
+    public function save_page_count(Request $request, $page_count){
+        $count = PageCount::firstOrNew([
+            'visit_id'=>$request->visit,
+            'test_id'=>$request->id
+        ]);
+        $count->visit_id = $request->visit;
+        $count->test_id = $request->id;
+        $count->pages = $page_count;
+        return $count->save();
+    }
+
     public function print_results(Request $request)
     {
         try {
             //dd($request->server());
             $this->data['visit'] = Visit::find($request->visit);
+            $this->data['test_id'] = null;
             $this->data['type'] = $request->type;
-
             \PDF::setOptions(['isPhpEnabled' => true]);
             $pdf = new Dompdf();
             $pdf->setPaper('A4', 'potrait');
             $html = view('evaluation::prints.results', ['data' => $this->data])->render();
-
             $pdf->loadHtml($html);
             $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
-            session(['pages' => $pdf->getCanvas()->get_page_count()]);
-            //$pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
+            $this->save_page_count($request,$pdf->getCanvas()->get_page_count());
             return $pdf->stream('Results.pdf',array("Attachment" => false));
         } catch (\Exception $exc) {
             return back();
@@ -146,24 +154,32 @@ class ReportsController extends Controller
     public function print_results_one(Request $request)
     {
        try {
-            //
-           //$request->session()->forget('pages');
             $this->data['visit'] = Visit::find($request->visit);
-            $this->data['result'] = \Ignite\Evaluation\Entities\InvestigationResult::find($request->id);
+            $this->data['result'] = $res = \Ignite\Evaluation\Entities\InvestigationResult::find($request->id);
             $this->data['type'] = $request->type;
+            //dd($res);
+            $this->data['test_id'] = $res->investigation;
 
             \PDF::setOptions(['isPhpEnabled' => true]);
             $pdf = new Dompdf();
+            $data['page_count'] = $pdf->getCanvas()->get_page_count();
             $pdf->setPaper('A4', 'potrait');
             $html = view('evaluation::prints.one_result', ['data' => $this->data])->render();
-
             $pdf->loadHtml($html);
             $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
-            session(['pages' => $pdf->getCanvas()->get_page_count()]);
-            //$pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
+
+            $count = PageCount::firstOrNew([
+               'visit_id'=>$request->visit,
+               'test_id'=>$res->investigation
+            ]);
+            $count->visit_id = $request->visit;
+            $count->test_id = $res->investigation;
+            $count->pages = $pdf->getCanvas()->get_page_count();
+            $count->save();
+
             return $pdf->stream('Results.pdf',array("Attachment" => false));
       } catch (\Exception $ex) {
-           // return back();
+           return back();
       }
     }
 

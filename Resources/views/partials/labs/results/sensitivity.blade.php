@@ -7,7 +7,7 @@
  */
 ?>
 <tr>
-    <td>{{$test->subtests->name}}</td>
+    <td></td>
     <td>
         <table class="table table-striped sensitivity_table">
             <tr>

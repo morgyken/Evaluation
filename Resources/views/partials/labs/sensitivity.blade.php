@@ -8,7 +8,12 @@
 ?>
 <table class="sensitivity table  table-striped" id="sense_logic">
     <thead>
-    <tr><td colspan="4">{{$s_item->name}}</td></tr>
+    <tr>
+        <td colspan="4">
+            {{$s_item->name}}
+            {{--<input type="hidden" name="item{{$s_item->id}}" value="{{$s_item->id}}" />--}}
+        </td>
+    </tr>
     <tr>
         <th>Drug</th>
         <th class="text-center" style="width: 10%;">Reactive</th>
