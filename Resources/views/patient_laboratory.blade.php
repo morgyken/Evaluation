@@ -69,9 +69,9 @@ $patient = $data['visit']->patients;
     }
 </script>
 <script type="text/javascript">
-    /*$(function () {
+    $(function () {
         CKEDITOR.replaceAll();
-    });*/
+    });
 </script>
 <script src="{{m_asset('evaluation:js/results.js')}}"></script>
 @endsection

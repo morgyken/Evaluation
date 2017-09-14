@@ -15,19 +15,25 @@
         </td>
     </tr>
     <tr>
-        <th>Drug</th>
-        <th class="text-center" style="width: 10%;">Reactive</th>
-        <th class="text-center" style="width: 10%;">Sensitive</th>
+        <th>Isolate</th>
+        <th class="text-center" style="width: 10%;">Interpretation</th>
         <th></th>
     </tr>
     </thead>
     <tbody>
     <tr id='row0'>
         <td>
-            <select id="{{$item->id}}" name="drug{{$item->id}}[]" class="drugs" style="width: 100%"></select>
+            <select id="{{$item->id}}" name="isolate{{$item->id}}[]" class="isolate" style="width: 100%"></select>
         </td>
-        <td><input id="{{$item->id}}" style="margin-left: 40%" type="checkbox" class="radio0{{$item->id}}" value="R" name="rs{{$item->id}}[]" /></td>
-        <td><input id="{{$item->id}}" style='margin-left: 40%' type="checkbox" class="radio0{{$item->id}}" value="S" name="rs{{$item->id}}[]" /></td>
+        <td>
+            <select id="{{$item->id}}" class="interp" name="interpretation{{$item->id}}[]" >
+                <option value='sensitive'>Sensitive</option>
+                <option value='resistant'>Resistant</option>
+                <option value='susceptible'>Susceptible</option>
+                <option value='susceptible dose'>Susceptible Dose</option>
+                <option value='intermediate'>Intermediate</option>
+            </select>
+        </td>
         <td>
             <button id="{{$item->id}}" style="float: right" class="btn btn-xs btn-danger remove">
                 <i class="fa fa-trash-o"></i>
@@ -55,16 +61,23 @@
     $('body').on('click','.add_row',function (e) {
         e.stopImmediatePropagation();
         var to_add = "<tr id=\"row"+i+"\"  >" +
-            "<td><select name=\"drug{{$item->id}}[]\" id=\"{{$item->id}}\" class=\"select2-single\" style=\"width: 100%\"></select></td>" +
-            "<td><input id=\"{{$item->id}}\" style='margin-left: 40%' type=\"checkbox\" class=\"radio"+i+"{{$item->id}}\" name='rs{{$item->id}}[]' value='R'/></td>" +
-            "<td><input id=\"{{$item->id}}\" style='margin-left: 40%' type=\"checkbox\" class=\"radio"+i+"{{$item->id}}\" name='rs{{$item->id}}[]' value='S'/></td>" +
+            "<td><select name=\"isolate{{$item->id}}[]\" id=\"{{$item->id}}\" class=\"isolate\" style=\"width: 100%\"></select></td>" +
+            "<td>" +
+            "<select id=\"{{$item->id}}\" class='interp' name=\"interpretation{{$item->id}}[]\" >"+
+                "<option value=\"sensitive\">Sensitive</option>" +
+                "<option value='resistant'>Resistant</option>" +
+                "<option value='susceptible'>Susceptible</option>" +
+                "<option value='susceptible dose'>Susceptible Dose</option>" +
+                "<option value='intermediate'>Intermediate</option>" +
+            "</select>" +
+            "</td>" +
             "<td><button id=\"{{$item->id}}\" style='float: right' class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td></tr>";
         $(this).parents('table').find('tbody').append(to_add);
         map_select2(i);
         i++;
     });
     function map_select2(i) {
-        $('#row' + i + ' select').select2({
+        $('#row' + i + ' .isolate').select2({
             "theme": "classic",
             "placeholder": 'Please select an drug',
             "formatNoMatches": function () {
@@ -107,21 +120,18 @@
             $(this).closest('tr').remove();
         });
 
-        $("input:checkbox").on('click', function() {
-            var $box = $(this);
+        $(".interp").change(function (e) {
             var form_id = $(this).attr("id");
             save_form(form_id);
-            if ($box.is(":checked")) {
-                var group = "input:checkbox[class='" + $box.attr("class") + "']";
-                $(group).prop("checked", false);
-                $box.prop("checked", true);
-            } else {
-                $box.prop("checked", false);
-            }
         });
+
+        $(".interp").click(function (e) {
+            var form_id = $(this).attr("id");
+            save_form(form_id);
+        });
+
     }
     map_select2(0);    function
-
         save_form(id) {
             $.ajax({
                 type: "POST",

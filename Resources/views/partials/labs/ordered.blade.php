@@ -83,6 +83,7 @@
         @endforeach
     </div>
     <script type="text/javascript">
+        $('.summernote').summernote();
         function flag(id) {
             $.ajax({
                 type: "get",
@@ -97,9 +98,6 @@
                 }
             });
         }
-        $(function () {
-            CKEDITOR.replaceAll();
-        });
     </script>
 @else
     <p>No radiology procedures have been ordered for this patient</p>

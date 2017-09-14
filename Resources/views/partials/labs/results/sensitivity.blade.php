@@ -11,8 +11,8 @@
     <td>
         <table class="table table-striped sensitivity_table">
             <tr>
-                <th>Drug</th>
-                <th>Sensitivity</th>
+                <th>Isolate</th>
+                <th>Interpretation</th>
             </tr>
             @foreach($item->results->sensitivity_results as $stvt)
                 <tr>

@@ -4,4 +4,4 @@
     </textarea>
 @endif
 <label>Comments</label>
-<textarea id="{{$item->id}}" rows="5" name="comments{{$item->id}}" class="form-control"></textarea>
+<textarea id="{{$item->id}}" rows="5" name="comments{{$item->id}}" class="summernote form-control"></textarea>

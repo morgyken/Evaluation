@@ -21,7 +21,7 @@
 <input id="{{$item->id}}" value="<?php get_reverted_test($item->procedures->id) ?>" type="text" name="results{{$item->id}}[]" class="form-control">
 @endif
 @else
-<textarea id="{{$item->id}}" rows="5" name="results{{$item->id}}[]" class="form-control">
+<textarea id="{{$item->id}}" rows="5" name="results{{$item->id}}[]" class="summernote form-control">
     <?php get_reverted_test($item->procedures->id) ?>
 </textarea>
 @endif

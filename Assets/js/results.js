@@ -16,6 +16,7 @@ $(function () {
 
     $('form textarea').blur(function () {
         var id = $(this).attr('id');
+        CKEDITOR.instances[id].updateElement();
         submit_form(id);
     });
 
