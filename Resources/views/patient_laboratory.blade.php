@@ -70,7 +70,7 @@ $patient = $data['visit']->patients;
 </script>
 <script type="text/javascript">
     $(function () {
-        CKEDITOR.replaceAll();
+        //CKEDITOR.replaceAll();
     });
 </script>
 <script src="{{m_asset('evaluation:js/results.js')}}"></script>

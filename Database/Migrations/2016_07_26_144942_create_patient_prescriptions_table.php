@@ -11,29 +11,33 @@ class CreatePatientPrescriptionsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('evaluation_prescriptions', function(Blueprint $column) {
-            $column->increments('id');
-            $column->integer('visit')->unsigned();
-            $column->string('drug');
-            $column->integer('take');
-            $column->integer('whereto');
-            $column->integer('method');
-            $column->integer('duration');
-            $column->boolean('status')->default(false);
-            $column->boolean('allow_substitution')->default(false);
-            $column->integer('time_measure')->unsigned()->default(1);
+       try{
+            Schema::create('evaluation_prescriptions', function(Blueprint $column) {
+                $column->increments('id');
+                $column->integer('visit')->unsigned();
+                $column->string('drug');
+                $column->integer('take');
+                $column->integer('whereto');
+                $column->integer('method');
+                $column->integer('duration');
+                $column->boolean('status')->default(false);
+                $column->boolean('allow_substitution')->default(false);
+                $column->integer('time_measure')->unsigned()->default(1);
 
-            $column->integer('user')->unsigned();
-            $column->timestamps();
-            $column->foreign('visit')
+                $column->integer('user')->unsigned();
+                $column->timestamps();
+                $column->foreign('visit')
                     ->references('id')
                     ->on('evaluation_visits')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            $column->foreign('user')->references('id')->on('users')
+                $column->foreign('user')->references('id')->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-        });
+            });
+       }catch (\Exception $e){
+
+        }
     }
 
     /**
