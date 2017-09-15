@@ -10,8 +10,15 @@
     <thead>
     <tr>
         <td colspan="4">
+            <?php
+            try{
+            ?>
             {{$s_item->name}}
-            {{--<input type="hidden" name="item{{$s_item->id}}" value="{{$s_item->id}}" />--}}
+            <?php
+            }catch (\Exception $e){
+
+            }
+            ?>
         </td>
     </tr>
     <tr>

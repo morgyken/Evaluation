@@ -24,8 +24,13 @@ foreach ($loaded as $l){
         </tr>
         <?php $tests = get_title_procedures($item->procedures->id, $header->id); ?>
             @foreach($tests as $test)
-            <?php $t_array[] = $test->subtests->id; ?>
+            <?php
+            $t_array[] = $test->subtests->id;
+            ?>
             @if($test->subtests->sensitivity)
+            <?php
+                    $s_item =$test->subtests;
+            ?>
                 @include('evaluation::partials.labs.sensitivity')
             @else
                     <tr>
