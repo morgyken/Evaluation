@@ -41,7 +41,11 @@ foreach ($loaded as $l){
                         </td>
                         <td>
                             <?php
-                            $type = $test->subtests->this_test->lab_result_type;
+                                try{
+                                    $type = $test->subtests->this_test->lab_result_type;
+                                }catch (\Exception $e){
+
+                                }
                             ?>
                             @include('evaluation::partials.labs.input_field')
                         </td>
