@@ -118,37 +118,40 @@ class SidebarExtender implements Panda {
                     $item->authorize($this->auth->hasAccess('evaluation.examination.review'));
                 });
             });
-
-            if(\Auth::user()->ex){
+            try{
+                if(\Auth::user()->ex){
 //                $group->item('External Doctor', function (Item $item) {
 //                    $item->weight(2);
 //                    $item->authorize($this->auth->hasAccess('external.*'));
 //                    $item->icon('fa fa-handshake-o');
 
-                $group->item('New Patient', function (Item $item) {
+                    $group->item('New Patient', function (Item $item) {
                         $item->icon('fa fa-plus');
                         $item->route('reception.add_patient');
                         // $item->authorize($this->auth->hasAccess('evaluation.external'));
-                });
+                    });
 
-                $group->item('Manage Patients', function (Item $item) {
+                    $group->item('Manage Patients', function (Item $item) {
                         $item->icon('fa fa-id-badge');
                         $item->route('evaluation.exdoctor.patients');
                         // $item->authorize($this->auth->hasAccess('evaluation.external'));
-                });
+                    });
 
-                $group->item('Order Tests', function (Item $item) {
+                    $group->item('Order Tests', function (Item $item) {
                         $item->icon('fa fa-grav');
                         $item->route('evaluation.exdoctor.p_order');
                         //$item->authorize($this->auth->hasAccess('evaluation.external'));
-                });
+                    });
 
-                $group->item('View Results', function (Item $item) {
+                    $group->item('View Results', function (Item $item) {
                         $item->icon('fa fa-eye');
                         $item->route('evaluation.exdoctor.p_results');
                         //$item->authorize($this->auth->hasAccess('evaluation.external'));
-                });
+                    });
 //                });
+                }
+            }catch (\Exception $e){
+
             }
 
             $group->item('Setup', function (Item $item) {
