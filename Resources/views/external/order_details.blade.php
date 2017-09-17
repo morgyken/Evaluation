@@ -3,8 +3,11 @@
 @section('content_description','')
 
 @section('content')
-
 <div class="box box-info">
+    <br/>
+        <a style="margin-left: 2%" href="{{URL::previous()}}">
+            <i class="fa fa-arrow-circle-o-left"></i> Back
+        </a>
     <div class="box-header">
         <h3 class="box-title">Procedures Ordered</h3>
     </div>

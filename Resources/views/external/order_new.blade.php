@@ -31,7 +31,6 @@ extract($data)
                     </a>
                 </li>
             </ul>
-
             <div class="tab-content">
                 <div class="tab-pane active " id="new">
                     {!! Form::open(['id'=>'external_order_form'])!!}
@@ -40,7 +39,6 @@ extract($data)
                     @include('evaluation::external.procedures')
                     {!! Form::close()!!}
                 </div>
-
                 <div class="tab-pane" id="ordered">
                     @if($orders->count()>0)
                     <table class="table table-striped table-condensed" id="data">
@@ -69,8 +67,6 @@ extract($data)
                 </div>
             </div>
         </div>
-
-
     </div>
     <div class="box-footer">
     </div>

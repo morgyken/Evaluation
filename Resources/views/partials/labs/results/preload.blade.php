@@ -16,6 +16,10 @@ foreach ($loaded as $l) {
 }
 ?>
 @foreach(array_unique($headers) as $header)
+<?php
+$tests = get_title_procedures($item->procedures->id, $header->id);
+?>
+@if(count($tests)>0)
 <tr>
     @if(contains_strings($test_res))
         <td style="color:black; font-weight: bolder" colspan="2">{{$header->name}}</td>
@@ -23,9 +27,7 @@ foreach ($loaded as $l) {
         <td style="color:black; font-weight: bolder" colspan="5">{{$header->name}}</td>
     @endif
 </tr>
-<?php
-$tests = get_title_procedures($item->procedures->id, $header->id);
-?>
+@endif
 @foreach($tests as $test)
 <?php
 try {
@@ -48,14 +50,15 @@ try {
         }
         ?>
         <tr>
-            @if($item->procedures->sensitivity)
-                @include('evaluation::partials.labs.results.sensitivity')
-            @else
                 <td>{{strtoupper($test->subtests->name)}}</td>
             <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
-                 {{get_result($test_res,$test->subtests)}}
+                @if($test->subtests->sensitivity)
+                    @include('evaluation::partials.labs.results.sensitivity')
+                @else
+                    {{get_result($test_res,$test->subtests)}}
+                @endif
             </td>
-            @if(contains_strings($test_res))
+            @if(contains_strings($test_res) || $test->subtests->sensitivity)
             @else
             <td><?php echo str_replace(' ', '', $u) ?></td>
             <td style="text-align: center">
@@ -71,7 +74,6 @@ try {
             {{$interval}}
             </td>
             @endif
-           @endif
         </tr>
         <?php
     }

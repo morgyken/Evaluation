@@ -10,15 +10,7 @@
     <thead>
     <tr>
         <td colspan="4">
-            <?php
-            try{
-            ?>
             {{$s_item->name}}
-            <?php
-            }catch (\Exception $e){
-
-            }
-            ?>
         </td>
     </tr>
     <tr>
@@ -155,5 +147,3 @@
 
     });
 </script>
-
-{{--<script src="{!! m_asset('evaluation:js/sensitivity.js') !!}"></script>--}}

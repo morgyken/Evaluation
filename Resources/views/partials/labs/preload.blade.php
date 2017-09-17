@@ -28,9 +28,7 @@ foreach ($loaded as $l){
             $t_array[] = $test->subtests->id;
             ?>
             @if($test->subtests->sensitivity)
-            <?php
-                    $s_item =$test->subtests;
-            ?>
+            <?php $s_item =$test->subtests; ?>
                 @include('evaluation::partials.labs.sensitivity')
             @else
                     <tr>

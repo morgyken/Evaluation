@@ -7,6 +7,10 @@
 extract($data);
 $results = getOrderResults($patient->id);
 $external = true;
+$r_mode = false;
+if($results_mode){
+    $r_mode = true;
+}
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation')
@@ -28,12 +32,28 @@ $external = true;
         <div class="form-horizontal">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#investigations" data-toggle="tab">Investigations</a></li>
-                    <li ><a href="#ordered" data-toggle="tab">Ordered <span class="badge alert-success"> {{$orders->count()}}</span></a></li>
-                    <li ><a href="#results" data-toggle="tab">Results <span class="badge alert-success"> {{$results->count()}}</span></a></li>
+                    <li @if(!$r_mode) class="active" @endif>
+                        <a href="#investigations" data-toggle="tab">Investigations</a>
+                    </li>
+                    <li>
+                        <a href="#ordered" data-toggle="tab">
+                            Ordered
+                            <span class="badge alert-success">
+                                {{$orders->count()}}
+                            </span>
+                        </a>
+                    </li>
+                    <li @if($r_mode) class="active" @endif>
+                        <a href="#results" data-toggle="tab">
+                            Results
+                            <span class="badge alert-success">
+                                {{$results->count()}}
+                            </span>
+                        </a>
+                    </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane active" id="investigations">
+                    <div class="tab-pane @if(!$r_mode) active @endif" id="investigations">
                         <div>
                             @include('evaluation::partials.external.investigations')
                         </div>
@@ -45,7 +65,7 @@ $external = true;
                         </div>
                     </div>
 
-                    <div class="tab-pane" id="results">
+                    <div class="tab-pane @if($r_mode) active @endif" id="results">
                         <div>
                             @include('evaluation::partials.labs.results')
                         </div>

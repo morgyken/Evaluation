@@ -22,7 +22,7 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
+                    <th>Patient</th>
                     <th>ID No</th>
                     <th>Mobile</th>
                     <th>Action</th>
@@ -36,7 +36,7 @@
                     <td>{{$patient->mobile}}</td>
                     <td>{{$patient->id_no}}</td>
                     <td>
-                        <a href="{{route('evaluation.exdoctor.order.make',$patient->id)}}" class="btn btn-xs btn-primary">
+                        <a href="{{route('evaluation.exdoctor.order.make',['patient'=>$patient->id,'results'=>true])}}" class="btn btn-xs btn-primary">
                             <i class="fa fa-deafness"></i> View Results</a>
 
                         <a href="{{route('evaluation.exdoctor.order.make',$patient->id)}}" class="btn btn-xs btn-primary">

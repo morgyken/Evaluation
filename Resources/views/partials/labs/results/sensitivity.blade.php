@@ -5,21 +5,21 @@
  * Date: 9/7/17
  * Time: 7:53 PM
  */
+
 ?>
-<tr>
-    <td></td>
-    <td>
-        <table class="table table-striped sensitivity_table">
-            <tr>
-                <th>Isolate</th>
-                <th>Interpretation</th>
-            </tr>
-            @foreach($item->results->sensitivity_results as $stvt)
-                <tr>
-                    <td>{{$stvt->drug->name}}</td>
-                    <td>{{$stvt->sensitivity}}</td>
-                </tr>
-            @endforeach
-        </table>
-    </td>
-</tr>
+@if(count($item->results->sensitivity_results)>0)
+<table class="table sensitivity_table table-condensed">
+    <tr>
+        <th>Isolate</th>
+        <th>Interpretation</th>
+    </tr>
+    @foreach($item->results->sensitivity_results as $stvt)
+        <tr>
+            <td>{{$stvt->drug->name}}</td>
+            <td>{{$stvt->sensitivity}}</td>
+        </tr>
+    @endforeach
+</table>
+@else
+    <p>No sensitivity/culture results to show</p>
+@endif

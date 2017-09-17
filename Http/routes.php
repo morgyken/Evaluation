@@ -73,9 +73,12 @@ $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $rout
 $router->group(['prefix' => 'externaldoctor', 'as' => 'exdoctor.'], function (Router $router) {
     $router->match(['post', 'get'], 'patients/{id?}', ['uses' => 'ExternalController@patients', 'as' => 'patients']);
     $router->match(['post', 'get'], 'order/{patient?}', ['uses' => 'ExternalController@orders', 'as' => 'order']);
-    $router->match(['post', 'get'], 'makeorder/{patient?}', ['uses' => 'ExternalController@make_order', 'as' => 'order.make']);
+    $router->match(['post', 'get'], 'makeorder/{patient?}/{results?}', ['uses' => 'ExternalController@make_order', 'as' => 'order.make']);
     $router->match(['post', 'get'], 'view/order/{id?}', ['uses' => 'ExternalController@view_order', 'as' => 'order.view']);
     $router->match(['post', 'get'], 'queue/', ['uses' => 'ExternalController@queue', 'as' => 'queue']);
+
+    $router->match(['post', 'get'], 'ordertest/', ['uses' => 'ExternalController@p_order', 'as' => 'p_order']);
+    $router->match(['post', 'get'], 'patient/results/', ['uses' => 'ExternalController@p_results', 'as' => 'p_results']);
 });
 $router->group(['prefix' => 'lab', 'as' => 'lab.'], function (Router $router) {
     $router->get('result/verify/{result?}', ['as' => 'verify', 'uses' => 'EvaluationController@VerifyLabResult']);

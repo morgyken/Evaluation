@@ -30,4 +30,19 @@ return [
         'view' => 'evaluation::fields.discount',
         'hint' => 'Select places where discount is applicable'
     ],
+    'no_doctor' => [
+        'description' => 'Disable Doctor Queue',
+        'view' => 'checkbox',
+        'hint' => 'Click to disable doctors queue'
+    ],
+    'no_pharmacy' => [
+        'description' => 'Disable Pharmacy Queue',
+        'view' => 'checkbox',
+        'hint' => 'Click to disable pharmacy'
+    ],
+    'no_nursing' => [
+        'description' => 'Disable Nursing',
+        'view' => 'checkbox',
+        'hint' => 'Click to disable nursing'
+    ],
 ];

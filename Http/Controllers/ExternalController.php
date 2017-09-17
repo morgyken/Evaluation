@@ -62,6 +62,9 @@ class ExternalController extends AdminBaseController {
         $this->data['orders'] = null;
         $this->data['patient'] = null;
         $this->data['visit'] = 1;
+        if($request->results){
+            $this->data['results_mode'] = $request->results;
+        }
         if (!is_null($institution)) {
             $this->data['orders'] = ExternalOrders::whereInstitution($institution)
                     ->wherePatient_id($request->patient)
@@ -69,6 +72,26 @@ class ExternalController extends AdminBaseController {
             $this->data['patient'] = Patients::find($request->patient);
         }
         return view('evaluation::external_order', ['data' => $this->data]);
+    }
+
+    public function p_results(Request $request){
+        $institution = $request->user()->profile->partner_institution;
+        $this->data['patients'] = null;
+        if (!is_null($institution)) {
+            $this->data['patients'] = Patients::whereExternal_institution($institution)
+                ->get();
+        }
+        return view('evaluation::external.p_results', ['data' => $this->data]);
+    }
+
+    public function p_order(Request $request){
+        $institution = $request->user()->profile->partner_institution;
+        $this->data['patients'] = null;
+        if (!is_null($institution)) {
+            $this->data['patients'] = Patients::whereExternal_institution($institution)
+                ->get();
+        }
+        return view('evaluation::external.p_order', ['data' => $this->data]);
     }
 
 }

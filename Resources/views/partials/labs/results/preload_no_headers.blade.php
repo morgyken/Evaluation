@@ -27,15 +27,16 @@ try {
             $interval = null;
         }
         ?>
-        @if($test->subtests->sensitivity)
-            @include('evaluation::partials.labs.results.sensitivity')
-        @else
         <tr>
             <td>{{$test->subtests->name}}</td>
             <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
+                @if($test->subtests->sensitivity)
+                    @include('evaluation::partials.labs.results.sensitivity')
+                @else
                 {{get_result($test_res,$test->subtests)}}
+                @endif
             </td>
-            @if(contains_strings($test_res))
+            @if(contains_strings($test_res)||$test->subtests->sensitivity)
             @else
                 <td><?php echo $u ?></td>
                 <td style="text-align: center">
@@ -52,7 +53,6 @@ try {
                 </td>
             @endif
         </tr>
-        @endif
         <?php
     }
 } catch (\Exception $e) {
