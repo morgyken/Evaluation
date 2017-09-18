@@ -1444,8 +1444,7 @@ if (!function_exists('getOrderResults')) {
      */
     function getOrderResults($patient) {
         $results = Investigations::whereHas('visits', function($query2) use ($patient){
-                    $query2->wherePatient($patient)
-                    ->where('external_doctor','>',0);
+                    $query2->wherePatient($patient);
                 })
                 ->whereHas('results')
                 ->get();

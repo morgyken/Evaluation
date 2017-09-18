@@ -62,9 +62,11 @@ class ExternalController extends AdminBaseController {
         $this->data['orders'] = null;
         $this->data['patient'] = null;
         $this->data['visit'] = 1;
+
         if($request->results){
             $this->data['results_mode'] = $request->results;
         }
+
         if (!is_null($institution)) {
             $this->data['orders'] = ExternalOrders::whereInstitution($institution)
                     ->wherePatient_id($request->patient)
