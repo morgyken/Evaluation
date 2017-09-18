@@ -1099,24 +1099,27 @@ if (!function_exists('get_result')) {
      * @return Test result
      */
     function get_result($results, $test) {
-        if (!empty($test->formula)) {
-            $formula = $test->formula->formula;
-            $formula = str_replace(' ', '',strtoupper($test->formula->formula));
+       // dd($test->sensitivity);
+        if(!$test->sensitivity){
+            if (!empty($test->formula)) {
+                $formula = $test->formula->formula;
+                $formula = str_replace(' ', '',strtoupper($test->formula->formula));
 
-            preg_match_all('/P\s*(\d+)/', $formula, $matches);
-            $test_ids = $matches[1];
+                preg_match_all('/P\s*(\d+)/', $formula, $matches);
+                $test_ids = $matches[1];
 
-            $search = array();
-            $replace = array();
-            foreach ($test_ids as $id){
-                $search[] = "P".$id;
-                $replace[] = $results[$id];
+                $search = array();
+                $replace = array();
+                foreach ($test_ids as $id){
+                    $search[] = "P".$id;
+                    $replace[] = $results[$id];
+                }
+                $parsable = str_replace($search,$replace,$formula);
+
+                return parse_expression($parsable);
+            } else {
+                return strip_tags($results[$test->id]);
             }
-            $parsable = str_replace($search,$replace,$formula);
-
-            return parse_expression($parsable);
-        } else {
-            return strip_tags($results[$test->id]);
         }
     }
 

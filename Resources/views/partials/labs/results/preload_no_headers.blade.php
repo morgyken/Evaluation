@@ -9,7 +9,7 @@ $tests = get_lab_template($item->procedures->id);
 ?>
 @foreach($tests as $test)
 <?php
-try {
+//try {
     if (get_result($test_res, $test->subtests) !== '') {
         $u = getUnit($test->subtests);
        // $interval = null;
@@ -29,7 +29,7 @@ try {
         ?>
         <tr>
             <td>{{$test->subtests->name}}</td>
-            <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
+            <td>
                 @if($test->subtests->sensitivity)
                     @include('evaluation::partials.labs.results.sensitivity')
                 @else
@@ -55,8 +55,8 @@ try {
         </tr>
         <?php
     }
-} catch (\Exception $e) {
-
-}
+//} catch (\Exception $e) {
+//
+//}
 ?>
 @endforeach
