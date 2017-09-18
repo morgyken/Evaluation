@@ -1443,10 +1443,9 @@ if (!function_exists('getOrderResults')) {
      * @return $unit
      */
     function getOrderResults($patient) {
-        session(['p' => $patient]);
-        $results = Investigations::whereHas('visits', function($query2) {
-                    $query2->wherePatient(\Session::get('p'))
-                    ->whereNotNull('external_order');
+        $results = Investigations::whereHas('visits', function($query2) use ($patient){
+                    $query2->wherePatient($patient);
+                    //->where('external_doctor','>',0);
                 })
                 ->whereHas('results')
                 ->get();
