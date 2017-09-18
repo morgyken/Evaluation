@@ -4,10 +4,12 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
+$results_mode = false;
 extract($data);
 $results = getOrderResults($patient->id);
 $external = true;
 $r_mode = false;
+
 if($results_mode){
     $r_mode = true;
 }
