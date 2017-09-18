@@ -1099,7 +1099,6 @@ if (!function_exists('get_result')) {
      * @return Test result
      */
     function get_result($results, $test) {
-       // dd($test->sensitivity);
         if(!$test->sensitivity){
             if (!empty($test->formula)) {
                 $formula = $test->formula->formula;

@@ -50,8 +50,8 @@ try {
         }
         ?>
         <tr>
-                <td>{{strtoupper($test->subtests->name)}}</td>
-            <td @if(strlen(strip_tags($test_res[$test->subtest]))>100)style="width: 60%"@endif>
+            <td>{{strtoupper($test->subtests->name)}}</td>
+            <td>
                 @if($test->subtests->sensitivity)
                     @include('evaluation::partials.labs.results.sensitivity')
                 @else
