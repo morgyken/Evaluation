@@ -30,7 +30,7 @@ class RecurrentCharge extends Model
   
     protected $table = 'inpatient_recurrent_charges';
 
-     public function admission(){
+    public function admission(){
         return $this->belongsTo(Admission::class, "admission_id", "id");
     }
 
@@ -43,8 +43,12 @@ class RecurrentCharge extends Model
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+    */
     public function charge() {
         return $this->belongsTo(NursingCharge::class, 'recurrent_charge_id');
+    }
+
+    public function removed_bills() {
+        return $this->hasOne(\Ignite\Finance\Entities\RemovedBills::class, 'recurrent');
     }
 }

@@ -219,4 +219,5 @@ catch(\Exception $exc){
         return $this->hasOne(InsuranceInvoice::class, 'visit');
     }
 
+
 }
