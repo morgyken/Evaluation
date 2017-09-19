@@ -54,7 +54,7 @@ $other_tests = get_lab_template($item->procedures->id);
             @endforeach
         @endforeach
     <tr>
-        <th colspan="2">-</th>
+        <th colspan="2"><hr/></th>
     </tr>
     @foreach($other_tests as $_test)
         @if(!in_array($_test->subtests->id,$with_headers))
