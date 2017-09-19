@@ -84,7 +84,6 @@ $other_tests = get_lab_template($item->procedures->id);
             @endif
         @endif
     @endforeach
-
         <input type="hidden"  name="tests{{$item->id}}" value="{{json_encode($t_array)}}" />
         <td colspan="2">
             @include('evaluation::partials.labs.comment')

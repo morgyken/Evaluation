@@ -9,7 +9,7 @@ $tests = get_lab_template($item->procedures->id);
 ?>
 @foreach($tests as $test)
 <?php
-//try {
+try {
     if (get_result($test_res, $test->subtests) !== '') {
         $u = getUnit($test->subtests);
        // $interval = null;
@@ -55,8 +55,8 @@ $tests = get_lab_template($item->procedures->id);
         </tr>
         <?php
     }
-//} catch (\Exception $e) {
-//
-//}
+} catch (\Exception $e) {
+
+}
 ?>
 @endforeach
