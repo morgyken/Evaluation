@@ -94,36 +94,34 @@
             <div class="col-md-12">
                 
                 <table class="table table-responsive table-striped">
-                    <tbody>
+                    <tbody> 
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Gender</th>
+                                <th>Cost</th>
+                                <th>Created On</th>
+                                <th>Option</th>
+                            </tr>
+                        </thead>
                     @foreach($wards as $ward)
                         <tr>
                         <td>{{$ward->number}}</td>
                             <td>{{$ward->name}}</td>
                             <td>{{$ward->category}}</td>
+                            <td>{{ $ward->gender }}</td>
                             <td>Ksh.{{$ward->cost}}</td>
                             <td>{{$ward->created_at}}</td>
                             <td>
                                 <a href="{{url('/evaluation/inpatient/delete_ward'.'/'.$ward->id)}}" class="btn btn-danger btn-xs">Delete</a>
                                 <button class="btn btn-primary btn-xs edit" id="{{$ward->id}}" data-toggle="modal" data-target="#myModal" >Edit</button>
-
-                           <!--  <td>{{$ward->number}}</td>
-                            <td>{{$ward->number}}</td>
-                            <td>{{$ward->number}}</td>
-                            <td>{{$ward->number}}</td>
-                            <td>{{$ward->number}}</td> -->
+                            </td>
                         </tr>
-                    @endforeach()   
+                    @endforeach   
                     </tbody>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Number</th>
-                            <th>Gender</th>
-                            <th>Category</th>
-                            <th></th>
-                        </tr>
-                    </thead>
+                   
                 </table>
                 
             </div>
