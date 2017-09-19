@@ -144,6 +144,18 @@ return [
         'R' => 'R',
         'S' => 'S',
     ],
+    'lp_flags' => [
+        'desirable' => 'Desirable',
+        'acceptable' => 'Acceptable',
+        'low_increased_risk' => 'Low(increased risk)',
+        'average_risk' => 'Average Risk',
+        'high' => 'High',
+        'borderline_high' => 'Borderline High',
+        'borderline' => 'Borderline',
+        'very_high' => 'Very High',
+        'high_r_risk' => 'High (reduced risk)',
+        'near_above_optimal' => 'Near/Above Optimal',
+    ],
     'prescription_whereto' => [
         1 => 'Per Oris',
         2 => 'Per Rectum',
