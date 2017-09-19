@@ -1117,7 +1117,11 @@ if (!function_exists('get_result')) {
 
                 return parse_expression($parsable);
             } else {
-                return strip_tags($results[$test->id]);
+                try{
+                    return strip_tags($results[$test->id]);
+                }catch(\Exception $e){
+                    return '';
+                }
             }
         }
     }

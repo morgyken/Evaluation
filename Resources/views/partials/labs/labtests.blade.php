@@ -44,6 +44,7 @@ if (isset($lab->lab_result_type)) {
             'text' => 'Text',
             'number' => 'Number',
             'select' => 'Drop Down',
+            'rich_text' => 'Rich Text',
             'other' => 'Other'
             ), $type,['id'=>'result_type','class'=>'form-control'])!!}
             {!! $errors->first('parent', '<span class="help-block">:message</span>') !!}
