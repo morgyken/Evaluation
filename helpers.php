@@ -418,7 +418,7 @@ if (!function_exists('get_inpatient_investigations')) {
         if (empty($type)) {
             return Investigations::where(['visit' => $visit_id])->get();
         }
-        return Investigations::where(['visit' => $visit_id])->whereIn('type', $type)->get();
+        return Investigations::where(['visit' => $visit_id])->whereRaw("type LIKE '%inpatient.".$type."-%'")->get();
     }
 
 }

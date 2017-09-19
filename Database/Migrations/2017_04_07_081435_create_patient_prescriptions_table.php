@@ -22,6 +22,8 @@ class CreatePatientPrescriptionsTable extends Migration {
             $column->integer('whereto');
             $column->integer('method');
             $column->integer('duration');
+            $column->longText('stop_reason')->nullable();
+            $column->boolean('stopped')->default(false);
             $column->boolean('status')->default(false);
             $column->boolean('allow_substitution')->default(false);
             $column->integer('time_measure')->unsigned()->default(1);

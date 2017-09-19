@@ -4,6 +4,10 @@ namespace Ignite\Evaluation\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Ignite\Inpatient\Entities\Admission;
+use Ignite\Inpatient\Entities\Visit;
+use Ignite\Inpatient\Entities\NursingCharge;
+
 /**
  * Ignite\Evaluation\Entities\RecurrentCharge
  *
@@ -23,8 +27,24 @@ use Illuminate\Database\Eloquent\Model;
  */
 class RecurrentCharge extends Model
 {
-    protected $fillable = [
-    	'visit_id','recurrent_charge_id','status'
-    ];
-    protected $table = 'recurrent_charges';
+  
+    protected $table = 'inpatient_recurrent_charges';
+
+     public function admission(){
+        return $this->belongsTo(Admission::class, "admission_id", "id");
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function visit() {
+        return $this->belongsTo(Visit::class, 'visit_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function charge() {
+        return $this->belongsTo(NursingCharge::class, 'recurrent_charge_id');
+    }
 }

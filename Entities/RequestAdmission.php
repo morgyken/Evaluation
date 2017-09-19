@@ -26,5 +26,5 @@ class RequestAdmission extends Model
     protected $fillable = [
         'reason','patient_id','visit_id'
     ];
-    protected $table = 'request_admissions';
+    protected $table = 'inpatient_request_admissions';
 }
