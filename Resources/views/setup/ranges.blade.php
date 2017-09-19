@@ -10,7 +10,6 @@ extract($data);
 @extends('layouts.app')
 @section('content_title','Procedure Ranges')
 @section('content_description','')
-
 @section('content')
         <!-- SELECT2 EXAMPLE -->
 <div class="box box-default">
@@ -118,10 +117,8 @@ extract($data);
                             <a class="btn btn-primary btn-xs"
                                href="{{route('evaluation.setup.ranges',$item->id)}}" >
                                 <i class="fa fa-pencil-square-o"></i></a>
-                            <!--|
                             <button class="btn btn-danger btn-xs delete" value="{{$item->id}}">
                                 <i class="fa fa-trash-o"></i></button>
-                                -->
                         </td>
                     </tr>
                 @endforeach
@@ -197,6 +194,7 @@ extract($data);
             to_delete = $(this).val();
             $('#myModal').modal('show');
         });
+
         $('#delete').click(function () {
             if (!to_delete) {
                 return;
@@ -204,16 +202,17 @@ extract($data);
             id = to_delete;
             $.ajax({
                 type: 'GET',
-                url: "{{route('api.evaluation.del.title')}}",
+                url: "{{route('api.evaluation.delete_range')}}",
                 data: {'id': id},
                 success: function () {
                     $("#row_id" + id).remove();
                 },
                 error: function () {
-                    alert('Could not delete. Please contact admin');
+                    alert('Could not delete. Please try again');
                 }
             });
             $("#myModal").modal('hide');
         });
     </script>
+
 @endsection

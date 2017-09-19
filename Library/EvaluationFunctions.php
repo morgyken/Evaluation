@@ -14,6 +14,7 @@ namespace Ignite\Evaluation\Library;
 
 use Ignite\Evaluation\Entities\Additives;
 use Ignite\Evaluation\Entities\CriticalValues;
+use Ignite\Evaluation\Entities\Formula;
 use Ignite\Evaluation\Entities\ProcedureInventoryItem;
 use Ignite\Evaluation\Entities\DiagnosisCodes;
 use Ignite\Evaluation\Entities\DoctorNotes;
@@ -583,6 +584,18 @@ class EvaluationFunctions implements EvaluationRepository {
 
     function delete_critical_value(Request $request){
         return CriticalValues::find($request->id)->delete();
+    }
+
+    function delete_range(Request $request){
+        return ReferenceRange::find($request->id)->delete();
+    }
+
+    public function del_critical_value(Request $request) {
+       return CriticalValues::find($request->id)->delete();
+    }
+
+    public function delete_formulae(Request $request) {
+        return Formula::find($request->id)->delete();
     }
 
 

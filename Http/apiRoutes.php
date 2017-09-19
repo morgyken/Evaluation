@@ -47,3 +47,7 @@ $router->get('delete/critical_value}', ['uses' => 'ApiController@delete_critical
 //delete_lab_template_test
 $router->get('delete/template/test', ['uses' => 'ApiController@delete_lab_template_test', 'as' => 'delete_lab_template_test']);
 
+$router->get('delete/range/', ['uses' => 'ApiController@delete_range', 'as' => 'delete_range']);
+$router->get('delete/formula/', ['uses' => 'ApiController@delete_formulae', 'as' => 'delete_formulae']);
+$router->get('delete/critical_value/', ['uses' => 'ApiController@del_critical_value', 'as' => 'del_critical_value']);
+

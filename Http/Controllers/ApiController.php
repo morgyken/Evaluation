@@ -73,6 +73,18 @@ class ApiController extends Controller {
         $this->evaluationRepository->save_preliminary_eye();
     }
 
+    public function delete_range(Request $request) {
+        $this->evaluationRepository->delete_range($request);
+    }
+
+    public function del_critical_value(Request $request) {
+        $this->evaluationRepository->delete_critical_value($request);
+    }
+
+    public function delete_formulae(Request $request) {
+        $this->evaluationRepository->delete_formulae($request);
+    }
+
     public function save_sensitivity(Request $request)
     {
         try{

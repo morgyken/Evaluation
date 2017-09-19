@@ -97,10 +97,9 @@ extract($data);
                         <a class="btn btn-primary btn-xs"
                            href="{{route('evaluation.setup.formulae',$item->id)}}" >
                             <i class="fa fa-pencil-square-o"></i></a>
-                        <!--|
+                        |
                         <button class="btn btn-danger btn-xs delete" value="{{$item->id}}">
                             <i class="fa fa-trash-o"></i></button>
-                        -->
                     </td>
                 </tr>
                 @endforeach
@@ -184,7 +183,7 @@ extract($data);
         id = to_delete;
         $.ajax({
             type: 'GET',
-            url: "{{route('api.evaluation.del.title')}}",
+            url: "{{route('api.evaluation.delete_formulae')}}",
             data: {'id': id},
             success: function () {
                 $("#row_id" + id).remove();

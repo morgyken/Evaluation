@@ -165,7 +165,7 @@ extract($data);
             id = to_delete;
             $.ajax({
                 type: 'GET',
-                url: "{{route('api.evaluation.del.critical_value')}}",
+                url: "{{route('api.evaluation.del_critical_value')}}",
                 data: {'id': id,'type': 'CriticalValues'},
                 success: function () {
                     $("#row_id" + id).remove();
