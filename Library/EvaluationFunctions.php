@@ -601,7 +601,14 @@ class EvaluationFunctions implements EvaluationRepository {
     }
 
     public function delete_procedure(Request $request){
-        return Procedures::find($request->id)->delete();
+        Procedures::find($request->id)->delete();
+        $inv = Investigations::whereProcedure($request->id)->get();
+        if(count($inv)>0){
+            foreach ($inv as $i){
+                $i->delete();
+            }
+        }
+        return true;
     }
 
 
