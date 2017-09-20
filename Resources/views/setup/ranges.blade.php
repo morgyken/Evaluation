@@ -83,6 +83,14 @@ extract($data);
                         {!! $errors->first('lg_value', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
+                <br/>
+                <div class="row" id="other">
+                    <p style="text-align: center">Other Reference Type</p>
+                    <div class="col-xs-12">
+                        <input type="text" name="other" value="{{$range->other}}" class="form-control" placeholder="">
+                        {!! $errors->first('other', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
             </div>
             <!-- /.col -->
         </div>
@@ -170,6 +178,7 @@ extract($data);
             $("table").DataTable();
             $('#lg').hide();
             $('#range').hide();
+            $('#other').hide();
             var ref = $('#type').val();
             toggle_type(ref);
         });
@@ -184,17 +193,21 @@ extract($data);
             toggle_type(type)
         });
 
-
         function toggle_type(type){
-            if(!(type==='range')){
-                $('#lg').show();
-                $('#range').hide();
-            }else{
+            if((type==='range')){
                 $('#range').show();
                 $('#lg').hide();
+                $('#other').hide();
+            }if(type==='less_greater'){
+                $('#range').hide();
+                $('#lg').show();
+                $('#other').hide();
+            }if(type==='other'){
+                $('#range').hide();
+                $('#lg').hide();
+                $('#other').show();
             }
         }
-
 
         var to_delete = null;
         $('.delete').click(function () {

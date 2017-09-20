@@ -570,6 +570,7 @@ class EvaluationFunctions implements EvaluationRepository {
         $request->upper ? $item->upper = $request->upper : '';
         $item->lg_type = $request->lg_type;
         $item->flag = $request->flag;
+        $item->other_type = $request->other;
         $request->lg_value ? $item->lg_value = $request->lg_value : '';
         $item->save();
     }

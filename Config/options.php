@@ -60,6 +60,7 @@ return [
     'range_types' => [
         'range' => 'Range',
         'less_greater' => 'Less/Greater Than',
+        'other' => 'Other',
     ],
     'sex' => [
         'both' => 'both',
