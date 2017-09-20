@@ -14,7 +14,7 @@
         </td>
     </tr>
     <tr>
-        <th>Isolate</th>
+        <th>Antibiotic</th>
         <th class="text-center" style="width: 10%;">Interpretation</th>
         <th></th>
     </tr>

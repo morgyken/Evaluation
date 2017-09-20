@@ -85,6 +85,10 @@ class ApiController extends Controller {
         $this->evaluationRepository->delete_formulae($request);
     }
 
+    public function delete_procedure(Request $request){
+        $this->evaluationRepository->delete_procedure($request);
+    }
+
     public function save_sensitivity(Request $request)
     {
         try{

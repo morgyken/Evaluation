@@ -1021,6 +1021,26 @@ if (!function_exists('get_ref_range')) {
 
 }
 
+
+if (!function_exists('get_ref_interval')) {
+    function get_ref_interval($range) {
+        try {
+            $flg = mconfig('evaluation.options.lp_flags');
+            if ($range->type =='range') {
+                $interval = $range->lower . ' - ' . $range->upper;
+            } elseif($range->type =='less_greater') {
+                $interval = $range->lg_type . ' ' . $range->lg_value;
+            }else{
+                $interval = $range->other_type;
+            }
+            return $range->flag?$flg[$range->flag].' '.$interval:$interval;
+        } catch (\Exception $e) {
+           return null;
+        }
+    }
+
+}
+
 if (!function_exists('is_critical')) {
 
     function is_critical($test, $result) {

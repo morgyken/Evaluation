@@ -50,4 +50,4 @@ $router->get('delete/template/test', ['uses' => 'ApiController@delete_lab_templa
 $router->get('delete/range/', ['uses' => 'ApiController@delete_range', 'as' => 'delete_range']);
 $router->get('delete/formula/', ['uses' => 'ApiController@delete_formulae', 'as' => 'delete_formulae']);
 $router->get('delete/critical_value/', ['uses' => 'ApiController@del_critical_value', 'as' => 'del_critical_value']);
-
+$router->get('delete/procedure', ['uses' => 'ApiController@delete_procedure', 'as' => 'delete_procedure']);

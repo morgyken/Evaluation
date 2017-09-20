@@ -146,6 +146,7 @@ return [
         'S' => 'S',
     ],
     'lp_flags' => [
+        'normal'=>'Normal',
         'desirable' => 'Desirable',
         'acceptable' => 'Acceptable',
         'low_increased_risk' => 'Low(increased risk)',
@@ -156,6 +157,11 @@ return [
         'very_high' => 'Very High',
         'high_r_risk' => 'High (reduced risk)',
         'near_above_optimal' => 'Near/Above Optimal',
+        'pre_diabetes'=>'Pre Diabetes',
+        'Diabetes'=> 'Diabetes',
+        'normal_melitus'=>'Normal Melitus',
+        'igt'=>'IGT',
+        'ifg'=>'IFG',
     ],
     'prescription_whereto' => [
         1 => 'Per Oris',

@@ -10,7 +10,7 @@
 @if(count($item->results->sensitivity_results)>0)
 <table class="table sensitivity_table table-condensed">
     <tr>
-        <th>Isolate</th>
+        <th>Antibiotic</th>
         <th>Interpretation</th>
     </tr>
     @foreach($item->results->sensitivity_results as $stvt)

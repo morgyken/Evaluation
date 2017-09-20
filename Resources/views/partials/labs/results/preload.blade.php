@@ -39,18 +39,7 @@ try {
         $interval = null;
         $range = get_ref_range($test->subtests);
         $critical = is_critical($test,$test_res);
-
-        try {
-            if ($range->type =='range') {
-                $min_range = $range->lower;
-                $max_range = $range->upper;
-                $interval = $range->lower . ' - ' . $range->upper;
-            } else {
-                $interval = $range->lg_type . ' ' . $range->lg_value;
-            }
-        } catch (\Exception $e) {
-            $interval = null;
-        }
+        $interval = get_ref_interval($range);
         ?>
         <tr>
             <td>{{strtoupper($test->subtests->name)}}</td>
@@ -102,20 +91,9 @@ try {
     try {
     if (get_result($test_res, $othertest->subtests) !== '') {
     $u = getUnit($othertest->subtests);
-    // $interval = null;
-    try {
-        $range = get_ref_range($othertest->subtests);
-        $critical = is_critical($othertest,$test_res);
-        if (isset($range->lower) && isset($range->upper)) {
-            $min_range = $range->lower;
-            $max_range = $range->upper;
-            $interval = $range->lower . ' - ' . $range->upper;
-        } else {
-            $interval = $range->lg_type . ' ' . $range->lg_value;
-        }
-    } catch (\Exception $e) {
-        $interval = null;
-    }
+    $range = get_ref_range($test->subtests);
+    $critical = is_critical($test,$test_res);
+    $interval = get_ref_interval($range);
     ?>
     <tr>
         <td>{{$othertest->subtests->name}}</td>

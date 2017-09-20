@@ -600,6 +600,10 @@ class EvaluationFunctions implements EvaluationRepository {
         return Formula::find($request->id)->delete();
     }
 
+    public function delete_procedure(Request $request){
+        return Procedures::find($request->id)->delete();
+    }
+
 
     /**
      * Set manual visit date especially for back-dating

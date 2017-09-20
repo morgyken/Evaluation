@@ -114,16 +114,22 @@ extract($data);
                 <tbody>
                 <?php
                 $age_group = mconfig('evaluation.options.age_groups');
+                $flg = mconfig('evaluation.options.lp_flags');
                 ?>
                 @foreach($ranges as $item)
                     <tr id="row_id{{$item->id}}">
                         <td>{{$loop->iteration}}</td>
                         <td>{{$item->procedures?$item->procedures->name:''}}</td>
                         <td>
+                            @if($item->flag)
+                                {{$flg[$item->flag]}}
+                            @endif
                             @if(!empty($item->lower) && !empty($item->upper)&&!($item->type=='less_greater'))
                                 {{$item->lower}}-{{$item->upper}}
                             @elseif($item->type=='less_greater')
                                 {{$item->lg_type}} {{$item->lg_value}}
+                            @elseif($item->type=='other')
+                                {{$item->other_type}}
                             @endif
                         </td>
                         <td>{{$item->age?$age_group[$item->age]:'*Undefined'}}</td>
@@ -159,10 +165,10 @@ extract($data);
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Delete ranges?</h4>
+                        <h4 class="modal-title">Delete interval?</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Do you want to delete the ranges?</p>
+                        <p>Do you want to delete the interval?</p>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-danger" id="delete" >Yes, I am sure</button>
@@ -234,5 +240,4 @@ extract($data);
             $("#myModal").modal('hide');
         });
     </script>
-
 @endsection
