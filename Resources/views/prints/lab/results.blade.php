@@ -18,6 +18,7 @@
         ?>
         @include('evaluation::prints.partials.footer')
         @foreach($results as $item)
+            @if($item->procedures)
             @if(contains_strings($results))
                 <br/>
                 <h2 style="text-align: center">{{$loop->iteration}}. {{$item->procedures->name}}</h2>
@@ -25,9 +26,10 @@
                 <br/>
                 <h2 style="text-align: center">{{$loop->iteration}}. {{$item->procedures->name}}</h2>
             @endif
-        <table id="results" cellpadding="0" cellspacing="0">
+            <table id="results" cellpadding="0" cellspacing="0">
             @include('evaluation::partials.labs.results.list')
-        </table>
+            </table>
+            @endif
         @endforeach
         @include('evaluation::prints.partials.key')
         <hr/>
