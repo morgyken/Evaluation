@@ -1,3 +1,5 @@
+
+@if($item->procedures)
 <?php
 $results = json_decode($item->results->results);
 try{
@@ -117,5 +119,6 @@ $test_res = array_combine($all_tests, $their_result);
         </td>
     </tr>
 </table>
+@endif
 @endif
 @endif

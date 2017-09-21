@@ -1041,6 +1041,19 @@ if (!function_exists('get_ref_interval')) {
 
 }
 
+if (!function_exists('with_and_without_headers')) {
+    function with_and_without_headers($other_tests,$with_headers) {
+        $has_both = false;
+        foreach($other_tests as $othertest){
+            if(!in_array($othertest->subtests->id, $with_headers)){
+                $has_both = true;
+            }
+        }
+        return $has_both;
+    }
+
+}
+
 if (!function_exists('is_critical')) {
 
     function is_critical($test, $result) {

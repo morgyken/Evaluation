@@ -15,16 +15,13 @@ session(['active_patient' => $patient]);
 ?>
 <div class="row" id="stripper">
     @foreach($results as $item)
-    <?php try{ ?>
-
-
         <div class="col-md-12">
-            <h4>Laboratory test #{{$loop->iteration}}: {{$item->procedures->name}}</h4>
+            <h4>Laboratory test #{{$loop->iteration}}: {{$item->procedures?$item->procedures->name:'Procedure might have been deleted'}}</h4>
             <div class="col-md-4">
                 <table class="table table-condensed table-striped">
                     <tr>
                         <td><strong>Procedure:</strong></td>
-                        <td>{{$item->procedures->name}}</td>
+                        <td>{{$item->procedures?$item->procedures->name:'Procedure might have been deleted'}}</td>
                     </tr>
                     <tr>
                         <td><strong>Conducted By:</strong></td>
@@ -58,7 +55,7 @@ session(['active_patient' => $patient]);
                 </table>
             </div>
             <div class="col-md-8">
-                <h4>{{$loop->iteration}}: {{$item->procedures->name}}</h4>
+                <h4>{{$loop->iteration}}:{{$item->procedures?$item->procedures->name:'Procedure might have been deleted'}}</h4>
                 <div class="well well-sm">
                     <table class="table table-condensed table-striped">
                         @include('evaluation::partials.labs.results.list')
@@ -75,12 +72,6 @@ session(['active_patient' => $patient]);
             </div>
         </div>
         <hr/>
-
-    <?php
-    }catch (\Exception $e){
-
-    }
-    ?>
     @endforeach
 </div>
 <style>

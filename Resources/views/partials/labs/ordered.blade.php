@@ -1,9 +1,8 @@
 @if(!$investigations->isEmpty())
     <div class="accordion">
         @foreach($labs as $item)
-            <?php
-            $subtests = get_lab_template($item->procedures->id);
-            ?>
+            @if($item->procedures)
+            <?php $subtests = get_lab_template($item->procedures->id); ?>
             <h4>{{$item->procedures->name}}</h4>
             <div>
                 <form method="POST" action="" accept-charset="UTF-8" id="results_form{{$item->id}}"
@@ -80,6 +79,7 @@
                     </div>
                 {!! Form::close()!!}
             </div>
+            @endif
         @endforeach
     </div>
     <script type="text/javascript">

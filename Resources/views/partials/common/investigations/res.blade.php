@@ -11,13 +11,13 @@
 ?>
 <div class="accordion">
     @foreach($results as $item)
-    <h4>Procedure #{{$loop->iteration}}: {{$item->procedures->name}}</h4>
+    <h4>Procedure #{{$loop->iteration}}: {{$item->procedures?$item->procedures->name:'This procedure might have been deleted'}}</h4>
     <div>
         <div class="col-md-4">
             <table class="table table-striped table-condensed">
                 <tr>
                     <td>Procedure</td>
-                    <td>{{$item->procedures->name}}</td>
+                    <td>{{$item->procedures?$item->procedures->name:'This procedure might have been deleted'}}</td>
                 </tr>
                 <tr>
                     <td>Requested By:</td>
@@ -36,9 +36,7 @@
                     <td>{{smart_date_time($item->created_at)}}</td>
                 </tr>
             </table>
-
             <hr>
-
             <table class="table table-striped table-condensed">
                 <tr>
                     <td>Result By:</td>

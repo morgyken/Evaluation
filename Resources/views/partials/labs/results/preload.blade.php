@@ -78,7 +78,7 @@ try {
 @endforeach
 @endforeach
 
-
+@if(with_and_without_headers($other_tests,$with_headers))
 <tr style="background-color: #eee">
     @if(contains_strings($test_res))
         <th style="color:black; font-weight: bolder" colspan="2"><hr/></th>
@@ -128,5 +128,6 @@ try {
     }
     ?>
 @endforeach
+@endif
 
 
