@@ -25,8 +25,8 @@ if(!isset($type)){
 @elseif($type == 'rich_text')
         <textarea id="{{$item->id}}" name="results{{$item->id}}[]" class="form-control"><?php get_reverted_test($item->procedures->id) ?></textarea>
 @else
-<input size="50" id="{{$item->id}}" value="<?php get_reverted_test($item->procedures->id) ?>" type="text" name="results{{$item->id}}[]" class="form-control">
+<input style="width: 100%" id="{{$item->id}}" value="<?php get_reverted_test($item->procedures->id) ?>" type="text" name="results{{$item->id}}[]" class="form-control">
 @endif
 @else
-    <input size="50" id="{{$item->id}}" type="text" name="results{{$item->id}}[]" value="{{get_reverted_test($item->procedures->id)}}">
+    <input style="width: 100%" id="{{$item->id}}" type="text" name="results{{$item->id}}[]" value="{{get_reverted_test($item->procedures->id)}}">
 @endif
