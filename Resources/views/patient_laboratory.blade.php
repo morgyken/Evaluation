@@ -16,6 +16,7 @@ $patient = $data['visit']->patients;
 
 @section('content')
 @include('evaluation::partials.common.patient_details')
+@include('evaluation::partials.common.fraola')
 <div class="box box-default">
     <div class="box-body">
         <div class="form-horizontal">
@@ -67,11 +68,6 @@ $patient = $data['visit']->patients;
     function reload() {
         location.reload();
     }
-</script>
-<script type="text/javascript">
-    $(function () {
-        //CKEDITOR.replaceAll();
-    });
 </script>
 <script src="{{m_asset('evaluation:js/results.js')}}"></script>
 @endsection

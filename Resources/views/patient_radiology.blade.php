@@ -15,6 +15,7 @@ $category = 'radiology';
 
 @section('content')
 @include('evaluation::partials.common.patient_details')
+@include('evaluation::partials.common.fraola')
 <div class="box box-default">
     <div class="box-body">
         <div class="form-horizontal">

@@ -76,5 +76,4 @@ $clinic = $visit->clinics;
             </tr>
         </table>
     </div>
-
 </div>

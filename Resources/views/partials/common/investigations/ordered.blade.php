@@ -67,11 +67,6 @@
     @endforeach
 </div>
 {!! Form::close()!!}
-<script type="text/javascript">
-    $(function () {
-        CKEDITOR.replaceAll();
-    });
-</script>
 @else
 <p>No radiology procedures have been ordered for this patient</p>
 @endif

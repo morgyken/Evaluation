@@ -28,7 +28,8 @@ try {
             } catch (\Exception $e) {
 
             }
-            ?></div>
+            ?>
+        </div>
         <div class="col-md-4">
             <dt>Payment Mode:</dt>
             <dd>{{$visit->mode}}</dd>
@@ -40,6 +41,10 @@ try {
             @else
             <p>Patient signed out for this visit</p>
             @endif
+        </div>
+        <hr/>
+        <div class="col-md-12">
+            {{--@include('evaluation::partials.common.fraola')--}}
         </div>
     </div>
 </div>

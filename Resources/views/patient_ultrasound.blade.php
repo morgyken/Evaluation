@@ -15,6 +15,7 @@ $category = 'ultrasound';
 
 @section('content')
 @include('evaluation::partials.common.patient_details')
+@include('evaluation::partials.common.fraola')
 <div class="box box-default">
     <div class="box-body">
         <div class="form-horizontal">
@@ -29,7 +30,6 @@ $category = 'ultrasound';
                             <a href="#results" data-toggle="tab">
                                 Results <span class="badge alert-success">{{$results->count()}}</span></a>
                         </li>
-
                         @if($results->count()>0)
                         <li>
                             <a target="blank" href="{{route('evaluation.print.print_res', ['visit'=>$visit,'type'=>$category])}}">

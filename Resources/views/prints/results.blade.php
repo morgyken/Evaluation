@@ -14,7 +14,7 @@
         @include('evaluation::prints.partials.head')
         @include('evaluation::prints.partials.footer')
         @foreach($results as $item)
-        <table cellpadding="0" cellspacing="0">
+        <table>
             <tr>
                 <td colspan="5">
                     <br>
@@ -25,7 +25,6 @@
             </tr>
         </table>
         {!!$item->results->results!!}
-        <hr>
-            @endforeach
+        @endforeach
     </body>
 </html>
