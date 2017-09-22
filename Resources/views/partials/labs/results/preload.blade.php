@@ -23,7 +23,7 @@ $tests = get_title_procedures($item->procedures->id, $header->id);
 ?>
 @if(count($tests)>0)
 <tr>
-    @if(contains_strings($test_res))
+    @if(contains_strings($test_res) && !has_ranges($all_tests))
         <td style="color:black; font-weight: bolder" colspan="2">{{$header->name}}</td>
     @else
         <td style="color:black; font-weight: bolder" colspan="5">{{$header->name}}</td>
@@ -80,7 +80,7 @@ try {
 
 @if(with_and_without_headers($other_tests,$with_headers))
 <tr style="background-color: #eee">
-    @if(contains_strings($test_res))
+    @if(contains_strings($test_res) && !has_ranges($all_tests))
         <th style="color:black; font-weight: bolder" colspan="2"><hr/></th>
     @else
         <th style="color:black; font-weight: bolder" colspan="5"><hr/></th>
