@@ -23,11 +23,7 @@ $tests = get_title_procedures($item->procedures->id, $header->id);
 ?>
 @if(count($tests)>0)
 <tr>
-    @if(contains_strings($test_res) && !has_ranges($all_tests))
-        <td style="color:black; font-weight: bolder" colspan="2">{{$header->name}}</td>
-    @else
-        <td style="color:black; font-weight: bolder" colspan="5">{{$header->name}}</td>
-    @endif
+    <td style="color:black; font-weight: bolder" colspan="5">{{$header->name}}</td>
 </tr>
 @endif
 @foreach($tests as $test)
@@ -50,8 +46,6 @@ try {
                     {{get_result($test_res,$test->subtests)}}
                 @endif
             </td>
-            @if(contains_strings($test_res) || $test->subtests->sensitivity && !has_ranges($all_tests))
-            @else
             <td><?php echo str_replace(' ', '', $u) ?></td>
             <td style="text-align: center">
                 @if(!$critical)
@@ -65,7 +59,6 @@ try {
             <td>
             {{$interval}}
             </td>
-            @endif
         </tr>
         <?php
     }
@@ -80,11 +73,7 @@ try {
 
 @if(with_and_without_headers($other_tests,$with_headers))
 <tr style="background-color: #eee">
-    @if(contains_strings($test_res) && !has_ranges($all_tests))
-        <th style="color:black; font-weight: bolder" colspan="2"><hr/></th>
-    @else
         <th style="color:black; font-weight: bolder" colspan="5"><hr/></th>
-    @endif
 </tr>
 @foreach($other_tests as $othertest)
     <?php
@@ -104,8 +93,6 @@ try {
                 {{get_result($test_res,$othertest->subtests)}}
             @endif
         </td>
-        @if(contains_strings($test_res)||$othertest->subtests->sensitivity && !has_ranges($all_tests))
-        @else
             <td><?php echo $u ?></td>
             <td style="text-align: center">
                 @if(!$critical)
@@ -119,7 +106,6 @@ try {
             <td>
                 {{$interval}}
             </td>
-        @endif
     </tr>
     <?php
     }

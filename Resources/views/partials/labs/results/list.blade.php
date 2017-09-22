@@ -30,12 +30,9 @@ $test_res = array_combine($all_tests, $their_result);
 <tr class="heading">
     <td>Test</td>
     <td>Result</td>
-    @if(contains_strings($test_res) && !has_ranges($all_tests) && !has_ranges($all_tests))
-    @else
     <td>Unit</td>
     <td style="text-align:center">Flag</td>
     <td>Ref Interval</td>
-    @endif
 </tr>
     @if(!empty($item->procedures->templates_lab))
         @if(has_headers($item->procedures->id))

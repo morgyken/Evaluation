@@ -12,8 +12,6 @@ $interval = get_ref_interval($range);
         echo strip_tags($res2[0][1]);
         ?>
     </td>
-    @if(contains_strings($test_res)&&(!$interval))
-    @else
         <td>
             @if(strpos($item->procedures->name, '%')) % @endif
         </td>
@@ -21,5 +19,4 @@ $interval = get_ref_interval($range);
         <td>
             {{$interval}}
         </td>
-    @endif
 </tr>
