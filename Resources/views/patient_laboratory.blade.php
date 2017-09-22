@@ -16,7 +16,7 @@ $patient = $data['visit']->patients;
 
 @section('content')
 @include('evaluation::partials.common.patient_details')
-@include('evaluation::partials.common.fraola')
+@include('evaluation::partials.common.redactor')
 <div class="box box-default">
     <div class="box-body">
         <div class="form-horizontal">
