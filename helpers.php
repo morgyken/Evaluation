@@ -1563,6 +1563,23 @@ if (!function_exists('getFlag')) {
 
 }
 
+if (!function_exists('has_ranges')) {
+    function has_ranges($ids){
+        try{
+            $has = false;
+            foreach ($ids as $id){
+                $range = ReferenceRange::whereProcedure($id)->get();
+                if(count($range)>0){
+                    $has = true;
+                }
+            }
+            return $has;
+        }catch (\Exception $e){
+            return false;
+        }
+    }
+}
+
 if (!function_exists('get_reverted_test')) {
 
     function get_reverted_test($test) {

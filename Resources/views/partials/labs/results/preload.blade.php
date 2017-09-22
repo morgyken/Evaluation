@@ -50,7 +50,7 @@ try {
                     {{get_result($test_res,$test->subtests)}}
                 @endif
             </td>
-            @if(contains_strings($test_res) || $test->subtests->sensitivity)
+            @if(contains_strings($test_res) || $test->subtests->sensitivity && !has_ranges($all_tests))
             @else
             <td><?php echo str_replace(' ', '', $u) ?></td>
             <td style="text-align: center">
@@ -104,7 +104,7 @@ try {
                 {{get_result($test_res,$othertest->subtests)}}
             @endif
         </td>
-        @if(contains_strings($test_res)||$othertest->subtests->sensitivity)
+        @if(contains_strings($test_res)||$othertest->subtests->sensitivity && !has_ranges($all_tests))
         @else
             <td><?php echo $u ?></td>
             <td style="text-align: center">

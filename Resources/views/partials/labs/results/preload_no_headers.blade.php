@@ -18,7 +18,7 @@ try {
         $interval = get_ref_interval($range);
         ?>
         <tr>
-            <td>{{$test->subtests->name}}</td>
+            <td>{{$test->subtest}} {{$test->subtests->name}}</td>
             <td>
                 @if($test->subtests->sensitivity)
                     @include('evaluation::partials.labs.results.sensitivity')
@@ -26,7 +26,7 @@ try {
                 {{get_result($test_res,$test->subtests)}}
                 @endif
             </td>
-            @if(contains_strings($test_res)||$test->subtests->sensitivity)
+            @if(contains_strings($test_res)||$test->subtests->sensitivity && !has_ranges($all_tests))
             @else
                 <td><?php echo $u ?></td>
                 <td style="text-align: center">

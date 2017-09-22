@@ -180,7 +180,7 @@ extract($data);
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#select").select2();
+            $("select").select2();
             $("table").DataTable();
             $('#lg').hide();
             $('#range').hide();
