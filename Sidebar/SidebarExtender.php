@@ -40,7 +40,7 @@ class SidebarExtender implements Panda {
 
     public function extendWith(Menu $menu) {
         $menu->group('Dashboard', function (Group $group) {
-            $group->item('Out Patient', function (Item $item) {
+            $group->item('OutPatient', function (Item $item) {
                 $item->weight(2);
                 $item->authorize($this->auth->hasAccess('evaluation.*'));
                 $item->icon('fa fa-heartbeat');
