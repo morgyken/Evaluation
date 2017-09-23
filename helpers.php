@@ -410,15 +410,19 @@ if (!function_exists('get_inpatient_investigations')) {
 
     /**
      * Get investigations
-     * @param $visit
+     * @param int $visit_id
+     * @param string $section
+     * @param array|null $type
      * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @internal param $visit
      */
-    function get_inpatient_investigations($visit_id, $type = null)
+    function get_inpatient_investigations($visit_id, $section = 'investigation', $type = null)
     {
         if (empty($type)) {
-            return Investigations::where(['visit' => $visit_id])->get();
+            return Investigations::whereVisit($visit_id)
+                ->where('type', 'like', 'inpatient.' . $section . '%')->get();
         }
-        return Investigations::where(['visit' => $visit_id])->whereRaw("type LIKE '%inpatient.".$type."-%'")->get();
+        return Investigations::whereVisit($visit_id)->whereIn('type', $type)->get();
     }
 
 }

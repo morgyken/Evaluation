@@ -60,7 +60,8 @@ use Ignite\Evaluation\Entities\ExternalOrderDetails;
  *
  * @author samuel
  */
-class EvaluationFunctions implements EvaluationRepository {
+class EvaluationFunctions implements EvaluationRepository
+{
 
     /**
      * Incoming HTTP request
@@ -98,7 +99,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * @param Request $request
      * @param InventoryRepository $repo
      */
-    public function __construct(Request $request, InventoryRepository $repo) {
+    public function __construct(Request $request, InventoryRepository $repo)
+    {
         $this->request = $request;
         $this->repo = $repo;
         $this->input = $this->request->all();
@@ -118,7 +120,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * Also remove empty values
      * @param $input
      */
-    private function prepareInput(&$input) {
+    private function prepareInput(&$input)
+    {
         unset($input['_token']);
         foreach ($input as $key => $value) {
             if (empty($value)) {
@@ -136,23 +139,25 @@ class EvaluationFunctions implements EvaluationRepository {
      * @param $file
      * @return PatientDocuments
      */
-    private function upload_patient_doc($file) {
+    private function upload_patient_doc($file)
+    {
         return PatientDocuments::create([
-                    'patient' => Visit::find($this->visit)->patient,
-                    'document' => base64_encode(file_get_contents($file->getRealPath())),
-                    'filename' => $file->getClientOriginalName(),
-                    'mime' => $file->getClientMimeType(),
-                    'document_type' => 'investigation',
-                    'description' => $file->getSize(),
-                    'user' => $this->user
+            'patient' => Visit::find($this->visit)->patient,
+            'document' => base64_encode(file_get_contents($file->getRealPath())),
+            'filename' => $file->getClientOriginalName(),
+            'mime' => $file->getClientMimeType(),
+            'document_type' => 'investigation',
+            'description' => $file->getSize(),
+            'user' => $this->user
         ]);
     }
 
     /**
      * @return int|null
      */
-    public function save_results_investigations() {
-        $set = $this->__get_selected_stack();
+    public function save_results_investigations()
+    {
+        $set = $this->_get_selected_stack();
         $user = null;
         //dd($this->input);
         foreach ($set as $item) {
@@ -232,7 +237,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * @param bool $flag Switch to determine if we use the parameter patient_visit as either patient id or schedule id
      * @return array The associative array for patient record
      */
-    public function patient_management($patient_visit, $flag = null) {
+    public function patient_management($patient_visit, $flag = null)
+    {
         $data = [];
         $data['schedule'] = $schedule = Appointments::findOrNew($patient_visit);
         $data['checked_in'] = empty($flag);
@@ -247,6 +253,7 @@ class EvaluationFunctions implements EvaluationRepository {
         if ($this->request->has('lab')) {
             $this->saveLabBlueprint($request);
         } else {
+
             $template = ProcedureTemplates::findOrNew($request->template_id);
             $template->procedure = $request->procedure;
             $template->template = $request->template;
@@ -298,7 +305,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * @deprecated since version 1.4 The current model does not require to create an new visit. Can implement by type-hinting
      * @return int
      */
-    public function create_new_visit($schedule) {
+    public function create_new_visit($schedule)
+    {
         $appointment = Appointments::find($schedule);
         $visit = new Visit;
         $visit->clinic = config('practice.clinic');
@@ -313,17 +321,19 @@ class EvaluationFunctions implements EvaluationRepository {
      * Save patient vitals
      * @param
      */
-    public function save_vitals() {
+    public function save_vitals()
+    {
         Vitals::firstOrCreate(['visit' => $this->visit]); //safety first
         return Vitals::where('visit', $this->visit)->update($this->input);
     }
 
-    public function get_diagnosis_codes_auto() {
+    public function get_diagnosis_codes_auto()
+    {
         $ret = [];
         $term = $this->request->term['term'];
         if (!empty($term)) {
             $found = DiagnosisCodes::select('id', 'name as text')
-                            ->where('name', 'like', "%$term%")->get();
+                ->where('name', 'like', "%$term%")->get();
         }
         $ret['results'] = $found;
         return json_encode($ret);
@@ -332,13 +342,14 @@ class EvaluationFunctions implements EvaluationRepository {
     /**
      * @param
      */
-    public function save_notes() {
+    public function save_notes()
+    {
         if ($this->request->has('option')) {
             $this->save_eye_exam($this->request);
         }
         $notes = DoctorNotes::findOrNew(['visit' => $this->visit]);
         DoctorNotes::updateOrCreate(
-                ['visit' => $this->visit], ['presenting_complaints' => $this->request->presenting_complaints,
+            ['visit' => $this->visit], ['presenting_complaints' => $this->request->presenting_complaints,
             'past_medical_history' => $this->request->past_medical_history,
             'examination' => $this->request->examination,
             'investigations' => $this->request->investigations,
@@ -348,7 +359,8 @@ class EvaluationFunctions implements EvaluationRepository {
         return true; //DoctorNotes::updateOrCreate(['visit' => $this->visit], $this->input);
     }
 
-    public function save_eye_exam() {
+    public function save_eye_exam()
+    {
         foreach ($this->request->option as $key => $exam) {
             $eye = EyeExam::firstOrCreate(['option' => $exam, 'visit' => $this->request->visit]);
             $eye->od = $this->request->od[$key];
@@ -360,7 +372,8 @@ class EvaluationFunctions implements EvaluationRepository {
         return true;
     }
 
-    public function save_drawings() {
+    public function save_drawings()
+    {
         $drawing = Drawings::findOrNew($this->request->visit);
         $drawing->object = serialize($this->request->objects);
         $drawing->user = $this->request->user()->id;
@@ -368,7 +381,7 @@ class EvaluationFunctions implements EvaluationRepository {
         if ($this->request->hasFile('image')) {
             $image = Image::make($this->request->file('image')->getRealPath());
             $_encode = $image/* ->fit(160, 160) */
-                    ->encode('jpg');
+            ->encode('jpg');
             $stream = $_encode->stream();
             $drawing->background = base64_encode($stream);
         }
@@ -381,11 +394,12 @@ class EvaluationFunctions implements EvaluationRepository {
      * @param $place
      * @return bool
      */
-    private function check_in_at($place) {
+    private function check_in_at($place)
+    {
         $department = $place;
         $destination = NULL;
         if (intval($place) > 0) {
-            $destination = (int) $department;
+            $destination = (int)$department;
             $department = 'doctor';
         }
         $destinations = VisitDestinations::firstOrNew(['visit' => $this->visit, 'department' => ucwords($department)]);
@@ -398,7 +412,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * Save diagnosis
      * @return array
      */
-    public function save_diagnosis() {
+    public function save_diagnosis()
+    {
         DB::transaction(function () {
             foreach ($this->__get_selected_stack() as $treatment) {
                // dd($treatment);
@@ -434,7 +449,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * @param
      * @return bool
      */
-    public function save_prescriptions() {
+    public function save_prescriptions()
+    {
         if (empty($this->request->drug)) {
             return false;
         }
@@ -447,7 +463,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * Save diagnosis
      * @return array
      */
-    public function dispense() {
+    public function dispense()
+    {
         //dd($this->request);
         $dis = new Dispensing;
         $dis->visit = $this->request->visit;
@@ -455,7 +472,7 @@ class EvaluationFunctions implements EvaluationRepository {
         $dis->save();
         $amount = 0;
         $prescription = null;
-        foreach ($this->__get_selected_stack() as $index) {
+        foreach ($this->_get_selected_stack() as $index) {
             $item = 'item' . $index;
             if ($this->request->$item == 'on') {
                 $drug = 'drug' . $index;
@@ -491,11 +508,11 @@ class EvaluationFunctions implements EvaluationRepository {
         // } catch (\Exception $ex) {
         //
        // }
-
         return true;
     }
 
-    public function updatePresc($id) {
+    public function updatePresc($id)
+    {
         $presc = Prescriptions::find($id);
         $presc->status = 1;
         $presc->save();
@@ -505,16 +522,17 @@ class EvaluationFunctions implements EvaluationRepository {
      * Save the op notes
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function save_opnotes() {
+    public function save_opnotes()
+    {
         return OpNotes::updateOrCreate(['visit' => $this->visit], [
-                    'implants' => $this->request->implants,
-                    'surgery_indication' => $this->request->surgery_indication,
-                    'postop' => $this->request->postop,
-                    'date' => new Date($this->request->date . ' ' . $this->request->time),
-                    'doctor' => $this->request->doctor,
-                    'indication' => $this->request->indication,
-                    'user' => $this->user,
-                    'visit' => $this->visit
+            'implants' => $this->request->implants,
+            'surgery_indication' => $this->request->surgery_indication,
+            'postop' => $this->request->postop,
+            'date' => new Date($this->request->date . ' ' . $this->request->time),
+            'doctor' => $this->request->doctor,
+            'indication' => $this->request->indication,
+            'user' => $this->user,
+            'visit' => $this->visit
         ]);
     }
 
@@ -616,7 +634,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * Set manual visit date especially for back-dating
      * @return bool
      */
-    public function set_visit_date() {
+    public function set_visit_date()
+    {
         $visit = Visit::find($this->request->visit);
         $visit->created_at = $this->request->visit_date;
         return $visit->save();
@@ -626,7 +645,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * Update visit meta.inf
      * @return bool
      */
-    public function update_visit_meta() {
+    public function update_visit_meta()
+    {
         $meta = VisitMeta::findOrNew($this->request->visit);
         $meta->user = $this->request->user;
         $meta->visit = $this->request->visit;
@@ -648,7 +668,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * @param VisitMeta $meta
      * @return bool
      */
-    public function book_for_theatre(VisitMeta $meta) {
+    public function book_for_theatre(VisitMeta $meta)
+    {
         $object = [
             'title' => 'Book patient for theatre',
             'message' => 'Book ' . $meta->visits->patients->fullname . ' to thetre',
@@ -666,7 +687,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * @return bool
      * @deprecated Use checkout_patient instead
      */
-    public function checkout($data = null) {
+    public function checkout($data = null)
+    {
         $section = null;
         if ($this->request->ajax()) {
             $id = $this->request->id;
@@ -684,7 +706,8 @@ class EvaluationFunctions implements EvaluationRepository {
         return $destination->update();
     }
 
-    public function checkout_patient() {
+    public function checkout_patient()
+    {
         return VisitDestinations::updateOrCreate(['visit' => $this->request->id, 'department' => $this->request->from], ['checkout' => true, 'finish_at' => Date::now()]);
     }
 
@@ -692,7 +715,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * Saves a new procedure category model. Updates a model if ID is supplied in param
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function add_procedure_category() {
+    public function add_procedure_category()
+    {
         return ProcedureCategories::updateOrCreate(['id' => $this->id], $this->input);
     }
 
@@ -700,7 +724,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * Save procedure model instance
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function add_procedure() {
+    public function add_procedure()
+    {
         DB::transaction(function () {
             $stack = self::order_item_stack(array_keys($this->request->all()));
             if ($this->request->id == "") {
@@ -778,7 +803,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * @param $keys
      * @return array
      */
-    private function order_item_stack($keys) {
+    private function order_item_stack($keys)
+    {
         $stack = [];
         foreach ($keys as $one) {
             if (substr($one, 0, 4) == 'item') {
@@ -793,8 +819,9 @@ class EvaluationFunctions implements EvaluationRepository {
      * @param $type
      * @return bool
      */
-    public function order_evaluation($type) {
-        foreach ($this->__get_selected_stack() as $index) {
+    public function order_evaluation($type)
+    {
+        foreach ($this->_get_selected_stack() as $index) {
             $item = 'item' . $index;
             $price = 'price' . $index;
             $discount = 'discount' . $index;
@@ -836,12 +863,13 @@ class EvaluationFunctions implements EvaluationRepository {
      * Record preliminary eye examination
      * @return bool
      */
-    public function save_preliminary_eye() {
+    public function save_preliminary_eye()
+    {
         foreach ($this->input['entity'] as $key => $entity) {
             Preliminary::updateOrCreate(
-                    [
-                'entity' => $entity, 'visit' => $this->visit], ['left' => $this->input['left'][$key] ? : 0,
-                'right' => $this->input['right'][$key] ? : 0,
+                [
+                    'entity' => $entity, 'visit' => $this->visit], ['left' => $this->input['left'][$key] ?: 0,
+                'right' => $this->input['right'][$key] ?: 0,
                 'user' => $this->user, 'remarks' => str_random()]);
         }
         return true;
@@ -851,7 +879,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * Build an index of items dynamically
      * @return array
      */
-    private function __get_selected_stack() {
+    private function _get_selected_stack()
+    {
         $stack = [];
         foreach ($this->input as $key => $one) {
             if (starts_with($key, 'item')) {
@@ -867,7 +896,8 @@ class EvaluationFunctions implements EvaluationRepository {
      * @param int|null $id
      * @return bool
      */
-    public function SavePartnerInstitution() {
+    public function SavePartnerInstitution()
+    {
         $partner = \Ignite\Evaluation\Entities\PartnerInstitution::findOrNew($this->request->id);
         $partner->name = ucfirst($this->request->name);
         $partner->address = $this->request->address;
