@@ -174,6 +174,10 @@ return [
         'normal_melitus'=>'Normal Melitus',
         'igt'=>'IGT',
         'ifg'=>'IFG',
+        'normal_mild_decrease'=>'Normal/Mild Decrease',
+        'moderate_decrease'=>'Moderate Decrease',
+        'severe_decrease'=>'Severe Decrease',
+        'esrd'=>'ESRD',
     ],
     'prescription_whereto' => [
         1 => 'Per Oris',
