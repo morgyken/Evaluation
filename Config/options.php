@@ -110,12 +110,13 @@ return [
         '>=' => 'Greater Than or Equal',
     ],
     'critical_value_types' => [
-        '=' => 'Equal',
-        '<' => 'Less than',
-        '>' => 'Greater than',
+        '=' => 'Equal (=)',
+        '<' => 'Less Than (<)',
+        '>' => 'Greater Than (>)',
         '<=' => 'Less than or Equal',
         '>=' => 'Greater than or Equal',
         'range' => 'Range',
+        'other' => 'Other',
     ],
     'applies_to' => [
         1 => 'Doctor',
