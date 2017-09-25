@@ -70,8 +70,9 @@ $(function () {
         save_vitals();
     });
     function save_vitals() {
+        //alert(VITALS_URL);
         $.ajax({type: "POST",
-            url: "/api/evaluation/auto_save_vitals",
+            url: VITALS_URL,
             data: $('#vitals_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Vitals saved');
