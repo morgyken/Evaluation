@@ -63,7 +63,7 @@ class SidebarExtender implements Panda {
 
                 $item->item('Nursing Queue', function (Item $item) {
                     $item->icon('fa fa-wheelchair');
-                    $item->route('evaluation.queues', 'nurse');
+                    $item->route('evaluation.queues', 'nursing');
                     $item->authorize($this->auth->hasAccess('evaluation.examination.preliminary'));
                 });
 
