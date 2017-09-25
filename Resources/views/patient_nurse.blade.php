@@ -67,5 +67,5 @@ extract($data);
     var OPNOTES_URL = "{{route('api.evaluation.save_opnotes')}}";
     var DRAWINGS_URL = "{{route('api.evaluation.save_drawings')}}";
 </script>
-<script src="{{m_asset('evaluation:js/doctor_evaluation.min.js')}}"></script>
+<script src="{{m_asset('evaluation:js/nurse-vitals.js')}}"></script>
 @endsection
