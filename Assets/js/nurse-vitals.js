@@ -71,7 +71,7 @@ $(function () {
     });
     function save_vitals() {
         $.ajax({type: "POST",
-            url: "/inpatient/manage/vitals",
+            url: "/api/evaluation/auto_save_vitals",
             data: $('#vitals_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Vitals saved');
