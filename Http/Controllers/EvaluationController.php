@@ -96,7 +96,7 @@ class EvaluationController extends AdminBaseController {
         }
 
 
-        try {
+        //try {
             $this->data['all'] = Visit::checkedAt('diagnostics')->get();
             $this->data['visit'] = Visit::find($visit);
             $this->data['section'] = $section;
@@ -113,10 +113,10 @@ class EvaluationController extends AdminBaseController {
                     })->get();
             $this->data['investigations'] = \Ignite\Evaluation\Entities\Investigations::whereVisit($visit)->get();
             return view("evaluation::patient_$section", ['data' => $this->data]);
-        } catch (\Exception $ex) {
-            flash('There was a problem evaluating the patient', 'error');
-            return back();
-        }
+//        } catch (\Exception $ex) {
+//            flash('There was a problem evaluating the patient', 'error');
+//            return back();
+//        }
     }
 
     public function pharmacy($id) {
