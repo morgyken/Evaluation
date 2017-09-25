@@ -28,9 +28,6 @@ $meta = get_visit_meta($visit);
                 <div class="checkbox">
                     <label><input type="checkbox" value="1" name="refer_specialist"/> Refer to specialist</label>
                 </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" value="1" name="book_for_doctor"/> Book for Dr. Harold</label>
-                </div>
                 <div class="text-success"> <strong id="next_steps_result"></strong></div>
             </div>
             {!! Form::close()!!}
