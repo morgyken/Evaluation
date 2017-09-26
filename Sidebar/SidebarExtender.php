@@ -46,9 +46,9 @@ class SidebarExtender implements Panda {
                 $item->icon('fa fa-heartbeat');
 
                 if(!m_setting('evaluation.no_nursing')) {
-                    $item->item('Preliminary Examinations', function (Item $item) {
+                    $item->item('Nursing Queue', function (Item $item) {
                         $item->icon('fa fa-wheelchair');
-                        $item->route('evaluation.queues', 'nurse');
+                        $item->route('evaluation.queues', 'nursing');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.preliminary'));
                     });
                 }
@@ -60,12 +60,12 @@ class SidebarExtender implements Panda {
                         $item->authorize($this->auth->hasAccess('evaluation.examination.doctor'));
                     });
                 }
-
-                $item->item('Nursing Queue', function (Item $item) {
-                    $item->icon('fa fa-wheelchair');
-                    $item->route('evaluation.queues', 'nursing');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.preliminary'));
-                });
+//
+//                $item->item('Nursing Queue', function (Item $item) {
+//                    $item->icon('fa fa-wheelchair');
+//                    $item->route('evaluation.queues', 'nursing');
+//                    $item->authorize($this->auth->hasAccess('evaluation.examination.preliminary'));
+//                });
 
                 $item->item('Doctor\'s queue', function (Item $item) {
                     $item->icon('fa fa-wheelchair-alt');
@@ -98,17 +98,17 @@ class SidebarExtender implements Panda {
                 }
 
 
-                  $item->item('Radiology Queue', function (Item $item) {
+                $item->item('Radiology Queue', function (Item $item) {
                   $item->icon('fa fa-braille');
                   $item->route('evaluation.queues', 'radiology');
                   $item->authorize($this->auth->hasAccess('evaluation.examination.radiology'));
-                  });
+                });
 
-                  $item->item('Ultrasound Queue', function (Item $item) {
+                $item->item('Ultrasound Queue', function (Item $item) {
                   $item->icon('fa fa-qrcode');
                   $item->route('evaluation.queues', 'ultrasound');
                   $item->authorize($this->auth->hasAccess('evaluation.examination.ultrasound'));
-                  });
+                });
 
                   /*
                   $item->item('Diagnostics Queue', function (Item $item) {
