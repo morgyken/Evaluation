@@ -11,20 +11,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $admission_id
  * @property int|null $visit_id
  * @property int|null $doctor_id
- * @property string $type
- * @property string $DischargeNote
- * @property string|null $dateofdeath
- * @property string|null $timeofdeath
+ * @property int $discharge_notes_id
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Discharge whereAdmissionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Discharge whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Discharge whereDateofdeath($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Discharge whereDischargeNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Discharge whereDischargeNotesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Discharge whereDoctorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Discharge whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Discharge whereTimeofdeath($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Discharge whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Discharge whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Discharge whereVisitId($value)
  * @mixin \Eloquent
