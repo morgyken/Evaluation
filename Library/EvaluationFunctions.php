@@ -446,6 +446,20 @@ class EvaluationFunctions implements EvaluationRepository
     }
 
     /**
+     * Build an index of items dynamically
+     * @return array
+     */
+    private function __get_selected_stack() {
+        $stack = [];
+        foreach ($this->input as $key => $one) {
+            if (starts_with($key, 'item')) {
+                $stack[] = substr($key, 4);
+            }
+        }
+        return $stack;
+    }
+
+    /**
      * @param
      * @return bool
      */
