@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
  * Ignite\Evaluation\Entities\Bed
  *
  * @property int $id
+ * @property int $type
  * @property string $number
- * @property string $type
  * @property string $status
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
