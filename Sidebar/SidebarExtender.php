@@ -69,6 +69,15 @@ class SidebarExtender implements Panda {
                     });
                 }
 
+                if(!m_setting('evaluation.no_optical')) {
+                    $item->item('Optical Queue', function (Item $item) {
+                        $item->icon('fa fa-eye');
+                        $item->route('evaluation.queues', 'optical');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.optical'));
+                    });
+                }
+
+
                 if(!m_setting('evaluation.no_radiology')) {
                     $item->item('Radiology Queue', function (Item $item) {
                         $item->icon('fa fa-camera-retro');

@@ -82,6 +82,9 @@ if (!function_exists('get_procedures_for')) {
             case 'dental':
                 $to_fetch = 10;
                 break;
+            case 'optical':
+                $to_fetch = 11;
+                break;
             case 'all':
                 $to_fetch = 'all';
             case 'inpatient':

@@ -400,6 +400,7 @@ class ProceduresTableSeeder extends Seeder {
             ['name' => 'BETA - 2 -MICROGLOBULIN (Serum)', 'code' => 'B0031', 'cash_charge' => '2800.00'],
             ['name' => 'Surgery', 'code' => 'DSAFDAS45', 'cash_charge' => '330.00']
         ];
+
         $procedure_categories = [
             1 => ['name' => 'Doctor', 'applies_to' => 1],
             2 => ['name' => 'Evaluation', 'applies_to' => 1],
@@ -410,8 +411,10 @@ class ProceduresTableSeeder extends Seeder {
             7 => ['name' => 'UltraSound', 'applies_to' => 6],
             8 => ['name' => 'Diagnostics', 'applies_to' => 7],
             9 => ['name' => 'Theatre', 'applies_to' => 8],
-            9 => ['name' => 'Physiotherapy', 'applies_to' => 9],
-            10=> ['name' => 'inpatient','applies_to'=>9],
+            10 => ['name' => 'Physiotherapy', 'applies_to' => 9],
+            11=> ['name' => 'Dental','applies_to'=>10],
+            12=> ['name' => 'Optical','applies_to'=>11],
+            13=> ['name' => 'inpatient','applies_to'=>9],
         ];
 
         DB::transaction(function() use ($procedure_categories, $procedures) {
@@ -433,7 +436,6 @@ class ProceduresTableSeeder extends Seeder {
                 $p->category = $faker->randomElement(array_keys($procedure_categories));
                 $p->cash_charge = $procedure['cash_charge'];
                 $p->charge_insurance = $faker->randomElement([true, false]);
-                //dd($p);
                 if (!empty($p->code)) {
                     $p->save();
                 }
