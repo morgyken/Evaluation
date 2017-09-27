@@ -77,7 +77,6 @@ class SidebarExtender implements Panda {
                     });
                 }
 
-
                 if(!m_setting('evaluation.no_radiology')) {
                     $item->item('Radiology Queue', function (Item $item) {
                         $item->icon('fa fa-camera-retro');
@@ -142,11 +141,6 @@ class SidebarExtender implements Panda {
             });
             try{
                 if(\Auth::user()->ex){
-//                $group->item('External Doctor', function (Item $item) {
-//                    $item->weight(2);
-//                    $item->authorize($this->auth->hasAccess('external.*'));
-//                    $item->icon('fa fa-handshake-o');
-
                     $group->item('New Patient', function (Item $item) {
                         $item->icon('fa fa-plus');
                         $item->route('reception.add_patient');
@@ -170,7 +164,6 @@ class SidebarExtender implements Panda {
                         $item->route('evaluation.exdoctor.p_results');
                         //$item->authorize($this->auth->hasAccess('evaluation.external'));
                     });
-//                });
                 }
             }catch (\Exception $e){
 
@@ -235,6 +228,13 @@ class SidebarExtender implements Panda {
                         $item->icon('fa fa-paperclip');
                         //$item->color('red');
                         $item->route('evaluation.setup.range_types');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+
+                    $item->item('Critical Values', function(Item $item) {
+                        $item->icon('fa fa-exclamation-circle');
+                        $item->route('evaluation.setup.critical_values');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });
