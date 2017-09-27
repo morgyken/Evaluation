@@ -47,7 +47,7 @@ class SidebarExtender implements Panda {
 
                 if(!m_setting('evaluation.no_nursing')) {
                     $item->item('Nursing Queue', function (Item $item) {
-                        $item->icon('fa fa-wheelchair');
+                        $item->icon('fa fa-stethoscope');
                         $item->route('evaluation.queues', 'nursing');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.preliminary'));
                     });
@@ -55,39 +55,43 @@ class SidebarExtender implements Panda {
 
                 if(!m_setting('evaluation.no_doctor')){
                     $item->item('Doctor\'s queue', function (Item $item) {
-                        $item->icon('fa fa-wheelchair-alt');
+                        $item->icon('fa fa-user-md');
                         $item->route('evaluation.queues', 'doctor');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.doctor'));
                     });
                 }
-//
-//                $item->item('Nursing Queue', function (Item $item) {
-//                    $item->icon('fa fa-wheelchair');
-//                    $item->route('evaluation.queues', 'nursing');
-//                    $item->authorize($this->auth->hasAccess('evaluation.examination.preliminary'));
-//                });
 
-                $item->item('Doctor\'s queue', function (Item $item) {
-                    $item->icon('fa fa-wheelchair-alt');
-                    $item->route('evaluation.queues', 'doctor');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.doctor'));
-                });
-                $item->item('Radiology Queue', function (Item $item) {
-                    $item->icon('fa fa-braille');
-                    $item->route('evaluation.queues', 'radiology');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.radiology'));
-                });
-                $item->item('Diagnostics Queue', function (Item $item) {
-                    $item->icon('fa fa-hotel');
-                    $item->route('evaluation.queues', 'diagnostics');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.diagnostics'));
-                });
+                if(!m_setting('evaluation.no_dental')) {
+                    $item->item('Dental Queue', function (Item $item) {
+                        $item->icon('fa fa-smile-o');
+                        $item->route('evaluation.queues', 'dental');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.dental'));
+                    });
+                }
 
-                $item->item('Laboratory Queue', function (Item $item) {
-                    $item->icon('fa fa-diamond');
-                    $item->route('evaluation.queues', 'laboratory');
-                    $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
-                });
+                if(!m_setting('evaluation.no_radiology')) {
+                    $item->item('Radiology Queue', function (Item $item) {
+                        $item->icon('fa fa-camera-retro');
+                        $item->route('evaluation.queues', 'radiology');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.radiology'));
+                    });
+                }
+
+                if(!m_setting('evaluation.no_diagnostics')) {
+                    $item->item('Diagnostics Queue', function (Item $item) {
+                        $item->icon('fa fa-medkit');
+                        $item->route('evaluation.queues', 'diagnostics');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.diagnostics'));
+                    });
+                }
+
+                if(!m_setting('evaluation.no_laboratory')) {
+                    $item->item('Laboratory Queue', function (Item $item) {
+                        $item->icon('fa fa-diamond');
+                        $item->route('evaluation.queues', 'laboratory');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                    });
+                }
 
                 if(!m_setting('evaluation.no_pharmacy')) {
                     $item->item('Pharmacy Queue', function (Item $item) {
@@ -97,43 +101,30 @@ class SidebarExtender implements Panda {
                     });
                 }
 
+                if(!m_setting('evaluation.no_ultrasound')) {
+                    $item->item('Ultrasound Queue', function (Item $item) {
+                        $item->icon('fa fa-qrcode');
+                        $item->route('evaluation.queues', 'ultrasound');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.ultrasound'));
+                    });
+                }
 
-                $item->item('Radiology Queue', function (Item $item) {
-                  $item->icon('fa fa-braille');
-                  $item->route('evaluation.queues', 'radiology');
-                  $item->authorize($this->auth->hasAccess('evaluation.examination.radiology'));
-                });
+                if(!m_setting('evaluation.no_theatre')) {
+                    $item->item('Theatre Queue', function (Item $item) {
+                        $item->icon('fa fa-heartbeat');
+                        $item->route('evaluation.queues', 'theatre');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.theatre'));
+                    });
+                }
 
-                $item->item('Ultrasound Queue', function (Item $item) {
-                  $item->icon('fa fa-qrcode');
-                  $item->route('evaluation.queues', 'ultrasound');
-                  $item->authorize($this->auth->hasAccess('evaluation.examination.ultrasound'));
-                });
+                if(!m_setting('evaluation.no_physiotherapy')) {
+                    $item->item('Physiotherapy Queue', function (Item $item) {
+                        $item->icon('fa fa-openid');
+                        $item->route('evaluation.queues', 'physio');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.physio'));
+                    });
+                }
 
-                  /*
-                  $item->item('Diagnostics Queue', function (Item $item) {
-                  $item->icon('fa fa-hotel');
-                  $item->route('evaluation.queues', 'diagnostics');
-                  $item->authorize($this->auth->hasAccess('evaluation.examination.diagnostics'));
-                  });
-
-                  $item->item('Theatre Queue', function (Item $item) {
-                  $item->icon('fa fa-heartbeat');
-                  $item->route('evaluation.queues', 'theatre');
-                  $item->authorize($this->auth->hasAccess('evaluation.examination.theatre'));
-                  });
-                  $item->item('Pharmacy Queue', function (Item $item) {
-                  $item->icon('fa fa-tablet');
-                  $item->route('evaluation.queues', 'pharmacy');
-                  $item->authorize($this->auth->hasAccess('evaluation.examination.pharmacy'));
-                  });
-                  $item->item('Physiotherapy Queue', function (Item $item) {
-                  $item->icon('fa fa-openid');
-                  $item->route('evaluation.queues', 'physio');
-                  $item->authorize($this->auth->hasAccess('evaluation.examination.physio'));
-                  });
-                 *
-                 */
                 $item->item('Review Visits', function (Item $item) {
                     $item->icon('fa fa-deaf');
                     $item->route('evaluation.review');
@@ -175,33 +166,6 @@ class SidebarExtender implements Panda {
             }catch (\Exception $e){
 
             }
-
-            // $group->item('In Patient Management', function(Item $item) {
-            //     $item->icon('fa fa-hospital-o');
-            //     //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-            //     $item->weight(4);
-            //     //there should be a way of adding wards and listing them
-
-            //     $item->item('Awaiting admission', function(Item $item) {
-            //         $item->icon('fa fa-user-plus');
-            //         $item->route('evaluation.inpatient.admit');
-            //         //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-            //         $item->weight(4);
-            //     });
-            //     $item->item('Patient Management', function(Item $item) {
-            //         $item->icon('fa fa-users');
-            //         $item->url('/evaluation/inpatient/admissions');
-            //         //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-            //         $item->weight(4);
-            //     });
-            //     //patients waiting admissions
-            //     $item->item('Requested Discharge ', function(Item $item) {
-            //         $item->icon('fa fa-exclamation-circle');
-            //         $item->url('/evaluation/inpatient/request_discharge');
-            //         //$item->authorize($this->auth->hasAccess('evaluation.settings.admit_patient'));
-            //         $item->weight(4);
-            //     });
-            // });
 
             $group->item('Setup', function (Item $item) {
                 $item->item('Procedure Categories', function(Item $item) {
@@ -309,33 +273,6 @@ class SidebarExtender implements Panda {
                     $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                     $item->weight(4);
                 });
-                /*
-                  $item->item('Laboratory', function(Item $item) {
-                  $item->icon('fa fa-flask');
-                  $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
-               /*
-                  $item->item('Sub-Procedures', function(Item $item) {
-                  $item->icon('fa fa-tree');
-                  $item->route('evaluation.setup.subprocedures', 'procedures');
-                  $item->authorize($this->auth->hasAccess('evaluation.settings.procedures'));
-                  $item->weight(4);
-
-                  $item->item('Test Categories', function(Item $item) {
-                  $item->icon('fa fa-copyright');
-                  $item->route('evaluation.setup.test.categories', 'partners');
-                  $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
-                  $item->weight(4);
-                  });
-
-                  $item->item('Test Titles', function(Item $item) {
-                  $item->icon('fa fa-bars');
-                  $item->route('evaluation.setup.test.titles', 'partners');
-                  $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
-                  $item->weight(4);
-                  });
-                  });
-                 *
-                 */
             });
         });
         return $menu;

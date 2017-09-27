@@ -77,15 +77,19 @@ class Pacs
      */
     private function getPatientIdentifier()
     {
-        $url = $this->base_path . '/tools/lookup';
-        $content = Curl::to($url)
-            ->returnResponseObject()
-            ->asJsonResponse()
-            ->withData($this->_id)->post();
-        if (empty($content)) {
-            return false;
+        try{
+            $url = $this->base_path . '/tools/lookup';
+            $content = Curl::to($url)
+                ->returnResponseObject()
+                ->asJsonResponse()
+                ->withData($this->_id)->post();
+            if (empty($content)) {
+                return false;
+            }
+            return $content->content[0];
+        }catch (\Exception $e){
+            return null;
         }
-        return $content->content[0];
     }
 
 }

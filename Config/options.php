@@ -128,6 +128,7 @@ return [
         7 => 'Diagnostics',
         8 => 'Theatre',
         9 => 'Physiotherapy',
+        10 => 'Dental',
     ],
     'visit_status' => [
         1 => 'Scheduled',

@@ -79,6 +79,9 @@ if (!function_exists('get_procedures_for')) {
             case 'ultrasound':
                 $to_fetch = 6;
                 break;
+            case 'dental':
+                $to_fetch = 10;
+                break;
             case 'all':
                 $to_fetch = 'all';
             case 'inpatient':
