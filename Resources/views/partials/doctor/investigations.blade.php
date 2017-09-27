@@ -17,13 +17,25 @@ $performed_radio = get_investigations($visit, ['radiology']);
                     <div class="investigation_item">
                         @include('evaluation::partials.doctor.investigations-diagnostics')
                     </div>
+
+
                     <h4>Laboratory</h4>
                     <div class="investigation_item">
-                        @include('evaluation::partials.doctor.investigations-laboratory')
+                        @if(!m_setting('evaluation.no_laboratory'))
+                            @include('evaluation::partials.doctor.investigations-laboratory')
+                        @else
+                            <h4>Lab Evaluation has been disabled</h4>
+                        @endif
                     </div>
+
+
                     <h4>Radiology</h4>
                     <div class="investigation_item">
-                        @include('evaluation::partials.doctor.radiology')
+                        @if(!m_setting('evaluation.no_radiology'))
+                            @include('evaluation::partials.doctor.radiology')
+                        @else
+                            <h4>Radiology Evaluation has been disabled</h4>
+                        @endif
                     </div>
                 </div>
             </div>

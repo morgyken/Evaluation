@@ -21,6 +21,7 @@ return [
         'physio' => 'Physiotherapy Queue',
         'review' => 'Review patient information',
         'ultrasound' => 'Ultrasound Evaluation',
+        'dental' => 'Dental Evaluation',
     ],
     'evaluation.settings' => [
         'procedure_categories' => 'View procedures categories',
