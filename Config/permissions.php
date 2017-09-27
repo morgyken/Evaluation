@@ -22,6 +22,7 @@ return [
         'review' => 'Review patient information',
         'ultrasound' => 'Ultrasound Evaluation',
         'dental' => 'Dental Evaluation',
+        'optical' => 'Optical Queue',
     ],
     'evaluation.settings' => [
         'procedure_categories' => 'View procedures categories',
