@@ -50,24 +50,43 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                 </tr>
                 @endforeach
                 @else
-                @foreach($myq as $item)
-                @foreach($item->visits as $visit)
-                <tr id="row_id{{$visit->id}}">
-                    <td>{{$n+=1}}</td>
-                    <td>{{$visit->patients->full_name}}</td>
-                    <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
-                    <td>{{$visit->visit_destination}}</td>
-                    <td>{{$visit->doctor}}</td>
-                    <td>
-                        <a href="{{route('evaluation.preview',[$visit->id,$section])}}" class="btn btn-xs btn-primary">
-                            <i class="fa fa-ellipsis-h"></i> Manage</a>
+                    @if(m_setting('evaluation.doctor_see_all'))
+                        @foreach($all as $visit)
+                            <tr id="row_id{{$visit->id}}">
+                                <td>{{$n+=1}}</td>
+                                <td>{{$visit->patients?$visit->patients->full_name:'-'}}</td>
+                                <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
+                                <td>{{$visit->visit_destination}}</td>
+                                <td>{{$visit->doctor}}</td>
+                                <td>
+                                    <a href="{{route('evaluation.preview',[$visit->id,$section])}}" class="btn btn-xs btn-primary">
+                                        <i class="fa fa-ellipsis-h"></i> Manage</a>
 
-                        <button value='{{$visit->id}}' class="btn btn-warning btn-xs checkout">
-                            <i class="fa fa-sign-out"></i> Checkout</button>
-                    </td>
-                </tr>
-                @endforeach
-                @endforeach
+                                    <button value='{{$visit->id}}' class="btn btn-warning btn-xs checkout">
+                                        <i class="fa fa-sign-out"></i> Checkout</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        @foreach($myq as $item)
+                            @foreach($item->visits as $visit)
+                                <tr id="row_id{{$visit->id}}">
+                                    <td>{{$n+=1}}</td>
+                                    <td>{{$visit->patients->full_name}}</td>
+                                    <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
+                                    <td>{{$visit->visit_destination}}</td>
+                                    <td>{{$visit->doctor}}</td>
+                                    <td>
+                                        <a href="{{route('evaluation.preview',[$visit->id,$section])}}" class="btn btn-xs btn-primary">
+                                            <i class="fa fa-ellipsis-h"></i> Manage</a>
+
+                                        <button value='{{$visit->id}}' class="btn btn-warning btn-xs checkout">
+                                            <i class="fa fa-sign-out"></i> Checkout</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endforeach
+                    @endif
                 @endif
             </tbody>
             <thead>
