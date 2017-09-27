@@ -21,7 +21,7 @@ try {
                 <div>
                     <ul class="accordion-header single-btn">
                         <li class="title"><b>{{$patient->full_name}}</b> ({{ $patient->dob->age }} yrs old)
-                        </li>
+                            <code>Payment Mode: {{$visit->mode}}</code></li>
                         <li class="options">
                                 <span class="input-group-btn">
                                     <a role="button" data-toggle="collapse" data-parent="#accordion"

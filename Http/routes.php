@@ -1,10 +1,8 @@
 <?php
 
-use Ignite\Core\Contracts\Authentication;
 use Illuminate\Routing\Router;
 
-/*In patient*/
-//admit a patient
+/** @var Router $router */
 $router->group(['prefix' => 'inpatient', 'as' => 'inpatient.'], function (Router $router) {
     $router->get('admit',['uses' => 'EvaluationController@admit', 'as' => 'admit']);
     $router->get('admit/{patient_id}/{visit_id}',['uses' => 'EvaluationController@admit_patient']);
