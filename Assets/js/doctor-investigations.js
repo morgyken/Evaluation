@@ -20,15 +20,7 @@ $(function () {
     });
 
 
-    $('#diagnosis_form input:text').keyup(function () {
-        show_selection_investigation();
-    });
-
-    $('#laboratory_form input:text').keyup(function () {
-        show_selection_investigation();
-    });
-
-    $('#radiology_form input:text').keyup(function () {
+    $('#diagnosis_form,#laboratory_form,#radiology_form ').find('input:text').keyup(function () {
         show_selection_investigation();
     });
 
@@ -47,6 +39,7 @@ $(function () {
         $(this).prop('disabled', false);
         show_selection_investigation();
     });
+
     function show_selection_investigation() {
         $('#show_selection').hide();
         $('#diagnosisInfo > tbody > tr').remove();
@@ -86,9 +79,11 @@ $(function () {
          save_lab_tests();
          */
     }
+
     $('#saveDiagnosis').click(function (e) {
         e.preventDefault();
-        $.ajax({type: "POST",
+        $.ajax({
+            type: "POST",
             url: DIAGNOSIS_URL,
             data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
             success: function () {
