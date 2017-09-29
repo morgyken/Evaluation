@@ -39,6 +39,7 @@ use Ignite\Finance\Entities\InsuranceInvoice;
  * @property-read mixed $doctor
  * @property-read mixed $doctor_i_d
  * @property-read mixed $mode
+ * @property-read mixed $place
  * @property-read mixed $signed_out
  * @property-read mixed $total_bill
  * @property-read mixed $unpaid_amount
@@ -73,101 +74,119 @@ use Ignite\Finance\Entities\InsuranceInvoice;
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit withoutTrashed()
  * @mixin \Eloquent
  */
-class Visit extends Model {
+class Visit extends Model
+{
 
     use SoftDeletes;
 
     public $table = 'evaluation_visits';
-    protected $fillable = ['inpatient','clinic','patient','purpose','external_doctor','user',
-    'payment_mode','scheme','next_appointment','status'];
+    protected $fillable = ['inpatient', 'clinic', 'patient', 'purpose', 'external_doctor', 'user',
+        'payment_mode', 'scheme', 'next_appointment', 'status'];
 
-    public function getUnpaidAmountAttribute() {
+    public function getUnpaidAmountAttribute()
+    {
         $amount = 0;
-        $amount+= $this->dispensing->where('payment_status', 0)->sum('amount');
-        $amount+= $this->investigations->where('is_paid', 0)->sum('price');
+        $amount += $this->dispensing->where('payment_status', 0)->sum('amount');
+        $amount += $this->investigations->where('is_paid', 0)->sum('price');
         return $amount;
     }
 
-    public function getVisitDestinationAttribute() {
+    public function getVisitDestinationAttribute()
+    {
         return implode(' | ', $this->destinations->pluck('department')->toArray());
     }
 
-    public function getSignedOutAttribute() {
+    public function getSignedOutAttribute()
+    {
         return empty($this->visit_destination);
     }
 
-    public function scopeCheckedAt($query, $destination) {
-        return $query->whereHas('destinations', function($query) use ($destination) {
-                    $query->whereDepartment($destination);
-                    $query->whereCheckout(0);
-                });
+    public function scopeCheckedAt($query, $destination)
+    {
+        return $query->whereHas('destinations', function ($query) use ($destination) {
+            $query->whereDepartment($destination);
+            $query->whereCheckout(0);
+        });
     }
 
-    public function getModeAttribute() {
+    public function getModeAttribute()
+    {
         if ($this->payment_mode == 'insurance') {
 
-try{
-     return ucfirst($this->payment_mode) . " | " .
+            try {
+                return ucfirst($this->payment_mode) . " | " .
                     $this->patient_scheme->schemes->companies->name . " | " .
-                    $this->patient_scheme->schemes->name; 
-}
-catch(\Exception $exc){
-     return ($this->payment_mode);
-}
-           
+                    $this->patient_scheme->schemes->name;
+            } catch (\Exception $exc) {
+                return ($this->payment_mode);
+            }
+
         }
         return ucfirst($this->payment_mode);
     }
 
-    public function getTotalBillAttribute() {
+    public function getTotalBillAttribute()
+    {
         return $this->investigations->sum('price');
     }
 
-    public function clinics() {
+    public function clinics()
+    {
         return $this->belongsTo(Clinics::class, 'clinic');
     }
 
-    public function patients() {
+    public function patients()
+    {
         return $this->belongsTo(Patients::class, 'patient');
     }
 
-    public function vitals() {
+    public function vitals()
+    {
         return $this->hasOne(Vitals::class, 'visit');
     }
 
-    public function notes() {
+    public function notes()
+    {
         return $this->hasOne(DoctorNotes::class, 'visit');
     }
 
-    public function drawings() {
+    public function drawings()
+    {
         return $this->hasOne(Drawings::class, 'visit');
     }
 
-    public function prescriptions() {
+    public function prescriptions()
+    {
         return $this->hasMany(Prescriptions::class, 'visit');
     }
 
-    public function investigations() {
+    public function investigations()
+    {
         return $this->hasMany(Investigations::class, 'visit');
     }
 
-    public function dispensing() {
+    public function dispensing()
+    {
         return $this->hasMany(Dispensing::class, 'visit');
     }
 
-    public function opnotes() {
+    public function opnotes()
+    {
         return $this->hasOne(OpNotes::class, 'visit');
     }
 
-    public function appointments() {
+    public function appointments()
+    {
         return $this->belongsTo(Appointments::class);
     }
 
-    public function doctors() {
+    public function doctors()
+    {
         return $this->belongsTo(User::class, 'destination');
     }
 
-    public function getDoctorAttribute() {
+    public function getDoctorAttribute()
+    {
         foreach ($this->destinations as $d) {
             if ($d->destination > 0) {
                 return $d->medics->profile->name;
@@ -178,7 +197,8 @@ catch(\Exception $exc){
         //return $doc;
     }
 
-    public function getDoctorIDAttribute() {
+    public function getDoctorIDAttribute()
+    {
         foreach ($this->destinations as $d) {
             if ($d->destination > 0) {
                 return $d->medics->id;
@@ -189,33 +209,58 @@ catch(\Exception $exc){
         //return $doc;
     }
 
-    public function patient_scheme() {
+    public function patient_scheme()
+    {
         return $this->belongsTo(PatientInsurance::class, 'scheme');
     }
 
-    public function requesting_institutions() {
+    public function requesting_institutions()
+    {
         return $this->belongsTo(PartnerInstitution::class, 'requesting_institution');
     }
 
-    public function metas() {
+    public function metas()
+    {
         return $this->hasOne(VisitMeta::class, 'visit');
     }
 
-    public function destinations() {
+    public function destinations()
+    {
         return $this->hasMany(VisitDestinations::class, 'visit');
     }
 
-    public function drug_purchases() {
+    public function drug_purchases()
+    {
         return $this->hasMany(\Ignite\Inventory\Entities\InventoryBatchProductSales::class, 'id', 'visit');
     }
 
-    public function external_doctors() {
+    public function external_doctors()
+    {
         return $this->belongsTo(User::class, 'external_doctor');
     }
 
-    public function insurance_invoices() {
+    public function insurance_invoices()
+    {
         return $this->hasOne(InsuranceInvoice::class, 'visit');
     }
 
+    public function admission()
+    {
+        return $this->hasOne(\Ignite\Inpatient\Entities\Admission::class, 'visit_id');
+    }
 
+    public function getPlaceAttribute()
+    {
+        $p = [];
+        foreach ($this->destinations as $d) {
+            if ($d->destination > 0) {
+                $p[] = /*$d->department . */
+                    $d->medics->profile->name;
+            }
+            if ($d->room) {
+                $p[] = $d->room->name;
+            }
+        }
+        return implode(' , ', $p);
+    }
 }

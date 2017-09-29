@@ -2,6 +2,8 @@
 
 namespace Ignite\Evaluation\Entities;
 
+use Ignite\Settings\Entities\Rooms;
+use Ignite\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -11,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $visit
  * @property int $user
  * @property int|null $destination
+ * @property int|null $room_id
  * @property string $department
  * @property int $checkout
  * @property string|null $begin_at
@@ -19,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Ignite\Users\Entities\User|null $medics
+ * @property-read \Ignite\Settings\Entities\Rooms|null $room
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Visit[] $visits
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereBeginAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereCheckout($value)
@@ -28,22 +32,31 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereDestination($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereFinishAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereRoomId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereUser($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereVisit($value)
  * @mixin \Eloquent
  */
-class VisitDestinations extends Model {
+class VisitDestinations extends Model
+{
 
     public $table = 'evaluation_visit_destinations';
     protected $guarded = [];
 
-    public function visits() {
+    public function visits()
+    {
         return $this->hasMany(Visit::class, 'id', 'visit');
     }
 
-    public function medics() {
-        return $this->belongsTo(\Ignite\Users\Entities\User::class, 'destination');
+    public function medics()
+    {
+        return $this->belongsTo(User::class, 'destination');
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(Rooms::class);
     }
 
 }

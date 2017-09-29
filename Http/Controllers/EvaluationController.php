@@ -3,40 +3,32 @@
 namespace Ignite\Evaluation\Http\Controllers;
 
 use Ignite\Core\Http\Controllers\AdminBaseController;
-use Ignite\Evaluation\Entities\Formula;
-use Ignite\Evaluation\Entities\Prescriptions;
-use Ignite\Evaluation\Entities\Sample;
 use Ignite\Evaluation\Entities\Admission;
 use Ignite\Evaluation\Entities\Bed;
 use Ignite\Evaluation\Entities\Bedposition;
-use Ignite\Evaluation\Entities\NursingCharge;
-use Ignite\Evaluation\Entities\RecurrentCharge;
-use Ignite\Evaluation\Entities\RequestDischarge;
-use Ignite\Evaluation\Entities\Discharge;
-use Ignite\Evaluation\Entities\WardAssigned;
-use Ignite\Evaluation\Entities\DischargeNote;
 use Ignite\Evaluation\Entities\Deposit;
 use Ignite\Evaluation\Entities\FinancePatientAccounts;
+use Ignite\Evaluation\Entities\Formula;
+use Ignite\Evaluation\Entities\InvestigationResult;
+use Ignite\Evaluation\Entities\NursingCharge;
 use Ignite\Evaluation\Entities\Patient_vital;
 use Ignite\Evaluation\Entities\PatientAccount;
+use Ignite\Evaluation\Entities\Prescriptions;
+use Ignite\Evaluation\Entities\Procedures;
 use Ignite\Evaluation\Entities\Request_admission;
 use Ignite\Evaluation\Entities\RequestAdmission;
+use Ignite\Evaluation\Entities\Sample;
 use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\VisitDestinations;
-use Ignite\Evaluation\Entities\Vitals;
 use Ignite\Evaluation\Entities\Ward;
+use Ignite\Evaluation\Entities\WardAssigned;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Reception\Entities\Patients;
-use Ignite\Evaluation\Entities\ExternalOrders;
-use Ignite\Evaluation\Entities\Procedures;
-use Ignite\Users\Entities\Roles;
-use Ignite\Users\Entities\User;
-use Ignite\Users\Entities\UserRoles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Zend\Validator\File\Count;
 
-class EvaluationController extends AdminBaseController {
+class EvaluationController extends AdminBaseController
+{
 
     /**
      * @var EvaluationRepository
@@ -47,20 +39,21 @@ class EvaluationController extends AdminBaseController {
      * EvaluationController constructor.
      * @param EvaluationRepository $evaluationRepository
      */
-    public function __construct(EvaluationRepository $evaluationRepository) {
+    public function __construct(EvaluationRepository $evaluationRepository)
+    {
         parent::__construct();
         $this->evaluationRepository = $evaluationRepository;
         $this->__require_assets();
     }
 
-    public function queues($department) {
+    public function queues($department)
+    {
         $this->data['all'] = Visit::checkedAt($department)
-                ->whereHas('destinations', function($query) {
-                    $query->whereCheckout(0);
-                })
-                ->orderBy('created_at', 'asc')
-                ->get();
-
+            ->whereHas('destinations', function ($query) {
+                $query->whereCheckout(0);
+            })
+            ->orderBy('created_at', 'asc')
+            ->get();
         $this->data['referer'] = \URL::previous();
         $this->data['department'] = ucwords($department);
 
@@ -69,14 +62,15 @@ class EvaluationController extends AdminBaseController {
             $this->data['doc'] = 1;
         }
         $this->data['myq'] = VisitDestinations::whereDestination($user)
-                ->whereCheckout(0)
-                ->oldest()
-                ->get();
-
+            ->orWhereNotNull('room_id')
+            ->whereCheckout(0)
+            ->oldest()
+            ->get();
         return view('evaluation::queues', ['data' => $this->data]);
     }
 
-    public function preview($visit, $department) {
+    public function preview($visit, $department)
+    {
         $this->data['visit'] = Visit::find($visit);
         $this->data['patient'] = $this->data['visit']->patients;
         $this->data['department'] = $department;
@@ -84,7 +78,8 @@ class EvaluationController extends AdminBaseController {
         return view('evaluation::preview', ['data' => $this->data]);
     }
 
-    public function evaluate($visit, $section) {
+    public function evaluate($visit, $section)
+    {
         $this->data['visit'] = Visit::find($visit);
         if (count(Admission::where('visit_id', $visit)->get())) {
             $this->data['status'] = 'admited';
@@ -103,14 +98,18 @@ class EvaluationController extends AdminBaseController {
             $this->data['nursing_procedures'] = Procedures::whereCategory(6)->get();
 
             $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)
-                    ->whereStatus(0)
-                    ->get();
+                ->whereStatus(0)
+                ->get();
             session(['v' => $visit]);
             $this->data['dispensed'] = Prescriptions::whereHas('dispensing', function ($query) {
-                        $query->whereHas('visits', function ($q) {
-                            $q->whereId(\Session::get('v'));
-                        });
-                    })->get();
+
+                $query->whereHas('visits', function ($q) {
+                    $q->whereId(\Session::get('v'));
+                });
+            })->get();
+
+            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
+            //check if has requested for admission
             $this->data['investigations'] = \Ignite\Evaluation\Entities\Investigations::whereVisit($visit)->get();
             return view("evaluation::patient_$section", ['data' => $this->data]);
         } catch (\Exception $ex) {
@@ -119,7 +118,8 @@ class EvaluationController extends AdminBaseController {
         }
     }
 
-    public function pharmacy($id) {
+    public function pharmacy($id)
+    {
         $this->data['visit'] = $v = Visit::find($id);
         $this->data['patient'] = Patients::find($v->patient);
         $this->data['section'] = 'pharmacy';
@@ -128,7 +128,8 @@ class EvaluationController extends AdminBaseController {
         return view('evaluation::patient_pharmacy', ['data' => $this->data]);
     }
 
-    public function labotomy(Request $request) {
+    public function labotomy(Request $request)
+    {
         $sample = new Sample();
         $sample->patient_id = $request->patient;
         $sample->visit_id = $request->visit;
@@ -140,7 +141,8 @@ class EvaluationController extends AdminBaseController {
         return back();
     }
 
-    public function Formulae(Request $request) {
+    public function Formulae(Request $request)
+    {
         foreach ($request->formular as $key => $value) {
             if (!empty($value)) {
                 $formula = new Formula();
@@ -154,11 +156,14 @@ class EvaluationController extends AdminBaseController {
         return back();
     }
 
-    public function labotomy_print() {
+    public function labotomy_print()
+    {
         //return $this->assetManager;
     }
 
-    public function pharmacy_prescription() {
+
+    public function pharmacy_prescription()
+    {
         if ($this->evaluationRepository->save_prescriptions()) {
             flash('Prescription saved');
         } else {
@@ -167,7 +172,8 @@ class EvaluationController extends AdminBaseController {
         return back();
     }
 
-    public function pharmacy_dispense() {
+    public function pharmacy_dispense()
+    {
         if ($this->evaluationRepository->dispense()) {
             flash('Drugs dispensed, thank you', 'success');
         } else {
@@ -176,7 +182,8 @@ class EvaluationController extends AdminBaseController {
         return back();
     }
 
-    public function sign_out(Request $request, $visit_id, $section) {
+    public function sign_out(Request $request, $visit_id, $section)
+    {
         $checkout = $this->evaluationRepository->checkout($request, ['id' => $visit_id, 'from' => $section]);
         if ($checkout) {
             flash('Patient checked out from ' . ucfirst($section));
@@ -190,25 +197,29 @@ class EvaluationController extends AdminBaseController {
         return redirect()->back();
     }
 
-    public function review() {
+    public function review()
+    {
         $this->data['patients'] = Patients::whereHas('visits', function ($query) {
 
-                })->get();
+        })->get();
         return view('evaluation::reviews', ['data' => $this->data]);
     }
 
-    public function review_patient($patient) {
+    public function review_patient($patient)
+    {
         $this->data['visits'] = Visit::wherePatient($patient)->get();
         return view('evaluation::patient_review', ['data' => $this->data]);
     }
 
-    public function patient_visits($id) {
+    public function patient_visits($id)
+    {
         $this->data['visits'] = Visit::wherePatient($id)->get();
         $this->data['patient'] = Patients::find($id);
         return view('evaluation::patient_visits', ['data' => $this->data]);
     }
 
-    public function investigation_result() {
+    public function investigation_result()
+    {
         $story = $this->evaluationRepository->save_results_investigations();
         if ($story) {
             flash('Investigation result posted', 'success');
@@ -218,13 +229,15 @@ class EvaluationController extends AdminBaseController {
         return back();
     }
 
-    public function view_result($visit) {
+    public function view_result($visit)
+    {
         $this->data['visit'] = Visit::find($visit);
         $this->data['results'] = Visit::find($visit)->investigations->where('has_result', true);
         return view('evaluation::partials.doctor.results', ['data' => $this->data]);
     }
 
-    private function __require_assets() {
+    private function __require_assets()
+    {
         $assets = [
             'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations.js'),
             'doctor-treatment.js' => m_asset('evaluation:js/doctor-treatment.js'),
@@ -243,7 +256,8 @@ class EvaluationController extends AdminBaseController {
         }
     }
 
-    public function cancelPresc(Request $request) {
+    public function cancelPresc(Request $request)
+    {
         try {
             $presc = Prescriptions::find($request->id);
             $presc->status = 0;
@@ -259,7 +273,8 @@ class EvaluationController extends AdminBaseController {
         return back();
     }
 
-    public function VerifyLabResult(Request $request) {
+    public function VerifyLabResult(Request $request)
+    {
         try {
             $this->updateResultStatus($request, 1, 'Verification');
             flash('Result status has been updated... thank you', 'success');
@@ -270,7 +285,8 @@ class EvaluationController extends AdminBaseController {
         }
     }
 
-    public function PublishLabResult(Request $request) {
+    public function PublishLabResult(Request $request)
+    {
         try {
             $this->updateResultStatus($request, 2, 'Publication');
             flash('Result status has been updated... thank you', 'success');
@@ -281,7 +297,8 @@ class EvaluationController extends AdminBaseController {
         }
     }
 
-    public function SendLabResult(Request $request) {
+    public function SendLabResult(Request $request)
+    {
         try {
             $this->updateResultStatus($request, 3, 'Sent');
             flash('Test Result has been marked as sent... thank you', 'success');
@@ -292,34 +309,33 @@ class EvaluationController extends AdminBaseController {
         }
     }
 
-    public function RejectLabResult(Request $request) {
-        try {
-        $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
+
+    public function RejectLabResult(Request $request)
+    {
+        // try {
+        $result = InvestigationResult::find($request->result);
 
         $purged_results = json_decode($result->results);
         $test = array();
         $res = array();
-        try{
+        try {
             foreach ($purged_results as $r) {
                 $test[] = $r[0];
                 $res[] = $r[1];
             }
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
         }
         session(['last_reverted' => array_combine($test, $res)]);
         $result->delete(); //send back to test phase literally
         flash('Result status has been reverted... thank you', 'success');
         return back();
-         } catch (\Exception $exc) {
-          flash('Result status could not be updated... please try again', 'danger');
-          return back();
-         }
     }
 
-    public function RevertResult(Request $request) {
+    public function RevertResult(Request $request)
+    {
         try {
-            $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
+            $result = InvestigationResult::find($request->result);
             //$purged_results = json_decode($result->results);
             session(['last_reverted' => array_combine(array($result->investigation), array($result->results))]);
             $result->delete(); //send back to test phase literally
@@ -331,9 +347,10 @@ class EvaluationController extends AdminBaseController {
         }
     }
 
-    public function updateResultStatus(Request $request, $flag, $type) {
+    public function updateResultStatus(Request $request, $flag, $type)
+    {
         try {
-            $result = \Ignite\Evaluation\Entities\InvestigationResult::find($request->result);
+            $result = InvestigationResult::find($request->result);
             $result->status = $flag;
             $result->save();
 
@@ -354,64 +371,75 @@ class EvaluationController extends AdminBaseController {
     }
 
     /* In patient functions */
- 
-    public function listWards() {
+
+    public function listWards()
+    {
         $wards = Ward::all();
         return view('Evaluation::inpatient.listWards', compact('wards'));
     }
 
-    public function addWard() {
+    public function addWard()
+    {
         return view('Evaluation::inpatient.addWardForm');
     }
 
-    public function addwordFormPost(Request $request) {
+    public function addwordFormPost(Request $request)
+    {
         $request['category'] = 'inpatients';
         Ward::create($request->all());
         return redirect('/evaluation/inpatient/list')->with('success', 'successfully added a ward');
     }
 
 //list the beds
-    public function listBeds() {
+    public function listBeds()
+    {
 
         $wards = Ward::all();
         $beds = Bed::all();
         return view('Evaluation::inpatient.listBeds', compact('beds', 'wards'));
     }
 
-    public function addBedFormPost(Request $request) {
+    public function addBedFormPost(Request $request)
+    {
         $request['status'] = 'available';
         Bed::create($request->all());
         return redirect()->back()->with('success', 'successfully added a bed');
     }
 
-    public function availableBeds($wardId) {
+    public function availableBeds($wardId)
+    {
         //return wards bedpositions
         return Bedposition::where('ward_id', $wardId)->where('status', 'available')->get();
     }
 
-    public function delete_ward(Request $request) {
+    public function delete_ward(Request $request)
+    {
         $ward = Ward::findorfail($request->ward_id);
         $ward->delete();
         return redirect()->back()->with('success', 'successfully deleted the ward');
     }
 
-    public function delete_bed(Request $request) {
+    public function delete_bed(Request $request)
+    {
         $ward = Bed::findorfail($request->bed_id);
         $ward->delete();
         return redirect()->back()->with('success', 'successfully deleted the bed');
     }
 
-    public function deposit() {
+    public function deposit()
+    {
         $deposits = Deposit::all();
         return view('Evaluation::inpatient.deposit', compact('deposits'));
     }
 
-    public function addDepositType(Request $request) {
+    public function addDepositType(Request $request)
+    {
         Deposit::create($request->all());
         return redirect()->back()->with('success', 'successfully added a new deposit type');
     }
 
-    public function delete_deposit($deposit_id) {
+    public function delete_deposit($deposit_id)
+    {
         $d = Deposit::find($deposit_id);
         $d->delete();
         if (Admission::where('cost', $d->cost)->count()) {
@@ -420,13 +448,15 @@ class EvaluationController extends AdminBaseController {
         return redirect()->back()->with('success', 'Successfully deleted');
     }
 
-    public function topUp() {
+    public function topUp()
+    {
         $patients = Patients::all();
         $deposits = FinancePatientAccounts::where('credit', '>', 0)->get();
         return view('Evaluation::inpatient.topUp', compact('patients', 'deposits'));
     }
 
-    public function topUpAmount(Request $request) {
+    public function topUpAmount(Request $request)
+    {
         if (count(PatientAccount::where('patient_id', $request->patient_id)->get())) {
             $patient = PatientAccount::where('patient_id', $request->patient_id)->first();
             $patient->update(['balance' => $patient->balance + $request->amount]);
@@ -462,14 +492,16 @@ class EvaluationController extends AdminBaseController {
         return view('Evaluation::inpatient.deposit_slip', compact('patient', 'depo', 'balance'));
     }
 
-    public function withdraw() {
+    public function withdraw()
+    {
         $patients = Patients::all();
         $deposits = FinancePatientAccounts::where('debit', '>', 0)->get();
 
         return view('Evaluation::inpatient.withdraw', compact('deposits', 'patients'));
     }
 
-    public function WithdrawAmount(Request $request) {
+    public function WithdrawAmount(Request $request)
+    {
         //search for the account..
         if (count(PatientAccount::where('patient_id', $request->patient_id)->get())) {
             $patient_acc = PatientAccount::where('patient_id', $request->patient_id)->first();
@@ -480,18 +512,18 @@ class EvaluationController extends AdminBaseController {
         if ($request->amount > $account_balance) {
             $validator = Validator::make($request->all(), ['amount' => 'required']);
             $validator->errors()
-                    ->add('amount', 'Insufficient fund in your account to withdraw Kshs. ' . $request->amount);
+                ->add('amount', 'Insufficient fund in your account to withdraw Kshs. ' . $request->amount);
             return redirect()->back()->withErrors($validator);
         }
         //reduce the amount
         $patient_acc->update(['balance' => $account_balance - $request->amount]);
 
         $wit = FinancePatientAccounts::create([
-                    'reference' => 'withdraw_' . str_random(5),
-                    'details' => 'withdraw amount from patient account',
-                    'debit' => $request->amount,
-                    'credit' => 0.00,
-                    'patient' => $request->patient_id
+            'reference' => 'withdraw_' . str_random(5),
+            'details' => 'withdraw amount from patient account',
+            'debit' => $request->amount,
+            'credit' => 0.00,
+            'patient' => $request->patient_id
         ]);
         $patient = Patients::find($request->patient_id);
         $balance = $patient_acc->balance;
@@ -506,12 +538,14 @@ class EvaluationController extends AdminBaseController {
         return $pdf->stream('Withdraw_slip' . str_random(4) . '.pdf');
     }
 
-    public function editBed($id) {
+    public function editBed($id)
+    {
         $bed = Bed::findorfail($id);
         return $bed;
     }
 
-    public function edit_bed(Request $request) {
+    public function edit_bed(Request $request)
+    {
         $bed = Bed::find($request->bed_id);
         $bed->update([
             'number' => $request->bed_no,
@@ -521,7 +555,8 @@ class EvaluationController extends AdminBaseController {
         return redirect()->back()->with('success', 'Successfully edited a bed');
     }
 
-    public function cancel_checkin(Request $request) {
+    public function cancel_checkin(Request $request)
+    {
         $v = Visit::find($request->id);
         if (count($v)) {
             $v->delete();
@@ -529,25 +564,28 @@ class EvaluationController extends AdminBaseController {
         return '';
     }
 
-    public function edit_deposit($id) {
+    public function edit_deposit($id)
+    {
         return Deposit::find($id);
     }
 
-    public function deposit_adit(Request $request) {
+    public function deposit_adit(Request $request)
+    {
         $dep = Deposit::find($request->deposit_id);
         $request['name'] = $request->deposit;
         $dep->update($request->all());
         return redirect()->back()->with('success', 'updated deposit successfully');
     }
 
-    public function topUpAccount(Request $request) {
+    public function topUpAccount(Request $request)
+    {
         $acc = PatientAccount::where('patient_id', $request->patient_id)->first();
 
         if (!count($acc)) {
             //create a patient account
             $acc = PatientAccount::create([
-                        'patient_id' => $request->patient_id,
-                        'balance' => 0
+                'patient_id' => $request->patient_id,
+                'balance' => 0
             ]);
         }
         /* record this trans. */
@@ -563,60 +601,70 @@ class EvaluationController extends AdminBaseController {
         return redirect()->back()->with('success', 'successfully topped up patient account');
     }
 
-    public function deleteThisWard($id) {
+    public function deleteThisWard($id)
+    {
         $ward = Ward::find($id);
         $ward->delete();
         return redirect()->back()->with('success', 'Successfully deleted a ward');
     }
 
-    public function getRecordWard($id) {
+    public function getRecordWard($id)
+    {
         return Ward::findorfail($id);
     }
 
-    public function update_ward(Request $request) {
+    public function update_ward(Request $request)
+    {
         $ward = Ward::findorfail($request->wardId);
         $ward->update($request->all());
         return redirect()->back()->with('success', 'Successfully updated the ward');
         //dd($request->all());
     }
 
-    public function bedPosition() {
+    public function bedPosition()
+    {
         $bedpositions = Bedposition::all();
         $wards = Ward::all();
         return view('Evaluation::inpatient.bedposition', compact('bedpositions', 'wards'));
     }
 
-    public function postbedPosition(Request $request) {
+    public function postbedPosition(Request $request)
+    {
         Bedposition::create($request->all());
 
 
         return redirect()->back()->with('success', 'Successfully added a new bed position to ward ');
     }
 
-    public function deletebedPosition($request) {
+    public function deletebedPosition($request)
+    {
         $bedpos = Bedposition::find($request);
         $bedpos->delete();
         return redirect()->back()->with('success', 'Successfully deleted a bed position');
     }
 
-    public function postaddBed(Request $request) {
+    public function postaddBed(Request $request)
+    {
         Bed::create($request->all());
         return redirect()->back()->with('success', 'Successfully added a new bed');
     }
 
-    public function postdelete_bed($value) {
+    public function postdelete_bed($value)
+    {
         $bed = Bed::find($value);
         $bed->delete();
         return redirect()->back()->with('success', 'Successfully deleted a bed');
     }
 
-    public function cancel($id) {
+    public function cancel($id)
+    {
         $admit_r = RequestAdmission::find($id);
         $admit_r->delete();
         return redirect()->back()->with('success', 'Successfully canceled admission request');
     }
 
-    public function move_patient($visit) {
+    public function move_patient($visit)
+    {
         $admission = Admission::find($visit);
         $visit = Admission::find($visit)->visit_id;
         $v = Visit::find($visit);
@@ -634,12 +682,14 @@ class EvaluationController extends AdminBaseController {
         return view('Evaluation::.inpatient.movePatient', compact('v', 'wards', 'bed', 'beds', 'ward', 'balance', 'patient', 'admission'));
     }
 
-    public function getAvailableBedPosition($ward) {
+    public function getAvailableBedPosition($ward)
+    {
 
         return Bedposition::where('status', 'available')->where('ward_id', $ward)->get();
     }
 
-    public function change_bed(Request $request) {
+    public function change_bed(Request $request)
+    {
         $admission = Admission::find($request->admission_id);
 
         if ($admission->ward_id != $request->ward_id) {
@@ -666,7 +716,8 @@ class EvaluationController extends AdminBaseController {
         return redirect()->back()->with('success', 'Successfully moved the patient');
     }
 
-    public function cancel_request($visit) {
+    public function cancel_request($visit)
+    {
         $request = RequestAdmission::where('visit_id', $visit)->first();
         if (count($request)) {
             $request->delete();
@@ -674,13 +725,15 @@ class EvaluationController extends AdminBaseController {
         return redirect()->back()->with('success', 'Successfully canceled the admission request');
     }
 
-    public function Nursing_services(Request $request) {
+    public function Nursing_services(Request $request)
+    {
         $charges = NursingCharge::all();
         $wards = Ward::all();
         return view('Evaluation::inpatient.Nursing_services', compact('charges', 'wards'));
     }
 
-    public function AddReccurentCharge(Request $request) {
+    public function AddReccurentCharge(Request $request)
+    {
         $req = (request()->all());
         if ($req['type'] != 'nursing') {
             $req['ward_id'] = null;
@@ -689,7 +742,8 @@ class EvaluationController extends AdminBaseController {
         return redirect()->back()->with('success', 'Successfully added a new recurrent charge');
     }
 
-    public function delete_service($id) {
+    public function delete_service($id)
+    {
         $service = NursingCharge::find($id);
         if ($service) {
             $service->delete();
@@ -698,12 +752,13 @@ class EvaluationController extends AdminBaseController {
     }
 
 ///patient account operations
-    public function account_deposit_amount($patient_id) {
+    public function account_deposit_amount($patient_id)
+    {
         $acc = PatientAccount::where('patient_id', $patient_id)->first();
         if (!count($acc)) {
             $acc = PatientAccount::create([
-                        'patient_id' => $patient_id,
-                        'balance' => 0
+                'patient_id' => $patient_id,
+                'balance' => 0
             ]);
         }
         $patient = Patients::find($patient_id);
@@ -712,7 +767,8 @@ class EvaluationController extends AdminBaseController {
         return view('Evaluation::inpatient.account_deposit', ['data' => $this->data]);
     }
 
-    public function topUpAccountPost(Request $request) {
+    public function topUpAccountPost(Request $request)
+    {
         $amount = 0;
         $acc = PatientAccount::where('patient_id', $request->patient_id)->first();
 
@@ -720,36 +776,36 @@ class EvaluationController extends AdminBaseController {
         //cash
         if ($request->cash) {
             $cash = FinancePatientAccounts::create([
-                        'patient' => $request->patient_id,
-                        'reference' => 'deposit_' . str_random(5),
-                        'details' => 'deposit to patient\'s account',
-                        'debit' => 0.00,
-                        'credit' => $request->cash,
-                        'mode' => 'cash'
+                'patient' => $request->patient_id,
+                'reference' => 'deposit_' . str_random(5),
+                'details' => 'deposit to patient\'s account',
+                'debit' => 0.00,
+                'credit' => $request->cash,
+                'mode' => 'cash'
             ]);
             $amount += $request->cash;
             $a .= '&cash=' . $cash->id;
         }
         if ($request->cheque) {
             $cheque = FinancePatientAccounts::create([
-                        'patient' => $request->patient_id,
-                        'reference' => $request->chequenumber . str_random(5),
-                        'details' => 'deposit to patient\'s account',
-                        'debit' => 0.00,
-                        'credit' => $request->cheque,
-                        'mode' => 'cheque'
+                'patient' => $request->patient_id,
+                'reference' => $request->chequenumber . str_random(5),
+                'details' => 'deposit to patient\'s account',
+                'debit' => 0.00,
+                'credit' => $request->cheque,
+                'mode' => 'cheque'
             ]);
             $amount += $request->cheque;
             $a .= '&cheque=' . $cheque->id;
         }
         if ($request->mpesa) {
             $mpesa = FinancePatientAccounts::create([
-                        'patient' => $request->patient_id,
-                        'reference' => $request->mpesaTransactionCode . str_random(5),
-                        'details' => 'deposit to patient\'s account',
-                        'debit' => 0.00,
-                        'credit' => $request->mpesa,
-                        'mode' => 'Mpesa'
+                'patient' => $request->patient_id,
+                'reference' => $request->mpesaTransactionCode . str_random(5),
+                'details' => 'deposit to patient\'s account',
+                'debit' => 0.00,
+                'credit' => $request->mpesa,
+                'mode' => 'Mpesa'
             ]);
             $amount += $request->mpesa;
             $a .= '&mpesa=' . $mpesa->id;
@@ -760,12 +816,13 @@ class EvaluationController extends AdminBaseController {
         return view('Evaluation::inpatient.print', compact('success', 'a', 'patient'));
     }
 
-    public function account_withdraw_amount($patient_id) {
+    public function account_withdraw_amount($patient_id)
+    {
         $acc = PatientAccount::where('patient_id', $patient_id)->first();
         if (!count($acc)) {
             $acc = PatientAccount::create([
-                        'patient_id' => $patient_id,
-                        'balance' => 0
+                'patient_id' => $patient_id,
+                'balance' => 0
             ]);
         }
         $patient = Patients::find($patient_id);
@@ -774,7 +831,8 @@ class EvaluationController extends AdminBaseController {
         return view('Evaluation::inpatient.account_withdraw', ['data' => $this->data]);
     }
 
-    public function PostWithdrawAccount(Request $request) {
+    public function PostWithdrawAccount(Request $request)
+    {
         $amount = 0;
         $a = 'evaluation/inpatient/print?type=withdraw&patient_id=' . $request->patient_id;
         $acc = PatientAccount::where('patient_id', $request->patient_id)->first();
@@ -784,36 +842,36 @@ class EvaluationController extends AdminBaseController {
         //cash
         if ($request->cash) {
             $cash = FinancePatientAccounts::create([
-                        'patient' => $request->patient_id,
-                        'reference' => 'withdraw_' . str_random(5),
-                        'details' => 'withdraw from patient\'s account',
-                        'credit' => 0.00,
-                        'debit' => $request->cash,
-                        'mode' => 'cash'
+                'patient' => $request->patient_id,
+                'reference' => 'withdraw_' . str_random(5),
+                'details' => 'withdraw from patient\'s account',
+                'credit' => 0.00,
+                'debit' => $request->cash,
+                'mode' => 'cash'
             ]);
             $amount += $request->cash;
-            $a .='&cash=' . $cash->id;
+            $a .= '&cash=' . $cash->id;
         }
         if ($request->cheque) {
             $cheque = FinancePatientAccounts::create([
-                        'patient' => $request->patient_id,
-                        'reference' => $request->chequenumber . '_' . str_random(5),
-                        'details' => 'withdraw from patient\'s account',
-                        'credit' => 0.00,
-                        'debit' => $request->cheque,
-                        'mode' => 'cheque'
+                'patient' => $request->patient_id,
+                'reference' => $request->chequenumber . '_' . str_random(5),
+                'details' => 'withdraw from patient\'s account',
+                'credit' => 0.00,
+                'debit' => $request->cheque,
+                'mode' => 'cheque'
             ]);
             $amount += $request->cheque;
             $a .= '&cheque=' . $cheque->id;
         }
         if ($request->mpesa) {
             $mpesa = FinancePatientAccounts::create([
-                        'patient' => $request->patient_id,
-                        'reference' => $request->mpesaTransactionCode . '_' . str_random(5),
-                        'details' => 'withdraw from patient\'s account',
-                        'credit' => 0.00,
-                        'debit' => $request->mpesa,
-                        'mode' => 'Mpesa'
+                'patient' => $request->patient_id,
+                'reference' => $request->mpesaTransactionCode . '_' . str_random(5),
+                'details' => 'withdraw from patient\'s account',
+                'credit' => 0.00,
+                'debit' => $request->mpesa,
+                'mode' => 'Mpesa'
             ]);
             $amount += $request->mpesa;
             $a .= '&mpesa=' . $mpesa->id;
@@ -829,14 +887,17 @@ class EvaluationController extends AdminBaseController {
         return view('evaluation::inpatient.print', compact('success', 'a', 'patient'));
     }
 
-    public function _print(Request $request) {
+    public function _print(Request $request)
+    {
         $patient = \Ignite\Reception\Entities\Patients::find($request->patient_id);
         $t = [];
         if ($request->cash) {
             array_push($t, $request->cash);
-        }if ($request->mpesa) {
+        }
+        if ($request->mpesa) {
             array_push($t, $request->mpesa);
-        }if ($request->cheque) {
+        }
+        if ($request->cheque) {
             array_push($t, $request->cheque);
         }
 
