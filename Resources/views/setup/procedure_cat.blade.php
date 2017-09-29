@@ -54,7 +54,7 @@
                 <tr id="row_id{{$category->id}}">
                     <td>{{$loop->iteration}}</td>
                     <td>{{$category->name}}</td>
-                    <td>{{$category->applies}}</td>
+                    <td>{{$category->applied_to}}</td>
                     <td>
                         <a class="btn btn-primary btn-xs"
                            href="{{route('evaluation.setup.procedure_cat',$category->id)}}" >
