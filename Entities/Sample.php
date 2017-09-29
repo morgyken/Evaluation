@@ -5,6 +5,15 @@ namespace Ignite\Evaluation\Entities;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Ignite\Evaluation\Entities\Sample
+ *
+ * @property-read \Ignite\Evaluation\Entities\SampleCollectionMethods $method
+ * @property-read \Ignite\Reception\Entities\Patients $patient
+ * @property-read \Ignite\Evaluation\Entities\SampleType $type
+ * @property-read \Ignite\Evaluation\Entities\Visit $visit
+ * @mixin \Eloquent
+ */
 class Sample extends Model
 {
     //protected $fillable = [];

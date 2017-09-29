@@ -19,11 +19,18 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $status
  * @property-read \Ignite\Evaluation\Entities\ProcedureCategories $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\SubProcedures[] $children
+ * @property-read \Ignite\Evaluation\Entities\CriticalValues $critical_values
+ * @property-read \Ignite\Evaluation\Entities\Formula $formula
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Formula[] $formulae
  * @property-read mixed $price
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Settings\Entities\CompanyPrice[] $inclusions
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\ProcedureInventoryItem[] $items
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\ReferenceRange[] $ref_ranges
+ * @property-read \Ignite\Evaluation\Entities\Remarks $remarks
  * @property-read \Ignite\Evaluation\Entities\ProcedureTemplates $templates
+ * @property-read \Ignite\Evaluation\Entities\TemplateLab $templates_lab
  * @property-read \Ignite\Evaluation\Entities\SubProcedures $this_test
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\HaemogramTitle[] $titles
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereCashCharge($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereChargeInsurance($value)

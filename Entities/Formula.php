@@ -4,6 +4,13 @@ namespace Ignite\Evaluation\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Ignite\Evaluation\Entities\Formula
+ *
+ * @property-read \Ignite\Evaluation\Entities\Procedures $procedure
+ * @property-read \Ignite\Evaluation\Entities\Procedures $test
+ * @mixin \Eloquent
+ */
 class Formula extends Model {
 
     protected $fillable = [];

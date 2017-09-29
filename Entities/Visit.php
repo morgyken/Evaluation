@@ -44,6 +44,7 @@ use Ignite\Finance\Entities\InsuranceInvoice;
  * @property-read mixed $total_bill
  * @property-read mixed $unpaid_amount
  * @property-read mixed $visit_destination
+ * @property-read \Ignite\Finance\Entities\InsuranceInvoice $insurance_invoices
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Investigations[] $investigations
  * @property-read \Ignite\Evaluation\Entities\VisitMeta $metas
  * @property-read \Ignite\Evaluation\Entities\DoctorNotes $notes

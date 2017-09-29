@@ -161,31 +161,31 @@ class EvaluationFunctions implements EvaluationRepository
         $user = null;
         //dd($this->input);
         foreach ($set as $item) {
-            try{
-               // if (empty($this->input['results' . $item])) {
-                    ///continue;
-               // }
-                if(isset($this->input['tests' . $item])){
+            try {
+                // if (empty($this->input['results' . $item])) {
+                ///continue;
+                // }
+                if (isset($this->input['tests' . $item])) {
                     $_tests = \GuzzleHttp\json_decode($this->input['tests' . $item]);
                 }
 
                 $__in = InvestigationResult::firstOrNew(['investigation' => $item]);
 
                 try {
-                $test_result = array();
-                $res_array = $this->input['results' . $item];
-               // dd($_tests);
-                foreach ($_tests as $key => $value) {
-                    try{
-                        $test_result[] = array($value, $res_array[$key]);
-                    }catch (\Exception $e){
-                        $test_result[] = '';
+                    $test_result = array();
+                    $res_array = $this->input['results' . $item];
+                    // dd($_tests);
+                    foreach ($_tests as $key => $value) {
+                        try {
+                            $test_result[] = array($value, $res_array[$key]);
+                        } catch (\Exception $e) {
+                            $test_result[] = '';
+                        }
                     }
-                }
-                $result_array = \GuzzleHttp\json_encode($test_result);
-                $__in->results = $result_array;
+                    $result_array = \GuzzleHttp\json_encode($test_result);
+                    $__in->results = $result_array;
                 } catch (\Exception $e) {
-                    if(isset($this->input['results' . $item])){
+                    if (isset($this->input['results' . $item])) {
                         $__in->results = $this->input['results' . $item];
                     }
                 }
@@ -202,29 +202,29 @@ class EvaluationFunctions implements EvaluationRepository
 
                 $user = $__in->investigations->user;
 
-                if(isset($this->input['isolate' . $item] )){
-                    foreach($this->input['isolate' . $item] as $key=>$value){
-                     try{
-                        $s = Sensitivity::whereDrug_id($value)
-                            ->whereResult_id($__in->id)
-                            ->first();
-                        if(empty($s)){
-                            $sens = new Sensitivity();
-                        }else{
-                            $sens = $s;
-                        }
-                        $sens->visit_id = $this->input['visit'];
-                        $sens->drug_id = $value;
-                        $sens->sensitivity = $this->input['interpretation'.$item][$key];//$this->input['rs'.$item];
-                        $sens->result_id = $__in->id;
-                        $sens->save();
-                     }catch (\Exception $e){
+                if (isset($this->input['isolate' . $item])) {
+                    foreach ($this->input['isolate' . $item] as $key => $value) {
+                        try {
+                            $s = Sensitivity::whereDrug_id($value)
+                                ->whereResult_id($__in->id)
+                                ->first();
+                            if (empty($s)) {
+                                $sens = new Sensitivity();
+                            } else {
+                                $sens = $s;
+                            }
+                            $sens->visit_id = $this->input['visit'];
+                            $sens->drug_id = $value;
+                            $sens->sensitivity = $this->input['interpretation' . $item][$key];//$this->input['rs'.$item];
+                            $sens->result_id = $__in->id;
+                            $sens->save();
+                        } catch (\Exception $e) {
 
-                     }
+                        }
                     }
                 }
-           }catch (\Exception $e){
-               return null;
+            } catch (\Exception $e) {
+                return null;
             }
         }
         //send_notification($user, 'Investigation results', 'Results have been added');
@@ -248,7 +248,8 @@ class EvaluationFunctions implements EvaluationRepository
         return $data;
     }
 
-    public function SaveTemplate($request) {
+    public function SaveTemplate($request)
+    {
         // try {
         if ($this->request->has('lab')) {
             $this->saveLabBlueprint($request);
@@ -266,7 +267,8 @@ class EvaluationFunctions implements EvaluationRepository
         return redirect()->route('evaluation.setup.template');
     }
 
-    public function saveLabBlueprint(Request $request) {
+    public function saveLabBlueprint(Request $request)
+    {
         foreach ($request->subtest as $key => $value) {
             $template = TemplateLab::findOrNew($request->template_id);
             $template->procedure = $request->procedure;
@@ -286,7 +288,8 @@ class EvaluationFunctions implements EvaluationRepository
         }
     }
 
-    public function SavePCTemplate($request) {
+    public function SavePCTemplate($request)
+    {
         try {
             $template = ProcedureCategoryTemplates::findOrNew($request->template_id);
             $template->category = $request->category;
@@ -349,12 +352,14 @@ class EvaluationFunctions implements EvaluationRepository
         }
         $notes = DoctorNotes::findOrNew(['visit' => $this->visit]);
         DoctorNotes::updateOrCreate(
-            ['visit' => $this->visit], ['presenting_complaints' => $this->request->presenting_complaints,
+            ['visit' => $this->visit], [
+            'presenting_complaints' => $this->request->presenting_complaints,
             'past_medical_history' => $this->request->past_medical_history,
             'examination' => $this->request->examination,
             'investigations' => $this->request->investigations,
             'treatment_plan' => $this->request->treatment_plan,
-            'diagnosis' => json_encode($this->request->diagnosis)
+            'diagnosis' => $this->request->diagnosis,
+            'user' => $this->request->user()->id
         ]);
         return true; //DoctorNotes::updateOrCreate(['visit' => $this->visit], $this->input);
     }
@@ -416,13 +421,13 @@ class EvaluationFunctions implements EvaluationRepository
     {
         DB::transaction(function () {
             foreach ($this->__get_selected_stack() as $treatment) {
-               // dd($treatment);
+                // dd($treatment);
                 $discount = 'discount' . $treatment;
 
-                try{
+                try {
                     $amount = $this->input['amount' . $treatment];
                     $price = $this->input['price' . $treatment];
-                }catch (\Exception $e){
+                } catch (\Exception $e) {
                     $amount = 0;
                     $price = 0;
                 }
@@ -449,7 +454,8 @@ class EvaluationFunctions implements EvaluationRepository
      * Build an index of items dynamically
      * @return array
      */
-    private function __get_selected_stack() {
+    private function __get_selected_stack()
+    {
         $stack = [];
         foreach ($this->input as $key => $one) {
             if (starts_with($key, 'item')) {
@@ -521,7 +527,7 @@ class EvaluationFunctions implements EvaluationRepository
         $disp->save();
         // } catch (\Exception $ex) {
         //
-       // }
+        // }
         return true;
     }
 
@@ -550,7 +556,8 @@ class EvaluationFunctions implements EvaluationRepository
         ]);
     }
 
-    public function SaveSampleType(Request $request) {
+    public function SaveSampleType(Request $request)
+    {
         $type = SampleType::findOrNew($request->id);
         $type->name = $this->request->name;
         $type->procedure = $this->request->procedure;
@@ -558,25 +565,29 @@ class EvaluationFunctions implements EvaluationRepository
         $type->save();
     }
 
-    function save_collection_method(Request $request) {
+    function save_collection_method(Request $request)
+    {
         $method = SampleCollectionMethods::findOrNew($request->id);
         $method->name = $request->name;
         $method->save();
     }
 
-    function save_unit(Request $request) {
+    function save_unit(Request $request)
+    {
         $unit = Unit::findOrNew($request->id);
         $unit->name = $request->name;
         $unit->save();
     }
 
-    function save_additives(Request $request) {
+    function save_additives(Request $request)
+    {
         $item = Additives::findOrNew($request->id);
         $item->name = $request->name;
         $item->save();
     }
 
-    function save_remarks(Request $request) {
+    function save_remarks(Request $request)
+    {
         $item = Remarks::findOrNew($request->id);
         $item->remarks = $request->remarks;
         $item->procedure = $request->procedure;
@@ -584,7 +595,8 @@ class EvaluationFunctions implements EvaluationRepository
         $item->save();
     }
 
-    function save_formula(Request $request) {
+    function save_formula(Request $request)
+    {
         $item = \Ignite\Evaluation\Entities\Formula::findOrNew($request->id);
         $item->procedure_id = $request->procedure_id;
         $item->test_id = $request->test_id;
@@ -592,7 +604,8 @@ class EvaluationFunctions implements EvaluationRepository
         $item->save();
     }
 
-    function save_range(Request $request) {
+    function save_range(Request $request)
+    {
         $item = ReferenceRange::findOrNew($request->id);
         $item->procedure = $request->procedure;
         $item->gender = $request->gender;
@@ -608,7 +621,8 @@ class EvaluationFunctions implements EvaluationRepository
     }
 
 
-    function save_critical_values(Request $request){
+    function save_critical_values(Request $request)
+    {
         $item = CriticalValues::findOrNew($request->id);
         $item->critical_value = $request->critical_value;
         $item->type = $request->type;
@@ -616,27 +630,32 @@ class EvaluationFunctions implements EvaluationRepository
         $item->save();
     }
 
-    function delete_critical_value(Request $request){
+    function delete_critical_value(Request $request)
+    {
         return CriticalValues::find($request->id)->delete();
     }
 
-    function delete_range(Request $request){
+    function delete_range(Request $request)
+    {
         return ReferenceRange::find($request->id)->delete();
     }
 
-    public function del_critical_value(Request $request) {
-       return CriticalValues::find($request->id)->delete();
+    public function del_critical_value(Request $request)
+    {
+        return CriticalValues::find($request->id)->delete();
     }
 
-    public function delete_formulae(Request $request) {
+    public function delete_formulae(Request $request)
+    {
         return Formula::find($request->id)->delete();
     }
 
-    public function delete_procedure(Request $request){
+    public function delete_procedure(Request $request)
+    {
         Procedures::find($request->id)->delete();
         $inv = Investigations::whereProcedure($request->id)->get();
-        if(count($inv)>0){
-            foreach ($inv as $i){
+        if (count($inv) > 0) {
+            foreach ($inv as $i) {
                 $i->delete();
             }
         }
@@ -785,7 +804,8 @@ class EvaluationFunctions implements EvaluationRepository
         return true;
     }
 
-    public function saveSubProcedure($procedure, $request) {
+    public function saveSubProcedure($procedure, $request)
+    {
         if (!$s = SubProcedures::whereProcedure($procedure)->first()) {
             $s = new SubProcedures;
         }
@@ -926,7 +946,8 @@ class EvaluationFunctions implements EvaluationRepository
         return $partner->save();
     }
 
-    public function make_external_order(Request $request) {
+    public function make_external_order(Request $request)
+    {
         $order = new \Ignite\Evaluation\Entities\ExternalOrders;
         $order->patient_id = $request->patient_id;
         $order->institution = $request->institution;
@@ -943,12 +964,14 @@ class EvaluationFunctions implements EvaluationRepository
         }
     }
 
-    public function delete_title_lab(Request $request) {
+    public function delete_title_lab(Request $request)
+    {
         $tit = \Ignite\Evaluation\Entities\HaemogramTitle::find($request->id);
         return $tit->delete();
     }
 
-    function delete_lab_template_test(Request $request) {
+    function delete_lab_template_test(Request $request)
+    {
         $test = TemplateLab::find($request->id);
         $test->delete();
         return "Test has been removed from template"; //
