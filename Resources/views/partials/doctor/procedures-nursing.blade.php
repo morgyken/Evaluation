@@ -6,9 +6,6 @@
  */
 
 $doctor_procedures = get_procedures_for('nurse');
-$performed = get_investigations($visit, ['treatment']);
-$discount_allowed = json_decode(m_setting('evaluation.discount'));
-
 $co = null;
 $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
 if ($visit->payment_mode == 'insurance') {
@@ -19,7 +16,7 @@ if ($visit->payment_mode == 'insurance') {
         <i class="fa fa-info-circle"></i> There are no procedures. Please go to setup and add some.
     </div>
 @else
-    {!! Form::open(['id'=>'procedures_doctor_form'])!!}
+    {!! Form::open(['id'=>'procedures_nurse_form'])!!}
     {!! Form::hidden('visit',$visit->id) !!}
     <table class="table table-condensed table-borderless table-responsive" id="procedures">
         <tbody>
@@ -62,7 +59,7 @@ if ($visit->payment_mode == 'insurance') {
                     @endif
                 </td>
                 <td>
-                    <input type="hidden" name="type{{$procedure->id}}" value="treatment" disabled/>
+                    <input type="hidden" name="type{{$procedure->id}}" value="treatment.nurse" disabled/>
                     <input disabled="" type="text" name="price{{$procedure->id}}" value="{{$price}}"
                            id="cost{{$procedure->id}}" size="5" readonly=""/>
                 </td>

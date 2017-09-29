@@ -14,51 +14,49 @@ if ($visit->payment_mode == 'insurance') {
     $co = $visit->patient_scheme->schemes->companies->id;
 }
 ?>
-<div class="row">
-    <div class="col-md-12">
-        <div class="col-md-8">
-            <div class="accordion">
-                <h4>Doctor Procedures</h4>
-                <div class="treatment_item">
-                    @include('evaluation::partials.doctor.procedures-doctor')
-                </div>
-                <h4>Nurse Procedures</h4>
-                <div class="treatment_item">
-                    @include('evaluation::partials.doctor.procedures-nursing')
-                </div>
+<div class="col-md-12">
+    <div class="col-md-8">
+        <div class="accordion">
+            <h4>Doctor Procedures</h4>
+            <div class="treatment_item">
+                @include('evaluation::partials.doctor.procedures-doctor')
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12" id="selected_treatment">
-                    <div class="box box-primary">
-                        <div class="box-header">
-                            <h4 class="box-title">Selected procedures</h4>
-                        </div>
-                        <div class="box-body">
-                            <table id="treatment" class=" table table-condensed">
-                                <thead>
-                                <tr>
-                                    <th>Procedure</th>
-                                    <th>Amount</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                            <div class="pull-right">
-                                <button class="btn btn-success" id="saveTreatment"><i class="fa fa-save"></i> Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <h4>Nurse Procedures</h4>
+            <div class="treatment_item">
+                @include('evaluation::partials.doctor.procedures-nursing')
             </div>
         </div>
     </div>
-    <br/>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-12" id="selected_treatment">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h4 class="box-title">Selected procedures</h4>
+                    </div>
+                    <div class="box-body">
+                        <table id="treatment" class=" table table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Procedure</th>
+                                <th>Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <div class="pull-right">
+                            <button class="btn btn-success" id="saveTreatment"><i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
+<br/>
 <div class="row">
     <div class="col-md-12">
         <div class="box box-success">
@@ -128,15 +126,19 @@ if ($visit->payment_mode == 'insurance') {
     }
 
     .treatment_item {
-        overflow: auto;
+        overflow-y: scroll;
     }
 </style>
 <script type="text/javascript">
     $(function () {
-        $('#treatment_form').find('input').iCheck({
+        $('.treatment_item').find('input').iCheck({
             checkboxClass: 'icheckbox_flat-blue',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
+        });
+        $('.treatment_item').find('table').DataTable({
+            "scrollY": "300px",
+            "paging": false
         });
     });
 </script>
