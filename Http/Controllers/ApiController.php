@@ -10,7 +10,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
 use Ignite\Evaluation\Entities\ProcedureInventoryItem;
 
-class ApiController extends Controller {
+class ApiController extends Controller
+{
 
     /**
      * @var EvaluationRepository
@@ -21,77 +22,94 @@ class ApiController extends Controller {
      * ApiController constructor.
      * @param EvaluationRepository $evaluationRepository
      */
-    public function __construct(EvaluationRepository $evaluationRepository) {
+    public function __construct(EvaluationRepository $evaluationRepository)
+    {
         $this->evaluationRepository = $evaluationRepository;
     }
 
-    public function save_drawings(Request $request) {
+    public function save_drawings(Request $request)
+    {
         return Response::json($this->evaluationRepository->save_drawings($request));
     }
 
-    public function diagnosis_codes($regex = null) {
+    public function diagnosis_codes($regex = null)
+    {
         return $this->evaluationRepository->get_diagnosis_codes_auto();
     }
 
-    public function save_vitals() {
+    public function save_vitals()
+    {
         return Response::json($this->evaluationRepository->save_vitals());
     }
 
-    public function save_opnotes() {
+    public function save_opnotes()
+    {
         return Response::json($this->evaluationRepository->save_opnotes());
     }
 
-    public function save_notes() {
+    public function save_notes()
+    {
         return Response::json($this->evaluationRepository->save_notes());
     }
 
-    public function investigation_result() {
+    public function investigation_result()
+    {
         return Response::json($this->evaluationRepository->save_results_investigations());
     }
 
-    public function save_diagnosis() {
+    public function save_diagnosis()
+    {
         return Response::json($this->evaluationRepository->save_diagnosis());
     }
 
-    public function save_external_order(Request $request) {
+    public function save_external_order(Request $request)
+    {
         return Response::json($this->evaluationRepository->make_external_order($request));
     }
 
-    public function save_prescription() {
+    public function save_prescription()
+    {
         return Response::json($this->evaluationRepository->save_prescriptions());
     }
 
-    public function set_next_date(Request $request) {
+    public function set_next_date(Request $request)
+    {
         return Response::json($this->evaluationRepository->set_next_visit($request));
     }
 
-    public function set_visit_date(Request $request) {
+    public function set_visit_date(Request $request)
+    {
         return Response::json($this->evaluationRepository->set_visit_date($request));
     }
 
-    public function save_preliminary() {
+    public function save_preliminary()
+    {
         $this->evaluationRepository->save_preliminary_eye();
     }
 
-    public function delete_range(Request $request) {
+    public function delete_range(Request $request)
+    {
         $this->evaluationRepository->delete_range($request);
     }
 
-    public function del_critical_value(Request $request) {
+    public function del_critical_value(Request $request)
+    {
         $this->evaluationRepository->delete_critical_value($request);
     }
 
-    public function delete_formulae(Request $request) {
+    public function delete_formulae(Request $request)
+    {
         $this->evaluationRepository->delete_formulae($request);
     }
 
-    public function delete_procedure(Request $request){
+    public function delete_procedure(Request $request)
+    {
         $this->evaluationRepository->delete_procedure($request);
     }
 
     public function save_sensitivity(Request $request)
     {
-        try{
+        try {
             $s = new Sensitivity();
             $s->visit_id = $request->visit_id;
             $s->drug_id = $request->drug_id;
@@ -100,20 +118,22 @@ class ApiController extends Controller {
             $s->procedure_id = $request->procedure_id;
             $s->save();
             return 'Saved';
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return null;
         }
     }
 
-    public function checkout_patient() {
+    public function checkout_patient()
+    {
         $this->evaluationRepository->checkout_patient();
     }
 
-    public function get_procedures(Request $request, $type) {
-        try{
+    public function get_procedures(Request $request, $type)
+    {
+        try {
             $patient = \Session::get('active_patient');
             $sex = strtolower($patient->sex);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $patient = null;
             $sex = null;
         }
@@ -130,9 +150,9 @@ class ApiController extends Controller {
 
         foreach ($found as $val) {
             $c_price = \Ignite\Settings\Entities\CompanyPrice::whereCompany(intval($co))
-                    ->whereProcedure(intval($val['id']))
-                    ->get()
-                    ->first();
+                ->whereProcedure(intval($val['id']))
+                ->get()
+                ->first();
             if (isset($c_price)) {
                 if ($c_price->price > 0) {
                     $price = $c_price->price;
@@ -141,18 +161,19 @@ class ApiController extends Controller {
                 $price = $val['cash_charge'];
             }
 
-            if(!empty($val->gender)){
-                if ($val->gender == $sex){
+            if (!empty($val->gender)) {
+                if ($val->gender == $sex) {
                     $build[] = ['text' => $val['name'], 'id' => $val['id'], 'price' => $price];
                 }
-            }else{
+            } else {
                 $build[] = ['text' => $val['name'], 'id' => $val['id'], 'price' => $price];
             }
         }
         return json_encode(['results' => $build]);
     }
 
-    public function get_all_procedures(Request $request) {
+    public function get_all_procedures(Request $request)
+    {
         $term = $request->term['term'];
         $build = [];
         $found = get_all_procedures($term);
@@ -163,7 +184,8 @@ class ApiController extends Controller {
         return json_encode(['results' => $build]);
     }
 
-    public function get_drugs(Request $request, $type) {
+    public function get_drugs(Request $request, $type)
+    {
         $term = $request->term['term'];
         $build = [];
         $found = get_procedures_for($type, $term);
@@ -173,7 +195,8 @@ class ApiController extends Controller {
         return json_encode(['results' => $build]);
     }
 
-    public function pharmacy_cancel_prescription(Request $request) {
+    public function pharmacy_cancel_prescription(Request $request)
+    {
         $pres = Prescriptions::find($request->id);
         if ($pres->delete()) {
             echo '
@@ -185,10 +208,11 @@ class ApiController extends Controller {
         }
     }
 
-    public function manage_inventory_items(Request $request) {
+    public function manage_inventory_items(Request $request)
+    {
         $item = ProcedureInventoryItem::whereProcedure($request->procedure)
-                ->whereItem($request->item)
-                ->first();
+            ->whereItem($request->item)
+            ->first();
         if ($request->type == 'delete') {
             $item->delete();
             echo 'Inventory Item Deleted';
@@ -199,15 +223,19 @@ class ApiController extends Controller {
         }
     }
 
-    public function delete_title_lab(Request $request) {
+    public function delete_title_lab(Request $request)
+    {
         $this->evaluationRepository->delete_title_lab($request);
     }
 
-    public function delete_critical_value(Request $request) {
+    public function delete_critical_value(Request $request)
+    {
         $this->evaluationRepository->delete_critical_value($request);
     }
+
     //
-    public function delete_lab_template_test(Request $request) {
+    public function delete_lab_template_test(Request $request)
+    {
         $this->evaluationRepository->delete_lab_template_test($request);
     }
 

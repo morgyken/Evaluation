@@ -59,7 +59,7 @@ $(function () {
         $.ajax({
             type: "POST",
             url: DIAGNOSIS_URL,
-            data: $('#treatment_form').serialize(),
+            data: $('#procedures_doctor_form,#procedures_nurse_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Selected treatment procedures saved');
                 location.reload();

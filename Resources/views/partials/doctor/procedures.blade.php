@@ -5,7 +5,7 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 
-$performed = get_investigations($visit, ['treatment']);
+$performed = get_investigations($visit, ['treatment', 'treatment.nurse']);
 $discount_allowed = json_decode(m_setting('evaluation.discount'));
 
 $co = null;
