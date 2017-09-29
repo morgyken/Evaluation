@@ -12,45 +12,39 @@ $(function () {
         calculateRatio();
     });
     $('.bmi').on('keyup', function () {
-        calculateBMI(); 
+        calculateBMI();
     });
+
     /*
      * Calculate the BMI
      * @returns {undefined}
      */
-    function calculateBMI()
-    {
+    function calculateBMI() {
         var weight = $('#weight').val();
         var height = $('#height').val();
         var bmi = 'N/A';
         var status = 'N/A';
         if (height && weight) {
             bmi = (weight / (height * height)).toFixed(4);
-            if (bmi > 29.9)
-            {
+            if (bmi > 29.9) {
                 status = "Obese"
-            } else if (bmi < 30 && bmi > 24.9)
-            {
+            } else if (bmi < 30 && bmi > 24.9) {
                 status = "Overweight"
-            } else if (bmi < 24.8 && bmi > 18.5)
-            {
+            } else if (bmi < 24.8 && bmi > 18.5) {
                 status = "Normal"
-            } else if (bmi < 18.5)
-            {
+            } else if (bmi < 18.5) {
                 status = "Underweight"
             }
         }
-
-        console.log("BMI: " + bmi);
         $('#bmi').html(bmi);
         $('#bmi_status').html(status);
     }
+
     /**
      * Calculate waist -hip ration
      * @returns {undefined}
      */
-    function calculateRatio()
-    {
+    function calculateRatio() {
         var Hip = $('#hip').val();
         var Waist = $('#waist').val();
         var ration = 'N/A';
@@ -59,19 +53,20 @@ $(function () {
         }
         $('#ratio').html(ration);
     }
+
     $('#vitals_form').submit(function (e) {
         e.preventDefault();
         save_vitals();
     });
-    $('#vitals_form input').blur(function () {
+    $('#vitals_form').find('input,textarea').change(function () {
         save_vitals();
     });
-    $('#vitals_form textarea').blur(function () {
-        save_vitals();
-    });
+
+
     function save_vitals() {
         //alert(VITALS_URL);
-        $.ajax({type: "POST",
+        $.ajax({
+            type: "POST",
             url: VITALS_URL,
             data: $('#vitals_form').serialize(),
             success: function () {
