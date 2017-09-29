@@ -26,8 +26,8 @@ $notes = get_patient_doctor_notes($visit);
     @include('evaluation::partials.eye_diagnosis')
     @endif
     <div class="form-group req">
-        <label>Investigations</label>
-        <textarea name='investigations' class="form-control" rows='3'>{{$notes->examination}}</textarea>
+        <label>Investigation History</label>
+        <textarea name='investigations' class="form-control" rows='3'>{{$notes->investigations}}</textarea>
     </div>
 
     <div class="form-group">

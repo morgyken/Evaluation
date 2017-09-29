@@ -5,7 +5,9 @@ namespace Ignite\Evaluation\Entities;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Ignite\Evaluation\Entities\Drawings
+ * Ignite\Evaluation\Entities\ExternalOrderDetails
+ *
+ * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
  * @mixin \Eloquent
  */
 class ExternalOrderDetails extends Model {

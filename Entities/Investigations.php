@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $has_result
  * @property-read mixed $is_paid
  * @property-read mixed $pesa
+ * @property-read \Ignite\Evaluation\Entities\Procedures $p
  * @property-read \Ignite\Finance\Entities\EvaluationPaymentsDetails $payments
  * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
  * @property-read \Ignite\Finance\Entities\RemovedBills $removed_bills

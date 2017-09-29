@@ -7,7 +7,12 @@ use Ignite\Reception\Entities\Patients;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Ignite\Evaluation\Entities\Drawings
+ * Ignite\Evaluation\Entities\ExternalOrders
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\ExternalOrderDetails[] $details
+ * @property-read \Ignite\Evaluation\Entities\PartnerInstitution $from
+ * @property-read \Ignite\Reception\Entities\Patients $patient
+ * @property-read \Ignite\Users\Entities\User $users
  * @mixin \Eloquent
  */
 class ExternalOrders extends Model {

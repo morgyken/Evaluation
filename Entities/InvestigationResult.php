@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Ignite\Reception\Entities\PatientDocuments|null $documents
  * @property-read \Ignite\Evaluation\Entities\Investigations $investigations
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Sensitivity[] $sensitivity_results
  * @property-read \Ignite\Users\Entities\User|null $users
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereComments($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\InvestigationResult whereCreatedAt($value)
