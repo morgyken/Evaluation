@@ -238,4 +238,29 @@ class ApiController extends Controller
         $this->evaluationRepository->delete_lab_template_test($request);
     }
 
+    public function getDoneTreatment($visit)
+    {
+        $data = get_investigations($visit, ['treatment', 'treatment.nurse']);
+        $return = [];
+        foreach ($data as $key => $item) {
+            if ($item->has_result)
+                $link = '<a href="' . route('evaluation.view_result', $item->visit) . '"
+                                               class="btn btn-xs btn-success" target="_blank">
+                                                <i class="fa fa-external-link"></i> View Result
+            </a>';
+            else
+                $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Pending</span>';
+
+            $return[] = [
+                str_limit($item->procedures->name, 20, '...'),
+                ucfirst(substr($item->type, 1 + strpos($item->type, '-'))),
+                $item->price, $item->quantity, $item->discount,
+                $item->amount > 0 ? $item->amount : $item->price,
+                $item->created_at->format('d/m/Y h:i a'),
+                payment_label($item->is_paid),
+                $link,
+            ];
+        }
+        return response()->json(['data' => $return]);
+    }
 }
