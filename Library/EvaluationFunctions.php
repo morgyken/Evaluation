@@ -400,8 +400,11 @@ class EvaluationFunctions implements EvaluationRepository
      */
     private function check_in_at($place)
     {
-        if ($place == 'Treatment.nurse') {
+        if ($place == 'treatment.nurse') {
             $place = 'Nursing';
+        }
+        if ($place == 'treatment') {
+            return true;
         }
         $department = $place;
         $destination = NULL;
