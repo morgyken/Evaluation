@@ -395,12 +395,14 @@ class EvaluationFunctions implements EvaluationRepository
 
     /**
      * New way to checkin patient
-     * @param $visit
      * @param $place
      * @return bool
      */
     private function check_in_at($place)
     {
+        if ($place == 'Treatment.nurse') {
+            $place = 'Nursing';
+        }
         $department = $place;
         $destination = NULL;
         if (intval($place) > 0) {
