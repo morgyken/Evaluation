@@ -3,12 +3,11 @@
 namespace Ignite\Evaluation\Http\Controllers;
 
 use Ignite\Evaluation\Entities\Prescriptions;
+use Ignite\Evaluation\Entities\ProcedureInventoryItem;
 use Ignite\Evaluation\Entities\Sensitivity;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Response;
-use Ignite\Evaluation\Entities\ProcedureInventoryItem;
 
 class ApiController extends Controller
 {
@@ -29,7 +28,7 @@ class ApiController extends Controller
 
     public function save_drawings(Request $request)
     {
-        return Response::json($this->evaluationRepository->save_drawings($request));
+        return response()->json($this->evaluationRepository->save_drawings($request));
     }
 
     public function diagnosis_codes($regex = null)
@@ -39,47 +38,47 @@ class ApiController extends Controller
 
     public function save_vitals()
     {
-        return Response::json($this->evaluationRepository->save_vitals());
+        return response()->json($this->evaluationRepository->save_vitals());
     }
 
     public function save_opnotes()
     {
-        return Response::json($this->evaluationRepository->save_opnotes());
+        return response()->json($this->evaluationRepository->save_opnotes());
     }
 
     public function save_notes()
     {
-        return Response::json($this->evaluationRepository->save_notes());
+        return response()->json($this->evaluationRepository->save_notes());
     }
 
     public function investigation_result()
     {
-        return Response::json($this->evaluationRepository->save_results_investigations());
+        return response()->json($this->evaluationRepository->save_results_investigations());
     }
 
     public function save_diagnosis()
     {
-        return Response::json($this->evaluationRepository->save_diagnosis());
+        return response()->json($this->evaluationRepository->save_diagnosis());
     }
 
     public function save_external_order(Request $request)
     {
-        return Response::json($this->evaluationRepository->make_external_order($request));
+        return response()->json($this->evaluationRepository->make_external_order($request));
     }
 
     public function save_prescription()
     {
-        return Response::json($this->evaluationRepository->save_prescriptions());
+        return response()->json($this->evaluationRepository->save_prescriptions());
     }
 
     public function set_next_date(Request $request)
     {
-        return Response::json($this->evaluationRepository->set_next_visit($request));
+        return response()->json($this->evaluationRepository->set_next_visit($request));
     }
 
     public function set_visit_date(Request $request)
     {
-        return Response::json($this->evaluationRepository->set_visit_date($request));
+        return response()->json($this->evaluationRepository->set_visit_date($request));
     }
 
     public function save_preliminary()
