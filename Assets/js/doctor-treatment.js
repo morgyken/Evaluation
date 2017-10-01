@@ -62,6 +62,7 @@ $(function () {
             data: $('#procedures_doctor_form,#procedures_nurse_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Selected treatment procedures saved');
+                $('.treatment_item').find('input').iCheck('uncheck');
                 $('#in_table').dataTable().api().ajax.reload();
             },
             error: function () {
