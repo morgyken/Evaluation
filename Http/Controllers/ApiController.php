@@ -2,9 +2,11 @@
 
 namespace Ignite\Evaluation\Http\Controllers;
 
+use Ignite\Evaluation\Entities\Investigations;
 use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\ProcedureInventoryItem;
 use Ignite\Evaluation\Entities\Sensitivity;
+use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -238,9 +240,10 @@ class ApiController extends Controller
         $this->evaluationRepository->delete_lab_template_test($request);
     }
 
-    public function getDoneTreatment($visit)
+    public function getDoneTreatment(Visit $visit_id)
     {
-        $data = get_investigations($visit, ['treatment', 'treatment.nurse']);
+        /** @var Investigations[] $data */
+        $data = get_investigations($visit_id, ['treatment', 'treatment.nurse']);
         $return = [];
         foreach ($data as $key => $item) {
             if ($item->has_result)
@@ -250,15 +253,21 @@ class ApiController extends Controller
             </a>';
             else
                 $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Pending</span>';
+            $type = 'Doctor';
+            if ($item->type == 'treatment.nurse') {
+                $type = 'Nurse';
+            }
 
             $return[] = [
-                str_limit($item->procedures->name, 20, '...'),
-                ucfirst(substr($item->type, 1 + strpos($item->type, '-'))),
-                $item->price, $item->quantity, $item->discount,
+                str_limit($item->procedures->name, 50, '...'),
+                $type,
+                $item->price,
+                $item->quantity,
+                $item->discount,
                 $item->amount > 0 ? $item->amount : $item->price,
-                $item->created_at->format('d/m/Y h:i a'),
                 payment_label($item->is_paid),
-                $link,
+                $item->created_at->format('d/m/Y h:i a'),
+//                $link,
             ];
         }
         return response()->json(['data' => $return]);

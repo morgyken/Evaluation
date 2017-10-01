@@ -62,7 +62,7 @@ $(function () {
             data: $('#procedures_doctor_form,#procedures_nurse_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Selected treatment procedures saved');
-                location.reload();
+                $('#in_table').dataTable().api().ajax.reload();
             },
             error: function () {
                 alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
