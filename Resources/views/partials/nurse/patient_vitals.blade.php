@@ -165,6 +165,8 @@ $first_vital = vitals_for_patient($visit->patient);
                           class="form-control">{{$form->nurse_notes}}</textarea>
             </div>
         </div>
+    </div>
+    <div class="col-md-12">
         <div class="pull-right">
             <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
         </div>
