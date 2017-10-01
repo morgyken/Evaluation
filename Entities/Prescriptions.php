@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Ignite\Inventory\Entities\InventoryProducts $drugs
  * @property-read mixed $dose
  * @property-read mixed $sub
+ * @property-read \Ignite\Evaluation\Entities\PrescriptionPayment $payment
  * @property-read \Ignite\Users\Entities\User $users
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereAdmissionId($value)
@@ -55,41 +56,53 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereWhereto($value)
  * @mixin \Eloquent
  */
-class Prescriptions extends Model {
+class Prescriptions extends Model
+{
 
     public $table = 'evaluation_prescriptions';
     protected $casts = ['allow_substitution' => 'boolean'];
     public $incrementing = false;
     protected $guarded = [];
 
-    public function getDoseAttribute() {
+    public function getDoseAttribute()
+    {
         return $this->take . ' ' . mconfig('evaluation.options.prescription_whereto.' . $this->whereto) . ' '
-                . mconfig('evaluation.options.prescription_method.' . $this->method) . ' '
-                . $this->duration . ' ' . mconfig('evaluation.options.prescription_duration.' . $this->time_measure);
+            . mconfig('evaluation.options.prescription_method.' . $this->method) . ' '
+            . $this->duration . ' ' . mconfig('evaluation.options.prescription_duration.' . $this->time_measure);
     }
 
-    public function getSubAttribute() {
+    public function getSubAttribute()
+    {
         return $this->allow_substitution ? 'Yes' : 'No';
     }
 
-    public function admission() {
+    public function admission()
+    {
         return $this->belongsTo(Admission::class, 'admission_id');
     }
 
-    public function visits() {
+    public function visits()
+    {
         return $this->belongsTo(Visit::class, 'visit');
     }
 
-    public function drugs() {
+    public function drugs()
+    {
         return $this->belongsTo(InventoryProducts::class, 'drug');
     }
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsTo(User::class, 'user');
     }
 
-    public function dispensing() {
+    public function dispensing()
+    {
         return $this->hasMany(Dispensing::class, 'prescription');
     }
 
+    public function payment()
+    {
+        return $this->hasOne(PrescriptionPayment::class, 'prescription_id');
+    }
 }

@@ -27,6 +27,7 @@ use Ignite\Finance\Entities\InsuranceInvoice;
  * @property string|null $deleted_at
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property int|null $external_order
  * @property-read \Ignite\Inpatient\Entities\Admission $admission
  * @property-read \Ignite\Reception\Entities\Appointments $appointments
  * @property-read \Ignite\Settings\Entities\Clinics $clinics
@@ -62,6 +63,7 @@ use Ignite\Finance\Entities\InsuranceInvoice;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereExternalDoctor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereExternalOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereNextAppointment($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit wherePatient($value)

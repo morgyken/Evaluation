@@ -14,10 +14,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $titles
  * @property string|null $title
  * @property string|null $lab_sample_type
+ * @property string|null $method
+ * @property string|null $turn_around_time
  * @property string|null $lab_result_type
  * @property string|null $result_type_details
  * @property string|null $lab_result_options
  * @property string|null $units
+ * @property string|null $gender
  * @property float|null $lab_min_range
  * @property float|null $lab_max_range
  * @property float|null $_0_3d_minrange
@@ -54,6 +57,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereAdultMinrange($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereLabDefault($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereLabMaxRange($value)
@@ -63,11 +67,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereLabResultOptions($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereLabResultType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereLabSampleType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereMethod($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereParent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereProcedure($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereResultTypeDetails($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereTitles($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereTurnAroundTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereUnits($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\SubProcedures whereUpdatedAt($value)
  * @mixin \Eloquent
