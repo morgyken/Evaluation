@@ -5,7 +5,6 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 
-$performed = get_investigations($visit, ['treatment', 'treatment.nurse']);
 $discount_allowed = json_decode(m_setting('evaluation.discount'));
 
 $co = null;
@@ -57,6 +56,7 @@ if ($visit->payment_mode == 'insurance') {
     </div>
 </div>
 <br/>
+<br/>
 <div class="row">
     <div class="col-md-12">
         <div class="box box-success">
@@ -64,56 +64,22 @@ if ($visit->payment_mode == 'insurance') {
                 <h4 class="box-title">Previously administered procedures</h4>
             </div>
             <div class="box-body">
-                @if(!$performed->isEmpty())
-                    <table class="table table-condensed">
-                        <thead>
-                        <tr>
-                            <th>Procedure</th>
-                            <th>Price</th>
-                            <th>Number Performed</th>
-                            <th>Discount(%)</th>
-                            <th>Amount</th>
-                            <th>Payment</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php try { ?>
-                        @foreach($performed as $item)
-                            <?php try { ?>
-                            <tr>
-                                <td>{{str_limit($item->procedures->name,40,'...')}}</td>
-                                <td>{{$item->price}}</td>
-                                <td>{{$item->quantity}}</td>
-                                <td>{{$item->discount}}</td>
-                                <td>
-                                    <?php try { ?>
-                                    @if($item->amount>0)
-                                        {{$item->amount}}
-                                    @else
-                                        {{$item->price}}
-                                    @endif
-                                    <?php } catch (Exception $ex) { ?>
-
-                                        <?php } ?>
-                                </td>
-                                <td>{!! payment_label($item->is_paid) !!}</td>
-                            </tr>
-                            <?php
-                            } catch (Exception $ex) {
-
-                            }
-                            ?>
-                        @endforeach
-                        <?php
-                        } catch (Exception $ex) {
-
-                        }
-                        ?>
-                        </tbody>
-                    </table>
-                @else
-                    <p class="text-info"><i class="fa fa-info"></i> No previous treatment</p>
-                @endif
+                <table class="table table-condensed" id="in_table" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Procedure</th>
+                        <th>Type</th>
+                        <th title="Unit price">Price</th>
+                        <th title="Number performed">No. Perf</th>
+                        <th title="Discount">Disc(%)</th>
+                        <th>Total</th>
+                        <th>Payment</th>
+                        <th>Date Ordered</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -130,6 +96,7 @@ if ($visit->payment_mode == 'insurance') {
     }
 </style>
 <script type="text/javascript">
+    var PERFOMED_URL = "{{ route('api.evaluation.performed_treatment',$visit->id) }}";
     $(function () {
         $('.treatment_item').find('input').iCheck({
             checkboxClass: 'icheckbox_flat-blue',
@@ -139,6 +106,10 @@ if ($visit->payment_mode == 'insurance') {
         $('.treatment_item').find('table').DataTable({
             "scrollY": "300px",
             "paging": false
+        });
+        $('#in_table').dataTable({
+            ajax: PERFOMED_URL,
+//            responsive: true
         });
     });
 </script>

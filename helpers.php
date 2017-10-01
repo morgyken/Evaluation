@@ -608,13 +608,12 @@ if (!function_exists('payment_label')) {
      */
     function payment_label($paid = null)
     {
-        $fanc = '';
         if ($paid) {
-            $fanc = "<span class='text-success'><i class='fa fa-check-circle-o'></i> Paid</span>";
+            $fancy = "<span class='text-success'><i class='fa fa-check-circle-o'></i> Paid</span>";
         } else {
-            $fanc = "<span class='text-warning'><i class='fa fa-refresh fa-spin'></i> Pending</span>";
+            $fancy = "<span class='text-danger'><i class='fa fa-warning'></i> Not Paid</span>";
         }
-        return $fanc;
+        return $fancy;
     }
 
 }
