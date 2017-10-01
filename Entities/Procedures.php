@@ -11,12 +11,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $code
  * @property int $category
+ * @property string|null $gender
  * @property int|null $template
  * @property float $cash_charge
  * @property int $charge_insurance
  * @property int $precharge
  * @property string|null $description
  * @property int $status
+ * @property int $sensitivity
  * @property-read \Ignite\Evaluation\Entities\ProcedureCategories $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\SubProcedures[] $children
  * @property-read \Ignite\Evaluation\Entities\CriticalValues $critical_values
@@ -36,9 +38,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereChargeInsurance($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures wherePrecharge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereSensitivity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereTemplate($value)
  * @mixin \Eloquent

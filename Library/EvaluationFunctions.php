@@ -471,7 +471,7 @@ class EvaluationFunctions implements EvaluationRepository
 
     /**
      * @param
-     * @return bool
+     * @return Prescriptions
      */
     public function save_prescriptions()
     {
