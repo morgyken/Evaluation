@@ -481,18 +481,13 @@ class EvaluationFunctions implements EvaluationRepository
         }
         $this->input['user'] = $this->user;
         $this->check_in_at('pharmacy');
-        $prescription = null;
-        \DB::transaction(function () use ($prescription) {
-            $prescription = Prescriptions::create(array_except($this->input, 'quantity'));
-            $attributes = [
-                'price' => $prescription->drugs->selling_p,
-                'cost' => $prescription->drugs->cash_price,
-                'prescription_id' => $prescription->id,
-                'quantity' => $this->input['quantity'],
-            ];
-            dd($attributes,$prescription->id);
-            $pp = PrescriptionPayment::create($attributes);
-        });
+        $prescription = Prescriptions::create(array_except($this->input, 'quantity'));
+        $attributes = [
+            'price' => $prescription->drugs->selling_p,
+            'cost' => $prescription->drugs->cash_price,
+            'quantity' => $this->input['quantity'],
+        ];
+        $prescription->payment()->create($attributes);
         return $prescription;
     }
 
