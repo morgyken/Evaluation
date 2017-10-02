@@ -15,7 +15,7 @@ class CreatePrescriptionPaymentsTable extends Migration
     {
         Schema::create('evaluation_prescription_payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('prescription_id');
+            $table->unsignedInteger('prescription_id')->nullable();
             $table->double('price', 10, 2);
             $table->double('discount', 10, 2)->default(0);
             $table->double('cost', 10, 2)->default(0);
