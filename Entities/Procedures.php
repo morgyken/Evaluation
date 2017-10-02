@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $gender
  * @property int|null $template
  * @property float $cash_charge
+ * @property float|null $insurance_charge
  * @property int $charge_insurance
  * @property int $precharge
  * @property string|null $description
@@ -40,6 +41,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereInsuranceCharge($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures wherePrecharge($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereSensitivity($value)
