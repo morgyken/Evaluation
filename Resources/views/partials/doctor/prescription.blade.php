@@ -19,9 +19,10 @@
                         <label class="control-label col-md-4">Drug</label>
                         <div class="col-md-8">
                             @if(is_module_enabled('Inventory'))
-                            <select name="drug"   id="item_0" class="select2-single form-control" style="width: 100%"></select>
+                                <select name="drug" id="item_0" class="select2-single form-control"
+                                        style="width: 100%"></select>
                             @else
-                            <input id="drug" type="text" name='drug' class="form-control"/>
+                                <input id="drug" type="text" name='drug' class="form-control"/>
                             @endif
                         </div>
                     </div>
@@ -41,7 +42,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-4">Duration</label>
-                        <div class="col-md-8" >
+                        <div class="col-md-8">
                             <div class="col-md-6">
                                 <input type="text" name="duration" placeholder="e.g 3" class='form-control'/>
                             </div>
@@ -51,7 +52,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label  class="col-md-offset-4 col-md-8"><input type="checkbox" name="allow_substitution" value="1"/> Substitution allowed</label>
+                        <label class="control-label col-md-4">Quantity</label>
+                        <div class="col-md-8">
+                            {{Form::text('quantity',null,['class'=>'form-control'])}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-offset-4 col-md-8"><input type="checkbox" name="allow_substitution"
+                                                                       value="1"/> Substitution allowed</label>
                     </div>
                     <div class="pull-right">
                         <button type="submit" class="btn btn-xs btn-primary" id="savePrescription">
@@ -62,27 +70,28 @@
 
                     <table id="prescribed_drugs" class="table table-borderless">
                         <thead>
-                            <tr>
-                                <th>Drug</th>
-                                <th>Dose</th>
-                                <th>Duration</th>
-                            </tr>
+                        <tr>
+                            <th>Drug</th>
+                            <th>Dose</th>
+                            <th>Duration</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @if(!$visit->prescriptions->isEmpty())
+                        @if(!$visit->prescriptions->isEmpty())
                             @foreach($visit->prescriptions as $pres)
-                            <tr>
-                                <td>{{$pres->drugs->name}}</td>
-                                <td>{{$pres->dose}}</td>
-                                <td>{{$pres->duration}}</td>
-                            </tr>
+                                <tr>
+                                    <td>{{$pres->drugs->name}}</td>
+                                    <td>{{$pres->dose}}</td>
+                                    <td>{{$pres->duration}}</td>
+                                </tr>
                             @endforeach
-                            @else
+                        @else
                             <tr id="hide-this">
                                 <td colspan="3">
-                                    <i class="fa fa-info-circle"></i> No previously administered prescriptions</td>
+                                    <i class="fa fa-info-circle"></i> No previously administered prescriptions
+                                </td>
                             </tr>
-                            @endif
+                        @endif
                         </tbody>
                     </table>
                     <span class="pull-right">
@@ -100,10 +109,10 @@
     </div>
 </div>
 <?php if (is_module_enabled('Inventory')): ?>
-    <script>
-        var INSURANCE = false;
-        var STOCK_URL = "{{route('api.inventory.getstock')}}";
-        var PRODUCTS_URL = "{{route('api.inventory.get.products')}}";
-    </script>
-    <script src="{!! m_asset('evaluation:js/prescription.min.js') !!}"></script>
+<script>
+    var INSURANCE = false;
+    var STOCK_URL = "{{route('api.inventory.getstock')}}";
+    var PRODUCTS_URL = "{{route('api.inventory.get.products')}}";
+</script>
+<script src="{!! m_asset('evaluation:js/prescription.min.js') !!}"></script>
 <?php endif; ?>

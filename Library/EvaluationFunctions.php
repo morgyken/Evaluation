@@ -15,6 +15,7 @@ namespace Ignite\Evaluation\Library;
 use Ignite\Evaluation\Entities\Additives;
 use Ignite\Evaluation\Entities\CriticalValues;
 use Ignite\Evaluation\Entities\Formula;
+use Ignite\Evaluation\Entities\PrescriptionPayment;
 use Ignite\Evaluation\Entities\ProcedureInventoryItem;
 use Ignite\Evaluation\Entities\DiagnosisCodes;
 use Ignite\Evaluation\Entities\DoctorNotes;
@@ -480,7 +481,19 @@ class EvaluationFunctions implements EvaluationRepository
         }
         $this->input['user'] = $this->user;
         $this->check_in_at('pharmacy');
-        return Prescriptions::create($this->input);
+        $prescription = null;
+        \DB::transaction(function () use ($prescription) {
+            $prescription = Prescriptions::create(array_except($this->input, 'quantity'));
+            $attributes = [
+                'price' => $prescription->drugs->selling_p,
+                'cost' => $prescription->drugs->cash_price,
+                'prescription_id' => $prescription->id,
+                'quantity' => $this->input['quantity'],
+            ];
+            dd($attributes,$prescription->id);
+            $pp = PrescriptionPayment::create($attributes);
+        });
+        return $prescription;
     }
 
     /**
