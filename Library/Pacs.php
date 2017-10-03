@@ -8,7 +8,8 @@
 namespace Ignite\Evaluation\Library;
 
 
-use Curl;
+
+use Ixudra\Curl\Facades\Curl;
 
 class Pacs
 {
