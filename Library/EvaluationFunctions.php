@@ -497,7 +497,7 @@ class EvaluationFunctions implements EvaluationRepository
      */
     public function dispense()
     {
-        //dd($this->request);
+        \DB::beginTransaction();
         $dis = new Dispensing;
         $dis->visit = $this->request->visit;
         $dis->user = \Auth::user()->id;
@@ -506,40 +506,30 @@ class EvaluationFunctions implements EvaluationRepository
         $prescription = null;
         foreach ($this->_get_selected_stack() as $index) {
             $item = 'item' . $index;
-            if ($this->request->$item == 'on') {
-                $drug = 'drug' . $index;
-                $qty = 'qty' . $index;
-                $price = 'prc' . $index;
-                $presc = 'presc' . $index;
-                $disc = 'discount' . $index;
+            $drug = 'drug' . $index;
+            $qty = 'qty' . $index;
+            $price = 'prc' . $index;
+            $presc = 'presc' . $index;
+            $disc = 'discount' . $index;
 
-                $prescription = $this->request->$presc;
-                $details = new DispensingDetails;
-                $details->batch = $dis->id;
-                $details->product = $this->request->$drug;
-                $details->quantity = $this->request->$qty;
-                $details->price = $this->request->$price;
-                $details->discount = $this->request->$disc;
-                $details->save();
-                $sub_total = $details->quantity * $details->price; //((100 - $this->request->$disc ? $this->request->$disc : 0) / 100) * ($details->quantity * $details->price);
-                $amount += $sub_total;
-                //adj stock
-                $this->repo->take_dispensed_products($details);
-                $this->updatePresc($this->request->$presc);
-            } else {
-                flash('Ensure the checkboxes are clicked to proceed', 'danger');
-                return back();
-            }
+            $prescription = $this->request->$presc;
+            $details = new DispensingDetails;
+            $details->batch = $dis->id;
+            $details->product = $this->request->$drug;
+            $details->quantity = $this->request->$qty;
+            $details->price = $this->request->$price;
+            $details->discount = $this->request->$disc ?? 0;
+            $details->save();
+            $sub_total = $details->quantity * $details->price; //((100 - $this->request->$disc ? $this->request->$disc : 0) / 100) * ($details->quantity * $details->price);
+            $amount += $sub_total;
+            //adj stock
+            $this->repo->take_dispensed_products($details);
+            $this->updatePresc($this->request->$presc);
         }
-        //Update Amount
-        //try {
-        $disp = Dispensing::find($dis->id);
-        $disp->amount = $amount;
-        $disp->prescription = $prescription;
-        $disp->save();
-        // } catch (\Exception $ex) {
-        //
-        // }
+        $dis->amount = $amount;
+        $dis->prescription = $prescription;
+        $dis->save();
+        \DB::commit();
         return true;
     }
 
