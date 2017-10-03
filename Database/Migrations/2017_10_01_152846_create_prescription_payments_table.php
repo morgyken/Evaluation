@@ -21,6 +21,8 @@ class CreatePrescriptionPaymentsTable extends Migration
             $table->double('cost', 10, 2)->default(0);
             $table->smallInteger('quantity');
             $table->boolean('paid')->default(false);
+            $table->boolean('complete')->default(false);
+            $table->string('transfer')->nullable();
             $table->timestamps();
             $table->foreign('prescription_id')
                 ->references('id')

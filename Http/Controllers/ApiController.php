@@ -199,14 +199,7 @@ class ApiController extends Controller
     public function pharmacy_cancel_prescription(Request $request)
     {
         $pres = Prescriptions::find($request->id);
-        if ($pres->delete()) {
-            echo '
-            <div class="alert alert-success">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                    ×</button>
-               <span class="glyphicon glyphicon-ok"></span> <strong>Prescription Cancelled.</strong>
-            </div>';
-        }
+        return response()->json(['status' => $pres->delete()]);
     }
 
     public function manage_inventory_items(Request $request)

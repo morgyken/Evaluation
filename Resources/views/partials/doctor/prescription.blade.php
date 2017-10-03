@@ -52,9 +52,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-4">Quantity</label>
+                        <label class="control-label col-md-4">Units to dispense</label>
                         <div class="col-md-8">
-                            {{Form::text('quantity',null,['class'=>'form-control'])}}
+                            {{Form::text('quantity',1,['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group">
