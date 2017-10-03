@@ -20,6 +20,7 @@ $router->post('auto_save_diagnosis', ['uses' => 'ApiController@save_diagnosis', 
 
 $router->post('auto_save_external_order', ['uses' => 'ApiController@save_external_order', 'as' => 'save_external_order']);
 $router->get('auto_save_external_order', ['uses' => 'ApiController@save_external_order', 'as' => 'save_external_order']);
+$router->get('prescription/cancel', ['uses' => 'ApiController@pharmacy_cancel_prescription', 'as' => 'prescription.cancel']);
 
 $router->post('save_prescription', ['uses' => 'ApiController@save_prescription', 'as' => 'save_prescription']);
 $router->post('save_opnotes', ['uses' => 'ApiController@save_opnotes', 'as' => 'save_opnotes']);

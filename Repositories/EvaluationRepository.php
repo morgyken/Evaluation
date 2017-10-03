@@ -135,4 +135,6 @@ interface EvaluationRepository {
      * @return bool Description
      */
     public function checkout_patient();
+
+    public function dispense();
 }
