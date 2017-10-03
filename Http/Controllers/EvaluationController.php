@@ -98,7 +98,7 @@ class EvaluationController extends AdminBaseController
             $this->data['nursing_procedures'] = Procedures::whereCategory(6)->get();
 
             $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)
-                ->whereStatus(0)
+                ->where('status',0)
                 ->get();
             session(['v' => $visit]);
             $this->data['dispensed'] = Prescriptions::whereHas('dispensing', function ($query) {
@@ -108,7 +108,7 @@ class EvaluationController extends AdminBaseController
                 });
             })->get();
 
-            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
+//            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
             //check if has requested for admission
             $this->data['investigations'] = \Ignite\Evaluation\Entities\Investigations::whereVisit($visit)->get();
             return view("evaluation::patient_$section", ['data' => $this->data]);
