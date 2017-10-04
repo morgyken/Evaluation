@@ -77,13 +77,4 @@ if ($visit->payment_mode == 'insurance') {
     </thead>
 </table>
 {!! Form::close()!!}
-<script>
-
-    $(document).ready(function() {
-        $('#di').DataTable( {
-            "scrollY":        "400px",
-            "paging":         false
-        } );
-    } );
-</script>
 @endif

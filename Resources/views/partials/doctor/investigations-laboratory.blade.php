@@ -88,11 +88,3 @@ if ($visit->payment_mode == 'insurance') {
 </table>
 {!! Form::close()!!}
 @endif
-<script>
-    $(document).ready(function() {
-        $('#lab').DataTable( {
-            "scrollY":        "400px",
-            "paging":         false
-        } );
-    } );
-</script>
