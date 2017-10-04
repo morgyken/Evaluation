@@ -25,14 +25,23 @@ $(function () {
     $('#procedures_doctor_form,#procedures_nurse_form').find('input').on('ifChanged', function () {
         var elements = $(this).parents('tr').find('input');
         var texts = $(this).parents('tr').find('textarea');
+        var procedure_id = $(this).val();
         if ($(this).is(':checked')) {
             elements.prop('disabled', false);
             texts.prop('disabled', false);
             $(texts).parent().show();
+            var name = $('#name' + procedure_id).html();
+            var amount = john_doe(procedure_id);
+            addOrReplaceTreatment({
+                id: procedure_id,
+                name: name,
+                amount: amount
+            });
         } else {
             elements.prop('disabled', true);
             texts.prop('disabled', true);
             $(texts).parent().hide();
+            removeTheTreatment(procedure_id);
         }
         $(this).prop('disabled', false);
         preview_treatment_selection();
@@ -42,10 +51,9 @@ $(function () {
         $('#selected_treatment').hide();
         $('#treatment > tbody > tr').remove();
         var total = 0;
-        $("#procedures_doctor_form,#procedures_nurse_form").find("input:checkbox:checked").each(function () {
-            var procedure_id = $(this).val();
-            var name = $('#name' + procedure_id).html();
-            var amount = john_doe(procedure_id);
+        treatmentInvestigations.forEach(function (data) {
+            var name = data.name;
+            var amount = data.amount;
             total += parseInt(amount);
             $('#treatment > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
@@ -55,7 +63,22 @@ $(function () {
         $('#selected_treatment').show();
     }
 
+    var treatmentInvestigations = [], trIndex = {};
 
+    function addOrReplaceTreatment(object) {
+        var index = trIndex[object.id];
+        if (index === undefined) {
+            index = treatmentInvestigations.length;
+            trIndex[object.id] = index;
+        }
+        treatmentInvestigations[index] = object;
+    }
+
+    function removeTheTreatment(id) {
+        treatmentInvestigations = treatmentInvestigations.filter(function (obj) {
+            return obj.id !== id;
+        });
+    }
 
     $('#saveTreatment').click(function (e) {
         e.preventDefault();
@@ -71,6 +94,9 @@ $(function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Selected treatment procedures saved');
                 $('.treatment_item').find('input').iCheck('uncheck');
                 $('#in_table').dataTable().api().ajax.reload();
+                treatmentInvestigations = [];
+                trIndex = {};
+                preview_treatment_selection();
             },
             error: function () {
                 alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');

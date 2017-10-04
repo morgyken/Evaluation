@@ -31,14 +31,23 @@ $(function () {
     $('#radiology_form,#laboratory_form,#diagnosis_form').find('input').on('ifChanged', function () {
         var elements = $(this).parents('tr').find('input');
         var texts = $(this).parents('tr').find('textarea');
+        var procedure_id = $(this).val();
         if ($(this).is(':checked')) {
             elements.prop('disabled', false);
             texts.prop('disabled', false);
             $(texts).parent().show();
+            var name = $('#name' + procedure_id).html();
+            var amount = get_total_for_investigation(procedure_id);
+            addOrReplaceInvestigation({
+                id: procedure_id,
+                name: name,
+                amount: amount
+            });
         } else {
             elements.prop('disabled', true);
             texts.prop('disabled', true);
             $(texts).parent().hide();
+            removeTheInvestigation(procedure_id);
         }
         $(this).prop('disabled', false);
         show_selection_investigation();
@@ -48,10 +57,9 @@ $(function () {
         $('#show_selection').hide();
         $('#diagnosisInfo > tbody > tr').remove();
         var total = 0;
-        $("#diagnosis_form,#laboratory_form,#radiology_form").find("input:checkbox:checked").each(function () {
-            var procedure_id = $(this).val();
-            var name = $('#name' + procedure_id).html();
-            var amount = john_doe(procedure_id);
+        procedureInvestigations.forEach(function (data) {
+            var name = data.name;
+            var amount = data.amount;
             total += parseInt(amount);
             $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
@@ -72,6 +80,12 @@ $(function () {
         procedureInvestigations[index] = object;
     }
 
+    function removeTheInvestigation(id) {
+        procedureInvestigations = procedureInvestigations.filter(function (obj) {
+            return obj.id !== id;
+        });
+    }
+
     $('#saveDiagnosis').click(function (e) {
         e.preventDefault();
         $.ajax({
@@ -81,7 +95,10 @@ $(function () {
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
                 $('.investigation_item').find('input').iCheck('uncheck');
+                procedureInvestigations = [];
+                arrIndex = {};
                 $('#previousInvestigations').dataTable().api().ajax.reload();
+                show_selection_investigation();
             },
             error: function () {
                 alertify.error('<i class="fa fa-check-warning"></i> Could not save evalaution');
@@ -96,14 +113,13 @@ $(function () {
         try {
             var total = price * qty;
             var d = total * (discount / 100);
-            var discounted = total - d;
-            return discounted;
+            return total - d;
         } catch (e) {
             return price;
         }
     }
 
-    function john_doe(procedure_id) {
+    function get_total_for_investigation(procedure_id) {
         var cost = $('#cost' + procedure_id).val();
         var discount = $('#discount' + procedure_id).val();
         var quantity = $('#quantity' + procedure_id).val();
