@@ -4,9 +4,6 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
-$performed_diagnosis = get_investigations($visit, ['diagnostics']);
-$performed_labs = get_investigations($visit, ['laboratory']);
-$performed_radio = get_investigations($visit, ['radiology']);
 ?>
 <div>
     <div class="row">
@@ -50,17 +47,18 @@ $performed_radio = get_investigations($visit, ['radiology']);
                                 <div id="diagnosisTable">
                                     <table id="diagnosisInfo" class=" table table-condensed">
                                         <thead>
-                                            <tr>
-                                                <th>Test</th>
-                                                <th>Price</th>
-                                            </tr>
+                                        <tr>
+                                            <th>Test</th>
+                                            <th>Price</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
                                         </tbody>
                                     </table>
                                     <div class="pull-right">
                                         <button class="btn btn-success" id="saveDiagnosis">
-                                            <i class="fa fa-save"></i> Save</button>
+                                            <i class="fa fa-save"></i> Save
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -77,86 +75,40 @@ $performed_radio = get_investigations($visit, ['radiology']);
                     <h4 class="box-title">Previously ordered tests</h4>
                 </div>
                 <div class="box-body">
-                    <table id="t" class="table table-condensed table-striped">
+                    <table id="previousInvestigations" class="table table-condensed table-striped" width="100%">
                         <thead>
-                            <tr>
-                                <th>Procedure</th>
-                                <th>Type</th>
-                                <th>Price</th>
-                                <th>No. Performed</th>
-                                <th>Discount</th>
-                                <th>Amount</th>
-                                <th>Payment</th>
-                                <th>Result</th>
-                            </tr>
+                        <tr>
+                            <th>Procedure</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>No. Performed</th>
+                            <th>Discount</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                            <th>Date</th>
+                            <th>Result</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @if(!$performed_diagnosis->isEmpty())
-                            @foreach($performed_diagnosis as $item)
-                            <tr>
-                                <td>{{str_limit($item->procedures->name,20,'...')}}</td>
-                                <td>{{$item->type}}</td>
-                                <td>{{$item->price}}</td>
-                                <td>{{$item->quantity}}</td>
-                                <td>{{$item->discount}}</td>
-                                <td>{{$item->amount>0?$item->amount:$item->price}}</td>
-                                <td>{!! payment_label($item->is_paid) !!}</td>
-                                @if($item->has_result)
-                                <td><a href="{{route('evaluation.view_result',$item->visit)}}" class="btn btn-xs btn-success" target="_blank">
-                                        <i class="fa fa-external-link"></i> View Result
-                                    </a></td>
-                                @else
-                                <td><span class="text-warning"><i class="fa fa-warning"></i> Pending</span></td>
-                                @endif
-                            </tr>
-                            @endforeach
-                            @endif
-                            @if(!$performed_labs->isEmpty())
-                            @foreach($performed_labs as $item)
-                            <tr>
-                                <td>{{str_limit($item->procedures->name,20,'...')}}</td>
-                                <td>{{$item->type}}</td>
-                                <td>{{$item->price}}</td>
-                                <td>{{$item->quantity}}</td>
-                                <td>{{$item->discount}}</td>
-                                <td>{{$item->amount>0?$item->amount:$item->price}}</td>
-                                <td>{!! payment_label($item->is_paid) !!}</td>
-                                <td>
-                                    <a href="{{route('evaluation.view_result',$item->visit)}}" class="btn btn-xs btn-success" target="_blank">
-                                        <i class="fa fa-external-link"></i> View Result
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
-                            @endif
-                            @if(!$performed_radio->isEmpty())
-                            @foreach($performed_radio as $item)
-                            <tr>
-                                <td>{{str_limit($item->procedures->name,20,'...')}}</td>
-                                <td>{{$item->type}}</td>
-                                <td>{{$item->price}}</td>
-                                <td>{{$item->quantity}}</td>
-                                <td>{{$item->discount}}</td>
-                                <td>{{$item->amount>0?$item->amount:$item->price}}</td>
-                                <td>{!! payment_label($item->is_paid) !!}</td>
-                                <td>
-                                    <a href="{{route('evaluation.view_result',$item->visit)}}" class="btn btn-xs btn-success" target="_blank">
-                                        <i class="fa fa-external-link"></i> View Result
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
-                            @endif
                         </tbody>
                     </table>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 <style>
-    .investigation_item{
+    .investigation_item {
         overflow: auto;
     }
 </style>
+<script type="text/javascript">
+    var PERFOMED_INVESTIGATION_URL = "{{ route('api.evaluation.performed_investigations',$visit->id) }}";
+    $(function () {
+        $('.investigation_item').find('input').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+    });
+</script>

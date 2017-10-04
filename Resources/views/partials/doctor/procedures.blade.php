@@ -103,13 +103,6 @@ if ($visit->payment_mode == 'insurance') {
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
         });
-        $('.treatment_item').find('table').DataTable({
-            "scrollY": "300px",
-            "paging": false
-        });
-        $('#in_table').dataTable({
-            ajax: PERFOMED_URL,
-//            responsive: true
-        });
+
     });
 </script>

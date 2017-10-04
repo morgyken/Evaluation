@@ -265,4 +265,33 @@ class ApiController extends Controller
         }
         return response()->json(['data' => $return]);
     }
+
+    public function getDoneInvestigations(Visit $visit_id)
+    {
+        /** @var Investigations[] $data */
+        $data = get_investigations($visit_id, ['diagnostics', 'laboratory', 'radiology']);
+        $return = [];
+        foreach ($data as $key => $item) {
+            if ($item->has_result)
+                $link = '<a href="' . route('evaluation.view_result', $item->visit) . '"
+                                               class="btn btn-xs btn-success" target="_blank">
+                                                <i class="fa fa-external-link"></i> View Result
+            </a>';
+            else
+                $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Pending</span>';
+
+            $return[] = [
+                str_limit($item->procedures->name, 50, '...'),
+                $item->type,
+                $item->price,
+                $item->quantity,
+                $item->discount,
+                $item->amount > 0 ? $item->amount : $item->price,
+                payment_label($item->is_paid),
+                $item->created_at->format('d/m/Y h:i a'),
+                $link,
+            ];
+        }
+        return response()->json(['data' => $return]);
+    }
 }

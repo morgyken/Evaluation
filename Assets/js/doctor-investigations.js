@@ -14,19 +14,23 @@
 $(function () {
     //mock hide this
     $('.instructions').hide();
-
-    $('#radiology_form input,#radilogy_form textarea, #diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
+    $('.investigation_item').find('table').DataTable({
+        "scrollY": "300px",
+        "paging": false
+    });
+    $('#previousInvestigations').dataTable({
+        ajax: PERFOMED_INVESTIGATION_URL
+    });
+    $('#radiology_form input,#radiology_form textarea, #diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
         show_selection_investigation();
     });
-
 
     $('#diagnosis_form,#laboratory_form,#radiology_form ').find('input:text').keyup(function () {
         show_selection_investigation();
     });
-
-    $('#radiology_form .check,#laboratory_form .check,#diagnosis_form .check').click(function () {
-        var elements = $(this).parent().parent().find('input');
-        var texts = $(this).parent().parent().find('textarea');
+    $('#radiology_form,#laboratory_form,#diagnosis_form').find('input').on('ifChanged', function () {
+        var elements = $(this).parents('tr').find('input');
+        var texts = $(this).parents('tr').find('textarea');
         if ($(this).is(':checked')) {
             elements.prop('disabled', false);
             texts.prop('disabled', false);
@@ -44,40 +48,28 @@ $(function () {
         $('#show_selection').hide();
         $('#diagnosisInfo > tbody > tr').remove();
         var total = 0;
-        $("#diagnosis_form input:checkbox:checked").each(function () {
+        $("#diagnosis_form,#laboratory_form,#radiology_form").find("input:checkbox:checked").each(function () {
             var procedure_id = $(this).val();
             var name = $('#name' + procedure_id).html();
             var amount = john_doe(procedure_id);
             total += parseInt(amount);
             $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
-
-        //for labs
-        $("#laboratory_form input:checkbox:checked").each(function () {
-            var procedure_id = $(this).val();
-            var name = $('#name' + procedure_id).html();
-            var amount = john_doe(procedure_id);
-            total += parseInt(amount);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
-        });
-
-        //for radiology
-        $("#radiology_form input:checkbox:checked").each(function () {
-            var procedure_id = $(this).val();
-            var name = $('#name' + procedure_id).html();
-            var amount = john_doe(procedure_id);
-            total += parseInt(amount);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
-        });
-
         if (total) {
             $('#diagnosisInfo > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
         }
         $('#show_selection').show();
-        /*
-         save_diagnosis();
-         save_lab_tests();
-         */
+    }
+
+    var procedureInvestigations = [], arrIndex = {};
+
+    function addOrReplaceInvestigation(object) {
+        var index = arrIndex[object.id];
+        if (index === undefined) {
+            index = procedureInvestigations.length;
+            arrIndex[object.id] = index;
+        }
+        procedureInvestigations[index] = object;
     }
 
     $('#saveDiagnosis').click(function (e) {
@@ -88,7 +80,8 @@ $(function () {
             data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
-                location.reload();
+                $('.investigation_item').find('input').iCheck('uncheck');
+                $('#previousInvestigations').dataTable().api().ajax.reload();
             },
             error: function () {
                 alertify.error('<i class="fa fa-check-warning"></i> Could not save evalaution');
@@ -96,10 +89,7 @@ $(function () {
         });
         //location.reload();
     });
-    //sick of this
-    $('#laboratory_form').find('input:radio, input:checkbox').prop('checked', false);
-    $('#diagnosis_form').find('input:radio, input:checkbox').prop('checked', false);
-    $('#radiology_form').find('input:radio, input:checkbox').prop('checked', false);
+    $('.investigation_item').find('input').iCheck('uncheck');
     $('#show_selection').hide();
 
     function get_amount_given(price, qty, discount) {

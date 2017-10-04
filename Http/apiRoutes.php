@@ -54,3 +54,4 @@ $router->get('delete/critical_value/', ['uses' => 'ApiController@del_critical_va
 $router->get('delete/procedure', ['uses' => 'ApiController@delete_procedure', 'as' => 'delete_procedure']);
 
 $router->get('performed/treatment/{visit_id}/evaluation', ['as' => 'performed_treatment', 'uses' => 'ApiController@getDoneTreatment']);
+$router->get('performed/investigations/{visit_id}/evaluation', ['as' => 'performed_investigations', 'uses' => 'ApiController@getDoneInvestigations']);

@@ -6,6 +6,14 @@
 /* global TREAT_URL, VISIT_ID, USER_ID, DIAGNOSIS_URL, alertify */
 
 $(function () {
+
+    $('.treatment_item').find('table').DataTable({
+        "scrollY": "300px",
+        "paging": false
+    });
+    $('#in_table').dataTable({
+        ajax: PERFOMED_URL
+    });
     $('#procedures_doctor_form,#procedures_nurse_form').find('input:text').keyup(function () {
         preview_treatment_selection();
     });
@@ -34,7 +42,6 @@ $(function () {
         $('#selected_treatment').hide();
         $('#treatment > tbody > tr').remove();
         var total = 0;
-
         $("#procedures_doctor_form,#procedures_nurse_form").find("input:checkbox:checked").each(function () {
             var procedure_id = $(this).val();
             var name = $('#name' + procedure_id).html();
@@ -42,13 +49,13 @@ $(function () {
             total += parseInt(amount);
             $('#treatment > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
-
         if (total) {
             $('#treatment > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
         }
         $('#selected_treatment').show();
-        //  save_treatment();
     }
+
+
 
     $('#saveTreatment').click(function (e) {
         e.preventDefault();
@@ -86,8 +93,7 @@ $(function () {
         try {
             var total = price * qty;
             var d = total * (discount / 100);
-            var discounted = total - d;
-            return discounted;
+            return total - d;
         } catch (e) {
             return price;
         }
