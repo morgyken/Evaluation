@@ -89,8 +89,8 @@ class Visit extends Model
     public function getUnpaidAmountAttribute()
     {
         $amount = 0;
-        $amount += $this->dispensing->where('payment_status', 0)->sum('amount');
         $amount += $this->investigations->where('is_paid', 0)->sum('price');
+        $amount += $this->prescriptions->where('is_paid', false)->sum('priced_amount');
         return $amount;
     }
 
