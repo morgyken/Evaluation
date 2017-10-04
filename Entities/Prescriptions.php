@@ -104,4 +104,14 @@ class Prescriptions extends Model
     {
         return $this->hasOne(PrescriptionPayment::class, 'prescription_id');
     }
+
+    public function getPricedAmountAttribute()
+    {
+        return $this->payment->total;
+    }
+
+    public function getIsPaidAttribute()
+    {
+        return $this->payment->invoiced;
+    }
 }
