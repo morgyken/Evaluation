@@ -26,7 +26,7 @@
         </thead>
         <tbody>
         @foreach($drug_prescriptions as $item)
-            @if($item->payment->paid)
+            @if($item->payment->paid || $item->payment->invoiced)
                 <?php
                 $price = 0;
                 $stock = 0;
