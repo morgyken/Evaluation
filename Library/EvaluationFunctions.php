@@ -776,6 +776,8 @@ class EvaluationFunctions implements EvaluationRepository
             }
             $procedure->description = $this->request->description;
             $procedure->cash_charge = $this->request->cash_charge;
+            if ($this->request->has('insurance_charge'))
+                $procedure->insurance_charge = $this->request->insurance_charge;
 
             if ($this->request->cash_charge_insurance > 0) {
                 $procedure->charge_insurance = 1;
