@@ -59,7 +59,7 @@ $(function () {
         var total = 0;
         procedureInvestigations.forEach(function (data) {
             var name = data.name;
-            var amount = data.amount;
+            var amount = get_total_for_investigation(data.id);
             total += parseInt(amount);
             $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });

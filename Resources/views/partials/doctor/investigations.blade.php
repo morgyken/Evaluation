@@ -106,7 +106,7 @@
     var PERFOMED_INVESTIGATION_URL = "{{ route('api.evaluation.performed_investigations',$visit->id) }}";
     $(function () {
         $('.investigation_item').find('input').iCheck({
-            checkboxClass: 'icheckbox_flat-green',
+            checkboxClass: 'icheckbox_square-green',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
         });
