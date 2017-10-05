@@ -16,20 +16,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property float|null $lower
  * @property float|null $upper
  * @property float|null $lg_value
- * @property string|null $flag
- * @property string|null $other_type
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereAge($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereFlag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereLgType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereLgValue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereLower($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereOtherType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereProcedure($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\ReferenceRange whereUpdatedAt($value)
