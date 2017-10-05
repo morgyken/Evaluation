@@ -3,6 +3,7 @@
 namespace Ignite\Evaluation\Entities;
 
 use Ignite\Evaluation\Entities\DiagnosisCodes;
+use Ignite\Users\Entities\Sentinel;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $user
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Ignite\Users\Entities\Sentinel|null $doctor
  * @property-read mixed $codes
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereCreatedAt($value)
@@ -34,7 +36,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereVisit($value)
  * @mixin \Eloquent
  */
-class DoctorNotes extends Model {
+class DoctorNotes extends Model
+{
 
     //use SoftDeletes;
 
@@ -43,17 +46,30 @@ class DoctorNotes extends Model {
     protected $guarded = [];
     public $table = 'evaluation_doctor_notes';
 
-    public function visits() {
+    public function visits()
+    {
         return $this->belongsTo(Visit::class, 'visit');
     }
 
-    public function getCodesAttribute() {
+    public function doctor()
+    {
+        return $this->belongsTo(Sentinel::class, 'user');
+    }
+
+    public function getVisitTypeAttribute()
+    {
+        $type = (bool)Visit::where('id', '<>', $this->visit)->count();
+        return $type ? 'Revisit' : 'New';
+    }
+
+    public function getCodesAttribute()
+    {
         $_code = '';
         if (isset($this->diagnosis)) {
             try {
                 foreach (json_decode($this->diagnosis) as $key => $value) {
                     $dcode = DiagnosisCodes::find($value);
-                    $_code.='<span class="label label-default">' . $dcode->name . '</span> ';
+                    $_code .= '<span class="label label-default">' . $dcode->name . '</span> ';
                 }
                 echo "Initial diagnoses:-<br/>" . $_code;
             } catch (\Exception $e) {

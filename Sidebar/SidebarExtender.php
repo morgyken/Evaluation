@@ -184,6 +184,7 @@ class SidebarExtender implements Panda {
                     $item->authorize($this->auth->hasAccess('evaluation.settings.procedures'));
                     $item->weight(4);
                 });
+
                 $item->item('Partner Institutions', function(Item $item) {
                     $item->icon('fa fa-users');
                     $item->route('evaluation.setup.partners', 'partners');

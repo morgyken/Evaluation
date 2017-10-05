@@ -8,14 +8,16 @@ use Ignite\Evaluation\Entities\Procedures;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
-class ProceduresTableSeeder extends Seeder {
+class ProceduresTableSeeder extends Seeder
+{
 
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
         /*
           $procedure_categories = [
           1 => ['name' => 'Consultation', 'applies_to' => 1],
@@ -412,12 +414,12 @@ class ProceduresTableSeeder extends Seeder {
             8 => ['name' => 'Diagnostics', 'applies_to' => 7],
             9 => ['name' => 'Theatre', 'applies_to' => 8],
             10 => ['name' => 'Physiotherapy', 'applies_to' => 9],
-            11=> ['name' => 'Dental','applies_to'=>10],
-            12=> ['name' => 'Optical','applies_to'=>11],
-            13=> ['name' => 'inpatient','applies_to'=>9],
+            11 => ['name' => 'Dental', 'applies_to' => 10],
+            12 => ['name' => 'Optical', 'applies_to' => 11],
+            13 => ['name' => 'inpatient', 'applies_to' => 9],
         ];
 
-        DB::transaction(function() use ($procedure_categories, $procedures) {
+        DB::transaction(function () use ($procedure_categories, $procedures) {
             //$sample = config('procedures.categories');
             $faker = Factory::create();
             foreach ($procedure_categories as $category) {
@@ -435,6 +437,7 @@ class ProceduresTableSeeder extends Seeder {
                 }
                 $p->category = $faker->randomElement(array_keys($procedure_categories));
                 $p->cash_charge = $procedure['cash_charge'];
+                $p->insurance_charge = $procedure['cash_charge'] + mt_rand(1, $procedure['cash_charge']);
                 $p->charge_insurance = $faker->randomElement([true, false]);
                 if (!empty($p->code)) {
                     $p->save();
