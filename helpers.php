@@ -21,10 +21,12 @@ use Ignite\Evaluation\Entities\Procedures;
 use Ignite\Evaluation\Entities\VisitMeta;
 use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\Vitals;
+use Ignite\Inventory\Entities\InventoryProducts;
 use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\PatientDocuments;
 use Ignite\Reception\Entities\Patients;
 use Ignite\Settings\Entities\Clinics;
+use Ignite\Settings\Entities\InsuranceSchemePricing;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
@@ -108,24 +110,60 @@ if (!function_exists('get_procedures_for')) {
     }
 
 }
+if (!function_exists('get_price_procedure')) {
 
+    function get_price_procedure(Visit $_v, Procedures $procedure)
+    {
+        if ($_v->scheme) {
+            $c_price = InsuranceSchemePricing::whereSchemeId($_v->scheme)
+                ->whereProcedureId($procedure->id)
+                ->first();
+            $c_price = $c_price->amount ?? $procedure->insurance_charge;
+        }
+        if (!empty($c_price)) {
+            $price = $c_price;
+        } else {
+            $price = $procedure->price;
+        }
+        return $price;
+    }
+}
+if (!function_exists('get_price_drug')) {
 
+    function get_price_drug(Visit $_v, InventoryProducts $procedure)
+    {
+        if ($_v->scheme) {
+            $c_price = InsuranceSchemePricing::whereSchemeId($_v->scheme)
+                ->whereProductId($procedure->id)
+                ->first();
+            $c_price = $c_price->amount ?? $procedure->insurance_p;
+        }
+        if (!empty($c_price)) {
+            $price = $c_price;
+        } else {
+            $price = $procedure->cash_price;
+        }
+        return $price;
+    }
+}
 if (!function_exists('get_all_procedures')) {
 
     /**
      * @param string $name
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function get_all_procedures($term = null) {
+    function get_all_procedures($term = null)
+    {
         return Procedures::where('name', 'like', "%$term%")->get();
     }
 
 }
 if (!function_exists('get_external_patients')) {
 
-    function get_external_patients($id) {
+    function get_external_patients($id)
+    {
         $patients = Patients::where('external_institution', '=', $id)
-                ->get();
+            ->get();
         return $patients;
     }
 
@@ -156,7 +194,8 @@ if (!function_exists('get_template')) {
 
 if (!function_exists('get_lab_template')) {
 
-    function get_lab_template($id) {
+    function get_lab_template($id)
+    {
         //$procedure = Procedures::find($id);
         $template = TemplateLab::whereProcedure($id)->get();
         if (!$template->isEmpty()) {
@@ -168,7 +207,8 @@ if (!function_exists('get_lab_template')) {
 
 if (!function_exists('has_headers')) {
 
-    function has_headers($procedure) {
+    function has_headers($procedure)
+    {
         $subtests = TemplateLab::whereProcedure($procedure)->pluck('title');
         $headers = array();
         foreach ($subtests as $test) {
@@ -188,9 +228,10 @@ if (!function_exists('has_headers')) {
 
 if (!function_exists('get_titles_for_procedure')) {
 
-    function get_titles_for_procedure($procedures) {
+    function get_titles_for_procedure($procedures)
+    {
         return \Ignite\Evaluation\Entities\HaemogramTitle::whereProcedure($procedures)
-                        ->get();
+            ->get();
     }
 
 }
@@ -198,7 +239,8 @@ if (!function_exists('get_titles_for_procedure')) {
 
 if (!function_exists('load_template')) {
 
-    function load_template($procedure) {
+    function load_template($procedure)
+    {
         $loaded = TemplateLab::whereProcedure($procedure)->get();
         dd($loaded);
         return $loaded;
@@ -208,23 +250,24 @@ if (!function_exists('load_template')) {
 
 if (!function_exists('get_title_procedures')) {
 
-    function get_title_procedures($procedure, $title) {
+    function get_title_procedures($procedure, $title)
+    {
         return TemplateLab::whereProcedure($procedure)
-                        ->whereTitle($title)
-                        ->get();
+            ->whereTitle($title)
+            ->get();
     }
 
 }
 
 if (!function_exists('get_lab_templates')) {
 
-    function get_lab_templates($procedure) {
+    function get_lab_templates($procedure)
+    {
         return TemplateLab::whereProcedure($procedure)
-                        ->get();
+            ->get();
     }
 
 }
-
 
 
 if (!function_exists('get_category_template')) {
@@ -493,7 +536,8 @@ if (!function_exists('get_parent_procedures')) {
     /**
      * @return \Illuminate\Support\Collection Procedure Collection
      */
-    function get_parent_procedures() {
+    function get_parent_procedures()
+    {
         return Procedures::all()->pluck('name', 'id');
     }
 
@@ -504,7 +548,8 @@ if (!function_exists('get_lab_cats')) {
     /**
      * @return \Illuminate\Support\Collection Procedure Collection
      */
-    function get_lab_cats() {
+    function get_lab_cats()
+    {
         return Ignite\Evaluation\Entities\LabtestCategories::all()->pluck('name', 'id');
     }
 
@@ -515,7 +560,8 @@ if (!function_exists('get_lab_titles')) {
     /**
      * @return \Illuminate\Support\Collection Procedure Collection
      */
-    function get_lab_titles() {
+    function get_lab_titles()
+    {
         return Ignite\Evaluation\Entities\HaemogramTitle::all()->pluck('name', 'id');
     }
 
@@ -553,7 +599,8 @@ if (!function_exists('get_procedures')) {
 
 if (!function_exists('get_sample_types')) {
 
-    function get_sample_types() {
+    function get_sample_types()
+    {
         ///dd(\Ignite\Evaluation\Entities\SampleType::all());
         return \Ignite\Evaluation\Entities\SampleType::all()->pluck('name', 'id');
     }
@@ -562,7 +609,8 @@ if (!function_exists('get_sample_types')) {
 
 if (!function_exists('get_sample_methods')) {
 
-    function get_sample_methods() {
+    function get_sample_methods()
+    {
         return \Ignite\Evaluation\Entities\SampleCollectionMethods::all()->pluck('name', 'id');
     }
 
@@ -570,7 +618,8 @@ if (!function_exists('get_sample_methods')) {
 
 if (!function_exists('get_units')) {
 
-    function get_units() {
+    function get_units()
+    {
         return \Ignite\Evaluation\Entities\Unit::all()->pluck('name', 'name');
     }
 
@@ -579,7 +628,8 @@ if (!function_exists('get_units')) {
 
 if (!function_exists('get_additives')) {
 
-    function get_additives() {
+    function get_additives()
+    {
         return \Ignite\Evaluation\Entities\Additives::all()->pluck('name', 'id');
     }
 
@@ -1023,7 +1073,8 @@ if (!function_exists('get_min_range')) {
      * @param $procedure , $age_days, $age_years
      * @return $range
      */
-    function get_min_range($p, $age_days, $age_years) {
+    function get_min_range($p, $age_days, $age_years)
+    {
         if (!empty($p->ref_ranges)) {
             if (get_gender_range($p)) {
                 $range = get_gender_range($p);
@@ -1057,13 +1108,14 @@ if (!function_exists('get_min_range')) {
 
 if (!function_exists('get_gender_range')) {
 
-    function get_gender_range($p) {
+    function get_gender_range($p)
+    {
         get_ref_range($p);
         $patient = \Session::get('active_patient');
         $range = ReferenceRange::whereProcedure($p->id)
-                ->whereGender(strtolower($patient->sex))
-                ->get()
-                ->first();
+            ->whereGender(strtolower($patient->sex))
+            ->get()
+            ->first();
         if (!empty($range)) {
             return $range;
         } else {
@@ -1076,7 +1128,8 @@ if (!function_exists('get_gender_range')) {
 
 if (!function_exists('get_ref_range')) {
 
-    function get_ref_range($p) {
+    function get_ref_range($p)
+    {
         $interval = null;
         if (gender_specific_interval($p)) {
             $interval = gender_specific_interval($p);
@@ -1094,29 +1147,31 @@ if (!function_exists('get_ref_range')) {
 
 
 if (!function_exists('get_ref_interval')) {
-    function get_ref_interval($range) {
+    function get_ref_interval($range)
+    {
         try {
             $flg = mconfig('evaluation.options.lp_flags');
-            if ($range->type =='range') {
+            if ($range->type == 'range') {
                 $interval = $range->lower . ' - ' . $range->upper;
-            } elseif($range->type =='less_greater') {
+            } elseif ($range->type == 'less_greater') {
                 $interval = $range->lg_type . ' ' . $range->lg_value;
-            }else{
+            } else {
                 $interval = $range->other_type;
             }
-            return $range->flag?$flg[$range->flag].' '.$interval:$interval;
+            return $range->flag ? $flg[$range->flag] . ' ' . $interval : $interval;
         } catch (\Exception $e) {
-           return null;
+            return null;
         }
     }
 
 }
 
 if (!function_exists('with_and_without_headers')) {
-    function with_and_without_headers($other_tests,$with_headers) {
+    function with_and_without_headers($other_tests, $with_headers)
+    {
         $has_both = false;
-        foreach($other_tests as $othertest){
-            if(!in_array($othertest->subtests->id, $with_headers)){
+        foreach ($other_tests as $othertest) {
+            if (!in_array($othertest->subtests->id, $with_headers)) {
                 $has_both = true;
             }
         }
@@ -1127,35 +1182,36 @@ if (!function_exists('with_and_without_headers')) {
 
 if (!function_exists('is_critical')) {
 
-    function is_critical($test, $result) {
+    function is_critical($test, $result)
+    {
         if (!empty($result)) {
-            try{
+            try {
                 $r = $result[$test->subtests->id];
                 $cv = $test->subtests->critical_values;
 
-                if($cv->type =='>'){
-                    if($r>$cv->critical_value){
+                if ($cv->type == '>') {
+                    if ($r > $cv->critical_value) {
                         return true;
                     }
-                }elseif ($cv->type =='<'){
-                    if($r<$cv->critical_value){
+                } elseif ($cv->type == '<') {
+                    if ($r < $cv->critical_value) {
                         return true;
                     }
-                }elseif ($cv->type =='>='){
-                    if($r>=$cv->critical_value){
+                } elseif ($cv->type == '>=') {
+                    if ($r >= $cv->critical_value) {
                         return true;
                     }
-                }elseif ($cv->type =='<='){
-                    if($r<=$cv->critical_value){
+                } elseif ($cv->type == '<=') {
+                    if ($r <= $cv->critical_value) {
                         return true;
                     }
-                }else{
+                } else {
                     return false;
                 }
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -1202,28 +1258,29 @@ if (!function_exists('get_result')) {
     /**
      * @return Test result
      */
-    function get_result($results, $test) {
-        if(!$test->sensitivity){
+    function get_result($results, $test)
+    {
+        if (!$test->sensitivity) {
             if (!empty($test->formula)) {
                 $formula = $test->formula->formula;
-                $formula = str_replace(' ', '',strtoupper($test->formula->formula));
+                $formula = str_replace(' ', '', strtoupper($test->formula->formula));
 
                 preg_match_all('/P\s*(\d+)/', $formula, $matches);
                 $test_ids = $matches[1];
 
                 $search = array();
                 $replace = array();
-                foreach ($test_ids as $id){
-                    $search[] = "P".$id;
+                foreach ($test_ids as $id) {
+                    $search[] = "P" . $id;
                     $replace[] = $results[$id];
                 }
-                $parsable = str_replace($search,$replace,$formula);
+                $parsable = str_replace($search, $replace, $formula);
 
                 return parse_expression($parsable);
             } else {
-                try{
+                try {
                     return strip_tags($results[$test->id]);
-                }catch(\Exception $e){
+                } catch (\Exception $e) {
                     return '';
                 }
             }
@@ -1232,14 +1289,16 @@ if (!function_exists('get_result')) {
 
 }
 
-function parse_expression($expression){
+function parse_expression($expression)
+{
     $calculator = \Hoa\Compiler\Llk::load(new \Hoa\File\Read('hoa://Library/Math/Arithmetic.pp'));
-    $visitor    = new Hoa\Math\Visitor\Arithmetic();
-    $ast        = $calculator->parse($expression);
-    return number_format($visitor->visit($ast),4);
+    $visitor = new Hoa\Math\Visitor\Arithmetic();
+    $ast = $calculator->parse($expression);
+    return number_format($visitor->visit($ast), 4);
 }
 
-function general_interval($p) {
+function general_interval($p)
+{
     $patient = \Session::get('active_patient');
     $dob = \Carbon\Carbon::parse($patient->dob);
     $today = new DateTime();
@@ -1250,27 +1309,27 @@ function general_interval($p) {
     $age_m = ($age->format('%y') * 12) + $age->format('%m');
 
     $all = ReferenceRange::whereProcedure($p->id)
-            ->whereAge('all')
-            ->whereGender('both')
-            ->get()
-            ->first();
+        ->whereAge('all')
+        ->whereGender('both')
+        ->get()
+        ->first();
 
     $adult = ReferenceRange::whereProcedure($p->id)
-            ->whereAge('adult')
-            ->whereGender('both')
-            ->get()
-            ->first();
+        ->whereAge('adult')
+        ->whereGender('both')
+        ->get()
+        ->first();
 
     $child = ReferenceRange::whereProcedure($p->id)
-            ->whereAge('child')
-            ->whereGender('both')
-            ->get()
-            ->first();
+        ->whereAge('child')
+        ->whereGender('both')
+        ->get()
+        ->first();
 
     $birth = ReferenceRange::whereProcedure($p->id)
-            ->whereAge('birth')
-            ->whereGender('both')
-            ->get();
+        ->whereAge('birth')
+        ->whereGender('both')
+        ->get();
 
     if ($age_y > 18) {
         if (!empty($adult)) {
@@ -1297,7 +1356,8 @@ function general_interval($p) {
     }
 }
 
-function gender_specific_interval($p) {
+function gender_specific_interval($p)
+{
     $patient = \Session::get('active_patient');
     $dob = \Carbon\Carbon::parse($patient->dob);
     $today = new DateTime();
@@ -1310,27 +1370,27 @@ function gender_specific_interval($p) {
     $range = null;
 
     $all = ReferenceRange::whereProcedure($p->id)
-            ->whereAge('all')
-            ->whereGender(strtolower($patient->sex))
-            ->get()
-            ->first();
+        ->whereAge('all')
+        ->whereGender(strtolower($patient->sex))
+        ->get()
+        ->first();
 
     $adult = ReferenceRange::whereProcedure($p->id)
-            ->whereAge('adult')
-            ->whereGender(strtolower($patient->sex))
-            ->get()
-            ->first();
+        ->whereAge('adult')
+        ->whereGender(strtolower($patient->sex))
+        ->get()
+        ->first();
 
     $child = ReferenceRange::whereProcedure($p->id)
-            ->whereAge('child')
-            ->whereGender(strtolower($patient->sex))
-            ->get()
-            ->first();
+        ->whereAge('child')
+        ->whereGender(strtolower($patient->sex))
+        ->get()
+        ->first();
 
     $birth = ReferenceRange::whereProcedure($p->id)
-            ->whereAge('birth')
-            ->whereGender(strtolower($patient->sex))
-            ->get();
+        ->whereAge('birth')
+        ->whereGender(strtolower($patient->sex))
+        ->get();
 
     if ($age_y > 18) {
         if (!empty($adult)) {
@@ -1357,16 +1417,18 @@ function gender_specific_interval($p) {
     }
 }
 
-function contains_strings($res){
+function contains_strings($res)
+{
 
-    foreach ($res as $key=>$value)  {
-        if(is_numeric($value)) return false;
+    foreach ($res as $key => $value) {
+        if (is_numeric($value)) return false;
     }
 
     return true;
 }
 
-function specified_time_intervals($p) {
+function specified_time_intervals($p)
+{
     /**
      * Get ranges for more specified time ranges
      * i.e 0-3 days etc.
@@ -1382,16 +1444,15 @@ function specified_time_intervals($p) {
     $search = '-';
 
     $gender_specific = ReferenceRange::whereProcedure($p->id)
-            ->where('age', 'LIKE', '%' . $search . '%')
-            ->whereGender(strtolower($patient->sex))
-            ->get();
-
+        ->where('age', 'LIKE', '%' . $search . '%')
+        ->whereGender(strtolower($patient->sex))
+        ->get();
 
 
     $ranges_default = ReferenceRange::whereProcedure($p->id)
-            ->where('age', 'LIKE', '%' . $search . '%')
-            ->whereGender('both')
-            ->get();
+        ->where('age', 'LIKE', '%' . $search . '%')
+        ->whereGender('both')
+        ->get();
 
     if ($gender_specific->count() > 0) {
         $interval = get_interval($gender_specific, $dob);
@@ -1409,7 +1470,8 @@ function specified_time_intervals($p) {
 
 if (!function_exists('get_specified_age')) {
 
-    function get_interval($ranges, $dob) {
+    function get_interval($ranges, $dob)
+    {
         if (!empty($ranges)) {
             foreach ($ranges as $r) {
                 $patient_age = get_specified_age($r->age, $dob);
@@ -1436,7 +1498,8 @@ if (!function_exists('get_specified_age')) {
      * @param date $age Patient's age
      * @return $patient_age age in specified time unit
      */
-    function get_specified_age($age_str, $dob) {
+    function get_specified_age($age_str, $dob)
+    {
         $today = new DateTime();
         $age = $dob->diff($today);
 
@@ -1504,20 +1567,21 @@ if (!function_exists('get_max_range')) {
 
 }
 
-function get_age_string($dob) {
+function get_age_string($dob)
+{
     $str = '';
     $days = (new Date($dob))->diff(Carbon\Carbon::now())->format('%d');
     $months = (new Date($dob))->diff(Carbon\Carbon::now())->format('%m');
     $years = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y');
     //$years = (new Date($dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days');
     if ($years < 0 && $months < 0) {
-        $str.=$days . ' days old';
+        $str .= $days . ' days old';
     } elseif ($months > 0 && $years < 0) {
-        $str.=$months . ' months old';
+        $str .= $months . ' months old';
     } elseif ($years <= 5 && $months > 0) {
-        $str.=$years . 'years, ' . $months . ' months old';
+        $str .= $years . 'years, ' . $months . ' months old';
     } else {
-        $str.=$years . ' years old';
+        $str .= $years . ' years old';
     }
     return $str;
 }
@@ -1526,10 +1590,11 @@ if (!function_exists('get_first_ranges')) {
 
     /**
      * Get Lab test unit
-     * @param $procedure/test
+     * @param $procedure /test
      * @return $unit
      */
-    function get_first_ranges($procedure_id) {
+    function get_first_ranges($procedure_id)
+    {
         try {
             $ref = \Ignite\Evaluation\Entities\ReferenceRange::whereProcedure($procedure_id)->first();
             ///dd($ref);
@@ -1548,15 +1613,16 @@ if (!function_exists('getOrderResults')) {
 
     /**
      * Get Lab test unit
-     * @param $procedure/test
+     * @param $procedure /test
      * @return $unit
      */
-    function getOrderResults($patient) {
-        $results = Investigations::whereHas('visits', function($query2) use ($patient){
-                    $query2->wherePatient($patient);
-                })
-                ->whereHas('results')
-                ->get();
+    function getOrderResults($patient)
+    {
+        $results = Investigations::whereHas('visits', function ($query2) use ($patient) {
+            $query2->wherePatient($patient);
+        })
+            ->whereHas('results')
+            ->get();
         return $results;
     }
 
@@ -1569,7 +1635,8 @@ if (!function_exists('getUnit')) {
      * @param $procedure /test
      * @return $unit
      */
-    function getUnit($p) {
+    function getUnit($p)
+    {
         if (!empty($p->this_test)) {
             if ($p->this_test->units !== 'NULL') {
                 return $p->this_test->units;
@@ -1600,8 +1667,9 @@ if (!function_exists('getFlag')) {
      * @param $result , $min_range, $max_range
      * @return $flag
      */
-    
-    function getFlag($r, $range) {
+
+    function getFlag($r, $range)
+    {
         if ($range->type == 'range') {
             if ($r < $range->lower) {
                 return "<span style = ''> L</span>";
@@ -1620,14 +1688,14 @@ if (!function_exists('getFlag')) {
             } elseif ($range->lg_type == '<' || $range->lg_type == 'less_than') {
                 if ($r > $range->lg_value) {
                     return "<span style = ''> H </span>";
-                }else{
+                } else {
                     return null;
                 }
             } elseif ($range->lg_type == '<=' || $range->lg_type == 'less_than_or') {
                 if ($r > $range->lg_value) {
                     return "<span style = ''> H </span>";
                 }
-            }else{
+            } else {
                 return null;
             }
         }
@@ -1636,17 +1704,18 @@ if (!function_exists('getFlag')) {
 }
 
 if (!function_exists('has_ranges')) {
-    function has_ranges($ids){
-        try{
+    function has_ranges($ids)
+    {
+        try {
             $has = false;
-            foreach ($ids as $id){
+            foreach ($ids as $id) {
                 $range = ReferenceRange::whereProcedure($id)->get();
-                if(count($range)>0){
+                if (count($range) > 0) {
                     $has = true;
                 }
             }
             return $has;
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -1671,7 +1740,8 @@ if (!function_exists('get_reverted_test')) {
 
 if (!function_exists('get_patient_samples')) {
 
-    function get_patient_samples($id) {
+    function get_patient_samples($id)
+    {
         return \Ignite\Evaluation\Entities\Sample::wherePatient_id($id)->get();
     }
 
@@ -1679,7 +1749,8 @@ if (!function_exists('get_patient_samples')) {
 
 if (!function_exists('get_aliases')) {
 
-    function get_aliases($procedure_id) {
+    function get_aliases($procedure_id)
+    {
         return TemplateLab::whereProcedure($procedure_id)->pluck('alias', 'subtest');
     }
 
@@ -1687,7 +1758,8 @@ if (!function_exists('get_aliases')) {
 
 if (!function_exists('get_formula')) {
 
-    function get_formula($test_id) {
+    function get_formula($test_id)
+    {
         $formula = \Ignite\Evaluation\Entities\Formula::whereTest_id($test_id)->get()->first();
         if (!empty($formula)) {
             return $formula->formula;
@@ -1701,7 +1773,8 @@ if (!function_exists('get_formula')) {
 
 if (!function_exists('handle_formula')) {
 
-    function handle_formula($test_id) {
+    function handle_formula($test_id)
+    {
         $formula = \Ignite\Evaluation\Entities\Formula::whereTest_id($test_id)->get()->first();
         if (!empty($formula)) {
 
@@ -1714,41 +1787,42 @@ if (!function_exists('handle_formula')) {
 
 }
 
-function get_res($name, $test, $results) {
+function get_res($name, $test, $results)
+{
     $data = array();
     if (strpos($name, 'HEMOGRAM')) {
         if (str_contains(strtolower($test->subtests->name), 'wbc') ||
-                str_contains(strtolower($test->subtests->name), 'white blood cell count')) {
+            str_contains(strtolower($test->subtests->name), 'white blood cell count')) {
             $data['wbc'] = $wbc = $results[$test->subtest];
             return $data;
         }
 
         if (str_contains(strtolower($test->subtests->name), 'neutrophils') &&
-                str_contains($test->subtests->name, '%')) {
+            str_contains($test->subtests->name, '%')) {
             $data['np'] = $np = $results[$test->subtest];
             return $data;
         }
 
         if (str_contains(strtolower($test->subtests->name), 'lymphocyte') &&
-                str_contains($test->subtests->name, '%')) {
+            str_contains($test->subtests->name, '%')) {
             $data['lp'] = $lp = $results[$test->subtest];
             return $data;
         }
 
         if (str_contains(strtolower($test->subtests->name), 'monocyte') &&
-                str_contains($test->subtests->name, '%')) {
+            str_contains($test->subtests->name, '%')) {
             $data['mp'] = $mp = $results[$test->subtest];
             return $data;
         }
 
         if (str_contains(strtolower($test->subtests->name), 'eosinophils') &&
-                str_contains($test->subtests->name, '%')) {
+            str_contains($test->subtests->name, '%')) {
             $data['ep'] = $ep = $results[$test->subtest];
             return $data;
         }
 
         if (str_contains(strtolower($test->subtests->name), 'basophils') &&
-                str_contains($test->subtests->name, '%')) {
+            str_contains($test->subtests->name, '%')) {
             $data['bp'] = $bp = $results[$test->subtest];
             return $data;
         }

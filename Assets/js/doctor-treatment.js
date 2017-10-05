@@ -23,13 +23,10 @@ $(function () {
     });
 
     $('#procedures_doctor_form,#procedures_nurse_form').find('input').on('ifChanged', function () {
-        var elements = $(this).parents('tr').find('input');
-        var texts = $(this).parents('tr').find('textarea');
+        var elements = $(this).parents('tr').find('input,textarea');
         var procedure_id = $(this).val();
         if ($(this).is(':checked')) {
             elements.prop('disabled', false);
-            texts.prop('disabled', false);
-            $(texts).parent().show();
             var name = $('#name' + procedure_id).html();
             var amount = john_doe(procedure_id);
             addOrReplaceTreatment({
@@ -39,8 +36,6 @@ $(function () {
             });
         } else {
             elements.prop('disabled', true);
-            texts.prop('disabled', true);
-            $(texts).parent().hide();
             removeTheTreatment(procedure_id);
         }
         $(this).prop('disabled', false);
@@ -53,7 +48,7 @@ $(function () {
         var total = 0;
         treatmentInvestigations.forEach(function (data) {
             var name = data.name;
-            var amount = data.amount;
+            var amount = john_doe(data.id);
             total += parseInt(amount);
             $('#treatment > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
         });
@@ -110,9 +105,9 @@ $(function () {
 
     function john_doe(procedure_id) {
         var cost = $('#cost' + procedure_id).val();
-        var discount = $('#discount' + procedure_id).val();
+        // var discount = $('#discount' + procedure_id).val();
         var quantity = $('#quantity' + procedure_id).val();
-        var amount = get_amount_given(cost, quantity, discount);
+        var amount = get_amount_given(cost, quantity, 0);
         $('#amount' + procedure_id).val(amount);
         return amount;
     }

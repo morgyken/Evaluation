@@ -39,6 +39,7 @@ use Ignite\Evaluation\Entities\VisitMeta;
 use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\Vitals;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
+use Ignite\Inventory\Entities\InventoryProducts;
 use Ignite\Inventory\Repositories\InventoryRepository;
 use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\PatientDocuments;
@@ -470,6 +471,7 @@ class EvaluationFunctions implements EvaluationRepository
         return $stack;
     }
 
+
     /**
      * @param
      * @return Prescriptions
@@ -479,12 +481,13 @@ class EvaluationFunctions implements EvaluationRepository
         if (empty($this->request->drug)) {
             return false;
         }
+        $cost = get_price_drug(Visit::find($this->visit), InventoryProducts::find($this->request->drug));
         $this->input['user'] = $this->user;
         $this->check_in_at('pharmacy');
         $prescription = Prescriptions::create(array_except($this->input, 'quantity'));
         $attributes = [
-            'price' => $prescription->drugs->selling_p,
-            'cost' => $prescription->drugs->cash_price,
+            'price' => $cost,
+            'cost' => $cost,
             'quantity' => $this->input['quantity'],
         ];
         $prescription->payment()->create($attributes);
