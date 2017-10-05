@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $cost
  * @property int $quantity
  * @property int $paid
- * @property int $invoiced
  * @property int $complete
  * @property string|null $transfer
  * @property \Carbon\Carbon|null $created_at
@@ -25,7 +24,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\PrescriptionPayment whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\PrescriptionPayment whereDiscount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\PrescriptionPayment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\PrescriptionPayment whereInvoiced($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\PrescriptionPayment wherePaid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\PrescriptionPayment wherePrescriptionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\PrescriptionPayment wherePrice($value)

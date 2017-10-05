@@ -49,69 +49,90 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereTemplate($value)
  * @mixin \Eloquent
  */
-class Procedures extends Model {
+class Procedures extends Model
+{
 
     public $table = 'evaluation_procedures';
     protected $guarded = [];
     protected $appends = ['price'];
-    protected $hidden = ['cah_charge'];
     public $timestamps = false;
 
-    public function getPriceAttribute() {
-        return (int) ceil($this->cash_charge);
+    public function getPriceAttribute()
+    {
+        return (int)ceil($this->cash_charge);
     }
 
-    public function categories() {
+    public function categories()
+    {
         return $this->belongsTo(ProcedureCategories::class, 'category');
     }
 
-    public function items() {
+    public function items()
+    {
         return $this->hasMany(ProcedureInventoryItem::class, 'procedure');
     }
 
-    public function this_test() {
+    public function this_test()
+    {
         return $this->belongsTo(SubProcedures::class, 'id', 'procedure');
     }
 
-    public function children() {
+    public function children()
+    {
         return $this->hasMany(SubProcedures::class, 'parent');
     }
 
-    public function inclusions() {
+    public function inclusions()
+    {
         return $this->hasMany(\Ignite\Settings\Entities\CompanyPrice::class, 'procedure');
     }
 
-    public function templates() {
+    public function templates()
+    {
         return $this->hasOne(ProcedureTemplates::class, 'procedure');
     }
 
-    public function templates_lab() {
+    public function templates_lab()
+    {
         return $this->hasOne(TemplateLab::class, 'procedure');
     }
 
-    public function remarks() {
+    public function remarks()
+    {
         return $this->hasOne(Remarks::class, 'procedure');
     }
 
-    public function titles() {
+    public function titles()
+    {
         return $this->hasMany(HaemogramTitle::class, 'procedure');
     }
 
-    public function formulae() {
+    public function formulae()
+    {
         return $this->hasMany(Formula::class, 'procedure_id');
     }
 
-    public function formula() {
+    public function formula()
+    {
         return $this->hasOne(Formula::class, 'test_id');
     }
 
-    public function ref_ranges() {
+    public function ref_ranges()
+    {
         return $this->hasMany(ReferenceRange::class, 'procedure');
     }
 
-    public function critical_values() {
-       // return $this->hasMany(CriticalValues::class, 'procedure');
+    public function critical_values()
+    {
+        // return $this->hasMany(CriticalValues::class, 'procedure');
         return $this->hasOne(CriticalValues::class, 'procedure');
     }
 
+    public function getInsuranceCharge($value)
+    {
+        if (empty($value)) {
+            return $this->cash_charge;
+        }
+        return $value;
+    }
 }

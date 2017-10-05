@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Ignite\Users\Entities\Sentinel|null $doctor
  * @property-read mixed $codes
+ * @property-read mixed $visit_type
  * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\DoctorNotes whereDiagnosis($value)
