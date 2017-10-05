@@ -70,12 +70,14 @@ $(function () {
     }
 
     var procedureInvestigations = [], arrIndex = {};
+    var position = 0;
 
     function addOrReplaceInvestigation(object) {
         var index = arrIndex[object.id];
         if (index === undefined) {
-            index = procedureInvestigations.length;
+            index = position;
             arrIndex[object.id] = index;
+            position++;
         }
         procedureInvestigations[index] = object;
     }

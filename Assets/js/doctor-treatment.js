@@ -64,12 +64,14 @@ $(function () {
     }
 
     var treatmentInvestigations = [], trIndex = {};
+    var position = 0;
 
     function addOrReplaceTreatment(object) {
         var index = trIndex[object.id];
         if (index === undefined) {
-            index = treatmentInvestigations.length;
+            index = position;
             trIndex[object.id] = index;
+            position++;
         }
         treatmentInvestigations[index] = object;
     }
