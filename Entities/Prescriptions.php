@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Dispensing[] $dispensing
  * @property-read \Ignite\Inventory\Entities\InventoryProducts $drugs
  * @property-read mixed $dose
+ * @property-read mixed $is_paid
+ * @property-read mixed $priced_amount
  * @property-read mixed $sub
  * @property-read \Ignite\Evaluation\Entities\PrescriptionPayment $payment
  * @property-read \Ignite\Users\Entities\User $users
