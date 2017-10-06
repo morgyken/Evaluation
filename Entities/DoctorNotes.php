@@ -59,7 +59,9 @@ class DoctorNotes extends Model
 
     public function getVisitTypeAttribute()
     {
-        $type = (bool)Visit::where('id', '<>', $this->visit)->count();
+        $type = (bool)Visit::where('id', '<>', $this->visit)
+            ->wherePatient($this->visits->patient)
+            ->count();
         return $type ? 'Revisit' : 'New';
     }
 

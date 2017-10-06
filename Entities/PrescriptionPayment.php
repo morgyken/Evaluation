@@ -41,4 +41,9 @@ class PrescriptionPayment extends Model
     {
         return $this->cost * $this->quantity;
     }
+
+    public function prescription()
+    {
+        return $this->belongsTo(Prescriptions::class, 'prescription_id');
+    }
 }

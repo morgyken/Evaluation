@@ -114,6 +114,6 @@ class Prescriptions extends Model
 
     public function getIsPaidAttribute()
     {
-        return $this->payment->invoiced;
+        return $this->payment->invoiced || $this->payment->paid;
     }
 }

@@ -9,9 +9,6 @@ $discount_allowed = json_decode(m_setting('evaluation.discount'));
 
 $co = null;
 $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
-if ($visit->payment_mode == 'insurance') {
-    $co = $visit->patient_scheme->schemes->companies->id;
-}
 ?>
 <div class="col-md-12">
     <div class="col-md-8">
