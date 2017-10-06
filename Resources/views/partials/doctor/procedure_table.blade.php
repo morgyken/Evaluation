@@ -23,7 +23,7 @@
             <input class="discount" size="5" value="0"
                    id="discount{{$procedure->id}}" type="hidden"
                    name="discount{{$procedure->id}}"/>
-            <input type="hidden" name="type{{$procedure->id}}" value="treatment" disabled/>
+            <input type="hidden" name="type{{$procedure->id}}" value="{{$_type}}" disabled/>
             <input disabled="" type="text" name="price{{$procedure->id}}" value="{{$price}}"
                    id="cost{{$procedure->id}}" size="5" readonly=""/>
             <input size="5" id="amount{{$procedure->id}}" type="hidden"

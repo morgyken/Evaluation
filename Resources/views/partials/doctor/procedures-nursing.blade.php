@@ -9,7 +9,7 @@
 {!! Form::open(['id'=>'procedures_nurse_form'])!!}
 {!! Form::hidden('visit',$visit->id) !!}
 <table class="table table-condensed table-borderless table-responsive" id="procedures">
-    @include('evaluation::partials.doctor.procedure_table',['_list'=>'nurse'])
+    @include('evaluation::partials.doctor.procedure_table',['_list'=>'nurse','_type'=>'treatment.nurse'])
 </table>
 {!! Form::close()!!}
 

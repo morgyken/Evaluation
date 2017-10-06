@@ -99,6 +99,7 @@ $(function () {
                 $('.investigation_item').find('input').iCheck('uncheck');
                 procedureInvestigations = [];
                 arrIndex = {};
+                position = 0;
                 $('#previousInvestigations').dataTable().api().ajax.reload();
                 show_selection_investigation();
             },
