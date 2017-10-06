@@ -62,6 +62,9 @@ $router->group(['prefix' => 'setup', 'as' => 'setup.'], function (Router $router
     $router->match(['post', 'get'], 'lab/units/{id?}', ['uses' => 'SetupController@ManageUnits', 'as' => 'units']);
     $router->match(['post', 'get'], 'additives/{id?}', ['uses' => 'SetupController@ManageAdditives', 'as' => 'additives']);
     $router->match(['post', 'get'], 'lab/critical_values/{id?}', ['uses' => 'SetupController@CriticalValues', 'as' => 'critical_values']);
+    $router->match(['post', 'get'], 'additives/{id?}', ['uses' => 'SetupController@ManageAdditives', 'as' => 'additives']);
+    $router->match(['post', 'get'], 'age_groups/{id?}', ['uses' => 'SetupController@age_groups', 'as' => 'age_groups']);
+    $router->match(['post', 'get'], 'range_types/{id?}', ['uses' => 'SetupController@range_types', 'as' => 'range_types']);
 
     $router->match(['post', 'get'], 'remarks/{id?}', ['uses' => 'SetupController@ManageRemarks', 'as' => 'remarks']);
 });
@@ -70,6 +73,7 @@ $router->group(['prefix' => 'report', 'as' => 'report.'], function (Router $rout
     $router->post('pay/{patient?}', ['as' => 'pay_receipt', 'uses' => 'ReportsController@payment_receipt']);
     $router->post('patients/sick_off/notes', ['uses' => 'ReportsController@sick_off', 'as' => 'sick_off']);
 });
+
 $router->group(['prefix' => 'externaldoctor', 'as' => 'exdoctor.'], function (Router $router) {
     $router->match(['post', 'get'], 'patients/{id?}', ['uses' => 'ExternalController@patients', 'as' => 'patients']);
     $router->match(['post', 'get'], 'order/{patient?}', ['uses' => 'ExternalController@orders', 'as' => 'order']);

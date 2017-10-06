@@ -193,10 +193,24 @@ class SidebarExtender implements Panda {
                         $item->weight(4);
                     });
 
-                    $item->item('Critical Values', function(Item $item) {
-                        $item->icon('fa fa-exclamation-circle');
+                    $item->item('Age Groups', function(Item $item) {
+                        $item->icon('fa fa-user');
+                        $item->route('evaluation.setup.ranges');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+
+                    $item->item('Age Groups', function(Item $item) {
+                        $item->icon('fa fa-font');
+                        $item->route('evaluation.setup.age_groups');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
+                        $item->weight(4);
+                    });
+
+                    $item->item('Range Type/Category', function(Item $item) {
+                        $item->icon('fa fa-paperclip');
                         //$item->color('red');
-                        $item->route('evaluation.setup.critical_values');
+                        $item->route('evaluation.setup.range_types');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.laboratory'));
                         $item->weight(4);
                     });

@@ -3,9 +3,11 @@
 namespace Ignite\Evaluation\Http\Controllers;
 
 use Ignite\Core\Http\Controllers\AdminBaseController;
+use Ignite\Evaluation\Entities\AgeGroup;
 use Ignite\Evaluation\Entities\CriticalValues;
 use Ignite\Evaluation\Entities\ProcedureCategories;
 use Ignite\Evaluation\Entities\Procedures;
+use Ignite\Evaluation\Entities\RangeType;
 use Ignite\Evaluation\Entities\ReferenceRange;
 use Ignite\Evaluation\Entities\SampleCollectionMethods;
 use Ignite\Evaluation\Entities\SampleType;
@@ -216,6 +218,65 @@ class SetupController extends AdminBaseController {
         $this->data['categories'] = ProcedureCategories::all();
         $this->data['model'] = ProcedureCategories::findOrNew($id);
         return view('evaluation::setup.procedure_cat', ['data' => $this->data]);
+    }
+
+    public function age_groups(Request $request){
+        if($request->isMethod('post')){
+            $existing = mconfig('evaluation.options.age_groups');
+            foreach ($existing as $key=>$value){
+                AgeGroup::updateOrCreate(['code'=>$key],['name'=>$value]);
+            }
+            $code = $this->get_age_group_code($request);
+            AgeGroup::updateOrCreate($request->id?['id'=>$request->id]:['code'=>$code],
+                [
+                 'name'=>!isset($request->name)?$this->get_age_group_name($request):$request->name,
+                 'code'=>$code
+                ]);
+        }
+        $this->data['groups'] = AgeGroup::all();
+        $this->data['item'] = AgeGroup::findOrNew($request->id);
+        return view('evaluation::setup.age_groups', ['data' => $this->data]);
+    }
+
+    public function get_age_group_code(Request $request){
+        if($request->type == 'general'){
+            return snake_case($request->general);
+        }elseif ($request->type == 'range'){
+            return $request->lower.'-'.$request->upper.$request->age_in;//ie 5-10y
+        }elseif ($request->type == 'less_greater'){
+            return $request->lg_type.$request->lg_value.$request->age_in;//ie >10y
+        }else{
+            dd("Unknown type");
+        }
+    }
+
+    public function get_age_group_name(Request $request)
+    {
+        $age_in = mconfig('evaluation.options.age_in');
+        if($request->type == 'general'){
+            return ucwords($request->general);
+        }elseif ($request->type == 'range'){
+            return $request->lower.'-'.$request->upper.''.$age_in[$request->age_in];//ie 5-10y
+        }elseif ($request->type == 'less_greater'){
+            return $request->lg_type.$request->lg_value.''.$age_in[$request->age_in];//ie lg value
+        }else{
+            dd("Unknown type");
+        }
+    }
+
+    public function range_types(Request $request){
+        if($request->isMethod('post')){
+            $existing = mconfig('evaluation.options.lp_flags');
+            foreach ($existing as $key=>$value){
+                RangeType::updateOrCreate(['code'=>$key],['name'=>$value]);
+            }
+            RangeType::updateOrCreate($request->id?['id'=>$request->id]:['code'=>snake_case($request->name)],
+                ['name'=>$request->name,
+                    'code'=>snake_case($request->name)]);
+        }
+        $this->data['types'] = RangeType::all();
+        $this->data['item'] = RangeType::findOrNew($request->id);
+        return view('evaluation::setup.range_types', ['data' => $this->data]);
     }
 
     public function save_subprocedure(ProcedureRequest $request) {

@@ -95,8 +95,13 @@ return [
     ],
     'range_types' => [
         'range' => 'Range',
-        'less_greater' => 'Less/Greater Than',
+        'less_greater' => 'Less-than or Greater-than',
         'other' => 'Other',
+    ],
+    'age_group_types' => [
+        'range' => 'Range',
+        'less_greater' => 'Less-than or Greater-than',
+        'general' => 'General eg adults, children etc.',
     ],
     'sex' => [
         'both' => 'both',
@@ -177,6 +182,12 @@ return [
         2 => 'week(s)',
         3 => 'month(s)',
         4 => 'year(s)',
+    ],
+    'age_in' => [
+        'd' => 'day(s)',
+        'w' => 'week(s)',
+        'm' => 'month(s)',
+        'y' => 'year(s)',
     ],
     'sensitivity' => [
         'R' => 'R',
