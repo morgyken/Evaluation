@@ -1612,6 +1612,23 @@ if (!function_exists('get_aliases')) {
 
 }
 
+if (!function_exists('get_age_groups')) {
+
+    function get_age_groups() {
+        return \Ignite\Evaluation\Entities\AgeGroup::all()->pluck('name', 'code');
+    }
+
+}
+
+if (!function_exists('get_range_types')) {
+
+    function get_range_types() {
+        return \Ignite\Evaluation\Entities\RangeType::all()->pluck('name', 'code');
+    }
+
+}
+
+
 if (!function_exists('get_formula')) {
 
     function get_formula($test_id) {

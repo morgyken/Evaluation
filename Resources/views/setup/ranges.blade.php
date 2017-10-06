@@ -33,14 +33,14 @@ extract($data);
                 <!-- /.form-group -->
                 <div class="form-group">
                     <label>Age Group</label>
-                    {!! Form::select('age',mconfig('evaluation.options.age_groups'),$range->age?$range->age:'all', ['id' => 'select','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+                    {!! Form::select('age',get_age_groups(),$range->age?$range->age:'all', ['id' => 'select','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
                     {!! $errors->first('age', '<span class="help-block">:message</span>') !!}
                 </div>
                 <!-- /.form-group -->
                 <!-- /.form-group -->
                 <div class="form-group">
                     <label>Flag (Optional: for lipid profile and similar tests)</label>
-                    {!! Form::select('flag',mconfig('evaluation.options.lp_flags'),$range->less_greater?$range->less_greater:'', ['id' => 'select','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+                    {!! Form::select('flag',get_range_types(),$range->less_greater?$range->less_greater:'', ['id' => 'select','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
                     {!! $errors->first('flag', '<span class="help-block">:message</span>') !!}
                 </div>
                 <!-- /.form-group -->
