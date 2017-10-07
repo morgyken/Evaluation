@@ -14,7 +14,7 @@
     {!! Form::hidden('visit',$visit->id)!!}
     <div class="accordion">
         @foreach($tests as $item)
-            @if($item->is_paid)
+            @if($item->is_paid || $item->invoived)
                 <h4>{{$item->procedures->name}}</h4>
                 <div>
                     <div class="col-md-6">
