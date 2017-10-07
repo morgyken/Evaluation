@@ -18,7 +18,7 @@ $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
                 {!! Form::open(['id'=>'procedures_doctor_form'])!!}
                 {!! Form::hidden('visit',$visit->id) !!}
                 <table class="table table-condensed table-borderless" id="procedures" width="100%">
-                    @include('evaluation::partials.doctor.procedure_table',['_list'=>'doctor','_type'=>'optical'])
+                    @include('evaluation::partials.doctor.procedure_table',['_list'=>'optical','_type'=>'optical'])
                 </table>
                 {!! Form::close()!!}
             </div>
