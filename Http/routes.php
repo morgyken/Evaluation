@@ -4,80 +4,80 @@ use Illuminate\Routing\Router;
 
 /** @var Router $router */
 $router->group(['prefix' => 'inpatient', 'as' => 'inpatient.'], function (Router $router) {
-    $router->get('admit',['uses' => 'EvaluationController@admit', 'as' => 'admit']);
-    $router->get('admit/{patient_id}/{visit_id}',['uses' => 'EvaluationController@admit_patient']);
+    $router->get('admit', ['uses' => 'EvaluationController@admit', 'as' => 'admit']);
+    $router->get('admit/{patient_id}/{visit_id}', ['uses' => 'EvaluationController@admit_patient']);
     //list wards
-    $router->get('list',['uses'=>'EvaluationController@listWards']);
-    $router->get('addWard',['uses'=>'EvaluationController@addWard']);
-    $router->post('addwordFormPost',['uses'=>'EvaluationController@addwordFormPost']);
+    $router->get('list', ['uses' => 'EvaluationController@listWards']);
+    $router->get('addWard', ['uses' => 'EvaluationController@addWard']);
+    $router->post('addwordFormPost', ['uses' => 'EvaluationController@addwordFormPost']);
     //bed position 
-    $router->get('bedPosition',['uses'=>'EvaluationController@bedPosition']);
-    $router->post('bedPosition',['uses'=>'EvaluationController@postbedPosition']);
-    $router->get('bedPosition/{ward_id}',['uses'=>'EvaluationController@deletebedPosition']);
+    $router->get('bedPosition', ['uses' => 'EvaluationController@bedPosition']);
+    $router->post('bedPosition', ['uses' => 'EvaluationController@postbedPosition']);
+    $router->get('bedPosition/{ward_id}', ['uses' => 'EvaluationController@deletebedPosition']);
 //bed
-    $router->post('postaddbed',['uses'=>'EvaluationController@postaddBed']);
-    $router->get('delete_bed/{id}',['uses'=>'EvaluationController@postdelete_bed']);
+    $router->post('postaddbed', ['uses' => 'EvaluationController@postaddBed']);
+    $router->get('delete_bed/{id}', ['uses' => 'EvaluationController@postdelete_bed']);
 
     /*cancel request admission*/
-    $router->get('cancel/{patient_id}/{id}',['uses'=>'EvaluationController@cancel']);
+    $router->get('cancel/{patient_id}/{id}', ['uses' => 'EvaluationController@cancel']);
     /*nursing charges*/
-    $router->get('Nursing_services',['uses'=>'EvaluationController@Nursing_services']);
+    $router->get('Nursing_services', ['uses' => 'EvaluationController@Nursing_services']);
     //add recurrent charge
-    $router->get('add_recurrent_charge',['uses'=>'EvaluationController@add_recurrent_charge']);
+    $router->get('add_recurrent_charge', ['uses' => 'EvaluationController@add_recurrent_charge']);
     //save new reccurent charge
-    $router->post('AddReccurentCharge',['uses'=>'EvaluationController@AddReccurentCharge']);
+    $router->post('AddReccurentCharge', ['uses' => 'EvaluationController@AddReccurentCharge']);
 
     //bed
-    $router->get('bedList',['uses'=>'EvaluationController@listBeds']);
-    $router->get('addBed',['uses'=>'EvaluationController@addWard']);
-    $router->post('addBedFormPost',['uses'=>'EvaluationController@addBedFormPost']);
+    $router->get('bedList', ['uses' => 'EvaluationController@listBeds']);
+    $router->get('addBed', ['uses' => 'EvaluationController@addWard']);
+    $router->post('addBedFormPost', ['uses' => 'EvaluationController@addBedFormPost']);
     //show available beds
-    $router->get('availableBeds/{ward_id}',['uses'=>'EvaluationController@availableBeds']);
-    $router->post('delete_ward',['uses'=>'EvaluationController@delete_ward']);
-    $router->post('delete_bed',['uses'=>'EvaluationController@delete_bed']);
+    $router->get('availableBeds/{ward_id}', ['uses' => 'EvaluationController@availableBeds']);
+    $router->post('delete_ward', ['uses' => 'EvaluationController@delete_ward']);
+    $router->post('delete_bed', ['uses' => 'EvaluationController@delete_bed']);
 
     //deposit setting
-    $router->get('deposit',['uses'=>'EvaluationController@deposit']);
-    $router->post('addDepositType',['uses'=>'EvaluationController@addDepositType']);
+    $router->get('deposit', ['uses' => 'EvaluationController@deposit']);
+    $router->post('addDepositType', ['uses' => 'EvaluationController@addDepositType']);
     //delete deposit type
-    $router->get('delete_deposit/{deposit_id}',['uses'=>'EvaluationController@delete_deposit']);
-    $router->get('admit_check',['uses'=>'EvaluationController@admit_check']);
-    $router->get('topUp',['uses'=>'EvaluationController@topUp']);
-    $router->post('topUpAmount',['uses'=>'EvaluationController@topUpAmount']);
-    $router->get('withdraw',['uses'=>'EvaluationController@withdraw']);
-    $router->post('WithdrawAmount',['uses'=>'EvaluationController@WithdrawAmount']);
+    $router->get('delete_deposit/{deposit_id}', ['uses' => 'EvaluationController@delete_deposit']);
+    $router->get('admit_check', ['uses' => 'EvaluationController@admit_check']);
+    $router->get('topUp', ['uses' => 'EvaluationController@topUp']);
+    $router->post('topUpAmount', ['uses' => 'EvaluationController@topUpAmount']);
+    $router->get('withdraw', ['uses' => 'EvaluationController@withdraw']);
+    $router->post('WithdrawAmount', ['uses' => 'EvaluationController@WithdrawAmount']);
 
     //edit bed
-    $router->get('editBed/{id}',['uses'=>'EvaluationController@editBed']);
-    $router->post('bedList',['uses'=>'EvaluationController@edit_bed']);
-    $router->get('cancel_checkin',['uses'=>'EvaluationController@cancel_checkin']);
+    $router->get('editBed/{id}', ['uses' => 'EvaluationController@editBed']);
+    $router->post('bedList', ['uses' => 'EvaluationController@edit_bed']);
+    $router->get('cancel_checkin', ['uses' => 'EvaluationController@cancel_checkin']);
     //edit a deposit
-    $router->get('edit_deposit/{deposit_id}',['uses'=>'EvaluationController@edit_deposit']);
-    $router->post('deposit_adit',['uses'=>'EvaluationController@deposit_adit']);
-    $router->post('topUpAccount',['uses'=>'EvaluationController@topUpAccount']);
+    $router->get('edit_deposit/{deposit_id}', ['uses' => 'EvaluationController@edit_deposit']);
+    $router->post('deposit_adit', ['uses' => 'EvaluationController@deposit_adit']);
+    $router->post('topUpAccount', ['uses' => 'EvaluationController@topUpAccount']);
 
     //DELETE WARD
-    $router->get('delete_ward/{ward_id}',['uses'=>'EvaluationController@deleteThisWard']);
-    $router->get('editWard/{ward_id}',['uses'=>'EvaluationController@getRecordWard']);
+    $router->get('delete_ward/{ward_id}', ['uses' => 'EvaluationController@deleteThisWard']);
+    $router->get('editWard/{ward_id}', ['uses' => 'EvaluationController@getRecordWard']);
     //UPDATE WARD RECORD
-    $router->post('update_ward',['uses'=>'EvaluationController@update_ward']);
-    $router->get('getAvailableBedPosition/{ward}',['uses'=>'EvaluationController@getAvailableBedPosition']);
-    $router->post('change_bed',['uses'=>'EvaluationController@change_bed']);
+    $router->post('update_ward', ['uses' => 'EvaluationController@update_ward']);
+    $router->get('getAvailableBedPosition/{ward}', ['uses' => 'EvaluationController@getAvailableBedPosition']);
+    $router->post('change_bed', ['uses' => 'EvaluationController@change_bed']);
     //cancel request admissin
-    $router->get('cancel_request/{visit}',['uses'=>'EvaluationController@cancel_request']);
+    $router->get('cancel_request/{visit}', ['uses' => 'EvaluationController@cancel_request']);
     //delete service
-    $router->get('delete_service/{service}',['uses'=>'EvaluationController@delete_service']);
+    $router->get('delete_service/{service}', ['uses' => 'EvaluationController@delete_service']);
 
     ///patient account operations
     //deposit amount..
-    $router->get('account_deposit/{patient}',['uses'=>'EvaluationController@account_deposit_amount']);
-    $router->post('topUpAccount',['uses'=>'EvaluationController@topUpAccountPost']);
+    $router->get('account_deposit/{patient}', ['uses' => 'EvaluationController@account_deposit_amount']);
+    $router->post('topUpAccount', ['uses' => 'EvaluationController@topUpAccountPost']);
     //withdraw an amount
-    $router->get('account_withdraw/{patient}',['uses'=>'EvaluationController@account_withdraw_amount']);
-    $router->post('PostWithdrawAccount',['uses'=>'EvaluationController@PostWithdrawAccount']);
+    $router->get('account_withdraw/{patient}', ['uses' => 'EvaluationController@account_withdraw_amount']);
+    $router->post('PostWithdrawAccount', ['uses' => 'EvaluationController@PostWithdrawAccount']);
     //print deposit slip
-    $router->get('print',['uses'=>'EvaluationController@print']);
-  
+    $router->get('print', ['uses' => 'EvaluationController@print']);
+
 });
 
 
@@ -86,7 +86,7 @@ $router->match(['get', 'post'], 'samples/{patient?}', ['uses' => 'EvaluationCont
 $router->match(['get', 'post'], 'formulae/{id?}', ['uses' => 'EvaluationController@Formulae', 'as' => 'formulae']);
 $router->match(['get', 'post'], 'sample/barcode/{id?}/print', ['uses' => 'EvaluationController@labotomy_print', 'as' => 'labotomy.print']);
 $router->get('patients/visits/{visit}/preview/{department}', ['uses' => 'EvaluationController@preview', 'as' => 'preview']);
-$router->get('patients/visit/{visit}/move',['uses'=>'EvaluationController@move_patient']);
+$router->get('patients/visit/{visit}/move', ['uses' => 'EvaluationController@move_patient']);
 
 
 $router->get('patients/visit/{visit}/evaluate/{department}', ['uses' => 'EvaluationController@evaluate', 'as' => 'evaluate']);
@@ -174,7 +174,7 @@ $router->group(['prefix' => 'lab', 'as' => 'lab.'], function (Router $router) {
 $router->get('results/{result?}/revert/', ['as' => 'res.revert', 'uses' => 'EvaluationController@RevertResult']);
 //printables
 $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router) {
-    $router->get('prescription/{visit}', ['uses' => 'ReportsController@print_prescription', 'as' => 'prescription']);
+    $router->get('prescription/{visit}/{thermal?}', ['uses' => 'ReportsController@print_prescription', 'as' => 'prescription']);
     Route::get('patient/notes/{no}', ['uses' => 'ReportsController@patient_notes', 'as' => 'patient_notes']);
     Route::get('patient/notes/toword/{no}', ['uses' => 'ReportsController@patient_notes_to_word', 'as' => 'to_word']);
     Route::post('patient/notes/specific/', ['uses' => 'ReportsController@pn_specific', 'as' => 'patient_notes_specific']);

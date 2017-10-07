@@ -63,20 +63,31 @@ class ReportsController extends Controller
 
     /**
      * Stream PDF from helper intent
-     * @param int $visit_id
      * @return \Illuminate\Http\Response
+     * @internal param int $visit_id
      */
-    public function print_prescription(Request $request)
+    public function print_prescription($visit, $thermal = null)
     {
-        try {
-            $this->data['prescription'] = Prescriptions::whereVisit($request->visit)->get();
-            $this->data['visit'] = Visit::find($request->visit);
-            $pdf = \PDF::loadView('evaluation::prints.prescriptions', ['data' => $this->data]);
-            $pdf->setPaper('A5', 'Landscape');
-            return $pdf->stream('prescription.pdf');
-        } catch (\Exception $ex) {
-            return back();
+        if ($thermal) {
+            return $this->print_prescription_thermal($visit);
         }
+        $this->data['prescription'] = Prescriptions::whereVisit($visit)->get();
+        $this->data['visit'] = Visit::find($visit);
+        $pdf = \PDF::loadView('evaluation::prints.prescriptions', ['data' => $this->data]);
+        $pdf->setPaper('A5', 'Landscape');
+        return @$pdf->stream('prescription.pdf');
+    }
+
+    public function print_prescription_thermal($visit)
+    {
+        $this->data['prescription'] = $prescriptions = Prescriptions::whereVisit($visit)->get();
+        $this->data['visit'] = Visit::find($visit);
+        $min_height = 900;
+        $min_height += 20 * ($prescriptions->count());
+        $pdf = \PDF::loadView('evaluation::prints.prescriptions', ['data' => $this->data]);
+        $customPaper = [0, 0, 300, $min_height];
+        $pdf->setPaper($customPaper);
+        return @$pdf->stream('prescription_' . $visit . '.pdf');
     }
 
     public function print_lab(Request $request)
@@ -90,14 +101,15 @@ class ReportsController extends Controller
             $pdf->setPaper('A4', 'potrait');
             $html = view('evaluation::prints.lab.results', ['data' => $this->data])->render();
             $pdf->loadHtml($html);
-            $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
-            $this->save_page_count($request,$pdf->getCanvas()->get_page_count());
+            $pdf->render();
+            $font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
+            $this->save_page_count($request, $pdf->getCanvas()->get_page_count());
             //$pdf->getCanvas()->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
-            return $pdf->stream('LabResults.pdf',array("Attachment" => false));
-      } catch (\Exception $exc) {
-           flash('Something went wrong', 'error');
-           return back();
-       }
+            return $pdf->stream('LabResults.pdf', array("Attachment" => false));
+        } catch (\Exception $exc) {
+            flash('Something went wrong', 'error');
+            return back();
+        }
     }
 
     public function print_lab_one(Request $request)
@@ -111,19 +123,21 @@ class ReportsController extends Controller
             $pdf->setPaper('A4', 'potrait');
             $html = view('evaluation::prints.lab.one_lab', ['data' => $this->data])->render();
             $pdf->loadHtml($html);
-            $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
-            $this->save_page_count($request,$pdf->getCanvas()->get_page_count());
-            return $pdf->stream('LabResults.pdf',array("Attachment" => false));
+            $pdf->render();
+            $font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
+            $this->save_page_count($request, $pdf->getCanvas()->get_page_count());
+            return $pdf->stream('LabResults.pdf', array("Attachment" => false));
         } catch (\Exception $ex) {
             flash('Something went wrong', 'error');
             return back();
         }
     }
 
-    public function save_page_count(Request $request, $page_count){
+    public function save_page_count(Request $request, $page_count)
+    {
         $count = PageCount::firstOrNew([
-            'visit_id'=>$request->visit,
-            'test_id'=>$request->id
+            'visit_id' => $request->visit,
+            'test_id' => $request->id
         ]);
         $count->visit_id = $request->visit;
         $count->test_id = $request->id;
@@ -143,9 +157,10 @@ class ReportsController extends Controller
             $pdf->setPaper('A4', 'potrait');
             $html = view('evaluation::prints.results', ['data' => $this->data])->render();
             $pdf->loadHtml($html);
-            $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
-            $this->save_page_count($request,$pdf->getCanvas()->get_page_count());
-            return $pdf->stream('Results.pdf',array("Attachment" => false));
+            $pdf->render();
+            $font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
+            $this->save_page_count($request, $pdf->getCanvas()->get_page_count());
+            return $pdf->stream('Results.pdf', array("Attachment" => false));
         } catch (\Exception $exc) {
             return back();
         }
@@ -153,7 +168,7 @@ class ReportsController extends Controller
 
     public function print_results_one(Request $request)
     {
-       try {
+        try {
             $this->data['visit'] = Visit::find($request->visit);
             $this->data['result'] = $res = \Ignite\Evaluation\Entities\InvestigationResult::find($request->id);
             $this->data['type'] = $request->type;
@@ -166,21 +181,22 @@ class ReportsController extends Controller
             $pdf->setPaper('A4', 'potrait');
             $html = view('evaluation::prints.one_result', ['data' => $this->data])->render();
             $pdf->loadHtml($html);
-            $pdf->render();$font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
+            $pdf->render();
+            $font = $pdf->getFontMetrics()->get_font("helvetica", "bold");
 
             $count = PageCount::firstOrNew([
-               'visit_id'=>$request->visit,
-               'test_id'=>$res->investigation
+                'visit_id' => $request->visit,
+                'test_id' => $res->investigation
             ]);
             $count->visit_id = $request->visit;
             $count->test_id = $res->investigation;
             $count->pages = $pdf->getCanvas()->get_page_count();
             $count->save();
 
-            return $pdf->stream('Results.pdf',array("Attachment" => false));
-      } catch (\Exception $ex) {
-           return back();
-      }
+            return $pdf->stream('Results.pdf', array("Attachment" => false));
+        } catch (\Exception $ex) {
+            return back();
+        }
     }
 
     public function invoice($invoice)

@@ -24,7 +24,7 @@ extract($data);
                         <li><a href="#pre-exam" data-toggle="tab">Preliminary</a></li>
                         -->
                         <li><a href="#doctor" data-toggle="tab">Doctors' notes</a></li>
-                        <li><a href="#treatment" data-toggle="tab">Treatment</a></li>
+                        <li><a href="#procedures" data-toggle="tab">Treatment</a></li>
                         <li><a href="#investigations" data-toggle="tab">Investigations</a></li>
                         @if(m_setting('evaluation.op_notes'))
                             <li><a href="#op" data-toggle="tab">OP Notes</a></li>
@@ -36,13 +36,10 @@ extract($data);
                         <li><a href="#history" data-toggle="tab">History</a></li>
                         <!-- <li><a href="#v1history" data-toggle="tab">V1 History</a></li> -->
                         <li>
-                            <a class="btn btn-primary pull-right" target="blank" href="{{route('evaluation.print.patient_notes',$data['visit'])}}"><i class="fa fa-print"></i> Print</a>
+                            <a class="btn btn-primary pull-right" target="blank"
+                               href="{{route('evaluation.print.patient_notes',$data['visit'])}}"><i
+                                        class="fa fa-print"></i> Print</a>
                         </li>
-                    <!--
-                    <li>
-                        <a class="btn btn-primary pull-right" target="blank" href="{{route('evaluation.print.to_word',$data['visit'])}}"><i class="fa fa-download"></i>Send to Word</a>
-                    </li>
-                    -->
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="vitals">
@@ -65,9 +62,9 @@ extract($data);
                                 @include('evaluation::partials.doctor.investigations')
                             </div>
                         </div>
-                        <div class="tab-pane" id="treatment">
+                        <div class="tab-pane" id="procedures">
                             <div>
-                                @include('evaluation::partials.dental.treatment')
+                                @include('evaluation::partials.doctor.procedures')
                             </div>
                         </div>
                         @if(m_setting('evaluation.op_notes'))

@@ -194,7 +194,6 @@ class EvaluationController extends AdminBaseController
             $section = 'doctor';
         }
 
-        return redirect()->back();
     }
 
     public function review()
