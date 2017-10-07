@@ -64,7 +64,7 @@ extract($data);
                         </div>
                         <div class="tab-pane" id="procedures">
                             <div>
-                                @include('evaluation::partials.doctor.procedures')
+                                @include('evaluation::partials.dental.procedures')
                             </div>
                         </div>
                         @if(m_setting('evaluation.op_notes'))
