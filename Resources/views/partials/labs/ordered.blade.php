@@ -1,7 +1,7 @@
 @if(!$investigations->isEmpty())
     <div class="accordion">
         @foreach($labs as $item)
-            @if($item->procedures && $item->is_paid)
+            @if($item->procedures && ($item->is_paid || $item->invoiced))
                 <?php $subtests = get_lab_template($item->procedures->id); ?>
                 <h4>{{$item->procedures->name}}</h4>
                 <div>
