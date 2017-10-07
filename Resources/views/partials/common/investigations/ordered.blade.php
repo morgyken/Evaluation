@@ -3,7 +3,7 @@
     {!! Form::hidden('visit',$visit->id)!!}
     <div class="accordion">
         @foreach($investigations as $item)
-            @if( $item->is_paid)
+            @if( $item->is_paid || $item->invoiced)
                 <h4>{{$item->procedures->name}}</h4>
                 <div>
                     <div class="col-md-12">
@@ -89,9 +89,8 @@
                         </div>
                     </div>
                 </div>
-            @endif
-            @if(!$item->is_paid)
-                <h4>Procedure {{$loop->iteration}} <span class="text-danger">NOT PAID</span></h4>
+            @else
+                <h4>Optical Procedure {{$loop->iteration}} <span class="text-danger">NOT PAID</span></h4>
                 <div>
                     <span class="text-danger">NOT PAID</span><br/>
                     <p>Cannot show procedure . Send patient to cashier</p>

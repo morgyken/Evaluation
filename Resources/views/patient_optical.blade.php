@@ -64,7 +64,7 @@ extract($data);
                         </div>
                         <div class="tab-pane" id="procedures">
                             <div>
-                                @include('evaluation::partials.doctor.procedures')
+                                @include('evaluation::partials.optical.procedures')
                             </div>
                         </div>
                         @if(m_setting('evaluation.op_notes'))
@@ -79,7 +79,6 @@ extract($data);
                                 @include('evaluation::partials.common.documents_list')
                             </div>
                         </div>
-
                         <div class="tab-pane" id="history">
                             <div>
                                 @include('evaluation::partials.common.history')

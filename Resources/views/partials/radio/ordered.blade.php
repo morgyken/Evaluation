@@ -51,8 +51,8 @@
                     </div>
                 </div>
             @endif
-            @if(!$item->is_paid)
-                <h4>Procedure {{$loop->iteration}} <span class="text-danger">NOT PAID</span></h4>
+            @else
+                <h4>Radiology Procedure {{$loop->iteration}} <span class="text-danger">NOT PAID</span></h4>
                 <div>
                     <span class="text-danger">NOT PAID</span><br/>
                     <p>Cannot show procedure . Send patient to cashier</p>

@@ -237,6 +237,9 @@ class ApiController extends Controller
     {
         /** @var Investigations[] $data */
         $data = get_investigations($visit_id, ['treatment', 'treatment.nurse']);
+        if (request()->has('type')) {
+            $data = get_investigations($visit_id, [request('type')]);
+        }
         $return = [];
         foreach ($data as $key => $item) {
             if ($item->has_result)
@@ -258,7 +261,7 @@ class ApiController extends Controller
                 $item->quantity,
                 $item->discount,
                 $item->amount > 0 ? $item->amount : $item->price,
-                payment_label($item->is_paid),
+                payment_label((bool)($item->is_paid || $item->invoiced)),
                 $item->created_at->format('d/m/Y h:i a'),
 //                $link,
             ];
@@ -287,7 +290,7 @@ class ApiController extends Controller
                 $item->quantity,
                 $item->discount,
                 $item->amount > 0 ? $item->amount : $item->price,
-                payment_label($item->is_paid),
+                payment_label((bool)($item->is_paid || $item->invoiced)),
                 $item->created_at->format('d/m/Y h:i a'),
                 $link,
             ];
