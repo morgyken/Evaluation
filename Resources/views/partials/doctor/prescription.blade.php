@@ -72,6 +72,7 @@
                         <thead>
                         <tr>
                             <th>Drug</th>
+                            <th>Units</th>
                             <th>Dose</th>
                             <th>Duration</th>
                         </tr>
@@ -81,6 +82,7 @@
                             @foreach($visit->prescriptions as $pres)
                                 <tr>
                                     <td>{{$pres->drugs->name}}</td>
+                                    <td>{{$pres->payment->quantity}}</td>
                                     <td>{{$pres->dose}}</td>
                                     <td>{{$pres->duration}}</td>
                                 </tr>
@@ -114,5 +116,5 @@
     var STOCK_URL = "{{route('api.inventory.getstock')}}";
     var PRODUCTS_URL = "{{route('api.inventory.get.products')}}";
 </script>
-<script src="{!! m_asset('evaluation:js/prescription.min.js') !!}"></script>
+<script src="{!! m_asset('evaluation:js/prescription.js') !!}"></script>
 <?php endif; ?>

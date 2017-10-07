@@ -39,11 +39,6 @@ extract($data);
                                href="{{route('evaluation.print.patient_notes',$data['visit'])}}"><i
                                         class="fa fa-print"></i> Print</a>
                         </li>
-                    <!--
-                    <li>
-                        <a class="btn btn-primary pull-right" target="blank" href="{{route('evaluation.print.to_word',$data['visit'])}}"><i class="fa fa-download"></i>Send to Word</a>
-                    </li>
-                    -->
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="vitals">
