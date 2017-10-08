@@ -1,8 +1,12 @@
 <?php
-$interval = false;
-$range = get_ref_range($item->procedures);
-$critical = is_critical($item->procedures,$test_res);
-$interval = get_ref_interval($range);
+try {
+    $interval = false;
+    $range = get_ref_range($item->procedures);
+    $critical = is_critical($item->procedures,$test_res);
+    $interval = get_ref_interval($range);
+} catch (\Exception $e) {
+    
+}
 ?>
 <tr>
     <td>{{$item->procedures->name}}</td>

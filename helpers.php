@@ -1358,63 +1358,68 @@ function general_interval($p)
 
 function gender_specific_interval($p)
 {
-    $patient = \Session::get('active_patient');
-    $dob = \Carbon\Carbon::parse($patient->dob);
-    $today = new DateTime();
-    $age = $dob->diff($today);
+   try {
+        $patient = \Session::get('active_patient');
+        $dob = \Carbon\Carbon::parse($patient->dob);
+        $today = new DateTime();
+        $age = $dob->diff($today);
 
-    $age_d = $dob->diffInDays();
-    $age_y = $dob->age;
-    $age_m = ($age->format('%y') * 12) + $age->format('%m');
+        $age_d = $dob->diffInDays();
+        $age_y = $dob->age;
+        $age_m = ($age->format('%y') * 12) + $age->format('%m');
+    
+        $range = null;
 
-    $range = null;
-
-    $all = ReferenceRange::whereProcedure($p->id)
+        $all = ReferenceRange::whereProcedure($p->id)
         ->whereAge('all')
         ->whereGender(strtolower($patient->sex))
         ->get()
         ->first();
 
-    $adult = ReferenceRange::whereProcedure($p->id)
+        $adult = ReferenceRange::whereProcedure($p->id)
         ->whereAge('adult')
         ->whereGender(strtolower($patient->sex))
         ->get()
         ->first();
 
-    $child = ReferenceRange::whereProcedure($p->id)
+        $child = ReferenceRange::whereProcedure($p->id)
         ->whereAge('child')
         ->whereGender(strtolower($patient->sex))
         ->get()
         ->first();
 
-    $birth = ReferenceRange::whereProcedure($p->id)
+        $birth = ReferenceRange::whereProcedure($p->id)
         ->whereAge('birth')
         ->whereGender(strtolower($patient->sex))
         ->get();
 
-    if ($age_y > 18) {
-        if (!empty($adult)) {
-            return $adult;
-        } else {
+        if ($age_y > 18) {
+            if (!empty($adult)) {
+                return $adult;
+            } else {
             return $all;
-        }
-    } elseif (($age_y > 0 && $age_y < 18) && $age_d > 0) {
-        if (!empty($child)) {
-            return $child;
-        } else {
-            return $all;
-        }
-    } else {
-        if (isset($dob) && $age_d < 0) {
-            if (!empty($birth)) {
-                return $birth;
+            }
+        } elseif (($age_y > 0 && $age_y < 18) && $age_d > 0) {
+            if (!empty($child)) {
+                return $child;
             } else {
                 return $all;
             }
         } else {
-            return false;
+            if (isset($dob) && $age_d < 0) {
+                if (!empty($birth)) {
+                    return $birth;
+                } else {
+                    return $all;
+                }
+            } else {
+                return false;
+            }
         }
-    }
+    #End of try
+   } catch (\Exception $e) {
+       
+   }
 }
 
 function contains_strings($res)

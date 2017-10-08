@@ -21,8 +21,16 @@ try {
             <h4 class="panel-title">
                 <div>
                     <ul class="accordion-header single-btn">
-                        <li class="title"><b>{{$patient->full_name}}</b> ({{ @$patient->dob->age }} yrs old)
-                            <code>Payment Mode: {{$visit->mode}}</code></li>
+                        <li class="title">
+                        <b>{{$patient->full_name}}</b> 
+                        <?php try { ?>
+                        ({{ @$patient->dob->age }} yrs old)
+                         <?php   
+                        } catch (\Exception $e) {
+                            
+                        }
+                        ?>
+                        <code>Payment Mode: {{$visit->mode}}</code></li>
                         <li class="options">
                                 <span class="input-group-btn">
                                     <a role="button" data-toggle="collapse" data-parent="#accordion"
@@ -45,9 +53,14 @@ try {
                         <dt>Gender:</dt>
                         <dd>{{$patient->sex}}</dd>
                         <dt>Age:</dt>
+                        <?php try { ?>
                         <dd>{{(new Date($patient->dob))->diff(Carbon\Carbon::now())->format('%y years, %m months and %d days')}}
                             Old
                         </dd>
+                        <?php    
+                        } catch (\Exception $e) {
+                            
+                        } ?>
                         <dt>Payment Mode:</dt>
                         <dd>{{$visit->mode}}</dd>
                         <dt>

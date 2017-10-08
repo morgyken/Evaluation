@@ -8,9 +8,15 @@
  *
  * =============================================================================
  */
+try {
 $dob = \Carbon\Carbon::parse($patient->dob);
 $age_days = $dob->diffInDays();
 $age_years = $dob->age;
+} catch (\Exception $e) { 
+$dob = null;
+$age_days = null;
+$age_years = null;
+}
 session(['active_patient' => $patient]);
 ?>
 <div class="row" id="stripper">
