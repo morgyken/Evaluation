@@ -33,7 +33,7 @@ extract($data);
                 <!-- /.form-group -->
                 <div class="form-group">
                     <label>Age Group</label>
-                    {!! Form::select('age',get_age_groups(),$rang e->age?$range->age:'all', ['id' => 'select','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+                    {!! Form::select('age',get_age_groups(),$range->age?$range->age:'all', ['id' => 'select','class' => 'form-control', 'placeholder' => 'Choose...']) !!}
                     {!! $errors->first('age', '<span class="help-block">:message</span>') !!}
                 </div>
                 <!-- /.form-group -->
@@ -112,6 +112,10 @@ extract($data);
         <div class="box-body">
             <table class="table table-responsive table-condensed table-borderless table-striped">
                 <tbody>
+                <?php
+                $age_group = mconfig('evaluation.options.age_groups');
+                $flg = mconfig('evaluation.options.lp_flags');
+                ?>
                 @foreach($ranges as $item)
                     <tr id="row_id{{$item->id}}">
                         <td>{{$loop->iteration}}</td>
