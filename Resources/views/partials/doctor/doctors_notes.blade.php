@@ -8,14 +8,14 @@
 <div class="row">
 
     <div class="col-md-12">
-        <div class="col-md-6">
+        <div class="col-md-5">
             @include('evaluation::partials.doctor.notes')
-        </div>
-        <div class="col-md-6">
-            @include('evaluation::partials.doctor.prescription')
             @include('evaluation::partials.doctor.sick_off')
-            @include('evaluation::partials.doctor.visit_date')
-            @include('evaluation::partials.doctor.next_visit')
+        </div>
+        <div class="col-md-6 col-md-offset-1">
+            @include('evaluation::partials.doctor.prescription')
+            {{--include('evaluation::partials.doctor.visit_date')--}}
+            {{--include('evaluation::partials.doctor.next_visit')--}}
             @include('evaluation::partials.doctor.next_steps')
         </div>
         <div class="clearfix"></div>
