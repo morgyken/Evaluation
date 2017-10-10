@@ -10,7 +10,7 @@ $history = patient_visits($visit->patient);
     <div class="col-md-12">
         <div class="accordion">
             @foreach($history as $_visit)
-                <h3>{{(new Date($_visit->created_at))->format('dS M y')}} <span
+                <h3>{{$_visit->created_at->format('dS M y')}} <span
                             class="pull-right">{{$_visit->clinics->name}}</span></h3>
                 <div>
                     <div class="row">
@@ -134,7 +134,7 @@ $history = patient_visits($visit->patient);
                                             <tr>
                                                 <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                                 <td>{{$item->price}}</td>
-                                                <td>{!! payment_label($item->is_paid) !!}</td>
+                                                <td>{!! payment_label($item->is_paid || $item->invoiced) !!}</td>
                                             </tr>
                                         @endforeach
                                         <?php
@@ -167,7 +167,7 @@ $history = patient_visits($visit->patient);
                                             <tr>
                                                 <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                                 <td>{{$item->price}}</td>
-                                                <td>{!! payment_label($item->is_paid) !!}</td>
+                                                <td>{!! payment_label($item->is_paid || $item->invoiced) !!}</td>
                                             </tr>
                                         @endforeach
                                         <?php
@@ -199,7 +199,7 @@ $history = patient_visits($visit->patient);
                                             <tr>
                                                 <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                                 <td>{{$item->price}}</td>
-                                                <td>{!! payment_label($item->is_paid) !!}</td>
+                                                <td>{!! payment_label($item->is_paid || $item->invoiced) !!}</td>
                                             </tr>
                                         @endforeach
                                         </tbody>
