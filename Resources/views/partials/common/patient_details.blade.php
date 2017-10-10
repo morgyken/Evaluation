@@ -20,7 +20,8 @@ try {
             <h4 class="panel-title">
                 <div>
                     <ul class="accordion-header single-btn">
-                        <li class="title"><b>{{$patient->full_name}}</b> ({{ $patient->dob->age }} yrs old)
+                        <li class="title"><b>{{$patient->full_name}}</b> ({{$patient->sex}}, {{ $patient->dob->age }} yrs
+                            old)
                             <code>Payment Mode: {{$visit->mode}}</code></li>
                         <li class="options">
                                 <span class="input-group-btn">
