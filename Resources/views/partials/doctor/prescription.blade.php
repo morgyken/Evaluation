@@ -60,7 +60,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-4">Notes</label>
                         <div class="col-md-8">
-                            {{Form::textarea('notes',null,['class'=>'form-control','placeholder'=>'Notes...','rows'=>2])}}
+                            {{Form::textarea('notes',null,['class'=>'form-control','placeholder'=>'Notes...','rows'=>1])}}
                         </div>
                     </div>
                     <div class="form-group">

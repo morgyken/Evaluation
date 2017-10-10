@@ -70,11 +70,13 @@ return [
     'no_diagnostics' => [
         'description' => 'Disable Diagnostics',
         'view' => 'checkbox',
-        'hint' => 'Click to disable'
     ],
     'doctor_see_all' => [
         'description' => 'Allow Doctors to see patients in other Doctor\'s queue',
         'view' => 'checkbox',
-        'hint' => 'Click to enable'
+    ],
+    'request_checkout' => [
+        'description' => 'Ask me to checkout after evaluating a patient',
+        'view' => 'checkbox'
     ],
 ];

@@ -56,7 +56,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                             <tr id="row_id{{$visit->id}}">
                                 <td>{{$n+=1}}</td>
                                 <td>{{$visit->patients->full_name}}</td>
-                                <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
+                                <td>{{$visit->created_at->format('dS M g:i a')}}</td>
                                 <td>{{$visit->visit_destination}}</td>
                                 <td>{{$visit->place}}</td>
                                 <td>
@@ -130,12 +130,13 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
 
     <script type="text/javascript">
         var SIGN_OUT = "{{route('api.evaluation.checkout_patient')}}";
-        var FROM = "<?php echo $section; ?>";
+        var FROM = "<?php= $section; ?>";
     </script>
     <?php
     $send_to = route('evaluation.queues', $section);
+    $pop = (bool)m_setting('evaluation::request_checkout');
     ?>
-    @if($from_evaluation==1)
+    @if($from_evaluation==1 && $pop)
         <script>
             $(document).ready(function () {
                 $('#modal2').modal('show');
