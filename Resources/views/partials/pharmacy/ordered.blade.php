@@ -28,11 +28,7 @@
         @foreach($drug_prescriptions as $item)
             @if($item->payment->paid || $item->payment->invoiced)
                 <?php
-                $price = 0;
-                $stock = 0;
 
-                $cash_price = $item->drugs->cash_price;
-                $credit_price = $item->drugs->credit_price;
                 $visit = $item->visits;
 
                 ?>
@@ -57,24 +53,14 @@
                             <dd>{{smart_date_time($item->created_at)}}</dd>
                             <dt>Prescribed By:</dt>
                             <dd> {{$item->users->profile->full_name}} </dd>
+                            <dt>Notes</dt>
+                            <dd><em><u>{{$item->notes??'N/A'}}</u></em></dd>
                             <!-- <b>Payment Mode: </b> Cash<br> -->
                         </dl>
                     </td>
                     <td>
-                        <?php
-                        if (preg_match('/Insurance/', $item->visits->mode)) {
-                        $price = $credit_price;
-                        ?>
-                        <code>{{$credit_price}}</code>
-                        <?php
-                        } else {
-                        $price = $cash_price;
-                        ?>
-                        <code>{{$cash_price}}</code>
-                        <?php
-                        }
-                        ?>
-                        <input type="hidden" value="{{$price}}" name="prc{{$item->id}}"
+                        <code>{{$item->payment->price}}</code>
+                        <input type="hidden" value="{{$item->payment->price}}" name="prc{{$item->id}}"
                                id="prc{{$item->id}}">
                     </td>
                     <td>

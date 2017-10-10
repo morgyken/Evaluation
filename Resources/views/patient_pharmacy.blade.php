@@ -25,11 +25,11 @@ extract($data);
                             </span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#disp" data-toggle="tab">
-                            Order new drugs
-                        </a>
-                    </li>
+                    {{--<li>--}}
+                        {{--<a href="#disp" data-toggle="tab">--}}
+                            {{--Order new drugs--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
 
                     <li>
                         <a href="#dispensed" data-toggle="tab">

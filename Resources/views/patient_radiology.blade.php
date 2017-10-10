@@ -24,8 +24,8 @@ $category = 'radiology';
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#ordered" data-toggle="tab">
                                 Ordered Procedures<span class="badge alert-info">{{$investigations->count()}}</span></a></li>
-                        <li><a href="#new" data-toggle="tab">
-                                New Procedures  <span class="badge alert-success">new</span></a> </li>
+                        {{--<li><a href="#new" data-toggle="tab">--}}
+                                {{--New Procedures  <span class="badge alert-success">new</span></a> </li>--}}
                         <li><a href="#results" data-toggle="tab">
                                 Results <span class="badge alert-success">{{$results->count()}}</span></a>
                         </li>

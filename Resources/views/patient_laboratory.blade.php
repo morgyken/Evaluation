@@ -26,8 +26,8 @@ $patient = $data['visit']->patients;
                         <ul id="tabs" class="nav nav-tabs">
                             <li class="active"><a href="#ordered" data-toggle="tab">
                                     Ordered Labs<span class="badge alert-info">{{$labs->count()}}</span></a></li>
-                            <li><a href="#new" data-toggle="tab">
-                                    Order labs   <span class="badge alert-success">new</span></a> </li>
+                            {{--<li><a href="#new" data-toggle="tab">--}}
+                                    {{--Order labs   <span class="badge alert-success">new</span></a> </li>--}}
                             <li><a href="#labotomy" data-toggle="tab">
                                     Collect Sample   <span class="badge alert-info">new</span></a> </li>
                             <li><a href="#results" data-toggle="tab" id="view_results">
