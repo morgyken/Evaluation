@@ -103,3 +103,9 @@ $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
 
     });
 </script>
+<style>
+    .tbody_scroll {
+        height: 400px;
+        overflow-y: scroll;
+    }
+</style>

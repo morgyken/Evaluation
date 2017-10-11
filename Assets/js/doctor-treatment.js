@@ -7,10 +7,10 @@
 
 $(function () {
 
-    $('.treatment_item').find('table').DataTable({
-        "scrollY": "300px",
-        "paging": false
-    });
+    // $('.treatment_item').find('table').DataTable({
+    //     "scrollY": "300px",
+    //     "paging": false
+    // });
     $('#in_table').dataTable({
         ajax: PERFOMED_URL
     });

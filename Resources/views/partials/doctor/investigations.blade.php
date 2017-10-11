@@ -68,6 +68,7 @@ $performed_radio = get_investigations($visit, ['radiology']);
                     <table id="t" class="table table-condensed table-striped">
                         <thead>
                         <tr>
+                            <th>#</th>
                             <th>Procedure</th>
                             <th>Type</th>
                             <th>Price</th>
@@ -79,9 +80,11 @@ $performed_radio = get_investigations($visit, ['radiology']);
                         </tr>
                         </thead>
                         <tbody>
+                        <?php $n=0 ?>
                         @if(!$performed_diagnosis->isEmpty())
                             @foreach($performed_diagnosis as $item)
                                 <tr>
+                                    <td>{{$n+=1}}</td>
                                     <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                     <td>{{$item->type}}</td>
                                     <td>{{$item->price}}</td>
@@ -102,6 +105,7 @@ $performed_radio = get_investigations($visit, ['radiology']);
                         @if(!$performed_labs->isEmpty())
                             @foreach($performed_labs as $item)
                                 <tr>
+                                    <td>{{$n+=1}}</td>
                                     <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                     <td>{{$item->type}}</td>
                                     <td>{{$item->price}}</td>
@@ -120,6 +124,7 @@ $performed_radio = get_investigations($visit, ['radiology']);
                         @if(!$performed_radio->isEmpty())
                             @foreach($performed_radio as $item)
                                 <tr>
+                                    <td>{{$n+=1}}</td>
                                     <td>{{str_limit($item->procedures->name,20,'...')}}</td>
                                     <td>{{$item->type}}</td>
                                     <td>{{$item->price}}</td>
@@ -149,6 +154,10 @@ $performed_radio = get_investigations($visit, ['radiology']);
     }
 </style>
 <script>
+
+    $(document).ready(function() {
+        $('#t').DataTable();
+    } );
     window.alert = (function() {
         var nativeAlert = window.alert;
         return function(message) {

@@ -88,6 +88,8 @@ $(function () {
          save_lab_tests();
          */
     }
+
+
     $('#saveDiagnosis').click(function (e) {
         e.preventDefault();
         $.ajax({type: "POST",
@@ -95,7 +97,7 @@ $(function () {
             data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
-                location.reload();
+                //location.reload();
             },
             error: function () {
                 alertify.error('<i class="fa fa-check-warning"></i> Could not save evalaution');
@@ -103,6 +105,22 @@ $(function () {
         });
         //location.reload();
     });
+
+    // $('#saveDiagnosis').click(function (e) {
+    //     e.preventDefault();
+    //     $.ajax({type: "POST",
+    //         url: DIAGNOSIS_URL,
+    //         data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
+    //         success: function () {
+    //             alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
+    //             location.reload();
+    //         },
+    //         error: function () {
+    //             alertify.error('<i class="fa fa-check-warning"></i> Could not save evalaution');
+    //         }
+    //     });
+    //     //location.reload();
+    // });
     //sick of this
     $('#laboratory_form').find('input:radio, input:checkbox').prop('checked', false);
     $('#diagnosis_form').find('input:radio, input:checkbox').prop('checked', false);
