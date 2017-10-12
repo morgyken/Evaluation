@@ -17,7 +17,7 @@
                 <div class="box-body">
                     <div class="form-group">
                         <label class="control-label col-md-4">Drug</label>
-                        <div class="col-md-8">
+                        <div class="col-md-8" id="editDrug">
                             @if(is_module_enabled('Inventory'))
                                 <select name="drug" id="item_0" class="select2-single form-control"
                                         style="width: 100%"></select>
@@ -74,13 +74,12 @@
                     </div>
 
 
-                    <table id="prescribed_drugs" class="table table-borderless nowrap" width="100%">
+                    <table id="prescribed_drugs" class="table table-borderless nowrap dt-responsive" width="100%">
                         <thead>
                         <tr>
                             <th>Drug</th>
                             <th>Units</th>
                             <th>Dose</th>
-                            <th>Duration</th>
                             <th>#</th>
                         </tr>
                         </thead>
@@ -99,7 +98,69 @@
 
             </div>
             {!! Form::close()!!}
+            <div id="myModal" class="modal fade" role="dialog">
+                {{Form::open(['route'=>'evaluation.drug.edit'])}}
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Edit Prescriptions</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="id">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Dose</label>
+                                <div class="col-md-8">
+                                    <div class="col-md-4">
+                                        <input type="text" name="take" id="Take" class="form-control"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {!! Form::select('whereto',mconfig('evaluation.options.prescription_whereto'),null,['class'=>'form-control'])!!}
+                                    </div>
+                                    <div class="col-md-4">
+                                        {!! Form::select('method',mconfig('evaluation.options.prescription_method'),null,['class'=>'form-control'])!!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Duration</label>
+                                <div class="col-md-8">
+                                    <div class="col-md-6">
+                                        <input type="text" name="duration" placeholder="e.g 3" class='form-control'/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {!! Form::select('time_measure',mconfig('evaluation.options.prescription_duration'),null,['class'=>'form-control'])!!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Units to dispense</label>
+                                <div class="col-md-8">
+                                    {{Form::text('quantity',1,['class'=>'form-control'])}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Notes</label>
+                                <div class="col-md-8">
+                                    {{Form::textarea('notes',null,['class'=>'form-control','placeholder'=>'Notes...','rows'=>1])}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-offset-4 col-md-8"><input type="checkbox" name="allow_substitution"
+                                                                               value="1"/> Substitution allowed</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+                {{Form::close()}}
+            </div>
         </div>
+
     </div>
 </div>
 <?php if (is_module_enabled('Inventory')): ?>
@@ -112,13 +173,14 @@
             'ajax': "{{route('api.evaluation.performed_prescriptions',$visit->id)}}",
             "searching": false,
             "ordering": false,
-            "paging": false
+            "paging": false,
+            responsive: true
         });
         $(document).on('click', '.deleteP', function () {
             $pres_id = $(this).attr('tom');
-            $.get({
+            $.post({
                 'url': "{{route('api.evaluation.drug.delete')}}",
-                data: {id: $pres_id},
+                data: {id: $pres_id, _token: "{{csrf_token()}}"},
                 success: function (data) {
                     if (data.success) {
                         $('table#prescribed_drugs').dataTable().api().ajax.reload();
@@ -127,6 +189,27 @@
                         alertify.error("Something came up");
                     }
                 }
+            });
+        });
+        $(document).on('click', '.editP', function () {
+            $pres_id = $(this).attr('tom');
+            $.ajax({
+                url: "{{route('api.evaluation.drug.info')}}",
+                data: {id: $pres_id},
+                dataType: 'json'
+            }).done(function (data) {
+                console.info(data);
+                var $myModal = $('#myModal');
+                $myModal.find('[name=whereto]').val(data.whereto);
+                $myModal.find('[name=method]').val(data.method);
+                $myModal.find('[name=take]').val(data.take);
+                $myModal.find('[name=duration]').val(data.duration);
+                $myModal.find('[name=time_measure]').val(data.time_measure);
+                $myModal.find('[name=quantity]').val(data.payment.quantity);
+                $myModal.find('[name=notes]').val(data.notes);
+                $myModal.find('[name=id]').val(data.id);
+                $myModal.modal({show: false});
+                $myModal.modal('show');
             });
         });
     });

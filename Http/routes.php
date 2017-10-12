@@ -88,6 +88,8 @@ $router->match(['get', 'post'], 'sample/barcode/{id?}/print', ['uses' => 'Evalua
 $router->get('patients/visits/{visit}/preview/{department}', ['uses' => 'EvaluationController@preview', 'as' => 'preview']);
 $router->get('patients/visit/{visit}/move', ['uses' => 'EvaluationController@move_patient']);
 
+$router->post('performed/pres/updater/evaluation', ['as' => 'drug.edit', 'uses' => 'EvaluationController@updateDrug']);
+
 
 $router->get('patients/visit/{visit}/evaluate/{department}', ['uses' => 'EvaluationController@evaluate', 'as' => 'evaluate']);
 $router->get('patients/visit/{visit}/manage/{department}', ['uses' => 'EvaluationController@manage']);

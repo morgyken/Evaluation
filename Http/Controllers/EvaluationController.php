@@ -78,6 +78,18 @@ class EvaluationController extends AdminBaseController
         return view('evaluation::preview', ['data' => $this->data]);
     }
 
+    public function updateDrug(Request $request)
+    {
+        $prescription = Prescriptions::updateOrCreate(['id' => $request->id]
+            , array_except(\request()->all(), 'quantity'));
+        $attributes = [
+            'quantity' => $request->quantity,
+        ];
+        $prescription->payment()->update($attributes);
+        flash("Saved");
+        return redirect()->back();
+    }
+
     public function evaluate($visit, $section)
     {
         $this->data['visit'] = Visit::find($visit);
@@ -98,7 +110,7 @@ class EvaluationController extends AdminBaseController
             $this->data['nursing_procedures'] = Procedures::whereCategory(6)->get();
 
             $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)
-                ->where('status',0)
+                ->where('status', 0)
                 ->get();
             session(['v' => $visit]);
             $this->data['dispensed'] = Prescriptions::whereHas('dispensing', function ($query) {

@@ -38,6 +38,12 @@ class ApiController extends Controller
         return $this->evaluationRepository->get_diagnosis_codes_auto();
     }
 
+
+    public function drugInfo(Request $request)
+    {
+        return response()->json(Prescriptions::with('drugs')->with('payment')->find($request->id));
+    }
+
     public function deletePrescription(Request $request)
     {
         $success = false;
@@ -57,8 +63,8 @@ class ApiController extends Controller
                 $pres->drugs->name,
                 $pres->payment->quantity,
                 $pres->dose,
-                $pres->duration . ' '
-                . mconfig('evaluation.options.prescription_duration.' . $pres->time_measure),
+//                $pres->duration . ' '
+//                . mconfig('evaluation.options.prescription_duration.' . $pres->time_measure),
                 $pres->payment->complete ?
                     "<i class='fa fa-check-circle-o' title='Drug Processed'></i>"
                     : "<button type='button' tom='$pres->id' class='editP btn btn-xs btn-primary'><i class='fa fa-edit' title='Edit Drug'></i></button>" .

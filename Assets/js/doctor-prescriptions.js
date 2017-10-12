@@ -8,8 +8,13 @@ $(function () {
      * */
     $('#prescription_form').submit(function (e) {
         e.preventDefault();
+        e.stopImmediatePropagation();
         save_prescription();
     });
+
+    function auto_calculate() {
+
+    }
 
     function map_select2(i) {
         //$('#addr' + i + ' select').select2({
