@@ -59,7 +59,7 @@ $history = patient_visits($visit->patient);
                                             <tbody>
                                             @foreach($_visit->prescriptions as $item)
                                                 <tr>
-                                                    <td>{{$item->drug}}</td>
+                                                    <td>{{$item->drugs->name}}</td>
                                                     <td>{{$item->dose}}</td>
                                                     <td>{{$item->duration}}</td>
                                                     <td>{{smart_date($item->created_at)}}</td>
