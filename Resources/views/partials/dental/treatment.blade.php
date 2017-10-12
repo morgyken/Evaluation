@@ -95,7 +95,9 @@ if ($visit->payment_mode == 'insurance') {
                                 <thead>
                                     <tr>
                                         <th>Procedure</th>
-                                        <th>Amount</th>
+                                        @if(!m_setting('evaluation.hide_procedure_prices'))
+                                            <th>Amount</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -182,17 +184,3 @@ if ($visit->payment_mode == 'insurance') {
         overflow-y: scroll;
     }
 </style>
-<script type="text/javascript">
-    function siri_get_discount_given_amount(i) {
-        /*
-         var prc = $("#cost" + i).val();
-         var qty = $("#quantity" + i).val();
-         var amount = $("#amount" + i).val();
-
-         var total = prc * qty;
-         var dis = ((total - amount) / 100) * 100;
-
-         $('input[name=discount' + i + ']').val(dis);
-         */
-    }
-</script>

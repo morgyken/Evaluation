@@ -26,10 +26,16 @@ if ($visit->payment_mode == 'insurance') {
             <th>#</th>
             <th>Select</th>
             <th>Test</th>
+            @if(!m_setting('evaluation.hide_procedure_prices'))
             <th>Price</th>
             <th>Number Performed</th>
             <th>Discount</th>
             <th>Amount</th>
+                @else
+                <th></th>
+                <th>Number Performed</th>
+                <th colspan="2"></th>
+            @endif
             <th></th>
         </tr>
         </thead>
@@ -63,6 +69,8 @@ if ($visit->payment_mode == 'insurance') {
                 </span>
                     <input type="hidden" name="type{{$procedure->id}}" value="radiology" disabled />
                 </td>
+
+                @if(!m_setting('evaluation.hide_procedure_prices'))
                 <td>
                     <input type="text" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" readonly=""/>
                 </td>
@@ -75,6 +83,21 @@ if ($visit->payment_mode == 'insurance') {
                     @endif
                 </td>
                 <td><input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly=""/></td>
+                @else
+
+                    <td>
+                        <input type="hidden" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" readonly=""/>
+                    </td>
+                    <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
+                    <td>
+                        @if(is_array($discount_allowed) && in_array('radiology', $discount_allowed))
+                            <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="hidden" name="discount{{$procedure->id}}"/>
+                        @else
+                            <input style="color:red" class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="hidden" name="discount{{$procedure->id}}" readonly=""/>
+                        @endif
+                    </td>
+                    <td><input size="5" id="amount{{$procedure->id}}" type="hidden" name="amount{{$procedure->id}}" readonly=""/></td>
+                @endif
                 <td></td>
             </tr>
         @endforeach

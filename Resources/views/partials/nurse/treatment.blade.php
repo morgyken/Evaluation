@@ -31,7 +31,9 @@ $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
                             <thead>
                             <tr>
                                 <th>Procedure</th>
+                                @if(!m_setting('evaluation.hide_procedure_prices'))
                                 <th>Amount</th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody>

@@ -23,11 +23,23 @@ $(function () {
     map_select2(i);
     i++;
     function add_row() {
-        var to_add = "\<td><select name=\"item" + i + "\" id=\"item_" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td>\n\<td><input type=\"text\" id=\"price_" + i + "\" name=\"price" + i + "\" /></td>\n\
-<td><input value=\"1\" type=\"text\" id=\"quantity_" + i + "\" name=\"quantity" + i + "\" placeholder=\"No. Performed\"/></td>\n\
-<td><input value='0' type='text' id='discount_" + i + "' name='discount" + i + "' placeholder='Discount'/></td>\n\
-<td><input type='text' id='amount_" + i + "' name='amount" + i + "' placeholder='Amount'/></td>\n\
-<td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
+        if(!HIDE_PRICES){
+            var to_add =
+                "\<td><select name=\"item" + i + "\" id=\"item_" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td>" +
+                "\n\<td><input type=\"text\" id=\"price_" + i + "\" name=\"price" + i + "\" /></td>" +
+                "\n\<td><input value=\"1\" type=\"text\" id=\"quantity_" + i + "\" name=\"quantity" + i + "\" placeholder=\"No. Performed\"/></td>" +
+                "\n\<td><input value='0' type='text' id='discount_" + i + "' name='discount" + i + "' placeholder='Discount'/></td>\n" +
+                "\<td><input type='text' id='amount_" + i + "' name='amount" + i + "' placeholder='Amount'/></td>\n" +
+                "\<td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
+        }else{
+            var to_add =
+                "\<td><select name=\"item" + i + "\" id=\"item_" + i + "\" class=\"select2-single\" style=\"width: 100%\"></select></td>" +
+                "\n\<td><input type=\"hidden\" id=\"price_" + i + "\" name=\"price" + i + "\" /></td>" +
+                "\n\<td><input value=\"1\" type=\"text\" id=\"quantity_" + i + "\" name=\"quantity" + i + "\" placeholder=\"No. Performed\"/></td>" +
+                "\n\<td><input value='0' type='hidden' id='discount_" + i + "' name='discount" + i + "' placeholder='Discount'/></td>" +
+                "\n\<td><input type='hidden' id='amount_" + i + "' name='amount" + i + "' placeholder='Amount'/></td>" +
+                "\n\<td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
+        }
         $('#addr' + i).html(to_add);
         $('#evaluation_order tbody').append('<tr id="addr' + (i + 1) + '"></tr>');
         map_select2(i);

@@ -48,6 +48,7 @@ if ($visit->payment_mode == 'insurance') {
                     <span class="instructions">
                     <textarea placeholder="Instructions" name="instructions{{$procedure->id}}" disabled cols="50"></textarea></span>
                 </td>
+                @if(!m_setting('evaluation.hide_procedure_prices'))
                 <td>
                     <input type="text" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" readonly=""/>
                 </td>
@@ -61,6 +62,21 @@ if ($visit->payment_mode == 'insurance') {
                 </td>
                 <td><input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly=""/></td>
                 <td></td>
+                @else
+                    <td>
+                        <input type="hidden" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" readonly=""/>
+                    </td>
+                    <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
+                    <td>
+                        @if(is_array($discount_allowed) && in_array('diagnostics', $discount_allowed))
+                            <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="hidden" name="discount{{$procedure->id}}"/>
+                        @else
+                            <input style="color:red" class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="hidden" name="discount{{$procedure->id}}" readonly=""/>
+                        @endif
+                    </td>
+                    <td><input size="5" id="amount{{$procedure->id}}" type="hidden" name="amount{{$procedure->id}}" readonly=""/></td>
+                    <td></td>
+                @endif
             </tr>
         @endforeach
         </tbody>
@@ -68,10 +84,17 @@ if ($visit->payment_mode == 'insurance') {
         <tr>
             <th></th>
             <th>Procedure</th>
-            <th>Price</th>
-            <th>Number Performed</th>
-            <th>Discount</th>
-            <th>Amount</th>
+            @if(!m_setting('evaluation.hide_procedure_prices'))
+                <th>Price</th>
+                <th>Number Performed</th>
+                <th>Discount</th>
+                <th>Amount</th>
+                @else
+                <th></th>
+                <th>Number Performed</th>
+                <th></th>
+                <th></th>
+            @endif
             <th></th>
         </tr>
         </thead>

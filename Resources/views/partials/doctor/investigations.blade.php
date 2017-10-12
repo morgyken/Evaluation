@@ -40,7 +40,9 @@ $performed_radio = get_investigations($visit, ['radiology']);
                                         <thead>
                                         <tr>
                                             <th>Test</th>
+                                            @if(!m_setting('evaluation.hide_procedure_prices'))
                                             <th>Price</th>
+                                            @endif
                                         </tr>
                                         </thead>
                                         <tbody>

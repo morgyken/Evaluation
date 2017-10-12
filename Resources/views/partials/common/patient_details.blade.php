@@ -15,6 +15,11 @@ try {
 
 }
 ?>
+@if(m_setting('evaluation.hide_procedure_prices') ==1)
+    <script> var HIDE_PRICES = true; </script>
+@else
+    <script> var HIDE_PRICES = false; </script>
+@endif
 <div class="box box-info">
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingZero">

@@ -56,7 +56,11 @@ $(function () {
             var name = $('#name' + procedure_id).html();
             var amount = john_doe(procedure_id);
             total += parseInt(amount);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            if(!HIDE_PRICES){
+                $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            }else {
+                $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td></tr>');
+            }
         });
 
         //for labs
@@ -65,7 +69,11 @@ $(function () {
             var name = $('#name' + procedure_id).html();
             var amount = john_doe(procedure_id);
             total += parseInt(amount);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            if(!HIDE_PRICES){
+                $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            }else {
+                $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td></tr>');
+            }
         });
 
         //for radiology
@@ -74,13 +82,19 @@ $(function () {
             var name = $('#name' + procedure_id).html();
             var amount = john_doe(procedure_id);
             total += parseInt(amount);
-            $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            if(!HIDE_PRICES){
+                $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            }else {
+                $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td></tr>');
+            }
         });
 
 
 
         if (total) {
-            $('#diagnosisInfo > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
+            if(!HIDE_PRICES){
+                $('#diagnosisInfo > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
+            }
         }
         $('#show_selection').show();
         /*

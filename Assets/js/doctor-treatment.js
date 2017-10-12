@@ -50,10 +50,16 @@ $(function () {
             var name = data.name;
             var amount = john_doe(data.id);
             total += parseInt(amount);
-            $('#treatment > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            if(HIDE_PRICES){
+                $('#treatment > tbody').append('<tr><td>' + name + '</td></tr>');
+            }else {
+                $('#treatment > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            }
         });
         if (total) {
-            $('#treatment > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
+            if(!HIDE_PRICES){
+                $('#treatment > tbody').append('<tr><td>Total</td><td><strong>' + total + '</strong></td></tr>');
+            }
         }
         $('#selected_treatment').show();
     }
