@@ -55,31 +55,6 @@ $(function () {
                 }
             }
         });
-        $('#addr' + i + ' select').on('select2:select', function (evt) {
-            var selected = $(this).find('option:selected');
-            var price = selected.data().data.cash_price;
-            var in_stock = selected.data().data.available;
-            var batch = selected.data().data.batch;
-            if (INSURANCE) {
-                price = selected.data().data.credit_price;
-            }
-
-            $('#fb' + i).attr('available', in_stock);
-            $('input[name=price' + i + ']').val(price);
-            $('input[name=batch' + i + ']').val(batch);
-            $('#original' + i).html(selected.data().data.o_price);
-            calculate_total();
-        });
-
-
-        $('#addr' + i + ' input').keyup(function () {
-            calculate_total();
-        });
-        $(".remove").click(function (e) {
-            e.preventDefault();
-            $(this).closest('tr').remove();
-            calculate_total();
-        });
     }
 
     map_select2(0);

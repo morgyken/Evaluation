@@ -212,6 +212,63 @@
                 $myModal.modal('show');
             });
         });
+        var $prescriptionForm = $('#prescription_form');
+        $prescriptionForm.find('[name=method],[name=time_measure]').change(function () {
+            get_the_units();
+        });
+        $prescriptionForm.find('[name=take],[name=duration]').keyup(function () {
+            get_the_units();
+        });
+
+        function getFrequency() {
+            var v = $prescriptionForm.find('[name=method]').val();
+            switch (v) {
+                case '1':
+                    return 2;
+                case '2':
+                    return 3;
+                case '3':
+                    return 4;
+                case '4':
+                case '5':
+                    return 1;
+                default:
+                    return 0;
+            }
+        }
+
+        function getDuration() {
+            var duration = $prescriptionForm.find('[name=duration]').val();
+            var measure = $prescriptionForm.find('[name=time_measure]').val();
+            switch (measure) {
+                case '1':
+                    $v = 1;
+                    break;
+                case '2':
+                    $v = 7;
+                    break;
+                case '3':
+                    $v = 30;
+                    break;
+                case '4':
+                    $v = 365;
+                    break;
+                default:
+                    $v = 0;
+                    break;
+            }
+            return parseInt(duration) * $v;
+        }
+
+        function get_the_units() {
+            var dose = $prescriptionForm.find('[name=take]').val();
+            var frequency = getFrequency();
+            var duration = getDuration();
+            var mine = parseInt(dose) * duration * frequency;
+            if (mine) {
+                $prescriptionForm.find('[name=quantity]').val(mine);
+            }
+        }
     });
 </script>
 <script src="{!! m_asset('evaluation:js/doctor-prescriptions.js') !!}"></script>
