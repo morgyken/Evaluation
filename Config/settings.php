@@ -30,6 +30,10 @@ return [
         'view' => 'evaluation::fields.discount',
         'hint' => 'Select places where discount is applicable'
     ],
+    'hide_procedure_prices' => [
+        'description' => 'Hide Procedure Prices at Evaluation',
+        'view' => 'checkbox',
+    ],
     'no_doctor' => [
         'description' => 'Disable Doctor Queue',
         'view' => 'checkbox'
