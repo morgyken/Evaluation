@@ -38,6 +38,36 @@ class ApiController extends Controller
         return $this->evaluationRepository->get_diagnosis_codes_auto();
     }
 
+    public function deletePrescription(Request $request)
+    {
+        $success = false;
+        $pres = Prescriptions::find($request->id);
+        if ($pres) {
+            $success = $pres->delete();
+        }
+        return response()->json(['success' => $success]);
+    }
+
+    public function getPrescriptions($visit_id)
+    {
+        $visit = Visit::find($visit_id);
+        $found = [];
+        foreach ($visit->prescriptions as $pres) {
+            $found[] = [
+                $pres->drugs->name,
+                $pres->payment->quantity,
+                $pres->dose,
+                $pres->duration . ' '
+                . mconfig('evaluation.options.prescription_duration.' . $pres->time_measure),
+                $pres->payment->complete ?
+                    "<i class='fa fa-check-circle-o' title='Drug Processed'></i>"
+                    : "<button type='button' tom='$pres->id' class='editP btn btn-xs btn-primary'><i class='fa fa-edit' title='Edit Drug'></i></button>" .
+                    "<button type='button' tom='$pres->id' class='deleteP btn btn-xs btn-danger'><i class='fa fa-trash' title='Delete Drug'></i></button>",
+            ];
+        }
+        return response()->json(['data' => $found]);
+    }
+
     public function save_vitals()
     {
         return response()->json($this->evaluationRepository->save_vitals());

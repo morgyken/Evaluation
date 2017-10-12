@@ -74,34 +74,20 @@
                     </div>
 
 
-                    <table id="prescribed_drugs" class="table table-borderless">
+                    <table id="prescribed_drugs" class="table table-borderless nowrap" width="100%">
                         <thead>
                         <tr>
                             <th>Drug</th>
                             <th>Units</th>
                             <th>Dose</th>
                             <th>Duration</th>
+                            <th>#</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @if(!$visit->prescriptions->isEmpty())
-                            @foreach($visit->prescriptions as $pres)
-                                <tr>
-                                    <td>{{$pres->drugs->name}}</td>
-                                    <td>{{$pres->payment->quantity}}</td>
-                                    <td>{{$pres->dose}}</td>
-                                    <td>{{$pres->duration}}</td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr id="hide-this">
-                                <td colspan="3">
-                                    <i class="fa fa-info-circle"></i> No previously administered prescriptions
-                                </td>
-                            </tr>
-                        @endif
                         </tbody>
                     </table>
+                    <br/>
                     <span class="pull-right">
                         <a class="btn btn-primary btn-xs"
                            href="{{route('evaluation.print.prescription',$visit->id)}}" target="_blank">
@@ -121,6 +107,29 @@
     var INSURANCE = false;
     var STOCK_URL = "{{route('api.inventory.getstock')}}";
     var PRODUCTS_URL = "{{route('api.inventory.get.products')}}";
+    $(function () {
+        $('table#prescribed_drugs').dataTable({
+            'ajax': "{{route('api.evaluation.performed_prescriptions',$visit->id)}}",
+            "searching": false,
+            "ordering": false,
+            "paging": false
+        });
+        $(document).on('click', '.deleteP', function () {
+            $pres_id = $(this).attr('tom');
+            $.get({
+                'url': "{{route('api.evaluation.drug.delete')}}",
+                data: {id: $pres_id},
+                success: function (data) {
+                    if (data.success) {
+                        $('table#prescribed_drugs').dataTable().api().ajax.reload();
+                        alertify.success("Deleted");
+                    } else {
+                        alertify.error("Something came up");
+                    }
+                }
+            });
+        });
+    });
 </script>
-<script src="{!! m_asset('evaluation:js/prescription.js') !!}"></script>
+<script src="{!! m_asset('evaluation:js/doctor-prescriptions.js') !!}"></script>
 <?php endif; ?>
