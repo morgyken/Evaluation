@@ -1301,6 +1301,9 @@ function parse_expression($expression)
 function general_interval($p)
 {
     $patient = \Session::get('active_patient');
+    if (empty($patient->dob)) {
+        return false;
+    }
     $dob = \Carbon\Carbon::parse($patient->dob);
     $today = new DateTime();
     $age = $dob->diff($today);
@@ -1442,6 +1445,9 @@ function specified_time_intervals($p)
      * @return $interval
      */
     $patient = \Session::get('active_patient');
+    if (empty($patient->dob)) {
+        return true;
+    }
     $dob = \Carbon\Carbon::parse($patient->dob);
 
     $interval = null;

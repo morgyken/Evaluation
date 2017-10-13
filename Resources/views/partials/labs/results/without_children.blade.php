@@ -8,7 +8,7 @@ $interval = get_ref_interval($range);
     <td>{{$item->procedures->name}}</td>
     <td>
         <?php
-        $res2 = GuzzleHttp\json_decode($item->results->results);
+        $res2 =json_decode($item->results->results);
         echo strip_tags($res2[0][1]);
         ?>
     </td>
