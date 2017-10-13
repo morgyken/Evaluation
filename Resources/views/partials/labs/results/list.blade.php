@@ -54,7 +54,7 @@ $test_res = array_combine($all_tests, $their_result);
             @endif
         @else
             <!--Procedure has no children -->
-            @include('evaluation::partials.labs.results.without_children')
+            {{--include('evaluation::partials.labs.results.without_children')--}}
         @endif
     @endif
 @else
