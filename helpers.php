@@ -1131,6 +1131,7 @@ if (!function_exists('get_ref_range')) {
     function get_ref_range($p)
     {
         $interval = null;
+
         if (gender_specific_interval($p)) {
             $interval = gender_specific_interval($p);
         } else {
@@ -1359,7 +1360,9 @@ function general_interval($p)
 function gender_specific_interval($p)
 {
     $patient = \Session::get('active_patient');
-    $dob = \Carbon\Carbon::parse($patient->dob);
+    $dob = \Carbon\Carbon::createFromDate('2000');
+    if (isset($patient->dob))
+        $dob = \Carbon\Carbon::parse($patient->dob);
     $today = new DateTime();
     $age = $dob->diff($today);
 
