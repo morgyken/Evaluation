@@ -80,12 +80,17 @@
                         <tbody>
                         @if(!$visit->prescriptions->isEmpty())
                             @foreach($visit->prescriptions as $pres)
+                                <?php try{ ?>
                                 <tr>
                                     <td>{{$pres->drugs->name}}</td>
                                     <td>{{$pres->payment->quantity}}</td>
                                     <td>{{$pres->dose}}</td>
                                     <td>{{$pres->duration}}</td>
                                 </tr>
+                                <?php
+                                }catch (\Exception $e){
+
+                                } ?>
                             @endforeach
                         @else
                             <tr id="hide-this">
