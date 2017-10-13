@@ -3,6 +3,7 @@
 use Illuminate\Routing\Router;
 
 /** @var Router $router */
+
 $router->group(['prefix' => 'inpatient', 'as' => 'inpatient.'], function (Router $router) {
     $router->get('admit', ['uses' => 'EvaluationController@admit', 'as' => 'admit']);
     $router->get('admit/{patient_id}/{visit_id}', ['uses' => 'EvaluationController@admit_patient']);
@@ -79,7 +80,6 @@ $router->group(['prefix' => 'inpatient', 'as' => 'inpatient.'], function (Router
     $router->get('print', ['uses' => 'EvaluationController@print']);
 
 });
-
 
 $router->get('patients/queue/{department}', ['uses' => 'EvaluationController@queues', 'as' => 'queues']);
 $router->match(['get', 'post'], 'samples/{patient?}', ['uses' => 'EvaluationController@labotomy', 'as' => 'labotomy']);

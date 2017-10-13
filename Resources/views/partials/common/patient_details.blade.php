@@ -13,6 +13,9 @@ try {
 } catch (\Exception $e) {
 
 }
+if (empty($status)) {
+    $status = null;
+}
 ?>
 <div class="box box-info">
     <div class="panel panel-default">
@@ -20,7 +23,8 @@ try {
             <h4 class="panel-title">
                 <div>
                     <ul class="accordion-header single-btn">
-                        <li class="title"><b>{{$patient->full_name}}</b> ({{$patient->sex}}, {{ $patient->dob->age }} yrs
+                        <li class="title"><b>{{$patient->full_name}}</b> ({{$patient->sex}}, {{ $patient->dob->age }}
+                            yrs
                             old)
                             <code>Payment Mode: {{$visit->mode}}</code></li>
                         <li class="options">
@@ -68,6 +72,7 @@ try {
                          <p>Patient signed out for this visit</p>
                          @endif
              <br><br> --}}
+
                         @if($status == 'admited')
                             @if(\Ignite\Evaluation\Entities\Admission::where('patient_id',$patient->id)->count())
                                 <button type="button" class="btn btn-warning"><i class="fa fa-share"></i> Awaiting
