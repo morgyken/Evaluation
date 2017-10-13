@@ -1360,9 +1360,11 @@ function general_interval($p)
 function gender_specific_interval($p)
 {
     $patient = \Session::get('active_patient');
-    $dob = \Carbon\Carbon::createFromDate('2000');
-    if (isset($patient->dob))
-        $dob = \Carbon\Carbon::parse($patient->dob);
+    if (empty($patient->dob)) {
+        return false;
+    }
+//    $dob = \Carbon\Carbon::createFromDate('2000');
+    $dob = \Carbon\Carbon::parse($patient->dob);
     $today = new DateTime();
     $age = $dob->diff($today);
 
