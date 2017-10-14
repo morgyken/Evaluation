@@ -12,6 +12,10 @@
 
 /* global DIAGNOSIS_URL, USER_ID, VISIT_ID, alertify */
 $(function () {
+    get_performed_investigation();
+    try{
+        $('#in_table').dataTable({ajax: PERFOMED_URL});
+    }catch(e) {}
     //mock hide this
     $('.instructions').hide();
 
@@ -111,6 +115,7 @@ $(function () {
             data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
+                get_performed_investigation();
                 //location.reload();
             },
             error: function () {
@@ -159,5 +164,18 @@ $(function () {
         var amount = get_amount_given(cost, quantity, discount);
         $('#amount' + procedure_id).val(amount);
         return amount;
+    }
+    
+    function get_performed_investigation() {
+        $.ajax({
+            type: "GET",
+            url: DONE_IVESTIGATION_URL,
+            success: function (data) {
+                $('.done_investigation').html(data);
+            },
+            error: function () {
+                alertify.error('<i class="fa fa-check-warning"></i> Unable to refresh performed treatment table');
+            }
+        });
     }
 });

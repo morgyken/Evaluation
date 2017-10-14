@@ -6,14 +6,15 @@
 /* global TREAT_URL, VISIT_ID, USER_ID, DIAGNOSIS_URL, alertify */
 
 $(function () {
-
+    get_performed_treatment();
     // $('.treatment_item').find('table').DataTable({
     //     "scrollY": "300px",
     //     "paging": false
     // });
-    $('#in_table').dataTable({
-        ajax: PERFOMED_URL
-    });
+    try{
+        $('#in_table').dataTable({ajax: PERFOMED_URL});
+    }catch(e) {}
+
     $('#procedures_doctor_form,#procedures_nurse_form').find('input:text').keyup(function () {
         preview_treatment_selection();
     });
@@ -96,9 +97,10 @@ $(function () {
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Selected treatment procedures saved');
                 $('.treatment_item').find('input').iCheck('uncheck');
-                $('#in_table').dataTable().api().ajax.reload();
-                treatmentInvestigations = [];
-                trIndex = {};
+               // $('#in_table').dataTable().api().ajax.reload();
+                get_performed_treatment();
+                //treatmentInvestigations = [];
+                //trIndex = {};
                 preview_treatment_selection();
             },
             error: function () {
@@ -107,6 +109,19 @@ $(function () {
         });
         //  $('#selected_treatment').hide();
         //
+    }
+
+    function get_performed_treatment() {
+        $.ajax({
+            type: "GET",
+            url: DONE_URL,
+            success: function (data) {
+                $('.done_treatment').html(data);
+            },
+            error: function () {
+                alertify.error('<i class="fa fa-check-warning"></i> Unable to refresh performed treatment table');
+            }
+        });
     }
 
     function john_doe(procedure_id) {

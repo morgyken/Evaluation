@@ -269,6 +269,61 @@ class ApiController extends Controller
         return response()->json(['data' => $return]);
     }
 
+    public function rawDoneTreatment(Request $request){
+        $visit = Visit::find($request->visit_id);
+        $data = get_investigations($visit,['diagnostics', 'laboratory', 'radiology']);
+        $tr = "";
+        foreach ($data as $item) {
+            $amount= $item->amount > 0 ? $item->amount : $item->price;
+            $status = payment_label((bool)($item->is_paid || $item->invoiced));
+
+            $tr.="<tr>
+                        <td>".str_limit($item->procedures->name, 50, '...')."</td>
+                        <td>".$item->type."</td>
+                        <td>".$item->price."</td>
+                        <td>".$item->quantity."</td>
+                        <td>".$item->discount."</td>
+                        <td>".$amount."</td>
+                        <td>".$status."</td>
+                        <td>".$item->created_at->format('d/m/Y h:i a')."</td>
+                    </tr>";
+        }
+        echo $tr;
+    }
+
+    public function rawDoneInvestigation(Request $request){
+        $visit = Visit::find($request->visit_id);
+        $data = get_investigations($visit,['diagnostics', 'laboratory', 'radiology']);
+        $tr = "";
+        $n=0;
+        foreach ($data as $item) {
+            $n+=1;
+            $amount= $item->amount > 0 ? $item->amount : $item->price;
+            $status = payment_label((bool)($item->is_paid || $item->invoiced));
+            if ($item->has_result){
+                $link = '<a href="' . route('evaluation.view_result', $item->visit) . '"
+                                               class="btn btn-xs btn-success" target="_blank">
+                                                <i class="fa fa-external-link"></i> View Result</a>';
+            }else{
+                $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Pending</span>';
+            }
+
+            $tr.="<tr>
+                        <td>".$n."</td>
+                        <td>".str_limit($item->procedures->name, 50, '...')."</td>
+                        <td>".$item->type."</td>
+                        <td>".$item->price."</td>
+                        <td>".$item->quantity."</td>
+                        <td>".$item->discount."</td>
+                        <td>".$amount."</td>
+                        <td>".$status."</td>
+                        <td>".$item->created_at->format('d/m/Y h:i a')."</td>
+                        <td>".$link."</td>
+                    </tr>";
+        }
+        echo $tr;
+    }
+
     public function getDoneInvestigations(Visit $visit_id)
     {
         /** @var Investigations[] $data */

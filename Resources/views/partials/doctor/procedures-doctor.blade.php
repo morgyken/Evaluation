@@ -20,9 +20,13 @@
 </style>
 <script>
     $(document).ready(function() {
-        $('.doctor').DataTable( {
-            paging:false
-        } );
+        try {
+            $('.doctor').DataTable( {
+                paging:false
+            } );
+        }catch (e){
+
+        }
     } );
 </script>
 

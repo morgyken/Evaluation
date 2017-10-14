@@ -55,3 +55,6 @@ $router->get('delete/procedure', ['uses' => 'ApiController@delete_procedure', 'a
 
 $router->get('performed/treatment/{visit_id}/evaluation', ['as' => 'performed_treatment', 'uses' => 'ApiController@getDoneTreatment']);
 $router->get('performed/investigations/{visit_id}/evaluation', ['as' => 'performed_investigations', 'uses' => 'ApiController@getDoneInvestigations']);
+
+$router->get('done/treatment/{visit_id}', ['as' => 'done_treatment', 'uses' => 'ApiController@rawDoneTreatment']);
+$router->get('done/investigation/{visit_id}', ['as' => 'done_investigation', 'uses' => 'ApiController@rawDoneInvestigation']);

@@ -15,30 +15,19 @@
             <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>
         </td>
         <td>
-            <input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}"
-                   type="text"
-                   name="quantity{{$procedure->id}}"/>
+            <input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/>
         </td>
         <td>
             @if(!m_setting('evaluation.hide_procedure_prices'))
-                <input class="discount" size="5" value="0"
-                       id="discount{{$procedure->id}}" type="hidden"
-                       name="discount{{$procedure->id}}"/>
-                <input type="hidden" name="type{{$procedure->id}}" value="{{$_type}}" disabled/>
-                <input disabled="" type="text" name="price{{$procedure->id}}" value="{{$price}}"
-                       id="cost{{$procedure->id}}" size="5" readonly=""/>
-                <input size="5" id="amount{{$procedure->id}}" type="hidden"
-                       name="amount{{$procedure->id}}" value="{{$price}}"/>
+                <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="hidden" name="discount{{$procedure->id}}"/>
+                <input type="hidden" name="type{{$procedure->id}}" value="{{$_type}}" disabled />
+                <input disabled="" type="text" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" readonly=""/>
+                <input size="5" id="amount{{$procedure->id}}" type="hidden" name="amount{{$procedure->id}}" value="{{$price}}"/>
                 @else
-
-                <input class="discount" size="5" value="0"
-                       id="discount{{$procedure->id}}" type="hidden"
-                       name="discount{{$procedure->id}}"/>
+                <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="hidden" name="discount{{$procedure->id}}"/>
                 <input type="hidden" name="type{{$procedure->id}}" value="{{$_type}}" />
-                <input disabled="" type="hidden" name="price{{$procedure->id}}" value="{{$price}}"
-                       id="cost{{$procedure->id}}" size="5" />
-                <input size="5" id="amount{{$procedure->id}}" type="hidden"
-                       name="amount{{$procedure->id}}" value="{{$price}}"/>
+                <input disabled="" type="hidden" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" />
+                <input size="5" id="amount{{$procedure->id}}" type="hidden" name="amount{{$procedure->id}}" value="{{$price}}"/>
             @endif
         </td>
     </tr>

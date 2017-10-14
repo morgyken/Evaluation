@@ -78,71 +78,11 @@ $performed_radio = get_investigations($visit, ['radiology']);
                             <th>Discount</th>
                             <th>Amount</th>
                             <th>Payment</th>
+                            <th>Created</th>
                             <th>Result</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <?php $n=0 ?>
-                        @if(!$performed_diagnosis->isEmpty())
-                            @foreach($performed_diagnosis as $item)
-                                <tr>
-                                    <td>{{$n+=1}}</td>
-                                    <td>{{str_limit($item->procedures->name,20,'...')}}</td>
-                                    <td>{{$item->type}}</td>
-                                    <td>{{$item->price}}</td>
-                                    <td>{{$item->quantity}}</td>
-                                    <td>{{$item->discount}}</td>
-                                    <td>{{$item->amount>0?$item->amount:$item->price}}</td>
-                                    <td>{!! payment_label($item->is_paid) !!}</td>
-                                    @if($item->has_result)
-                                        <td><a href="{{route('evaluation.view_result',$item->visit)}}" class="btn btn-xs btn-success" target="_blank">
-                                                <i class="fa fa-external-link"></i> View Result
-                                            </a></td>
-                                    @else
-                                        <td><span class="text-warning"><i class="fa fa-warning"></i> Pending</span></td>
-                                    @endif
-                                </tr>
-                            @endforeach
-                        @endif
-                        @if(!$performed_labs->isEmpty())
-                            @foreach($performed_labs as $item)
-                                <tr>
-                                    <td>{{$n+=1}}</td>
-                                    <td>{{str_limit($item->procedures->name,20,'...')}}</td>
-                                    <td>{{$item->type}}</td>
-                                    <td>{{$item->price}}</td>
-                                    <td>{{$item->quantity}}</td>
-                                    <td>{{$item->discount}}</td>
-                                    <td>{{$item->amount>0?$item->amount:$item->price}}</td>
-                                    <td>{!! payment_label($item->is_paid) !!}</td>
-                                    <td>
-                                        <a href="{{route('evaluation.view_result',$item->visit)}}" class="btn btn-xs btn-success" target="_blank">
-                                            <i class="fa fa-external-link"></i> View Result
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                        @if(!$performed_radio->isEmpty())
-                            @foreach($performed_radio as $item)
-                                <tr>
-                                    <td>{{$n+=1}}</td>
-                                    <td>{{str_limit($item->procedures->name,20,'...')}}</td>
-                                    <td>{{$item->type}}</td>
-                                    <td>{{$item->price}}</td>
-                                    <td>{{$item->quantity}}</td>
-                                    <td>{{$item->discount}}</td>
-                                    <td>{{$item->amount>0?$item->amount:$item->price}}</td>
-                                    <td>{!! payment_label($item->is_paid) !!}</td>
-                                    <td>
-                                        <a href="{{route('evaluation.view_result',$item->visit)}}" class="btn btn-xs btn-success" target="_blank">
-                                            <i class="fa fa-external-link"></i> View Result
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                        </tbody>
+                        <tbody class="done_investigation"></tbody>
                     </table>
                 </div>
             </div>
@@ -156,9 +96,13 @@ $performed_radio = get_investigations($visit, ['radiology']);
     }
 </style>
 <script>
-
+    var DONE_IVESTIGATION_URL = "{{ route('api.evaluation.done_investigation',$visit->id) }}";
     $(document).ready(function() {
-        $('#t').DataTable();
+        try {
+            $('#t').DataTable();
+        }catch ($e){
+
+        }
     } );
     window.alert = (function() {
         var nativeAlert = window.alert;

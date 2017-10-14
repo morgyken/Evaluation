@@ -113,8 +113,13 @@ if ($visit->payment_mode == 'insurance') {
 </style>
 <script>
     $(document).ready(function() {
-        $('#rad').DataTable({
-            paging:false
-        });
+        try {
+            $('#rad').DataTable({
+                paging:false
+            });
+        }
+        catch(err) {
+
+        }
     } );
 </script>

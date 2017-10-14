@@ -121,8 +121,13 @@ if ($visit->payment_mode == 'insurance') {
 </style>
 <script>
     $(document).ready(function() {
-        $('#lab').DataTable( {
-            paging: false
-        } );
+        try {
+            $('#lab').DataTable( {
+                paging: false
+            } );
+        }
+        catch(err) {
+
+        }
     } );
 </script>
