@@ -1,4 +1,6 @@
 $(function () {
+    //$('#saver').prop('disabled', true);
+    $(":submit").attr("disabled", true);
     $('#payForm input').keyup(function () {
         show_information();
     });
@@ -32,10 +34,10 @@ $(function () {
         $('#total').html("Total: Ksh " + selected_payments);
         $('#all').html("Total Payments: <strong>Ksh " + to_pay + "</strong>");
         $('#balance').html('');
-        $('#saver').prop('disabled', false);
+        $(":submit").removeAttr("disabled");
         if (needed > 0) {
             $('#balance').html("Balance: <strong style='color:red;'>Ksh " + needed + "</strong>");
-            $('#saver').prop('disabled', true);
+            $(":submit").attr("disabled", true);
         }
     }
     $('#paymentsTable').find('input:radio, input:checkbox').prop('checked', false);
@@ -44,7 +46,6 @@ $(function () {
         radioClass: 'iradio_flat-blue',
         increaseArea: '20%'
     });
-    $('#saver').prop('disabled', true);
     $(".accordion").accordion({
         heightStyle: "content"
     });
