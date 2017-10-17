@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $has_result
  * @property-read mixed $is_paid
  * @property-read mixed $pesa
+ * @property-read mixed $the_type
  * @property-read \Ignite\Evaluation\Entities\Procedures $p
  * @property-read \Ignite\Finance\Entities\EvaluationPaymentsDetails $payments
  * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
@@ -135,7 +136,7 @@ class Investigations extends Model
         return $this->hasOne(\Ignite\Finance\Entities\RemovedBills::class, 'investigation');
     }
 
-    public function getTypeAttribute($value)
+    public function getTheTypeAttribute($value)
     {
         if ($value == 'treatment.nurse') {
             return 'Nurse';

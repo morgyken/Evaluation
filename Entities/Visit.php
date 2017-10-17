@@ -19,6 +19,7 @@ use Ignite\Finance\Entities\InsuranceInvoice;
  * @property int $patient
  * @property int|null $purpose
  * @property int|null $external_doctor
+ * @property string|null $inpatient
  * @property int $user
  * @property string $payment_mode
  * @property int|null $scheme
@@ -65,6 +66,7 @@ use Ignite\Finance\Entities\InsuranceInvoice;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereExternalDoctor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereExternalOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereInpatient($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereNextAppointment($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit wherePatient($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit wherePaymentMode($value)

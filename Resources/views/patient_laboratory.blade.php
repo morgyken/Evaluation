@@ -27,11 +27,11 @@ $patient = $data['visit']->patients;
                             <li class="active"><a href="#ordered" data-toggle="tab">
                                     Ordered Labs<span class="badge alert-info">{{$labs->count()}}</span></a></li>
                             {{--<li><a href="#new" data-toggle="tab">--}}
-                                    {{--Order labs   <span class="badge alert-success">new</span></a> </li>--}}
+                            {{--Order labs   <span class="badge alert-success">new</span></a> </li>--}}
                             <li><a href="#labotomy" data-toggle="tab">
-                                    Collect Sample   <span class="badge alert-info">new</span></a> </li>
+                                    Collect Sample <span class="badge alert-info">new</span></a></li>
                             <li><a href="#results" data-toggle="tab" id="view_results">
-                                    Lab Results <span class="badge alert-success">{{$results->count()}}</span></a> </li>
+                                    Lab Results <span class="badge alert-success">{{$results->count()}}</span></a></li>
                             @if($results->count()>0)
                                 <li><a target="blank" href="{{route('evaluation.print.print_lab', $visit)}}">
                                         Print Results<span class="badge alert-success"></span></a></li>
@@ -65,6 +65,7 @@ $patient = $data['visit']->patients;
             e.preventDefault();
             reload();
         });
+
         function reload() {
             location.reload();
         }
