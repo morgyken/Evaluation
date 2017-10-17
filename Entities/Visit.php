@@ -2,6 +2,7 @@
 
 namespace Ignite\Evaluation\Entities;
 
+use Ignite\Finance\Entities\ChangeInsurance;
 use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\PatientInsurance;
 use Ignite\Reception\Entities\Patients;
@@ -19,7 +20,6 @@ use Ignite\Finance\Entities\InsuranceInvoice;
  * @property int $patient
  * @property int|null $purpose
  * @property int|null $external_doctor
- * @property string|null $inpatient
  * @property int $user
  * @property string $payment_mode
  * @property int|null $scheme
@@ -55,6 +55,7 @@ use Ignite\Finance\Entities\InsuranceInvoice;
  * @property-read \Ignite\Reception\Entities\Patients $patients
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Prescriptions[] $prescriptions
  * @property-read \Ignite\Evaluation\Entities\PartnerInstitution $requesting_institutions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Finance\Entities\ChangeInsurance[] $to_cash
  * @property-read \Ignite\Evaluation\Entities\Vitals $vitals
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit checkedAt($destination)
  * @method static bool|null forceDelete()
@@ -66,7 +67,6 @@ use Ignite\Finance\Entities\InsuranceInvoice;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereExternalDoctor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereExternalOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereInpatient($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereNextAppointment($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit wherePatient($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit wherePaymentMode($value)
@@ -96,6 +96,11 @@ class Visit extends Model
     public function getVisitDestinationAttribute()
     {
         return implode(' | ', $this->destinations->pluck('department')->toArray());
+    }
+
+    public function to_cash()
+    {
+        return $this->hasMany(ChangeInsurance::class, 'visit_id');
     }
 
     public function getSignedOutAttribute()

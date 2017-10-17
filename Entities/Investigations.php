@@ -136,8 +136,9 @@ class Investigations extends Model
         return $this->hasOne(\Ignite\Finance\Entities\RemovedBills::class, 'investigation');
     }
 
-    public function getTheTypeAttribute($value)
+    public function getTheTypeAttribute()
     {
+        $value = $this->type;
         if ($value == 'treatment.nurse') {
             return 'Nurse';
         }
