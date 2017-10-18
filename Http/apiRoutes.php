@@ -11,6 +11,9 @@
  */
 
 /** @var \Illuminate\Routing\Router $router */
+
+$router->get('get/products', ['uses' => 'ServiceController@getProcedures', 'as' => 'get.procedures']);
+
 $router->delete('cancel_checkin', ['uses' => 'ApiController@cancel_checkin', 'as' => 'cancel_checkin']);
 $router->get('checkout_patient', ['uses' => 'ApiController@checkout_patient', 'as' => 'checkout_patient']);
 $router->get('diagnosis/{regex?}', ['uses' => 'ApiController@diagnosis_codes', 'as' => 'diagnosis_auto']);
@@ -58,3 +61,4 @@ $router->get('performed/prescriptions/{visit_id}/evaluation', ['as' => 'performe
 $router->post('performed/pres/deleter/evaluation', ['as' => 'drug.delete', 'uses' => 'ApiController@deletePrescription']);
 $router->get('performed/pres/info/evaluation', ['as' => 'drug.info', 'uses' => 'ApiController@drugInfo']);
 $router->get('performed/investigations/{visit_id}/evaluation', ['as' => 'performed_investigations', 'uses' => 'ApiController@getDoneInvestigations']);
+
