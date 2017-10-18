@@ -42,9 +42,5 @@ try {
             <p>Patient signed out for this visit</p>
             @endif
         </div>
-        <hr/>
-        <div class="col-md-12">
-            {{--@include('evaluation::partials.common.fraola')--}}
-        </div>
     </div>
 </div>

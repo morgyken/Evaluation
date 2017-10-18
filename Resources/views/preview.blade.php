@@ -20,8 +20,10 @@ extract($data);
                 <dt>Name:</dt>
                 <dd>{{$patient->full_name}}</dd>
                 <dt>Date of Birth:</dt>
+                <?php try{ ?>
                 <dd>{{(new Date($patient->dob))->format('m/d/y')}}
                     <strong>({{(new Date($patient->dob))->age}} years old)</strong></dd>
+                <?php }catch (\Exception $e){} ?>
                 <dt>Gender:</dt>
                 <dd>{{$patient->sex}}</dd>
                 <dt>Mobile Number:</dt>

@@ -9,11 +9,10 @@
 <link rel="stylesheet" type="text/css" href="{{m_asset('evaluation:redactor/css/style.css')}}" />
 <!-- Redactor is here -->
 <link rel="stylesheet" href="{{m_asset('evaluation:redactor/redactor/redactor.css')}}" />
-<script src="{{m_asset('evaluation:redactor/redactor/redactor.min.js')}}"></script>
+<script src="{{m_asset('evaluation:redactor/redactor/redactor.js')}}"></script>
 <script type="text/javascript">
     $(document).ready(
-        function()
-        {
+        function() {
             $('textarea').redactor({
             fixed: true
         });

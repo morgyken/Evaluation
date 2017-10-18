@@ -1289,7 +1289,7 @@ var RLANG = {
 
 			var tag = $(parent).closest(['p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'td']);
 
-			if (typeof tag[0] !== 'undefined' && typeof tag[0].elem !== 'undefined' && $(tag[0].elem).size() != 0)
+			if (typeof tag[0] !== 'undefined' && typeof tag[0].elem !== 'undefined' && $(tag[0].elem).length != 0)
 			{
 				var align = $(tag[0].elem).css('text-align');
 
@@ -1429,7 +1429,7 @@ var RLANG = {
 					parent = this.getCurrentNode();
 					var tag = $(parent).get(0).tagName;
 
-					if (this.opts.iframe === false && $(parent).parents('.redactor_editor').size() == 0)
+					if (this.opts.iframe === false && $(parent).parents('.redactor_editor').length == 0)
 					{
 						return false;
 					}
@@ -2458,7 +2458,7 @@ var RLANG = {
 		{
 			if (typeof this.savedSel !== 'undefined' && this.savedSel !== null && this.savedSelObj !== null && this.savedSel[0].tagName !== 'BODY')
 			{
-				if (this.opts.iframe === false && $(this.savedSel[0]).closest('.redactor_editor').size() == 0)
+				if (this.opts.iframe === false && $(this.savedSel[0]).closest('.redactor_editor').length == 0)
 				{
 					this.$editor.focus();
 				}
@@ -2966,7 +2966,7 @@ var RLANG = {
 		},
 		addHead: function()
 		{
-			if ($(this.$table).find('thead').size() !== 0)
+			if ($(this.$table).find('thead').length !== 0)
 			{
 				this.deleteHead();
 			}
@@ -3242,7 +3242,7 @@ var RLANG = {
 					if (this.opts.uploadCrossDomain === false && this.isMobile() === false)
 					{
 
-						if ($('#redactor_file').size() !== 0)
+						if ($('#redactor_file').length !== 0)
 						{
 							$('#redactor_file').dragupload(
 							{
@@ -3594,7 +3594,7 @@ var RLANG = {
 		modalInit: function(title, content, width, callback)
 		{
 			// modal overlay
-			if ($('#redactor_modal_overlay').size() === 0)
+			if ($('#redactor_modal_overlay').length === 0)
 			{
 				this.overlay = $('<div id="redactor_modal_overlay" style="display: none;"></div>');
 				$('body').prepend(this.overlay);
@@ -3606,7 +3606,7 @@ var RLANG = {
 				$('#redactor_modal_overlay').click($.proxy(this.modalClose, this));
 			}
 
-			if ($('#redactor_modal').size() === 0)
+			if ($('#redactor_modal').length === 0)
 			{
 				this.modal = $('<div id="redactor_modal" style="display: none;"><div id="redactor_modal_close">&times;</div><div id="redactor_modal_header"></div><div id="redactor_modal_inner"></div></div>');
 				$('body').append(this.modal);
@@ -3640,7 +3640,7 @@ var RLANG = {
 			}
 
 			// tabs
-			if ($('#redactor_tabs').size() !== 0)
+			if ($('#redactor_tabs').length !== 0)
 			{
 				var that = this;
 				$('#redactor_tabs a').each(function(i,s)
@@ -3747,7 +3747,7 @@ var RLANG = {
 			$.extend(this.uploadOptions, options);
 
 			// Test input or form
-			if ($('#' + element).size() !== 0 && $('#' + element).get(0).tagName === 'INPUT')
+			if ($('#' + element).length !== 0 && $('#' + element).get(0).tagName === 'INPUT')
 			{
 				this.uploadOptions.input = $('#' + element);
 				this.element = $($('#' + element).get(0).form);
