@@ -8,12 +8,12 @@
             <div class="form-inline">
                 <div class="form-group">
                     <label for="email">From:</label>
-                    <input type="text" class="form-control input-sm days" value="{{request('ppd_from')}}"
+                    <input type="text" class="form-control input-sm days" value="{{request('rpd_from')}}"
                            name="ppd_from"/>
                 </div>
                 <div class="form-group">
                     <label for="email">To:</label>
-                    <input type="text" class="form-control input-sm days" value="{{request('ppd_to')}}" name="ppd_to"/>
+                    <input type="text" class="form-control input-sm days" value="{{request('rpd_to')}}" name="ppd_to"/>
                 </div>
                 <input type="hidden" name="section" value="patients_pd"/>
                 <button type="submit" class="btn btn-primary btn-sm">Filter</button>
