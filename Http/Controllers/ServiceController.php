@@ -4,6 +4,7 @@ namespace Ignite\Evaluation\Http\Controllers;
 
 use Ignite\Core\Http\Controllers\AdminBaseController;
 use Ignite\Evaluation\Entities\Procedures;
+use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -14,19 +15,14 @@ class ServiceController extends AdminBaseController
         return view('evaluation::pos.shop', ['data' => $this->data]);
     }
 
-    public function postServices(Request $request)
+    public function postServices(EvaluationRepository $repository, Request $request)
     {
-        if ($this->inventoryRepository->record_sales()) {
-            $receipt = session('receipt_id');
-            if (isset($request->pharmacy)) {
-                //dd($request->pharmacy);
-                flash('Drugs dispensed successfully');
-                return redirect()->back();
-            } else {
-                flash('Transaction completed');
-                return redirect()->route('inventory.receipt', $receipt);
-            }
+        if ($repository->request_service()) {
+            flash()->success('Order placed successfully');
+        } else {
+            flash()->error("Could not place order");
         }
+        return redirect()->back();
     }
 
     public function getProcedures(Request $request, $section = 'nurse')

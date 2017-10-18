@@ -170,7 +170,7 @@ $(document).ready(function () {
     });
     $('table').show();
     $("#patient_select").select2({
-        tags: true,
+        // tags: true,
         theme: "classic",
         ajax: {
             url: PATIENTS_URL,
@@ -184,7 +184,6 @@ $(document).ready(function () {
             results: function (data, page) {
                 return {results: data};
             }
-            , cache: true
         },
         formatNoMatches: function () {
             return "No matches found";

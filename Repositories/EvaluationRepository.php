@@ -137,4 +137,6 @@ interface EvaluationRepository {
     public function checkout_patient();
 
     public function dispense();
+
+    public function request_service();
 }

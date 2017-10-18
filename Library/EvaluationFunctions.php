@@ -12,6 +12,7 @@
 
 namespace Ignite\Evaluation\Library;
 
+use Carbon\Carbon;
 use Ignite\Evaluation\Entities\Additives;
 use Ignite\Evaluation\Entities\CriticalValues;
 use Ignite\Evaluation\Entities\Formula;
@@ -984,4 +985,49 @@ class EvaluationFunctions implements EvaluationRepository
         return "Test has been removed from template"; //
     }
 
+    public function request_service()
+    {
+        $selection = $this->_get_selected_stack();
+        if (empty($selection)) {
+            return false;
+        }
+        $this->visit = $this->anticipateVisit();
+        foreach ($selection as $item) {
+            Investigations::create([
+                'type' => 'treatment.nurse',
+                'visit' => $this->visit,
+                'procedure' => $this->input['item' . $item],
+                'quantity' => $this->input['qty' . $item],
+                'price' => $this->input['price' . $item],
+                'amount' => $this->input['price' . $item] * $this->input['qty' . $item],
+                'instructions' => empty($this->input['instructions' . $item]) ? null : $this->input['instructions' . $item],
+                'user' => $this->user,
+                'ordered' => true
+            ]);
+            $this->check_in_at('treatment.nurse');
+        }
+        return true;
+    }
+
+    /**
+     * @return int
+     */
+    private function anticipateVisit()
+    {
+        $today = Carbon::now()->startOfDay()->toDateTimeString();
+        $visit = Visit::wherePatient($this->request->patient)
+            ->where('created_at', '>', $today)
+            ->first();
+        if ($visit) {
+            return $visit->id;
+        }
+        $visit = new Visit;
+        $visit->patient = $this->request->patient;
+        $visit->clinic = session('clinic', 1);
+
+        $visit->payment_mode = $this->request->payment_method ?? 'cash';
+        $visit->user = $this->request->user()->id;
+        $visit->save();
+        return $visit->id;
+    }
 }

@@ -45,7 +45,7 @@ class SidebarExtender implements Panda
         $menu->group('Dashboard', function (Group $group) {
             $group->item('Charge treatment', function (Item $item) {
                 $item->icon('fa fa-shopping-bag');
-                $item->route('evaluation.shopfront', ['service' => true]);
+                $item->route('evaluation.shopfront');
                 $item->authorize($this->auth->hasAccess('evaluation.*'));
             });
             $group->item('OutPatient', function (Item $item) {

@@ -18,7 +18,7 @@ $count = 0;
                 @foreach($data['all'] as $visit)
                 <tr id="row_id{{$visit->id}}">
                     <td>{{$visit->patients->full_name}}</td>
-                    <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
+                    <td>{{$visit->created_at->format('dS M g:i a')}}</td>
                     <td>{{$visit->doctors->full_name}}</td>
                     <td>
                         <a href="{{route('evaluation.evaluate',$visit->id)}}" class="btn btn-xs btn-primary">

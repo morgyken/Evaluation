@@ -41,7 +41,7 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="direct">
-                            {!! Form::open(['class'=>'form-horizontal']) !!}
+                            {!! Form::open(['class'=>'form-horizontal','route'=>'evaluation.shopfront.post']) !!}
 
                             <div class="col-md-4 col-lg-6">
                                 <div class="form-group {{ $errors->has('patient') ? ' has-error' : '' }}">
@@ -165,7 +165,7 @@
                             <div class="pull-right">
                                 <button type="submit" id="save" class="btn btn-success">
                                     <i class="fa fa-send"></i>
-                                    Request Service
+                                    Request Services
                                 </button>
                             </div>
                             {!! Form::close() !!}

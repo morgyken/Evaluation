@@ -5,6 +5,7 @@ use Illuminate\Routing\Router;
 /** @var Router $router */
 
 $router->get('services/commerce', ['uses' => 'ServiceController@shopfront', 'as' => 'shopfront']);
+$router->post('services/uza/commerce', ['uses' => 'ServiceController@postServices', 'as' => 'shopfront.post']);
 
 
 $router->get('patients/queue/{department}', ['uses' => 'EvaluationController@queues', 'as' => 'queues']);
