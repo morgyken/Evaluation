@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $cost
  * @property int $quantity
  * @property int $paid
- * @property int $invoiced
+ * @property int|null $invoiced
  * @property int $complete
  * @property string|null $transfer
  * @property \Carbon\Carbon|null $created_at
