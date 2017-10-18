@@ -27,6 +27,7 @@ use Ignite\Reception\Entities\PatientDocuments;
 use Ignite\Reception\Entities\Patients;
 use Ignite\Settings\Entities\Clinics;
 use Ignite\Settings\Entities\InsuranceSchemePricing;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
@@ -104,6 +105,25 @@ if (!function_exists('get_procedures_for')) {
         }
         return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
             $query->where('applies_to', $to_fetch);
+        })->get();
+    }
+
+}
+if (!function_exists('get_procedures_in')) {
+
+    /**
+     * @param string $name
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    function get_procedures_in($name, $term = null)
+    {
+        if (!empty($term)) {
+            return Procedures::whereHas('categories', function (Builder $query) use ($name) {
+                $query->where('name', $name);
+            })->where('name', 'like', "%$term%")->get();
+        }
+        return Procedures::whereHas('categories', function (Builder $query) use ($name) {
+            $query->where('name', $name);
         })->get();
     }
 

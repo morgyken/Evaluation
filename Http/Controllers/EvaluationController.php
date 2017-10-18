@@ -10,6 +10,7 @@ use Ignite\Evaluation\Entities\Deposit;
 use Ignite\Evaluation\Entities\FinancePatientAccounts;
 use Ignite\Evaluation\Entities\Formula;
 use Ignite\Evaluation\Entities\InvestigationResult;
+use Ignite\Evaluation\Entities\Investigations;
 use Ignite\Evaluation\Entities\NursingCharge;
 use Ignite\Evaluation\Entities\Patient_vital;
 use Ignite\Evaluation\Entities\PatientAccount;
@@ -122,10 +123,10 @@ class EvaluationController extends AdminBaseController
 
 //            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
             //check if has requested for admission
-            $this->data['investigations'] = \Ignite\Evaluation\Entities\Investigations::whereVisit($visit)->get();
+            $this->data['investigations'] = Investigations::whereVisit($visit)->get();
             return view("evaluation::patient_$section", ['data' => $this->data]);
         } catch (\Exception $ex) {
-            flash('There was a problem evaluating the patient', 'error');
+            flash($ex->getMessage(), 'error');
             return back();
         }
     }

@@ -23,6 +23,7 @@ return [
         'ultrasound' => 'Ultrasound Evaluation',
         'dental' => 'Dental Evaluation',
         'optical' => 'Optical Queue',
+        'mch' => 'MCH queue',
     ],
     'evaluation.settings' => [
         'procedure_categories' => 'View procedures categories',

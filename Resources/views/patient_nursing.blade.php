@@ -38,7 +38,7 @@ extract($data);
                     </div>
                     <div class="tab-pane" id="treatment">
                         <div>
-                            @include('evaluation::partials.nurse.treatment')
+                            @include('evaluation::partials.nurse.procedures')
                         </div>
                     </div>
                     <div class="tab-pane" id="thetre">

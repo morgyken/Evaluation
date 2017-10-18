@@ -277,6 +277,7 @@ class ApiController extends Controller
             $data = get_investigations($visit_id, [request('type')]);
         }
         $return = [];
+        $i = 0;
         foreach ($data as $key => $item) {
             if ($item->has_result)
                 $link = '<a href="' . route('evaluation.view_result', $item->visit) . '"
@@ -285,22 +286,34 @@ class ApiController extends Controller
             </a>';
             else
                 $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Pending</span>';
-            $type = 'Doctor';
+            $type = $item->type;
             if ($item->type == 'treatment.nurse') {
                 $type = 'Nurse';
             }
-
-            $return[] = [
-                str_limit($item->procedures->name, 50, '...'),
-                $type,
-                $item->price,
-                $item->quantity,
-                $item->discount,
-                $item->amount > 0 ? $item->amount : $item->price,
-                payment_label((bool)($item->is_paid || $item->invoiced)),
-                $item->created_at->format('d/m/Y h:i a'),
-//                $link,
-            ];
+            $paid = (bool)($item->is_paid || $item->invoiced);
+            if ($paid) {
+                $return[] = [
+                    str_limit($item->procedures->name, 50, '...'),
+                    ucwords($type),
+                    $item->price,
+                    $item->quantity,
+                    $item->discount,
+                    $item->amount > 0 ? $item->amount : $item->price,
+                    payment_label((bool)($item->is_paid || $item->invoiced)),
+                    $item->created_at->format('d/m/Y h:i a'),
+                ];
+            } else {
+                $return[] = [
+                    'Procedure ' . ++$i,
+                    ucwords($type),
+                    '<span class="text-danger">Send patient to cashier</span>',
+                    '-',
+                    '-',
+                    '-',
+                    payment_label((bool)($item->is_paid || $item->invoiced)),
+                    $item->created_at->format('d/m/Y h:i a'),
+                ];
+            }
         }
         return response()->json(['data' => $return]);
     }

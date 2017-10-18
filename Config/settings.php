@@ -63,6 +63,10 @@ return [
         'description' => 'Disable Theatre',
         'view' => 'checkbox'
     ],
+    'no_mch' => [
+        'description' => 'Disable MCH',
+        'view' => 'checkbox'
+    ],
     'no_laboratory' => [
         'description' => 'Disable Lab',
         'view' => 'checkbox'

@@ -8,7 +8,7 @@ $router->get('services/commerce', ['uses' => 'ServiceController@shopfront', 'as'
 $router->post('services/uza/commerce', ['uses' => 'ServiceController@postServices', 'as' => 'shopfront.post']);
 
 
-$router->get('patients/queue/{department}', ['uses' => 'EvaluationController@queues', 'as' => 'queues']);
+$router->get('patients/queue/{department}/waiting', ['uses' => 'EvaluationController@queues', 'as' => 'queues']);
 $router->match(['get', 'post'], 'samples/{patient?}', ['uses' => 'EvaluationController@labotomy', 'as' => 'labotomy']);
 $router->match(['get', 'post'], 'formulae/{id?}', ['uses' => 'EvaluationController@Formulae', 'as' => 'formulae']);
 $router->match(['get', 'post'], 'sample/barcode/{id?}/print', ['uses' => 'EvaluationController@labotomy_print', 'as' => 'labotomy.print']);
