@@ -76,6 +76,11 @@ return [
         'view' => 'checkbox',
         'hint' => 'Click to disable'
     ],
+    'no_optical' => [
+        'description' => 'Disable Optical Queue',
+        'view' => 'checkbox',
+        'hint' => 'Click to disable'
+    ],
     'doctor_see_all' => [
         'description' => 'Allow Doctors to see patients in other Doctor\'s queue',
         'view' => 'checkbox',
