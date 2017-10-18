@@ -20,7 +20,7 @@ $department = 'doctor';
                     <tr id="row_id{{$visit->id}}">
                         <td>{{$loop->iteration}}</td>
                         <td>{{$visit->patients->full_name}}</td>
-                        <td>{{(new Date($visit->created_at))->format('dS M g:i a')}}</td>
+                        <td>{{$visit->created_at->format('dS M g:i a')}}</td>
                         <td>
                             <a href="{{route('evaluation.review_patient',[$visit->patient])}}" class="btn btn-primary btn-xs"> <i class="fa fa-eye"></i> Review</a>
                         </td>
