@@ -13,9 +13,7 @@
 <script type="text/javascript">
     $(document).ready(
         function() {
-            $('textarea').redactor({
-            fixed: true
-        });
+            $('textarea').redactor({});
         }
     );
 </script>
