@@ -17,7 +17,8 @@ $(function () {
     $('#notes_form').submit(function (e) {
         e.preventDefault();
         save_notes();
-    });    $('#notes_form').submit(function (e) {
+    });
+    $('#notes_form').submit(function (e) {
         e.preventDefault();
         save_notes();
     });
@@ -27,22 +28,27 @@ $(function () {
     $('#notes_form textarea').blur(function () {
         save_notes();
     });
+
     function save_notes() {
+        // alertify.theme("bootstrap");
         $.ajax({
             type: "POST",
             url: NOTES_URL,
             data: $('#notes_form').serialize(),
             success: function () {
-                alertify.success('<i class="fa fa-check-circle"></i> Your notes saved');
+                alertify.success('Your notes saved');
             },
             error: function () {
-                alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
+                alertify.error('Something wrong happened, Retry');
             }
         });
+        var diagnoses = $('#notes_form').find('[name=diagnosis]').val();
+        if (!diagnoses) {
+            // alertify.logPosition("bottom right");
+            alertify.log("Please enter diagnoses");
+            // alertify.reset();
+        }
     }
-
-
-
 
 
 });

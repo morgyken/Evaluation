@@ -254,7 +254,7 @@ class EvaluationController extends AdminBaseController
             'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations.js'),
             'doctor-treatment.js' => m_asset('evaluation:js/doctor-treatment.js'),
             'doctor-next-steps.js' => m_asset('evaluation:js/doctor-next-steps.min.js'),
-            'doctor-notes.js' => m_asset('evaluation:js/doctor-notes.min.js'),
+            'doctor-notes.js' => m_asset('evaluation:js/doctor-notes.js'),
             'doctor-opnotes.js' => m_asset('evaluation:js/doctor-opnotes.min.js'),
             'doctor-prescriptions.js' => m_asset('evaluation:js/doctor-prescriptions.min.js'),
             'doctor-visit-date.js' => m_asset('evaluation:js/doctor-set-visit-date.min.js'),

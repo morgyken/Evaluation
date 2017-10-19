@@ -183,7 +183,6 @@ class SidebarExtender implements Panda
             } catch (\Exception $e) {
 
             }
-
             $group->item('Setup', function (Item $item) {
                 $item->item('Procedure Categories', function (Item $item) {
                     $item->icon('fa fa-wpforms');
