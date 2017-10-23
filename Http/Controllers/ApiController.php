@@ -293,7 +293,7 @@ class ApiController extends Controller
 
     public function rawDoneInvestigation(Request $request){
         $visit = Visit::find($request->visit_id);
-        $data = get_investigations($visit,['diagnostics', 'laboratory', 'radiology']);
+        $data = get_investigations($visit,['diagnostics', 'laboratory', 'radiology','ultrasound']);
         $tr = "";
         $n=0;
         foreach ($data as $item) {
@@ -327,7 +327,7 @@ class ApiController extends Controller
     public function getDoneInvestigations(Visit $visit_id)
     {
         /** @var Investigations[] $data */
-        $data = get_investigations($visit_id, ['diagnostics', 'laboratory', 'radiology']);
+        $data = get_investigations($visit_id, ['diagnostics', 'laboratory', 'radiology','ultrasound']);
         $return = [];
         foreach ($data as $key => $item) {
             if ($item->has_result)

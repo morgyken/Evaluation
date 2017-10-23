@@ -44,7 +44,7 @@ if ($visit->payment_mode == 'insurance') {
                 <td>
                     <span id="name{{$procedure->id}}"> {{$procedure->name}}</span>
                     <br/>
-                    <input type="hidden" name="type{{$procedure->id}}" value="diagnostics" disabled/>
+                    <input type="hidden" name="type{{$procedure->id}}" value="diagnostics" />
                     <span class="instructions">
                     <textarea placeholder="Instructions" name="instructions{{$procedure->id}}" disabled cols="50"></textarea></span>
                 </td>

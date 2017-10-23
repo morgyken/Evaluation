@@ -19,12 +19,15 @@ $(function () {
     //mock hide this
     $('.instructions').hide();
 
-    $('#radiology_form input,#radilogy_form textarea, #diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
+    $('#ultrasound_form input, #radiology_form input,#ultrasound_form textarea,#radilogy_form textarea, #diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
         show_selection_investigation();
     });
 
-
     $('#diagnosis_form input:text').keyup(function () {
+        show_selection_investigation();
+    });
+
+    $('#ultrasound_form input:text').keyup(function () {
         show_selection_investigation();
     });
 
@@ -36,7 +39,7 @@ $(function () {
         show_selection_investigation();
     });
 
-    $('#radiology_form .check,#laboratory_form .check,#diagnosis_form .check').click(function () {
+    $('#ultrasound_form .check, #radiology_form .check,#laboratory_form .check,#diagnosis_form .check').click(function () {
         var elements = $(this).parent().parent().find('input');
         var texts = $(this).parent().parent().find('textarea');
         if ($(this).is(':checked')) {
@@ -93,7 +96,18 @@ $(function () {
             }
         });
 
-
+        //for radiology
+        $("#ultrasound_form input:checkbox:checked").each(function () {
+            var procedure_id = $(this).val();
+            var name = $('#name' + procedure_id).html();
+            var amount = john_doe(procedure_id);
+            total += parseInt(amount);
+            if(!HIDE_PRICES){
+                $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td><td>' + amount + '</td></tr>');
+            }else {
+                $('#diagnosisInfo > tbody').append('<tr><td>' + name + '</td></tr>');
+            }
+        });
 
         if (total) {
             if(!HIDE_PRICES){
@@ -112,7 +126,7 @@ $(function () {
         e.preventDefault();
         $.ajax({type: "POST",
             url: DIAGNOSIS_URL,
-            data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
+            data: $('#ultrasound_form,#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
                 get_performed_investigation();
@@ -140,10 +154,12 @@ $(function () {
     //     });
     //     //location.reload();
     // });
-    //sick of this
+    //sick of this http://www.right-to-education.org/issue-page/marginalised-groups/girls-women
+
     $('#laboratory_form').find('input:radio, input:checkbox').prop('checked', false);
     $('#diagnosis_form').find('input:radio, input:checkbox').prop('checked', false);
     $('#radiology_form').find('input:radio, input:checkbox').prop('checked', false);
+    $('#ultrasound_form').find('input:radio, input:checkbox').prop('checked', false);
     $('#show_selection').hide();
 
     function get_amount_given(price, qty, discount) {

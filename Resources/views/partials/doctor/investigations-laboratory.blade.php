@@ -68,7 +68,7 @@ if ($visit->payment_mode == 'insurance') {
                     <textarea placeholder="Instructions" name="instructions{{$procedure->id}}" disabled cols="50">
                     </textarea>
                 </span>
-                    <input type="hidden" name="type{{$procedure->id}}" value="laboratory" disabled />
+                    <input type="hidden" name="type{{$procedure->id}}" value="laboratory" />
                 </td>
                 @if(!m_setting('evaluation.hide_procedure_prices'))
                 <td>

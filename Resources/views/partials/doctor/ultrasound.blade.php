@@ -1,11 +1,11 @@
 <?php
-/*
- * Collabmed Solutions Ltd
- * Project: iClinic
- *  Author: Samuel Okoth <sodhiambo@collabmed.com>
- *///$diagnosis=
-
-$radiology = get_procedures_for('radiology');
+/**
+ * Created by PhpStorm.
+ * User: bravoh
+ * Date: 10/23/17
+ * Time: 5:33 PM
+ */
+$ultrasound = get_procedures_for('ultrasound');
 $discount_allowed = json_decode(m_setting('evaluation.discount'));
 $co = null;
 $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
@@ -13,25 +13,25 @@ if ($visit->payment_mode == 'insurance') {
     $co = $visit->patient_scheme->schemes->companies->id;
 }
 ?>
-@if($radiology->isEmpty())
+@if($ultrasound->isEmpty())
     <div class="alert alert-info">
         <i class="fa fa-info-circle"></i> There are no procedures. Please go to setup and add some.
     </div>
 @else
-    {!! Form::open(['id'=>'radiology_form'])!!}
+    {!! Form::open(['id'=>'ultrasound_form'])!!}
     {!! Form::hidden('visit',$visit->id) !!}
-    <table class="table table-condensed table-borderless table-responsive" id="rad">
+    <table class="table table-condensed table-borderless table-responsive" id="ultrasound">
         <thead>
         <tr>
             <th>#</th>
             <th>Select</th>
             <th>Test</th>
             @if(!m_setting('evaluation.hide_procedure_prices'))
-            <th>Price</th>
-            <th>Number Performed</th>
-            <th>Discount</th>
-            <th>Amount</th>
-                @else
+                <th>Price</th>
+                <th>Number Performed</th>
+                <th>Discount</th>
+                <th>Amount</th>
+            @else
                 <th></th>
                 <th>Number Performed</th>
                 <th colspan="2"></th>
@@ -40,7 +40,7 @@ if ($visit->payment_mode == 'insurance') {
         </tr>
         </thead>
         <tbody>
-        @foreach($radiology as $procedure)
+        @foreach($ultrasound as $procedure)
             <?php
             $c_price = \Ignite\Settings\Entities\CompanyPrice::whereCompany(intval($co))
                 ->whereProcedure(intval($procedure->id))
@@ -67,22 +67,22 @@ if ($visit->payment_mode == 'insurance') {
                     <textarea placeholder="Instructions" name="instructions{{$procedure->id}}" disabled cols="50">
                     </textarea>
                 </span>
-                    <input type="hidden" name="type{{$procedure->id}}" value="radiology" />
+                    <input type="hidden" name="type{{$procedure->id}}" value="ultrasound" />
                 </td>
 
                 @if(!m_setting('evaluation.hide_procedure_prices'))
-                <td>
-                    <input type="text" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" readonly=""/>
-                </td>
-                <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
-                <td>
-                    @if(is_array($discount_allowed) && in_array('radiology', $discount_allowed))
-                        <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/>
-                    @else
-                        <input style="color:red" class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}" readonly=""/>
-                    @endif
-                </td>
-                <td><input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly=""/></td>
+                    <td>
+                        <input type="text" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" readonly=""/>
+                    </td>
+                    <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
+                    <td>
+                        @if(is_array($discount_allowed) && in_array('ultrasound', $discount_allowed))
+                            <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}"/>
+                        @else
+                            <input style="color:red" class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="text" name="discount{{$procedure->id}}" readonly=""/>
+                        @endif
+                    </td>
+                    <td><input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}" readonly=""/></td>
                 @else
 
                     <td>
@@ -90,7 +90,7 @@ if ($visit->payment_mode == 'insurance') {
                     </td>
                     <td><input class="quantity" size="5" value="1" id="quantity{{$procedure->id}}" type="text" name="quantity{{$procedure->id}}"/></td>
                     <td>
-                        @if(is_array($discount_allowed) && in_array('radiology', $discount_allowed))
+                        @if(is_array($discount_allowed) && in_array('ultrasound', $discount_allowed))
                             <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="hidden" name="discount{{$procedure->id}}"/>
                         @else
                             <input style="color:red" class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="hidden" name="discount{{$procedure->id}}" readonly=""/>
@@ -106,7 +106,7 @@ if ($visit->payment_mode == 'insurance') {
     {!! Form::close()!!}
 @endif
 <style>
-    #radiology_form {
+    #ultrasound_form {
         height: 400px;
         overflow-y: scroll;
     }
@@ -114,7 +114,7 @@ if ($visit->payment_mode == 'insurance') {
 <script>
     $(document).ready(function() {
         try {
-            $('#rad').DataTable({
+            $('#ultrasound').DataTable({
                 paging:false
             });
         }

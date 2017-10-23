@@ -25,6 +25,10 @@ $performed_radio = get_investigations($visit, ['radiology']);
                     <div class="investigation_item">
                         @include('evaluation::partials.doctor.radiology')
                     </div>
+                    <h4>Ultrasound</h4>
+                    <div class="investigation_item">
+                        @include('evaluation::partials.doctor.ultrasound')
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
