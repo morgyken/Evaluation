@@ -4,7 +4,6 @@
  * Project: iClinic
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  *///$diagnosis=
-
 $labs = get_procedures_for('laboratory');
 $discount_allowed = json_decode(m_setting('evaluation.discount'));
 
@@ -14,7 +13,7 @@ if ($visit->payment_mode == 'insurance') {
     $co = $visit->patient_scheme->schemes->companies->id;
 }
 ?>
-@if($labs->isEmpty())
+@if(empty($labs))
     <div class="alert alert-info">
         <i class="fa fa-info-circle"></i> There are no procedures. Please go to setup and add some.
     </div>

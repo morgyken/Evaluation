@@ -1,8 +1,15 @@
 /* global PRODUCTS_URL, SCHEMES_URL, PHONE_URL, STOCK_URL, CREDIT_URL, INSURANCE */
 
 $('table').hide();
-$('#card, #cheque, #mpesa').hide();
 $(document).ready(function () {
+    $("#Take").keyup(function () {
+        culculate_units();
+    });
+
+    $("#duration").keyup(function () {
+        culculate_units();
+    });
+
     var i = 3;
     $("#add_row").click(function () {
         var to_add = "<td><select name=\"item" + i + "\"  id=\"item_" + i + "\" class=\" select2-single\" style=\"width: 100%\"></select></td><td><input type=\"text\" name='qty" + i + "' id='item_qty_" + i + "'  placeholder='Quantity' value=\"0\" class=\"quantities\"/><input type='hidden' name='batch" + i + "'><span id='fb" + i + "'></span></td><td><span id=\"original" + i + "\">0</span></td><td><input type=\"text\" name='price" + i + "' placeholder='Price'/></td> <td><input type=\"text\" name='dis" + i + "' placeholder='Discount' value=\"0\"/></td></td><td><span id=\"total" + i + "\">0.00</span></td><td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
@@ -11,6 +18,14 @@ $(document).ready(function () {
         map_select2(i);
         i++;
     });
+
+    function culculate_units() {
+        var dose = $('#Take').val();
+        var duration = $('#duration').val();
+        var units = dose*duration;
+        $(".units").html(units);
+    }
+
     function calculate_total() {
         var SUM = 0;
         var DISCOUNT = 0;

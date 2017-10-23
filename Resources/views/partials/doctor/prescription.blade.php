@@ -44,7 +44,7 @@
                         <label class="control-label col-md-4">Duration</label>
                         <div class="col-md-8">
                             <div class="col-md-6">
-                                <input type="text" name="duration" placeholder="e.g 3" class='form-control'/>
+                                <input type="text" name="duration" id="duration" placeholder="e.g 3" class='form-control'/>
                             </div>
                             <div class="col-md-6">
                                 {!! Form::select('time_measure',mconfig('evaluation.options.prescription_duration'),null,['class'=>'form-control'])!!}
@@ -54,12 +54,12 @@
                     <div class="form-group">
                         <label class="control-label col-md-4">Units to dispense</label>
                         <div class="col-md-8">
-                            {{Form::text('quantity',1,['class'=>'form-control'])}}
+                            {{Form::text('quantity',1,['class'=>'units form-control'])}}
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-offset-4 col-md-8"><input type="checkbox" name="allow_substitution"
-                                                                       value="1"/> Substitution allowed</label>
+                        <label class="col-md-offset-4 col-md-8">
+                            <input type="checkbox" name="allow_substitution" value="1"/> Substitution allowed</label>
                     </div>
                     <div class="pull-right">
                         <button type="submit" class="btn btn-xs btn-primary" id="savePrescription">
@@ -120,6 +120,8 @@
     var INSURANCE = false;
     var STOCK_URL = "{{route('api.inventory.getstock')}}";
     var PRODUCTS_URL = "{{route('api.inventory.get.products')}}";
+
+
 </script>
 <script src="{!! m_asset('evaluation:js/prescription.js') !!}"></script>
 <?php endif; ?>

@@ -96,17 +96,38 @@ if (!function_exists('get_procedures_for')) {
                 dd("Undefined section");
                 break;
         }
-        if (!empty($term)) {
-            if ($to_fetch == 'all') {
-                return Procedures::where('name', 'like', "%$term%")->get();
+
+        if ($to_fetch == 'all') {
+            return Procedures::where('name', 'like', "%$term%")->get();
+        }
+
+        if($to_fetch==3){
+            if (!empty($term)) {
+                return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
+                    $query->where('applies_to', $to_fetch);
+                })->where('name', 'like', "%$term%")->get();
+            }
+            $p1 = (array) Procedures::whereHas('categories', function ($query) use ($to_fetch) {
+                $query->where('applies_to', $to_fetch)->orWhere(function ($qr2){
+                });
+            })->whereDoesntHave('this_test')->get();
+
+            $p2= (array) Procedures::whereHas('this_test', function ($qr){
+                $qr->whereLab_ordered_independently(1);
+            })->get();
+
+            $procedures = (object)array_merge(array_flatten($p1),array_flatten($p2));
+            return $procedures;
+        }else{
+            if (!empty($term)) {
+                return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
+                    $query->where('applies_to', $to_fetch);
+                })->where('name', 'like', "%$term%")->get();
             }
             return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
                 $query->where('applies_to', $to_fetch);
-            })->where('name', 'like', "%$term%")->get();
+            })->get();
         }
-        return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
-            $query->where('applies_to', $to_fetch);
-        })->get();
     }
 
 }
