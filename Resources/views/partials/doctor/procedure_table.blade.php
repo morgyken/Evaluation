@@ -21,12 +21,12 @@
             @if(!m_setting('evaluation.hide_procedure_prices'))
                 <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="hidden" name="discount{{$procedure->id}}"/>
                 <input type="hidden" name="type{{$procedure->id}}" value="{{$_type}}" disabled />
-                <input disabled="" type="text" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" readonly=""/>
+                <input type="text" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" />
                 <input size="5" id="amount{{$procedure->id}}" type="hidden" name="amount{{$procedure->id}}" value="{{$price}}"/>
                 @else
                 <input class="discount" size="5" value="0" id="discount{{$procedure->id}}" type="hidden" name="discount{{$procedure->id}}"/>
                 <input type="hidden" name="type{{$procedure->id}}" value="{{$_type}}" />
-                <input disabled="" type="hidden" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" />
+                <input type="hidden" name="price{{$procedure->id}}" value="{{$price}}" id="cost{{$procedure->id}}" size="5" />
                 <input size="5" id="amount{{$procedure->id}}" type="hidden" name="amount{{$procedure->id}}" value="{{$price}}"/>
             @endif
         </td>

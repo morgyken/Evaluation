@@ -61,7 +61,7 @@ if ($visit->payment_mode == 'insurance') {
                         <td>
                             <input type="hidden" name="type{{$procedure->id}}" value="dental" disabled/>
                             <input disabled="" type="text" name="price{{$procedure->id}}" value="{{$price}}"
-                                   id="cost{{$procedure->id}}" size="5" readonly=""/>
+                                   id="cost{{$procedure->id}}" size="5" />
                         </td>
                         <td>
                             <input size="5" id="amount{{$procedure->id}}" type="text" name="amount{{$procedure->id}}"/>
