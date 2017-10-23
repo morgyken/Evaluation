@@ -97,6 +97,7 @@ $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
 </style>
 <script type="text/javascript">
     var PERFOMED_URL = "{{ route('api.evaluation.performed_treatment',[$visit->id,'type'=>'dental']) }}";
+    var DONE_URL = "{{ route('api.evaluation.done_treatment',$visit->id) }}";
     $(function () {
         $('.treatment_item').find('input').iCheck({
             checkboxClass: 'icheckbox_flat-blue',
