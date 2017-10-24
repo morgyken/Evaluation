@@ -130,7 +130,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
 
     <script type="text/javascript">
         var SIGN_OUT = "{{route('api.evaluation.checkout_patient')}}";
-        var FROM = "<?php= $section; ?>";
+        var FROM = "<?= $section; ?>";
     </script>
     <?php
     $send_to = route('evaluation.queues', $section);

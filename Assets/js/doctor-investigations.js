@@ -18,9 +18,11 @@ $(function () {
         "scrollY": "300px",
         "paging": false
     });
-    $('#previousInvestigations').dataTable({
-        ajax: PERFOMED_INVESTIGATION_URL
-    });
+    if (typeof  PERFOMED_INVESTIGATION_URL !== 'undefined') {
+        $('#previousInvestigations').dataTable({
+            ajax: PERFOMED_INVESTIGATION_URL
+        });
+    }
     $('#radiology_form input,#radiology_form textarea, #diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
         show_selection_investigation();
     });

@@ -747,7 +747,10 @@ class EvaluationFunctions implements EvaluationRepository
 
     public function checkout_patient()
     {
-        return VisitDestinations::updateOrCreate(['visit' => $this->request->id, 'department' => $this->request->from], ['checkout' => true, 'finish_at' => Date::now()]);
+        $result = VisitDestinations::updateOrCreate(
+            ['visit' => $this->request->id, 'department' => $this->request->from],
+            ['checkout' => true, 'finish_at' => Date::now()]);
+        return response()->json(['result' => $result]);
     }
 
     /**

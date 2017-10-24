@@ -11,9 +11,11 @@ $(function () {
         "scrollY": "300px",
         "paging": false
     });
-    $('#in_table').dataTable({
-        ajax: PERFOMED_URL
-    });
+    if (typeof  PERFOMED_URL !== 'undefined') {
+        $('#in_table').dataTable({
+            ajax: PERFOMED_URL
+        });
+    }
     $('#procedures_doctor_form,#procedures_nurse_form').find('input:text').keyup(function () {
         preview_treatment_selection();
     });
