@@ -72,7 +72,7 @@
                                                 required=""></select></td>
                                     <td>
                                         <input type="text" id="item_qty_0" autocomplete="off" name='qty0'
-                                               placeholder='Units' value="0"
+                                               placeholder='Units' value="1"
                                                class="quantities"/>
                                     </td>
                                     <td><span id="original0">-</span></td>
@@ -88,7 +88,7 @@
                                                 style="width: 100%"></select></td>
                                     <td>
                                         <input type="text" name='qty1' id="item_qty_1" autocomplete="off"
-                                               placeholder='Quantity' value="0"
+                                               placeholder='Quantity' value="1"
                                                class="quantities"/>
                                     </td>
                                     <td><span id="original1">-</span></td>
@@ -104,7 +104,7 @@
                                                 style="width: 100%"></select></td>
                                     <td>
                                         <input type="text" name='qty2' id="item_qty_2" autocomplete="off"
-                                               placeholder='Quantity' value="0" class="quantities"/>
+                                               placeholder='Quantity' value="1" class="quantities"/>
                                     </td>
                                     <td><span id="original2">-</span></td>
                                     <td><input type="text" name='price2' placeholder='Price'/></td>

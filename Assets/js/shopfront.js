@@ -11,7 +11,7 @@ $('table').hide();
 $(document).ready(function () {
     var i = 3;
     $("#add_row").click(function () {
-        var to_add = "<td><select name=\"item" + i + "\"  id=\"item_" + i + "\" class=\" select2-single\" style=\"width: 100%\"></select></td><td><input type=\"text\" name='qty" + i + "' id='item_qty_" + i + "'  placeholder='Units' value=\"0\" class=\"quantities\"/></td><td><span id=\"original" + i + "\">-</span></td><td><input type=\"text\" name='price" + i + "' placeholder='Price'/></td> <td><span id=\"total" + i + "\">0.00</span></td><td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
+        var to_add = "<td><select name=\"item" + i + "\"  id=\"item_" + i + "\" class=\" select2-single\" style=\"width: 100%\"></select></td><td><input type=\"text\" name='qty" + i + "' id='item_qty_" + i + "'  placeholder='Units' value=\"1\" class=\"quantities\"/></td><td><span id=\"original" + i + "\">-</span></td><td><input type=\"text\" name='price" + i + "' placeholder='Price'/></td> <td><span id=\"total" + i + "\">0.00</span></td><td><button class=\"btn btn-xs btn-danger remove\"><i class=\"fa fa-trash-o\"></i></button></td>";
         $('#addr' + i).html(to_add);
         $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
         map_select2(i);
