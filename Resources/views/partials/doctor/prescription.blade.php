@@ -151,7 +151,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary">Save</button>
+                            <button class="btn btn-primary" id="marker">Save</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -169,6 +169,7 @@
     var STOCK_URL = "{{route('api.inventory.getstock')}}";
     var PRODUCTS_URL = "{{route('api.inventory.get.products')}}";
     $(function () {
+
         $('table#prescribed_drugs').dataTable({
             'ajax': "{{route('api.evaluation.performed_prescriptions',$visit->id)}}",
             "searching": false,
@@ -198,7 +199,6 @@
                 data: {id: $pres_id},
                 dataType: 'json'
             }).done(function (data) {
-                console.info(data);
                 var $myModal = $('#myModal');
                 $myModal.find('[name=whereto]').val(data.whereto);
                 $myModal.find('[name=method]').val(data.method);

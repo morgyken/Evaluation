@@ -6,10 +6,16 @@ $(function () {
      * Prescriptions management
      * =========================================================================
      * */
-    $('#prescription_form').submit(function (e) {
+    var $prescriptionForm = $('#prescription_form');
+    $prescriptionForm.submit(function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         save_prescription();
+    });
+    var ITEMS_IN_STORE = 0;
+    $prescriptionForm.find('select').on('select2:select', function (evt) {
+        var selected = $(this).find('option:selected');
+        ITEMS_IN_STORE = selected.data().data.available;
     });
 
     function map_select2(i) {
@@ -59,10 +65,10 @@ $(function () {
         $.ajax({
             type: "POST",
             url: PRESCRIPTION_URL,
-            data: $('#prescription_form').serialize(),
+            data: $prescriptionForm.serialize(),
             success: function () {
                 $('table#prescribed_drugs').dataTable().api().ajax.reload();
-                $('#prescription_form').trigger("reset");
+                $prescriptionForm.trigger("reset");
                 alertify.success("Prescription saved");
             },
             error: function () {
@@ -117,11 +123,18 @@ $(function () {
         var duration = getDuration();
         var mine = parseInt(dose) * duration * frequency;
         if (mine) {
-            $prescriptionForm.find('[name=quantity]').val(mine);
+            $prescriptionForm.find('[name=quantity]').val(mine).trigger('change');
         }
     }
 
-    var $prescriptionForm = $('#prescription_form');
+    $prescriptionForm.find('[name=quantity]').change(function () {
+        $('#marker').attr('disabled', false);
+        if (ITEMS_IN_STORE < this.value) {
+            alertify.log("Only " + ITEMS_IN_STORE + " units remaining, cannot prescribe " + this.value);
+            $('#marker').attr('disabled', true);
+        }
+    });
+
     $prescriptionForm.find('[name=method],[name=time_measure]').change(function () {
         get_the_units();
     });
