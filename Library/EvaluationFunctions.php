@@ -997,7 +997,7 @@ class EvaluationFunctions implements EvaluationRepository
         $this->visit = $this->anticipateVisit();
         foreach ($selection as $item) {
             Investigations::create([
-                'type' => 'treatment.nurse',
+                'type' => 'nursing',
                 'visit' => $this->visit,
                 'procedure' => $this->input['item' . $item],
                 'quantity' => $this->input['qty' . $item],
@@ -1007,7 +1007,7 @@ class EvaluationFunctions implements EvaluationRepository
                 'user' => $this->user,
                 'ordered' => true
             ]);
-            $this->check_in_at('treatment.nurse');
+            $this->check_in_at('nursing');
         }
         return true;
     }

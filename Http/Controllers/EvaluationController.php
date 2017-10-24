@@ -2,6 +2,7 @@
 
 namespace Ignite\Evaluation\Http\Controllers;
 
+use Carbon\Carbon;
 use Ignite\Core\Http\Controllers\AdminBaseController;
 use Ignite\Evaluation\Entities\Admission;
 use Ignite\Evaluation\Entities\Bed;
@@ -25,6 +26,7 @@ use Ignite\Evaluation\Entities\Ward;
 use Ignite\Evaluation\Entities\WardAssigned;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Reception\Entities\Patients;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -49,25 +51,27 @@ class EvaluationController extends AdminBaseController
 
     public function queues($department)
     {
-        $this->data['all'] = Visit::checkedAt($department)
-            ->whereHas('destinations', function ($query) {
-                $query->whereCheckout(0);
-            })
-            ->orderBy('created_at', 'asc')
-            ->get();
+        $date = Carbon::now()->subDays(2)->toDateTimeString();
         $this->data['referer'] = \URL::previous();
         $this->data['department'] = ucwords($department);
-
         $user = \Auth::user()->id;
         if ($department == 'doctor') {
             $this->data['doc'] = 1;
-        }
-        $this->data['myq'] = VisitDestinations::whereDestination($user)
-            ->orWhereNotNull('room_id')
-            ->whereCheckout(0)
-            ->oldest()
-            ->get();
-        return view('evaluation::queues', ['data' => $this->data]);
+            $this->data['myq'] = VisitDestinations::whereDestination($user)
+                ->orWhereNotNull('room_id')
+                ->whereCheckout(0)
+//                ->where('created_at', '>=', $date)
+                ->oldest()
+                ->get();
+        } else {
+            $this->data['all'] = Visit::checkedAt($department)
+                ->whereHas('destinations', function (Builder $query) use ($date) {
+                    $query->whereCheckout(false);
+                })
+//                ->where('created_at', '>=', $date)
+                ->orderBy('created_at', 'asc')
+                ->get();
+        } return view('evaluation::queues', ['data' => $this->data]);
     }
 
     public function preview($visit, $department)

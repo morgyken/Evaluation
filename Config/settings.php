@@ -10,6 +10,11 @@
  * =============================================================================
  */
 return [
+    'auto_checkout' => [
+        'description' => 'Auto - checkout after 24 hours',
+        'view' => 'checkbox',
+        'hint' => 'This will auto-checkout after 24 hours'
+    ],
     'eye_exam' => [
         'description' => 'Enable Eye',
         'view' => 'checkbox',

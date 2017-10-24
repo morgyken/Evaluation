@@ -35,7 +35,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                 @if(!isset($doc))
                     @foreach($all as $visit)
                         <tr id="row_id{{$visit->id}}">
-                            <td>{{$n+=1}}</td>
+                            <td>{{$loop->iteration}}</td>
                             <td>{{$visit->patients?$visit->patients->full_name:'-'}}</td>
                             <td>{{$visit->created_at->format('dS M g:i a')}}</td>
                             <td>{{$visit->visit_destination}}</td>
@@ -54,7 +54,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                     @foreach($myq as $item)
                         @foreach($item->visits as $visit)
                             <tr id="row_id{{$visit->id}}">
-                                <td>{{$n+=1}}</td>
+                                <td>{{$loop->iteration}}</td>
                                 <td>{{$visit->patients->full_name}}</td>
                                 <td>{{$visit->created_at->format('dS M g:i a')}}</td>
                                 <td>{{$visit->visit_destination}}</td>

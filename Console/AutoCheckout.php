@@ -2,12 +2,15 @@
 
 namespace Ignite\Evaluation\Console;
 
+use Carbon\Carbon;
 use Ignite\Core\Console\Installers\Traits\BlockMessage;
 use Ignite\Core\Console\Installers\Traits\SectionMessage;
+use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Illuminate\Console\Command;
 
-class AutoCheckout extends Command {
+class AutoCheckout extends Command
+{
 
     use BlockMessage,
         SectionMessage;
@@ -26,34 +29,22 @@ class AutoCheckout extends Command {
      */
     protected $description = 'Check out  patient automatically.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct(EvaluationRepository $evaluationRepository) {
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.
      *
      * @return mixed
      */
-    public function fire() {
+    public function fire()
+    {
         $this->blockMessage('Checking out everyone!', 'Working out...', 'comment');
-        $date = \Carbon\Carbon::now();
-        $date->modify('-24 hours');
-        $date->format('Y-m-d H:i:s');
-
-        $destinations = \Ignite\Evaluation\Entities\VisitDestinations::where('created_at', '<=', $date)->get();
-
+        $date = Carbon::now()->subDay()->toDateTimeString();
+        $destinations = VisitDestinations::where('created_at', '<=', $date)->get();
         foreach ($destinations as $d) {
             $d->checkout = 1;
-            $d->finish_at = new \DateTime;
-            $d->update();
+            $d->finish_at = Carbon::now()->toDateTimeString();
+            $d->save();
         }
-
         $this->blockMessage('Old visits have been checkout!', 'Thank you...', 'comment');
     }
 
