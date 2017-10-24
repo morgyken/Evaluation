@@ -128,10 +128,10 @@ $(function () {
     }
 
     $prescriptionForm.find('[name=quantity]').change(function () {
-        $('#marker').attr('disabled', false);
+        $('#marker').prop('disabled', false);
         if (ITEMS_IN_STORE < this.value) {
             alertify.log("Only " + ITEMS_IN_STORE + " units remaining, cannot prescribe " + this.value);
-            $('#marker').attr('disabled', true);
+            $('#marker').prop('disabled', true);
         }
     });
 
