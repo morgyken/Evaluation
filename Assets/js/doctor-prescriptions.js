@@ -129,7 +129,7 @@ $(function () {
 
     $prescriptionForm.find('[name=quantity]').change(function () {
         $('#marker,#savePrescription').prop('disabled', false);
-        if (ITEMS_IN_STORE < this.value) {
+        if (ITEMS_IN_STORE < parseInt(this.value)) {
             alertify.log("Only " + ITEMS_IN_STORE + " units remaining, cannot prescribe " + this.value);
             $('#marker,#savePrescription').prop('disabled', true);
         }
