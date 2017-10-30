@@ -175,14 +175,14 @@ $router->get('results/{result?}/revert/', ['as' => 'res.revert', 'uses' => 'Eval
 //printables
 $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router) {
     $router->get('prescription/{visit}/{thermal?}', ['uses' => 'ReportsController@print_prescription', 'as' => 'prescription']);
-    Route::get('patient/notes/{no}', ['uses' => 'ReportsController@patient_notes', 'as' => 'patient_notes']);
-    Route::get('patient/notes/toword/{no}', ['uses' => 'ReportsController@patient_notes_to_word', 'as' => 'to_word']);
-    Route::post('patient/notes/specific/', ['uses' => 'ReportsController@pn_specific', 'as' => 'patient_notes_specific']);
-    Route::post('patient/notes/toword/specific/', ['uses' => 'ReportsController@pn_towrd_specific', 'as' => 'to_word_specific']);
+    $router->get('patient/notes/{no}', ['uses' => 'ReportsController@patient_notes', 'as' => 'patient_notes']);
+    $router->get('patient/notes/toword/{no}', ['uses' => 'ReportsController@patient_notes_to_word', 'as' => 'to_word']);
+    $router->post('patient/notes/specific/', ['uses' => 'ReportsController@pn_specific', 'as' => 'patient_notes_specific']);
+    $router->post('patient/notes/toword/specific/', ['uses' => 'ReportsController@pn_towrd_specific', 'as' => 'to_word_specific']);
 
-    Route::get('lab/results/{visit}', ['uses' => 'ReportsController@print_lab', 'as' => 'print_lab']);
-    Route::get('lab/results/one/{id}/{visit}', ['uses' => 'ReportsController@print_lab_one', 'as' => 'print_lab.one']);
+    $router->get('lab/results/{visit}', ['uses' => 'ReportsController@print_lab', 'as' => 'print_lab']);
+    $router->get('lab/results/one/{id}/{visit}', ['uses' => 'ReportsController@print_lab_one', 'as' => 'print_lab.one']);
 
-    Route::get('results/{visit}/{type}', ['uses' => 'ReportsController@print_results', 'as' => 'print_res']);
-    Route::get('results/one/{id}/{visit}/{type}', ['uses' => 'ReportsController@print_results_one', 'as' => 'print_res.one']);
+    $router->get('results/{visit}/{type}', ['uses' => 'ReportsController@print_results', 'as' => 'print_res']);
+    $router->get('results/one/{id}/{visit}/{type}', ['uses' => 'ReportsController@print_results_one', 'as' => 'print_res.one']);
 });
