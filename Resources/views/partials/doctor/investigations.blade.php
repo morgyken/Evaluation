@@ -7,6 +7,7 @@
 $performed_diagnosis = get_investigations($visit, ['diagnostics']);
 $performed_labs = get_investigations($visit, ['laboratory']);
 $performed_radio = get_investigations($visit, ['radiology']);
+$performed_ultrasound = get_investigations($visit, ['ultrasound']);
 ?>
 <div>
     <div class="row">
