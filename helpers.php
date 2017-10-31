@@ -59,7 +59,6 @@ if (!function_exists('get_procedures_for')) {
      */
     function get_procedures_for($name, $term = null)
     {
-        $to_fetch = 0;
         switch ($name) {
             case 'doctor':
                 $to_fetch = 1;
@@ -96,14 +95,22 @@ if (!function_exists('get_procedures_for')) {
                 break;
         }
         if (!empty($term)) {
-            if ($to_fetch == 'all') {
+            if ($to_fetch === 'all') {
                 return Procedures::where('name', 'like', "%$term%")->get();
             }
             return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
                 $query->where('applies_to', $to_fetch);
             })->where('name', 'like', "%$term%")->get();
         }
-        return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
+        if ($to_fetch === 3) {
+            $use_new = (bool)m_setting('evaluation.enable_templates');
+            if ($use_new) {
+                return Procedures::limit(200)->whereHas('categories', function (Builder $query) use ($to_fetch) {
+                    $query->where('applies_to', $to_fetch);
+                })->where('id', '>', '4000')->get();
+            }
+        }
+        return Procedures::whereHas('categories', function (Builder $query) use ($to_fetch) {
             $query->where('applies_to', $to_fetch);
         })->get();
     }

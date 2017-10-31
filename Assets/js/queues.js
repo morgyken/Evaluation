@@ -27,6 +27,7 @@ $(function () {
     //$('table').DataTable();
 
     $('table').DataTable({
-        "aaSorting": []
+        "aaSorting": [],
+        pageLength: 25,
     })//.draw();
 });

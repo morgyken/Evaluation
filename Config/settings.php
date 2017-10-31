@@ -15,6 +15,11 @@ return [
         'view' => 'checkbox',
         'hint' => 'This will auto-checkout after 24 hours'
     ],
+    'enable_templates' => [
+        'description' => 'Enable laboratory templates',
+        'view' => 'checkbox',
+        'hint' => 'Default templates to be enabled'
+    ],
     'eye_exam' => [
         'description' => 'Enable Eye',
         'view' => 'checkbox',
