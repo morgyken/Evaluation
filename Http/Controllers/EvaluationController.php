@@ -59,8 +59,7 @@ class EvaluationController extends AdminBaseController
             $this->data['doc'] = 1;
             $this->data['myq'] = VisitDestinations::whereDestination($user)
                 ->orWhereNotNull('room_id')
-                ->whereCheckout(0)
-//                ->where('created_at', '>=', $date)
+                ->whereCheckout(false)
                 ->oldest()
                 ->get();
         } else {
@@ -68,10 +67,11 @@ class EvaluationController extends AdminBaseController
                 ->whereHas('destinations', function (Builder $query) use ($date) {
                     $query->whereCheckout(false);
                 })
-//                ->where('created_at', '>=', $date)
+                ->where('status', '<>', '!!')
                 ->orderBy('created_at', 'asc')
                 ->get();
-        } return view('evaluation::queues', ['data' => $this->data]);
+        }
+        return view('evaluation::queues', ['data' => $this->data]);
     }
 
     public function preview($visit, $department)

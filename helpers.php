@@ -105,9 +105,11 @@ if (!function_exists('get_procedures_for')) {
         if ($to_fetch === 3) {
             $use_new = (bool)m_setting('evaluation.enable_templates');
             if ($use_new) {
-                return Procedures::limit(200)->whereHas('categories', function (Builder $query) use ($to_fetch) {
-                    $query->where('applies_to', $to_fetch);
-                })->where('id', '>', '4000')->get();
+                return Procedures::limit(300)
+                    ->whereHas('categories', function (Builder $query) use ($to_fetch) {
+                        $query->where('applies_to', $to_fetch);
+                    })
+                    ->where('id', '>', '4000')->get();
             }
         }
         return Procedures::whereHas('categories', function (Builder $query) use ($to_fetch) {
