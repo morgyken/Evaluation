@@ -26,10 +26,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property int $type
- * @property int|null $admission_id
- * @property int $for_discharge
  * @property string|null $notes
  * @property int $canceled
+ * @property int|null $admission_id
+ * @property int $for_discharge
  * @property-read \Ignite\Inpatient\Entities\Admission|null $admission
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Dispensing[] $dispensing
  * @property-read \Ignite\Inventory\Entities\InventoryProducts $drugs
