@@ -17,10 +17,7 @@
   "widgets": [
     "Ignite\\Evaluation\\Widgets\\VisitsWidget",
     "Ignite\\Evaluation\\Widgets\\TodayVisits",
-    "Ignite\\Evaluation\\Widgets\\ThisMonthVisits",
-    "Ignite\\Evaluation\\Widgets\\RevenuePerDepartment",
-    "Ignite\\Evaluation\\Widgets\\PatientsPerDepartment",
-    "Ignite\\Evaluation\\Widgets\\QueueWidget"
+    "Ignite\\Evaluation\\Widgets\\ThisMonthVisits"
   ],
   "core": 0,
   "version": "v1.0.0",
