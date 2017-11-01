@@ -837,7 +837,7 @@ class EvaluationFunctions implements EvaluationRepository
         $s->turn_around_time = $request->turn_around_time;
         $s->units = $request->units;
 
-        $s->lab_result_options = \GuzzleHttp\json_encode($request->result_options);
+        $s->lab_result_options = json_encode($request->result_options);
         $s->lab_ordered_independently = $request->ordered_independently;
         $s->lab_multiple_orders_allowed = $request->multiple_orders_allowed;
         return $s->save();
