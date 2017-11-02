@@ -32,7 +32,9 @@ class ServiceController extends AdminBaseController
         $term = $request->term['term'];
         if (!empty($term)) {
             $found = Procedures::whereHas('categories', function (Builder $query) {
-                $query->where('applies_to', 5);
+                if (!setting('evaluation::pos_all')){
+                    $query->where('applies_to', 5);
+                }
             })->where('name', 'like', "%$term%")->get();
         }
         $build = [];

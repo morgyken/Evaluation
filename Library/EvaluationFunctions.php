@@ -455,13 +455,17 @@ class EvaluationFunctions implements EvaluationRepository
             }
         });
         try{
-            reload_payments();
+            $this->reload_payments();
         }catch (\Exception $e){
 
         }
         return ['result' => true];
     }
 
+    public function reload_payments()
+    {
+        return true;
+    }
     /**
      * Build an index of items dynamically
      * @return array
@@ -498,7 +502,7 @@ class EvaluationFunctions implements EvaluationRepository
         ];
         $prescription->payment()->create($attributes);
         try{
-            reload_payments();
+            $this->reload_payments();
         }catch (\Exception $e){
 
         }

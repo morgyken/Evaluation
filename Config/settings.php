@@ -93,4 +93,8 @@ return [
         'description' => 'Ask me to checkout after evaluating a patient',
         'view' => 'checkbox'
     ],
+    'pos_all' => [
+        'description' => 'Charge all procedures to walkins',
+        'view' => 'checkbox'
+    ],
 ];

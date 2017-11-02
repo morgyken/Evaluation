@@ -47,10 +47,7 @@
                                 <div class="form-group {{ $errors->has('patient') ? ' has-error' : '' }}">
                                     {!! Form::label('patient', 'Patient',['class'=>'control-label col-md-4']) !!}
                                     <div class="col-md-8">
-                                        <select name="patient" id="patient_select" class="form-control"
-                                                style="width:100%;"
-                                                data-placeholder="Search Patient Name"
-                                                required></select>
+                                        <select name="patient" id="patient_select" class="form-control" style="width:100%;" data-placeholder="Search Patient Name" ></select>
                                         {!! $errors->first('patient', '<span class="help-block">:message</span>') !!}
                                     </div>
                                 </div>
