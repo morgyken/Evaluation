@@ -454,7 +454,11 @@ class EvaluationFunctions implements EvaluationRepository
                 $this->check_in_at($this->input['type' . $treatment]);
             }
         });
-        reload_payments();
+        try{
+            reload_payments();
+        }catch (\Exception $e){
+
+        }
         return ['result' => true];
     }
 
@@ -493,7 +497,11 @@ class EvaluationFunctions implements EvaluationRepository
             'quantity' => $this->input['quantity'],
         ];
         $prescription->payment()->create($attributes);
-        reload_payments();
+        try{
+            reload_payments();
+        }catch (\Exception $e){
+
+        }
         return $prescription;
     }
 
