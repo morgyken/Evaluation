@@ -98,12 +98,12 @@ class Visit extends Model
 
     public function getUnpaidCashAttribute()
     {
-        return get_unpaid_amount_cash($this);
+        return get_unpaid_amount_for($this, 'cash');
     }
 
     public function getUnpaidInsuranceAttribute()
     {
-        return get_unpaid_amount_insurance($this);
+        return get_unpaid_amount_for($this, 'insurance');
     }
 
     public function getVisitDestinationAttribute()
