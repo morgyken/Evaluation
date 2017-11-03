@@ -21,6 +21,10 @@ $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
             <div class="treatment_item">
                 @include('evaluation::partials.doctor.procedures-nursing')
             </div>
+            <h4>Dental Procedures</h4>
+            <div class="treatment_item">
+                @include('evaluation::partials.doctor.procedures-dental')
+            </div>
         </div>
     </div>
     <div class="col-md-4">

@@ -271,7 +271,7 @@ class ApiController extends Controller
 
     public function rawDoneTreatment(Request $request){
         $visit = Visit::find($request->visit_id);
-        $data = get_investigations($visit,['diagnostics', 'laboratory', 'radiology']);
+        $data = get_investigations($visit,['treatment', 'treatment.nurse','dental']);
         $tr = "";
         foreach ($data as $item) {
             $amount= $item->amount > 0 ? $item->amount : $item->price;

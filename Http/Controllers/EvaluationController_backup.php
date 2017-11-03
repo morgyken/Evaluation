@@ -26,32 +26,23 @@ use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Ignite\Evaluation\Repositories\VisitRepository;
-use Ignite\Inpatient\Repositories\AdmissionTypeRepository;
 
 class EvaluationController extends AdminBaseController
 {
 
-    /*
-     * Dependency Injection Repositories
+    /**
+     * @var EvaluationRepository
      */
-    protected $evaluationRepository, $visitRepository, $admissionTypeRepository;
+    protected $evaluationRepository;
 
     /**
      * EvaluationController constructor.
      * @param EvaluationRepository $evaluationRepository
      */
-    public function __construct(EvaluationRepository $evaluationRepository, AdmissionTypeRepository $admissionTypeRepository,
-                                VisitRepository $visitRepository)
+    public function __construct(EvaluationRepository $evaluationRepository)
     {
         parent::__construct();
-
         $this->evaluationRepository = $evaluationRepository;
-
-        $this->visitRepository = $visitRepository;
-
-        $this->admissionTypeRepository = $admissionTypeRepository;
-
         $this->__require_assets();
     }
 
@@ -87,59 +78,44 @@ class EvaluationController extends AdminBaseController
         return view('evaluation::preview', ['data' => $this->data]);
     }
 
-    /*
-    * Handle the patient evaluation process
-    */
     public function evaluate($visit, $section)
     {
-        $visit = $this->visitRepository->findById($visit);
-
-        $admissionTypes = $this->admissionTypeRepository->all();
-
-        // $this->data['visit'] = Visit::find($visit);
-
-        // // dd(Visit::findOrFail($visit));
-
-        // if (count(Admission::where('visit_id', $visit)->get())) {
-        //     $this->data['status'] = 'admited';
-        // } else {
-        //     $this->data['status'] = 'none';
-        // }
-        // if (count(RequestAdmission::where('visit_id', $visit)->get())) {
-        //     $this->data['status'] = 'request admission';
-        // }
+        $this->data['visit'] = Visit::find($visit);
+        if (count(Admission::where('visit_id', $visit)->get())) {
+            $this->data['status'] = 'admited';
+        } else {
+            $this->data['status'] = 'none';
+        }
+        if (count(RequestAdmission::where('visit_id', $visit)->get())) {
+            $this->data['status'] = 'request admission';
+        }
 
 
-        // try {
-        //     $this->data['all'] = Visit::checkedAt('diagnostics')->get();
-        //     $this->data['visit'] = Visit::find($visit);
+        try {
+            $this->data['all'] = Visit::checkedAt('diagnostics')->get();
+            $this->data['visit'] = Visit::find($visit);
+            $this->data['section'] = $section;
+            $this->data['nursing_procedures'] = Procedures::whereCategory(6)->get();
 
+            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)
+                ->where('status',0)
+                ->get();
+            session(['v' => $visit]);
+            $this->data['dispensed'] = Prescriptions::whereHas('dispensing', function ($query) {
 
-        //     $this->data['section'] = $section;
-        //     $this->data['nursing_procedures'] = Procedures::whereCategory(6)->get();
+                $query->whereHas('visits', function ($q) {
+                    $q->whereId(\Session::get('v'));
+                });
+            })->get();
 
-        //     $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)
-        //         ->where('status',0)
-        //         ->get();
-        //     session(['v' => $visit]);
-        //     $this->data['dispensed'] = Prescriptions::whereHas('dispensing', function ($query) {
-
-        //         $query->whereHas('visits', function ($q) {
-        //             $q->whereId(\Session::get('v'));
-        //         });
-        //     })->get();
-
-        //     $this->data['investigations'] = \Ignite\Evaluation\Entities\Investigations::whereVisit($visit)->get();
-
-        //     return view("evaluation::patient_$section", ['data' => $this->data]);
-        // } catch (\Exception $ex) {
-        //     flash('There was a problem evaluating the patient', 'error');
-        //     return back();
-        // }
-
-        $viewData = compact('visit', 'admissionTypes');
-
-        return view("evaluation::patient_$section", $viewData);
+//            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
+            //check if has requested for admission
+            $this->data['investigations'] = \Ignite\Evaluation\Entities\Investigations::whereVisit($visit)->get();
+            return view("evaluation::patient_$section", ['data' => $this->data]);
+        } catch (\Exception $ex) {
+            flash('There was a problem evaluating the patient', 'error');
+            return back();
+        }
     }
 
     public function pharmacy($id)

@@ -15,15 +15,15 @@ $(function () {
         $('#in_table').dataTable({ajax: PERFOMED_URL});
     }catch(e) {}
 
-    $('#procedures_doctor_form,#procedures_nurse_form').find('input:text').keyup(function () {
+    $('#procedures_doctor_form,#procedures_nurse_form,#procedures_dental_form').find('input:text').keyup(function () {
         preview_treatment_selection();
     });
 
-    $('#procedures_doctor_form,#procedures_nurse_form').find('input').blur(function () {
+    $('#procedures_doctor_form,#procedures_nurse_form,#procedures_dental_form').find('input').blur(function () {
         preview_treatment_selection();
     });
 
-    $('#procedures_doctor_form,#procedures_nurse_form').find('input').on('ifChanged', function () {
+    $('#procedures_doctor_form,#procedures_nurse_form,#procedures_dental_form').find('input').on('ifChanged', function () {
         var elements = $(this).parents('tr').find('input,textarea');
         var procedure_id = $(this).val();
         if ($(this).is(':checked')) {
@@ -93,7 +93,7 @@ $(function () {
         $.ajax({
             type: "POST",
             url: DIAGNOSIS_URL,
-            data: $('#procedures_doctor_form,#procedures_nurse_form').serialize(),
+            data: $('#procedures_doctor_form,#procedures_nurse_form,#procedures_dental_form').serialize(),
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Selected treatment procedures saved');
                 $('.treatment_item').find('input').iCheck('uncheck');

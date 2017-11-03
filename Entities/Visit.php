@@ -265,4 +265,8 @@ class Visit extends Model
         }
         return implode(' , ', $p);
     }
+
+    public function copay() {
+        return $this->hasOne(Copay::class, 'visit_id');
+    }
 }
