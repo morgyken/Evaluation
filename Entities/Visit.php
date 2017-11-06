@@ -4,6 +4,7 @@ namespace Ignite\Evaluation\Entities;
 
 use Ignite\Core\Foundation\Remember;
 use Ignite\Finance\Entities\ChangeInsurance;
+use Ignite\Finance\Entities\Copay;
 use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\PatientInsurance;
 use Ignite\Reception\Entities\Patients;
@@ -33,6 +34,7 @@ use Ignite\Finance\Entities\InsuranceInvoice;
  * @property-read \Ignite\Inpatient\Entities\Admission $admission
  * @property-read \Ignite\Reception\Entities\Appointments $appointments
  * @property-read \Ignite\Settings\Entities\Clinics $clinics
+ * @property-read \Ignite\Finance\Entities\Copay $copay
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\VisitDestinations[] $destinations
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Dispensing[] $dispensing
  * @property-read \Ignite\Users\Entities\User $doctors
@@ -124,9 +126,9 @@ class Visit extends Model
     public function scopeCheckedAt($query, $destination)
     {
         return $query->whereHas('destinations', function ($query) use ($destination) {
-            $query->whereDepartment($destination);
+            $query->whereDepartment(ucfirst($destination));
             $query->whereCheckout(0);
-        });
+        })->where('status', '<>', '!!');
     }
 
     public function getModeAttribute()
@@ -210,11 +212,9 @@ class Visit extends Model
         foreach ($this->destinations as $d) {
             if ($d->destination > 0) {
                 return $d->medics->profile->name;
-            } else {
-                return '';
             }
         }
-        //return $doc;
+        return null;
     }
 
     public function getDoctorIDAttribute()
@@ -222,11 +222,9 @@ class Visit extends Model
         foreach ($this->destinations as $d) {
             if ($d->destination > 0) {
                 return $d->medics->id;
-            } else {
-                return '';
             }
         }
-        //return $doc;
+        return null;
     }
 
     public function patient_scheme()
@@ -237,6 +235,11 @@ class Visit extends Model
     public function requesting_institutions()
     {
         return $this->belongsTo(PartnerInstitution::class, 'requesting_institution');
+    }
+
+    public function copay()
+    {
+        return $this->hasOne(Copay::class, 'visit_id');
     }
 
     public function metas()

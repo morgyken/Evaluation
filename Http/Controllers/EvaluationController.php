@@ -51,11 +51,11 @@ class EvaluationController extends AdminBaseController
 
     public function queues($department)
     {
-        $date = Carbon::now()->subDays(2)->toDateTimeString();
+        \DB::enableQueryLog();
         $this->data['referer'] = \URL::previous();
         $this->data['department'] = ucwords($department);
         $user = \Auth::user()->id;
-        if ($department == 'doctor') {
+        if ($department === 'doctor') {
             $this->data['doc'] = 1;
             $this->data['myq'] = VisitDestinations::whereDestination($user)
                 ->orWhereNotNull('room_id')
@@ -64,13 +64,10 @@ class EvaluationController extends AdminBaseController
                 ->get();
         } else {
             $this->data['all'] = Visit::checkedAt($department)
-                ->whereHas('destinations', function (Builder $query) use ($date) {
-                    $query->whereCheckout(false);
-                })
-                ->where('status', '<>', '!!')
-                ->orderBy('created_at', 'asc')
+                ->orderBy('created_at')
                 ->get();
         }
+//        dd(\DB::ge)
         return view('evaluation::queues', ['data' => $this->data]);
     }
 

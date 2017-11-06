@@ -15,7 +15,9 @@ namespace Ignite\Evaluation\Library;
 use Carbon\Carbon;
 use Ignite\Evaluation\Entities\Additives;
 use Ignite\Evaluation\Entities\CriticalValues;
+use Ignite\Evaluation\Entities\ExternalOrders;
 use Ignite\Evaluation\Entities\Formula;
+use Ignite\Evaluation\Entities\HaemogramTitle;
 use Ignite\Evaluation\Entities\PrescriptionPayment;
 use Ignite\Evaluation\Entities\ProcedureInventoryItem;
 use Ignite\Evaluation\Entities\DiagnosisCodes;
@@ -329,8 +331,7 @@ class EvaluationFunctions implements EvaluationRepository
      */
     public function save_vitals()
     {
-        Vitals::firstOrCreate(['visit' => $this->visit]); //safety first
-        return Vitals::where('visit', $this->visit)->update($this->input);
+        return Vitals::findOrCreate('visit', $this->visit)->update($this->input);
     }
 
     public function get_diagnosis_codes_auto()
@@ -351,20 +352,19 @@ class EvaluationFunctions implements EvaluationRepository
     public function save_notes()
     {
         if ($this->request->has('option')) {
-            $this->save_eye_exam($this->request);
+            $this->save_eye_exam();
         }
-        $notes = DoctorNotes::findOrNew(['visit' => $this->visit]);
-        DoctorNotes::updateOrCreate(
-            ['visit' => $this->visit], [
-            'presenting_complaints' => $this->request->presenting_complaints,
-            'past_medical_history' => $this->request->past_medical_history,
-            'examination' => $this->request->examination,
-            'investigations' => $this->request->investigations,
-            'treatment_plan' => $this->request->treatment_plan,
-            'diagnosis' => $this->request->diagnosis,
-            'user' => $this->request->user()->id
-        ]);
-        return true; //DoctorNotes::updateOrCreate(['visit' => $this->visit], $this->input);
+        return DoctorNotes::updateOrCreate(
+            ['visit' => $this->visit],
+            [
+                'presenting_complaints' => $this->request->presenting_complaints,
+                'past_medical_history' => $this->request->past_medical_history,
+                'examination' => $this->request->examination,
+                'investigations' => $this->request->investigations,
+                'treatment_plan' => $this->request->treatment_plan,
+                'diagnosis' => $this->request->diagnosis,
+                'user' => $this->request->user()->id
+            ]);
     }
 
     public function save_eye_exam()
@@ -401,17 +401,14 @@ class EvaluationFunctions implements EvaluationRepository
      * @param $place
      * @return bool
      */
-    private function check_in_at($place)
+    private function check_in_at($place): bool
     {
-        if ($place == 'treatment.nurse') {
-            $place = 'Nursing';
-        }
-        if ($place == 'treatment') {
+        if ($place === 'treatment') {
             return true;
         }
         $department = $place;
-        $destination = NULL;
-        if (intval($place) > 0) {
+        $destination = null;
+        if ((int)$place > 0) {
             $destination = (int)$department;
             $department = 'doctor';
         }
@@ -428,7 +425,7 @@ class EvaluationFunctions implements EvaluationRepository
     public function save_diagnosis()
     {
         DB::transaction(function () {
-            foreach ($this->__get_selected_stack() as $treatment) {
+            foreach ($this->_get_selected_stack() as $treatment) {
                 // dd($treatment);
                 $discount = 'discount' . $treatment;
 
@@ -460,14 +457,19 @@ class EvaluationFunctions implements EvaluationRepository
 
     /**
      * Build an index of items dynamically
+     * @param null|string $needle
      * @return array
      */
-    private function __get_selected_stack()
+    private function _get_selected_stack($needle = null)
     {
         $stack = [];
-        foreach ($this->input as $key => $one) {
-            if (starts_with($key, 'item')) {
-                $stack[] = substr($key, 4);
+        $input = \request()->all();
+        if (empty($needle)) {
+            $needle = 'item';
+        }
+        foreach ($input as $key => $one) {
+            if (starts_with($key, $needle)) {
+                $stack[] = substr($key, strlen($needle));
             }
         }
         return $stack;
@@ -475,8 +477,7 @@ class EvaluationFunctions implements EvaluationRepository
 
 
     /**
-     * @param
-     * @return Prescriptions
+     * @return Prescriptions|bool
      */
     public function save_prescriptions()
     {
@@ -922,26 +923,10 @@ class EvaluationFunctions implements EvaluationRepository
         return true;
     }
 
-    /**
-     * Build an index of items dynamically
-     * @return array
-     */
-    private function _get_selected_stack()
-    {
-        $stack = [];
-        foreach ($this->input as $key => $one) {
-            if (starts_with($key, 'item')) {
-                $stack[] = substr($key, 4);
-            }
-        }
-        return $stack;
-    }
 
     /**
      * Add a partner institution to the database
-     * @param Request $request
-     * @param int|null $id
-     * @return bool
+     *
      */
     public function SavePartnerInstitution()
     {
@@ -961,12 +946,12 @@ class EvaluationFunctions implements EvaluationRepository
 
     public function make_external_order(Request $request)
     {
-        $order = new \Ignite\Evaluation\Entities\ExternalOrders;
+        $order = new ExternalOrders;
         $order->patient_id = $request->patient_id;
         $order->institution = $request->institution;
         $order->user = $request->user()->id;
         $order->save();
-        foreach ($this->__get_selected_stack() as $index) {
+        foreach ($this->_get_selected_stack() as $index) {
             $item = 'item' . $index;
             $type = 'type' . $index;
             $det = new ExternalOrderDetails;
@@ -977,19 +962,30 @@ class EvaluationFunctions implements EvaluationRepository
         }
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function delete_title_lab(Request $request)
     {
-        $tit = \Ignite\Evaluation\Entities\HaemogramTitle::find($request->id);
+        $tit = HaemogramTitle::find($request->id);
         return $tit->delete();
     }
 
-    function delete_lab_template_test(Request $request)
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function delete_lab_template_test(Request $request)
     {
         $test = TemplateLab::find($request->id);
         $test->delete();
-        return "Test has been removed from template"; //
+        return 'Test has been removed from template'; //
     }
 
+    /**
+     * @return bool
+     */
     public function request_service()
     {
         $selection = $this->_get_selected_stack();
@@ -1009,8 +1005,8 @@ class EvaluationFunctions implements EvaluationRepository
                 'user' => $this->user,
                 'ordered' => true
             ]);
-            $this->check_in_at('nursing');
         }
+        $this->check_in_at('nursing');
         return true;
     }
 
