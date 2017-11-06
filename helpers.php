@@ -137,6 +137,15 @@ if (!function_exists('get_procedures_in')) {
     }
 
 }
+if (!function_exists('reload_payments')) {
+    /**
+     * @return mixed
+     */
+    function reload_payments()
+    {
+        return \Artisan::call('finance:prepare-payments');
+    }
+}
 if (!function_exists('get_price_procedure')) {
 
     function get_price_procedure(Visit $_v, Procedures $procedure)

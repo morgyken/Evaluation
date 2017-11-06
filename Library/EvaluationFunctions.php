@@ -454,18 +454,10 @@ class EvaluationFunctions implements EvaluationRepository
                 $this->check_in_at($this->input['type' . $treatment]);
             }
         });
-        try{
-            $this->reload_payments();
-        }catch (\Exception $e){
-
-        }
+        reload_payments();
         return ['result' => true];
     }
 
-    public function reload_payments()
-    {
-        return true;
-    }
     /**
      * Build an index of items dynamically
      * @return array
@@ -501,11 +493,7 @@ class EvaluationFunctions implements EvaluationRepository
             'quantity' => $this->input['quantity'],
         ];
         $prescription->payment()->create($attributes);
-        try{
-            $this->reload_payments();
-        }catch (\Exception $e){
-
-        }
+        reload_payments();
         return $prescription;
     }
 
