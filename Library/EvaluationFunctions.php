@@ -331,7 +331,7 @@ class EvaluationFunctions implements EvaluationRepository
      */
     public function save_vitals()
     {
-        return Vitals::firstOrCreate('visit', $this->visit)->update($this->input);
+        return Vitals::firstOrCreate(['visit' => $this->visit])->update($this->input);
     }
 
     public function get_diagnosis_codes_auto()
