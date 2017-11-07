@@ -126,8 +126,8 @@ class Visit extends Model
     public function scopeCheckedAt($query, $destination)
     {
         return $query->whereHas('destinations', function ($query) use ($destination) {
-            $query->whereDepartment(ucfirst($destination));
-            $query->whereCheckout(0);
+            $query->whereDepartment($destination);
+            $query->whereCheckout(false);
         })->where('status', '<>', '!!');
     }
 

@@ -32,7 +32,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
         <div class="box-body">
             <table class="table table-striped">
                 <tbody>
-                @if(!isset($doc))
+                @if(isset($all))
                     @foreach($all as $visit)
                         <tr id="row_id{{$visit->id}}">
                             <td>{{$loop->iteration}}</td>

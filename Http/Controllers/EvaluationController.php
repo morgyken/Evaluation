@@ -51,7 +51,6 @@ class EvaluationController extends AdminBaseController
 
     public function queues($department)
     {
-        \DB::enableQueryLog();
         $this->data['referer'] = \URL::previous();
         $this->data['department'] = ucwords($department);
         $user = \Auth::user()->id;
@@ -63,11 +62,14 @@ class EvaluationController extends AdminBaseController
                 ->oldest()
                 ->get();
         } else {
-            $this->data['all'] = Visit::checkedAt($department)
-                ->orderBy('created_at')
+//            $this->data['all'] = Visit::checkedAt($department)
+//                ->orderBy('created_at')
+//                ->get();
+            $this->data['myq'] = VisitDestinations::whereDepartment($department)
+                ->whereCheckout(false)
+                ->oldest()
                 ->get();
         }
-//        dd(\DB::ge)
         return view('evaluation::queues', ['data' => $this->data]);
     }
 
