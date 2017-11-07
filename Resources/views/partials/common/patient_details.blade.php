@@ -26,7 +26,7 @@ if (empty($status)) {
                         <li class="title"><b>{{$patient->full_name}}</b> ({{$patient->sex}}, {{ $patient->dob->age }}
                             yrs
                             old)
-                            <code>Payment Mode: {{$visit->mode}}</code></li>
+                            <small>Payment Mode: {{$visit->mode}}</small></li>
                         <li class="options">
                                 <span class="input-group-btn">
                                     <a role="button" data-toggle="collapse" data-parent="#accordion"

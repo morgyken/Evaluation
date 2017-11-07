@@ -133,14 +133,12 @@ class Visit extends Model
 
     public function getModeAttribute()
     {
-        if ($this->payment_mode == 'insurance') {
-
+        if ($this->payment_mode === 'insurance') {
             try {
-                return ucfirst($this->payment_mode) . " | " .
-                    $this->patient_scheme->schemes->companies->name . " | " .
-                    $this->patient_scheme->schemes->name;
+                return ucfirst($this->payment_mode) . ' | ' .
+                    $this->patient_scheme->desc;
             } catch (\Exception $exc) {
-                return ($this->payment_mode);
+                return $this->payment_mode;
             }
 
         }
