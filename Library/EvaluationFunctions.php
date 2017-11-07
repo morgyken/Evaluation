@@ -490,8 +490,8 @@ class EvaluationFunctions implements EvaluationRepository
         $prescription = Prescriptions::create(array_except($this->input, 'quantity'));
         $attributes = [
             'price' => $cost,
-            'cost' => $cost,
-            'quantity' => $this->input['quantity'],
+            'cost' => $cost * (int)$this->input['quantity'],
+            'quantity' => (int)$this->input['quantity'],
         ];
         $prescription->payment()->create($attributes);
         reload_payments();
