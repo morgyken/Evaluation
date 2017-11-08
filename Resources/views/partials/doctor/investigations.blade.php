@@ -56,6 +56,7 @@
                                         </tbody>
                                     </table>
                                     <div class="pull-right">
+                                        <div class="loader" id="diagnosisLoader"></div>
                                         <button class="btn btn-success" id="saveDiagnosis">
                                             <i class="fa fa-save"></i> Save
                                         </button>

@@ -6,7 +6,7 @@
 /* global TREAT_URL, VISIT_ID, USER_ID, DIAGNOSIS_URL, alertify */
 
 $(function () {
-
+    $('#proceduresLoader').hide();
     $('.treatment_item').find('table').DataTable({
         "scrollY": "300px",
         "paging": false
@@ -85,20 +85,29 @@ $(function () {
     });
 
     function save_treatment() {
+        var $btn = $('button#saveTreatment');
         $.ajax({
             type: "POST",
             url: DIAGNOSIS_URL,
+            beforeSend: function () {
+                $btn.hide();
+                $('#proceduresLoader').show();
+            },
             data: $('#procedures_doctor_form,#procedures_nurse_form').serialize(),
             success: function () {
+                $('#proceduresLoader').hide();
                 alertify.success('<i class="fa fa-check-circle"></i> Selected treatment procedures saved');
                 $('.treatment_item').find('input').iCheck('uncheck');
                 $('#in_table').dataTable().api().ajax.reload();
                 treatmentInvestigations = [];
                 trIndex = {};
                 preview_treatment_selection();
+                $btn.show();
             },
             error: function () {
                 alertify.error('<i class="fa fa-check-warning"></i> Something wrong happened, Retry');
+                $('#proceduresLoader').hide();
+                $btn.show();
             }
         });
         //  $('#selected_treatment').hide();

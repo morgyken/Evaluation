@@ -14,6 +14,7 @@
 $(function () {
     //mock hide this
     $('.instructions').hide();
+    $('#diagnosisLoader').hide();
     $('.investigation_item').find('table').DataTable({
         "scrollY": "300px",
         "paging": false
@@ -92,14 +93,18 @@ $(function () {
 
     $('#saveDiagnosis').click(function (e) {
         e.preventDefault();
+        var $btn = $('button#saveDiagnosis');
         $.ajax({
             type: "POST",
             url: DIAGNOSIS_URL,
             data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
             beforeSend: function () {
-
+                $btn.hide();
+                $('#diagnosisLoader').show();
             },
             success: function () {
+                $btn.show();
+                $('#diagnosisLoader').hide();
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
                 $('.investigation_item').find('input').iCheck('uncheck');
                 procedureInvestigations = [];
@@ -109,7 +114,9 @@ $(function () {
                 show_selection_investigation();
             },
             error: function () {
-                alertify.error('<i class="fa fa-check-warning"></i> Could not save evalaution');
+                alertify.error('<i class="fa fa-check-warning"></i> Could not save evaluation');
+                $btn.show();
+                $('#diagnosisLoader').hide();
             }
         });
         //location.reload();

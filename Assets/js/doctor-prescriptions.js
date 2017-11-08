@@ -63,13 +63,13 @@ $(function () {
     map_select2(0);
 
     function save_prescription() {
-        $btn = $('button#savePrescription');
+        var $btn = $('button#savePrescription');
         $.ajax({
             type: "POST",
             url: PRESCRIPTION_URL,
             data: $prescriptionForm.serialize(),
             beforeSend: function () {
-                $btn.prop('disabled', true);
+                $btn.hide();
                 $('#prescriptionLoader').show();
             },
             success: function () {
@@ -77,10 +77,12 @@ $(function () {
                 $('table#prescribed_drugs').dataTable().api().ajax.reload();
                 $prescriptionForm.trigger("reset");
                 alertify.success("Prescription saved");
-                $btn.prop('disabled', false);
+                $btn.show();
             },
             error: function () {
                 alertify.error('<i class="fa fa-check-warning"></i> An error occured prescribing drug');
+                $('#prescriptionLoader').hide();
+                $btn.show();
             }
         });
     }

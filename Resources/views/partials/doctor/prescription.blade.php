@@ -67,7 +67,8 @@
                         <label class="col-md-offset-4 col-md-8"><input type="checkbox" name="allow_substitution"
                                                                        value="1"/> Substitution allowed</label>
                     </div>
-                    <div class="pull-right">  <div class="loader" id="prescriptionLoader"></div>
+                    <div class="pull-right">
+                        <div class="loader" id="prescriptionLoader"></div>
                         <button type="submit" class="btn btn-xs btn-primary" id="savePrescription">
                           <i class="fa fa-save"></i> Save
                         </button>

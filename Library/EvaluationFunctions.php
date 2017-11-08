@@ -421,36 +421,44 @@ class EvaluationFunctions implements EvaluationRepository
     /**
      * Save diagnosis
      * @return array
+     * @throws \Exception
      */
     public function save_diagnosis()
     {
-        DB::transaction(function () {
-            foreach ($this->_get_selected_stack() as $treatment) {
-                // dd($treatment);
-                $discount = 'discount' . $treatment;
+        \DB::beginTransaction();
+        $check_in = [];
+        foreach ($this->_get_selected_stack() as $treatment) {
+            // dd($treatment);
+            $discount = 'discount' . $treatment;
 
-                try {
-                    $amount = $this->input['amount' . $treatment];
-                    $price = $this->input['price' . $treatment];
-                } catch (\Exception $e) {
-                    $amount = 0;
-                    $price = 0;
-                }
-                Investigations::create([
-                    'type' => $this->input['type' . $treatment],
-                    'visit' => $this->visit,
-                    'procedure' => $treatment,
-                    'quantity' => $this->input['quantity' . $treatment],
-                    'price' => $price,
-                    'discount' => $this->request->$discount,
-                    'amount' => $amount,
-                    'instructions' => empty($this->input['instructions' . $treatment]) ? null : $this->input['instructions' . $treatment],
-                    'user' => $this->user,
-                    'ordered' => true
-                ]);
-                $this->check_in_at($this->input['type' . $treatment]);
+            try {
+                $amount = $this->input['amount' . $treatment];
+                $price = $this->input['price' . $treatment];
+            } catch (\Exception $e) {
+                $amount = 0;
+                $price = 0;
             }
-        });
+            Investigations::create([
+                'type' => $this->input['type' . $treatment],
+                'visit' => $this->visit,
+                'procedure' => $treatment,
+                'quantity' => $this->input['quantity' . $treatment],
+                'price' => $price,
+                'discount' => $this->request->$discount,
+                'amount' => $amount,
+                'instructions' => empty($this->input['instructions' . $treatment]) ? null : $this->input['instructions' . $treatment],
+                'user' => $this->user,
+                'ordered' => true
+            ]);
+            $to = $this->input['type' . $treatment];
+            if (!in_array($to, $check_in, false)) {
+                $check_in[] = $to;
+            }
+        }
+        \DB::commit();
+        foreach ($check_in as $check) {
+            $this->check_in_at($check);
+        }
         reload_payments();
         return ['result' => true];
     }
@@ -574,28 +582,28 @@ class EvaluationFunctions implements EvaluationRepository
         $type->save();
     }
 
-    function save_collection_method(Request $request)
+    public function save_collection_method(Request $request)
     {
         $method = SampleCollectionMethods::findOrNew($request->id);
         $method->name = $request->name;
         $method->save();
     }
 
-    function save_unit(Request $request)
+    public function save_unit(Request $request)
     {
         $unit = Unit::findOrNew($request->id);
         $unit->name = $request->name;
         $unit->save();
     }
 
-    function save_additives(Request $request)
+    public function save_additives(Request $request)
     {
         $item = Additives::findOrNew($request->id);
         $item->name = $request->name;
         $item->save();
     }
 
-    function save_remarks(Request $request)
+    public function save_remarks(Request $request)
     {
         $item = Remarks::findOrNew($request->id);
         $item->remarks = $request->remarks;
@@ -604,7 +612,7 @@ class EvaluationFunctions implements EvaluationRepository
         $item->save();
     }
 
-    function save_formula(Request $request)
+    public function save_formula(Request $request)
     {
         $item = \Ignite\Evaluation\Entities\Formula::findOrNew($request->id);
         $item->procedure_id = $request->procedure_id;
@@ -613,7 +621,7 @@ class EvaluationFunctions implements EvaluationRepository
         $item->save();
     }
 
-    function save_range(Request $request)
+    public function save_range(Request $request)
     {
         $item = ReferenceRange::findOrNew($request->id);
         $item->procedure = $request->procedure;
@@ -630,7 +638,7 @@ class EvaluationFunctions implements EvaluationRepository
     }
 
 
-    function save_critical_values(Request $request)
+    public function save_critical_values(Request $request)
     {
         $item = CriticalValues::findOrNew($request->id);
         $item->critical_value = $request->critical_value;
@@ -639,12 +647,12 @@ class EvaluationFunctions implements EvaluationRepository
         $item->save();
     }
 
-    function delete_critical_value(Request $request)
+    public function delete_critical_value(Request $request)
     {
         return CriticalValues::find($request->id)->delete();
     }
 
-    function delete_range(Request $request)
+    public function delete_range(Request $request)
     {
         return ReferenceRange::find($request->id)->delete();
     }

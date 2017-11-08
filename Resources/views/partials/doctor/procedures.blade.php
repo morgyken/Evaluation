@@ -42,6 +42,7 @@ $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
                             </tbody>
                         </table>
                         <div class="pull-right">
+                            <div class="loader" id="proceduresLoader"></div>
                             <button class="btn btn-success" id="saveTreatment"><i class="fa fa-save"></i> Save
                             </button>
                         </div>
