@@ -59,16 +59,16 @@ class EvaluationController extends AdminBaseController
             $this->data['myq'] = VisitDestinations::whereDestination($user)
                 ->orWhereNotNull('room_id')
                 ->whereCheckout(false)
-                ->oldest()
-                ->get();
+                ->latest()
+                ->paginate(100);
         } else {
 //            $this->data['all'] = Visit::checkedAt($department)
 //                ->orderBy('created_at')
 //                ->get();
             $this->data['myq'] = VisitDestinations::whereDepartment($department)
                 ->whereCheckout(false)
-                ->oldest()
-                ->get();
+                ->latest()
+                ->paginate(100);
         }
         return view('evaluation::queues', ['data' => $this->data]);
     }

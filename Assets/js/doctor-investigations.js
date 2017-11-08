@@ -96,6 +96,9 @@ $(function () {
             type: "POST",
             url: DIAGNOSIS_URL,
             data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
+            beforeSend: function () {
+
+            },
             success: function () {
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
                 $('.investigation_item').find('input').iCheck('uncheck');

@@ -42,7 +42,7 @@ class PrescriptionPayment extends Model
 
     public function getTotalAttribute()
     {
-        return $this->cost * $this->quantity;
+        return $this->cost;
     }
 
     public function prescription()
