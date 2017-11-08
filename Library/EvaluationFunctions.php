@@ -455,10 +455,10 @@ class EvaluationFunctions implements EvaluationRepository
                 $check_in[] = $to;
             }
         }
-        \DB::commit();
         foreach ($check_in as $check) {
             $this->check_in_at($check);
         }
+        \DB::commit();
         reload_payments();
         return ['result' => true];
     }

@@ -162,7 +162,7 @@ class ApiController extends Controller
 
     public function checkout_patient()
     {
-       return $this->evaluationRepository->checkout_patient();
+        return $this->evaluationRepository->checkout_patient();
     }
 
     public function get_procedures(Request $request, $type)
