@@ -486,7 +486,6 @@ class EvaluationFunctions implements EvaluationRepository
         }
         $cost = get_price_drug(Visit::find($this->visit), InventoryProducts::find($this->request->drug));
         $this->input['user'] = $this->user;
-        $this->check_in_at('pharmacy');
         $prescription = Prescriptions::create(array_except($this->input, 'quantity'));
         $attributes = [
             'price' => $cost,
@@ -495,6 +494,7 @@ class EvaluationFunctions implements EvaluationRepository
         ];
         $prescription->payment()->create($attributes);
         reload_payments();
+        $this->check_in_at('pharmacy');
         return $prescription;
     }
 

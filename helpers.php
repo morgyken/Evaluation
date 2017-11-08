@@ -170,9 +170,10 @@ if (!function_exists('get_price_drug')) {
     function get_price_drug(Visit $_v, InventoryProducts $product)
     {
         if ($_v->scheme) {
-            $c_price = InsuranceSchemePricing::whereSchemeId($_v->scheme)
-                ->whereProductId($product->id)
-                ->first();
+//            $c_price = InsuranceSchemePricing::whereSchemeId($_v->scheme)
+//                ->whereProductId($product->id)
+//                ->first();
+            $c_price=null;
             $c_price = $c_price->amount ?? $product->insurance_p;
         }
         if (!empty($c_price)) {

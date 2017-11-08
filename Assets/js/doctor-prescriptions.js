@@ -1,6 +1,7 @@
 /* global PRESCRIPTION_URL, alertify */
 
 $(function () {
+    $('#prescriptionLoader').hide();
     /*
      * =========================================================================
      * Prescriptions management
@@ -69,8 +70,10 @@ $(function () {
             data: $prescriptionForm.serialize(),
             beforeSend: function () {
                 $btn.prop('disabled', true);
+                $('#prescriptionLoader').show();
             },
             success: function () {
+                $('#prescriptionLoader').hide();
                 $('table#prescribed_drugs').dataTable().api().ajax.reload();
                 $prescriptionForm.trigger("reset");
                 alertify.success("Prescription saved");
