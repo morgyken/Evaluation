@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Ignite\Users\Entities\User|null $medics
  * @property-read \Ignite\Settings\Entities\Rooms|null $room
- * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Visit[] $visits
+ * @property-read \Ignite\Evaluation\Entities\Visit $visits
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereBeginAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereCheckout($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\VisitDestinations whereCreatedAt($value)
