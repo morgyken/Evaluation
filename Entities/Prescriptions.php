@@ -68,7 +68,7 @@ class Prescriptions extends Model
     public $table = 'evaluation_prescriptions';
     protected $casts = ['allow_substitution' => 'boolean'];
     protected $guarded = [];
-    protected $appends = ['payment'];
+//    protected $appends = ['payment'];
 
     public function getDoseAttribute()
     {
