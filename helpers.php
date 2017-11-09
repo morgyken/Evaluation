@@ -100,7 +100,7 @@ if (!function_exists('get_procedures_for')) {
             }
             return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
                 $query->where('applies_to', $to_fetch);
-            })->where('name', 'like', "%$term%")->get();
+            })->where('name', 'like', "%$term%")->paginate(150);
         }
         if ($to_fetch === 3) {
             $use_new = (bool)m_setting('evaluation.enable_templates');
@@ -109,12 +109,12 @@ if (!function_exists('get_procedures_for')) {
                     $query->where('applies_to', $to_fetch);
                 })->whereDoesntHave('this_test', function (Builder $query) {
                     $query->where('lab_ordered_independently', 1);
-                })->where('id', '>', '4000')->limit(250)->get();
+                })->where('id', '>', '4000')->paginate(150);
             }
         }
         return Procedures::whereHas('categories', function (Builder $query) use ($to_fetch) {
             $query->where('applies_to', $to_fetch);
-        })->get();
+        })->paginate(150);
     }
 
 }
@@ -173,7 +173,7 @@ if (!function_exists('get_price_drug')) {
 //            $c_price = InsuranceSchemePricing::whereSchemeId($_v->scheme)
 //                ->whereProductId($product->id)
 //                ->first();
-            $c_price=null;
+            $c_price = null;
             $c_price = $c_price->amount ?? $product->insurance_p;
         }
         if (!empty($c_price)) {

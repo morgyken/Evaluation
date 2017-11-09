@@ -52,7 +52,11 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                     @endforeach
                 @else
                     @foreach($myq as $item)
-                        @php $visit=$item->visits;@endphp
+                        @php
+                            $visit=$item->visits;
+                        if(empty($visit)){
+                        continue;}
+                        @endphp
                         <tr id="row_id{{$visit->id}}">
                             <td>{{$loop->iteration}}</td>
                             <td>{{$visit->patients->full_name}}</td>

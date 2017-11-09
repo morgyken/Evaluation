@@ -10,30 +10,25 @@
         <div class="col-md-12">
             <div class="col-md-8">
                 <div class="accordion">
-                    <h4>Diagnosis</h4>
-                    <div class="investigation_item">
-                        @include('evaluation::partials.doctor.investigations-diagnostics')
-                    </div>
+                    @if(!m_setting('evaluation.no_diagnostics'))
+                        <h4>Diagnosis</h4>
+                        <div class="investigation_item">
+                            @include('evaluation::partials.doctor.investigations-diagnostics')
+                        </div>
+                    @endif
 
-
-                    <h4>Laboratory</h4>
-                    <div class="investigation_item">
-                        @if(!m_setting('evaluation.no_laboratory'))
+                    @if(!m_setting('evaluation.no_laboratory'))
+                        <h4>Laboratory</h4>
+                        <div class="investigation_item">
                             @include('evaluation::partials.doctor.investigations-laboratory')
-                        @else
-                            <h4>Lab Evaluation has been disabled</h4>
-                        @endif
-                    </div>
-
-
-                    <h4>Radiology</h4>
-                    <div class="investigation_item">
-                        @if(!m_setting('evaluation.no_radiology'))
+                        </div>
+                    @endif
+                    @if(!m_setting('evaluation.no_radiology'))
+                        <h4>Radiology</h4>
+                        <div class="investigation_item">
                             @include('evaluation::partials.doctor.radiology')
-                        @else
-                            <h4>Radiology Evaluation has been disabled</h4>
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="col-md-4">
