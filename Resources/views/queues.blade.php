@@ -52,24 +52,23 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                     @endforeach
                 @else
                     @foreach($myq as $item)
-                        @foreach($item->visits as $visit)
-                            <tr id="row_id{{$visit->id}}">
-                                <td>{{$loop->parent->iteration}}</td>
-                                <td>{{$visit->patients->full_name}}</td>
-                                <td>{{$visit->created_at->format('dS M g:i a')}}</td>
-                                <td>{{$visit->visit_destination}}</td>
-                                <td>{{$visit->place}}</td>
-                                <td>
-                                    <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
-                                       class="btn btn-xs btn-primary">
-                                        <i class="fa fa-ellipsis-h"></i> Manage</a>
+                        @php $visit=$item->visits;@endphp
+                        <tr id="row_id{{$visit->id}}">
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$visit->patients->full_name}}</td>
+                            <td>{{$visit->created_at->format('dS M g:i a')}}</td>
+                            <td>{{$visit->visit_destination}}</td>
+                            <td>{{$visit->place}}</td>
+                            <td>
+                                <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
+                                   class="btn btn-xs btn-primary">
+                                    <i class="fa fa-ellipsis-h"></i> Manage</a>
 
-                                    <button value='{{$visit->id}}' class="btn btn-warning btn-xs checkout">
-                                        <i class="fa fa-sign-out"></i> Checkout
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
+                                <button value='{{$visit->id}}' class="btn btn-warning btn-xs checkout">
+                                    <i class="fa fa-sign-out"></i> Checkout
+                                </button>
+                            </td>
+                        </tr>
                     @endforeach
                 @endif
                 </tbody>

@@ -46,7 +46,7 @@ class VisitDestinations extends Model
 
     public function visits()
     {
-        return $this->hasMany(Visit::class, 'id', 'visit');
+        return $this->belongsTo(Visit::class, 'visit');
     }
 
     public function medics()
