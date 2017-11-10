@@ -214,9 +214,7 @@ class EvaluationController extends AdminBaseController
 
     public function review()
     {
-        $this->data['patients'] = Patients::whereHas('visits', function ($query) {
-
-        })->get();
+        $this->data['patients'] = Patients::whereHas('visits')->get();
         return view('evaluation::reviews', ['data' => $this->data]);
     }
 

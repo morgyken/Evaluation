@@ -38,6 +38,21 @@ use Ignite\Evaluation\Entities\TemplateLab;
 use Ignite\Evaluation\Entities\ReferenceRange;
 
 if (!function_exists('get_patient_queue')) {
+    /**
+     * @param Visit $visit
+     * @return string
+     */
+    function translate_destination(Visit $visit)
+    {
+        $link = [];
+        foreach ($visit->destinations as $dest) {
+            $_l = route('evaluation.evaluate', [$visit->id, strtolower($dest->department)]);
+            $link[] = '<a href="' . $_l . '" target="_blank">' . $dest->department . '</a>';
+        }
+        return implode(' ', $link);
+    }
+}
+if (!function_exists('get_patient_queue')) {
 
     /**
      * Get patients in active queue
@@ -52,12 +67,31 @@ if (!function_exists('get_patient_queue')) {
 }
 
 if (!function_exists('get_procedures_for')) {
+    /**
+     * @param string $name
+     * @param string|null $term
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    function get_procedures_for($name, $term = null)
+    {
+        if (!empty($term)) {
+            return __get_procedures_for($name, $term);
+        }
+        $minutes = 1440;
+        return Cache::remember('get_procedures_for_' . $name, $minutes, function () use ($name) {
+            return __get_procedures_for($name)->paginate(250);
+        });
+    }
+}
+
+if (!function_exists('__get_procedures_for')) {
 
     /**
      * @param string $name
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @param string|null $term
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    function get_procedures_for($name, $term = null)
+    function __get_procedures_for($name, $term = null)
     {
         switch ($name) {
             case 'doctor':
@@ -100,7 +134,7 @@ if (!function_exists('get_procedures_for')) {
             }
             return Procedures::whereHas('categories', function ($query) use ($to_fetch) {
                 $query->where('applies_to', $to_fetch);
-            })->where('name', 'like', "%$term%")->paginate(150);
+            })->where('name', 'like', "%$term%")->get();
         }
         if ($to_fetch === 3) {
             $use_new = (bool)m_setting('evaluation.enable_templates');
@@ -108,16 +142,14 @@ if (!function_exists('get_procedures_for')) {
                 return Procedures::whereHas('categories', function (Builder $query) use ($to_fetch) {
                     $query->where('applies_to', $to_fetch);
                 })->whereDoesntHave('this_test', function (Builder $query) {
-                    $query->where('lab_ordered_independently', 1);
-                })->where('id', '>', '4000')->paginate(150);
+                    $query->where('lab_ordered_independently', 0);
+                    $query->whereNull('lab_ordered_independently');
+                })->where('name', 'not like', 'LAB%');
             }
-            return Procedures::whereHas('categories', function (Builder $query) use ($to_fetch) {
-                $query->where('applies_to', $to_fetch);
-            })->where('id', '<', '4000')->paginate(150);
         }
         return Procedures::whereHas('categories', function (Builder $query) use ($to_fetch) {
             $query->where('applies_to', $to_fetch);
-        })->paginate(150);
+        });
     }
 
 }
