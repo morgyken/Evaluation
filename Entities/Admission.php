@@ -48,4 +48,12 @@ class Admission extends Model
         'visit_id',
         'bedposition_id'
     ];
+
+    /*
+    * Relationship between an admission and the patient that has been admitted
+    */
+    public function patient()
+    {       
+        return $this->belongsTo('Patients::class', 'patient_id');
+    }
 }

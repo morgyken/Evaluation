@@ -11,7 +11,7 @@ extract($data);
 @section('content_description','Patient evaluation and Treatment')
 
 @section('content')
-    @include('evaluation::partials.common.patient_details')
+    @include('evaluation::partials.common.details')
     <div class="box box-default">
         <div class="box-body">
             <div class="form-horizontal">
