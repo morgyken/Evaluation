@@ -111,6 +111,9 @@ if (!function_exists('get_procedures_for')) {
                     $query->where('lab_ordered_independently', 1);
                 })->where('id', '>', '4000')->paginate(150);
             }
+            return Procedures::whereHas('categories', function (Builder $query) use ($to_fetch) {
+                $query->where('applies_to', $to_fetch);
+            })->where('id', '<', '4000')->paginate(150);
         }
         return Procedures::whereHas('categories', function (Builder $query) use ($to_fetch) {
             $query->where('applies_to', $to_fetch);
