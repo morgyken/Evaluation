@@ -272,7 +272,7 @@ class ApiController extends Controller
     public function getDoneTreatment(Visit $visit_id)
     {
         /** @var Investigations[] $data */
-        $data = get_investigations($visit_id, ['treatment', 'treatment.nurse']);
+        $data = get_investigations($visit_id, ['treatment', 'nursing']);
         if (request()->has('type')) {
             $data = get_investigations($visit_id, [request('type')]);
         }
