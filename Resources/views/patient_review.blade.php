@@ -9,8 +9,8 @@ extract($data);
 $department = 'doctor';
 ?>
 @extends('layouts.app')
-@section('content_title','Patient Reviews')
-@section('content_description','Select patient visit and review')
+@section('content_title',$patient->full_name)
+@section('content_description','Viewing all visits for '.$patient->full_name)
 
 @section('content')
     <div class="box box-info">

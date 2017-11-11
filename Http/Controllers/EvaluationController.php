@@ -220,6 +220,7 @@ class EvaluationController extends AdminBaseController
 
     public function review_patient($patient)
     {
+        $this->data['patient'] = Patients::find($patient);
         $this->data['visits'] = Visit::wherePatient($patient)->get();
         return view('evaluation::patient_review', ['data' => $this->data]);
     }

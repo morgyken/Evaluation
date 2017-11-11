@@ -79,7 +79,7 @@ if (!function_exists('get_procedures_for')) {
         }
         $minutes = 1440;
         return Cache::remember('get_procedures_for_' . $name, $minutes, function () use ($name) {
-            return __get_procedures_for($name)->paginate(250);
+            return __get_procedures_for($name)->paginate(200);
         });
     }
 }
@@ -144,7 +144,7 @@ if (!function_exists('__get_procedures_for')) {
                 })->whereDoesntHave('this_test', function (Builder $query) {
                     $query->where('lab_ordered_independently', 0);
                     $query->whereNull('lab_ordered_independently');
-                })->where('name', 'not like', 'LAB%');
+                })->where('name', 'NOT LIKE', 'LAB%');
             }
         }
         return Procedures::whereHas('categories', function (Builder $query) use ($to_fetch) {
