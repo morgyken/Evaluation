@@ -26,7 +26,9 @@
         $('table#lab').dataTable({
             scrollY: "300px",
             paging: false,
-            ajax: CREEPY_LAB
+            ajax: CREEPY_LAB,
+//            deferRender: true,
+////            scroller: true,
         });
     });
 </script>

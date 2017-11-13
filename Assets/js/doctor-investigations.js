@@ -31,7 +31,8 @@ $(function () {
     $('#diagnosis_form,#laboratory_form,#radiology_form ').find('input:text').keyup(function () {
         show_selection_investigation();
     });
-    $('#radiology_form,#laboratory_form,#diagnosis_form').find('input').on('ifChanged', function () {
+    var investigationForms = $('#radiology_form,#laboratory_form,#diagnosis_form');
+    investigationForms.find('input').on('ifChanged', function () {
         var elements = $(this).parents('tr').find('input');
         var texts = $(this).parents('tr').find('textarea');
         var procedure_id = $(this).val();
@@ -44,6 +45,32 @@ $(function () {
             addOrReplaceInvestigation({
                 id: procedure_id,
                 name: name,
+                amount: amount
+            });
+        } else {
+            elements.prop('disabled', true);
+            texts.prop('disabled', true);
+            $(texts).parent().hide();
+            removeTheInvestigation(procedure_id);
+        }
+        $(this).prop('disabled', false);
+        show_selection_investigation();
+    });
+    $(document).on('change', '#radiology_form  input,#laboratory_form  input,#diagnosis_form input', function () {
+        var elements = $(this).parents('tr').find('input');
+        var texts = $(this).parents('tr').find('textarea');
+        var procedure_id = $(this).val();
+        if ($(this).is(':checked')) {
+            elements.prop('disabled', false);
+            texts.prop('disabled', false);
+            // $(texts).parent().show();
+            var name = $('#name' + procedure_id).html();
+            var amount = get_total_for_investigation(procedure_id);
+            addOrReplaceInvestigation({
+                id: procedure_id,
+                name: name,
+                // qty: $('#quantity' + procedure_id).val(),
+                // price: $('#price' + procedure_id).val(),
                 amount: amount
             });
         } else {
@@ -97,6 +124,7 @@ $(function () {
         $.ajax({
             type: "POST",
             url: DIAGNOSIS_URL,
+            // data: JSON.stringify(procedureInvestigations),// $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
             data: $('#radiology_form,#diagnosis_form, #laboratory_form').serialize(),
             beforeSend: function () {
                 $btn.hide();
@@ -106,7 +134,8 @@ $(function () {
                 $btn.show();
                 $('#diagnosisLoader').hide();
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
-                $('.investigation_item').find('input').iCheck('uncheck');
+                // $('.investigation_item').find('input').iCheck('uncheck');
+                $('input:checkbox').removeAttr('checked');
                 procedureInvestigations = [];
                 arrIndex = {};
                 position = 0;
