@@ -77,9 +77,10 @@ if (!function_exists('get_procedures_for')) {
         if (!empty($term)) {
             return __get_procedures_for($name, $term);
         }
+        return __get_procedures_for($name)->get();
         $minutes = 1440;
         return Cache::remember('get_procedures_for_' . $name, $minutes, function () use ($name) {
-            return __get_procedures_for($name)->paginate(200);
+            return __get_procedures_for($name)->get();
         });
     }
 }
@@ -89,7 +90,7 @@ if (!function_exists('__get_procedures_for')) {
     /**
      * @param string $name
      * @param string|null $term
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return $this|Builder|\Illuminate\Database\Eloquent\Collection|static|static[]
      */
     function __get_procedures_for($name, $term = null)
     {
@@ -178,8 +179,7 @@ if (!function_exists('reload_payments')) {
      */
     function reload_payments()
     {
-        return true;
-        return \Artisan::call('finance:prepare-payments');
+        return \Artisan::queue('finance:prepare-payments');
     }
 }
 if (!function_exists('get_price_procedure')) {
