@@ -165,6 +165,30 @@ class ApiController extends Controller
         return $this->evaluationRepository->checkout_patient();
     }
 
+    public function getProceduresFor($dept, $_v)
+    {
+        $visit = Visit::find($_v);
+        $list = get_procedures_for($dept);
+        $build = [];
+        foreach ($list as $procedure) {
+            $price = get_price_procedure($visit, $procedure);
+            $build[] = [
+                '<input type="checkbox" id="checked_' . $procedure->id . '" name="item' . $procedure->id . '" value="' . $procedure->id . '" class="check"/>',
+                '<span id="name' . $procedure->id . '">' . $procedure->name . '</span>',
+                '<input class="quantity" size="5" value="1" id="quantity' . $procedure->id . '"  type="text"  name="quantity' . $procedure->id . '"/>',
+                '<input class="discount" size="5" value="0"
+                   id="discount' . $procedure->id . '" type="hidden"
+                   name="discount' . $procedure->id . '"/>
+            <input type="hidden" name="type' . $procedure->id . '" value="laboratory" disabled/>
+            <input disabled="" type="text" name="price' . $procedure->id . '" value="' . $price . '"
+                   id="cost' . $procedure->id . '" size="5" readonly=""/>
+            <input size="5" id="amount' . $procedure->id . '" type="hidden"
+                   name="amount' . $procedure->id . '" value="' . $price . '"/>'
+            ];
+        }
+        return response()->json(['data' => $build]);
+    }
+
     public function get_procedures(Request $request, $type)
     {
         try {

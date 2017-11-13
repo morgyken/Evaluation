@@ -42,6 +42,7 @@ $router->any('auto_save_results', ['uses' => 'ApiController@investigation_result
 $router->get('save_sensitivity', ['uses' => 'ApiController@save_sensitivity', 'as' => 'save_sensitivity']);
 
 $router->get('get_procedures/{type}/{visit?}', ['uses' => 'ApiController@get_procedures', 'as' => 'get_procedures']);
+$router->get('get_procedures_for/{type}/{visit}', ['uses' => 'ApiController@getProceduresFor', 'as' => 'get_procedures_for']);
 $router->get('get_all_procedures/', ['uses' => 'ApiController@get_all_procedures', 'as' => 'get_all_procedures']);
 $router->get('get_products/', ['uses' => 'ApiController@get_drugs', 'as' => 'get_products']);
 

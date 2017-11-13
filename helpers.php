@@ -70,7 +70,7 @@ if (!function_exists('get_procedures_for')) {
     /**
      * @param string $name
      * @param string|null $term
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     function get_procedures_for($name, $term = null)
     {
@@ -98,6 +98,7 @@ if (!function_exists('__get_procedures_for')) {
             case 'doctor':
                 $to_fetch = 1;
                 break;
+            case 'lab';
             case 'laboratory':
                 $to_fetch = 3;
                 break;

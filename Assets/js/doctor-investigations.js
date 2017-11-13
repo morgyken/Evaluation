@@ -15,9 +15,9 @@ $(function () {
     //mock hide this
     $('.instructions').hide();
     $('#diagnosisLoader').hide();
-    $('.investigation_item').find('table').DataTable({
-        "scrollY": "300px",
-        "paging": false
+    $('.investigation_item').find('table#di,table#di').DataTable({
+        scrollY: "300px",
+        paging: false
     });
     if (typeof  PERFOMED_INVESTIGATION_URL !== 'undefined') {
         $('#previousInvestigations').dataTable({
