@@ -11,6 +11,8 @@ use Ignite\Evaluation\Repositories\VisitRepository;
 use Ignite\Inpatient\Repositories\AdmissionTypeRepository;
 use Ignite\Evaluation\Repositories\AdmissionRequestRepository;
 
+use Auth;
+
 
 class AdmissionRequestController extends AdminBaseController
 {
@@ -91,6 +93,20 @@ class AdmissionRequestController extends AdminBaseController
      */
     public function update()
     {
+        $id = request()->get('admission_request_id');
+
+        if(request()->has('authorized'))
+        {
+            $details = [
+                'authorized_by' => Auth::id(),
+                'authorized' => request()->get('authorized'),
+            ];
+        }
+
+        $admissionRequest = $this->admissionRequestRepository->update($id, $details);
+
+        return $admissionRequest ?  redirect()->back()->with('success', 'Process completed successfully!') : 
+                                    redirect()->back()->with('error', 'Something Went Wrong ');
     }
 
     /*

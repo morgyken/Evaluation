@@ -30,6 +30,14 @@ class AdmissionRequestRepository
     }
 
     /*
+    * Update the field
+    */
+    public function update($id, $fields)
+    {
+        return RequestAdmission::where('id', $id)->update($fields);
+    }
+
+    /*
     * Return the admission requests that have been made by the doctors
     */
     public function getAdmissionRequests()
@@ -43,9 +51,11 @@ class AdmissionRequestRepository
 
                 'reason' => $request->reason,
 
+                'authorized' => $request->authorized,
+
                 'due' => $this->due($request),
 
-                'admit' => $this->admit($request),
+                'can_admit' => $this->admit($request),
 
                 'created_at' => Carbon::parse($request->created_at)->toFormattedDateString(),
 
@@ -68,7 +78,6 @@ class AdmissionRequestRepository
             'visit' => $patient->visit_id,
             'account' => $this->patientAccount($patient->account),
             'schemes' => $this->patientSchemes($patient->schemes),
-            'admitted' => $this->admitted($patient->admission)
         ];
     }
 
@@ -95,12 +104,7 @@ class AdmissionRequestRepository
     */
     public function patientSchemes($schemes)
     {
-        if($schemes)
-        {
-
-        }
-
-        return [];
+        return $schemes ? $schemes : [];
     }
 
     /*
@@ -120,6 +124,11 @@ class AdmissionRequestRepository
     */
     public function due($request)
     {
+        if($request->authorized)
+        {
+            return $request->authorized;
+        }
+
         $deposit = $request->admissionType->deposit;
 
         $balance = $request->patient->account ? $request->patient->account->balance : 0;
@@ -130,9 +139,34 @@ class AdmissionRequestRepository
     /*
     * Determine if a request is good enough for admittance
     */
-    public function admit()
+    public function admit($request)
     {
+        $balance = $request->patient->account ? $request->patient->account->balance : 0;
+
+        if(count($request->patient->schemes) > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return $request->authorized ? $balance >= $request->authorized : $this->due($request) === 0;
+        }
+
         return false;
     }
+
+    /*
+    * Delete the admission request by setting the deleted at field to the current date
+    */
+    public function delete($id)
+    {
+        $admissionRequest = $this->find($id);
+
+        $admissionRequest->deleted_at = Carbon::now();
+
+        $admissionRequets->save();
+    }
+
+    
 
 }
