@@ -77,7 +77,7 @@ if (!function_exists('get_procedures_for')) {
         if (!empty($term)) {
             return __get_procedures_for($name, $term);
         }
-        return __get_procedures_for($name)->get();
+//        return __get_procedures_for($name)->get();
         $minutes = 1440;
         return Cache::remember('get_procedures_for_' . $name, $minutes, function () use ($name) {
             return __get_procedures_for($name)->get();
