@@ -13,6 +13,7 @@ use Ignite\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Ignite\Finance\Entities\InsuranceInvoice;
+use Ignite\Inpatient\Entities\RequestAdmission;
 
 /**
  * Ignite\Evaluation\Entities\Visit
@@ -283,5 +284,13 @@ class Visit extends Model
             }
         }
         return implode(' , ', $p);
+    }
+
+    /*
+    * Relationship between a visit and a request for admission
+    */
+    public function admissionRequest()
+    {
+        return $this->hasMany(RequestAdmission::class, 'visit_id');
     }
 }

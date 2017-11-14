@@ -18,7 +18,8 @@ $router->get('patients/visit/{visit}/move', ['uses' => 'EvaluationController@mov
 $router->post('performed/pres/updater/evaluation', ['as' => 'drug.edit', 'uses' => 'EvaluationController@updateDrug']);
 
 
-$router->get('patients/visit/{visit}/evaluate/{department}', ['uses' => 'EvaluationController@evaluate', 'as' => 'evaluate']);
+$router->get('patients/visit/{visit}/evaluate/{department}', ['uses' => 'AdmissionRequestController@create', 'as' => 'evaluate']);
+$router->post('patients/visit/admission', ['uses' => 'AdmissionRequestController@store', 'as'=>'requestAdmission']);
 $router->get('patients/visit/{visit}/manage/{department}', ['uses' => 'EvaluationController@manage']);
 
 $router->post('patients/evaluate/pharmacy/prescription', ['uses' => 'EvaluationController@pharmacy_prescription', 'as' => 'evaluate.pharmacy.prescription']);
@@ -111,3 +112,5 @@ $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router
     $router->get('results/{visit}/{type}', ['uses' => 'ReportsController@print_results', 'as' => 'print_res']);
     $router->get('results/one/{id}/{visit}/{type}', ['uses' => 'ReportsController@print_results_one', 'as' => 'print_res.one']);
 });
+
+Route::post('/admission-requests/update', ['uses' => 'AdmissionRequestController@update', 'as' => 'authorize.admission']);
