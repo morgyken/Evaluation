@@ -4,14 +4,16 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEvaluationSubproceduresTable extends Migration {
+class CreateEvaluationSubproceduresTable extends Migration
+{
 
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create('evaluation_subprocedures', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('procedure')->unsigned();
@@ -19,10 +21,10 @@ class CreateEvaluationSubproceduresTable extends Migration {
             $table->integer('category')->unsigned()->nullable();
             $table->string('titles')->nullable();
             $table->string('title')->nullable();
-            $table->string('lab_sample_type')->nullable();
-            $table->string('lab_result_type')->nullable();
-            $table->string('result_type_details')->nullable();
-            $table->string('lab_result_options')->nullable();
+            $table->longText('lab_sample_type')->nullable();
+            $table->longText('lab_result_type')->nullable();
+            $table->longText('result_type_details')->nullable();
+            $table->longText('lab_result_options')->nullable();
             $table->string('units')->nullable();
             $table->float('lab_min_range')->nullable();
             $table->float('lab_max_range')->nullable();
@@ -51,22 +53,22 @@ class CreateEvaluationSubproceduresTable extends Migration {
             $table->timestamps();
 
             $table->foreign('procedure')
-                    ->references('id')
-                    ->on('evaluation_procedures')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                ->references('id')
+                ->on('evaluation_procedures')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('category')
-                    ->references('id')
-                    ->on('evaluation_labtest_categories')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                ->references('id')
+                ->on('evaluation_labtest_categories')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('parent')
-                    ->references('id')
-                    ->on('evaluation_procedures')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                ->references('id')
+                ->on('evaluation_procedures')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -75,7 +77,8 @@ class CreateEvaluationSubproceduresTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('evaluation_subprocedures');
     }
 
