@@ -48,6 +48,25 @@ class SidebarExtender implements Panda
                 $item->route('evaluation.shopfront');
                 $item->authorize($this->auth->hasAccess('evaluation.*'));
             });
+            $group->item('Clinics', function (Item $item) {
+                $item->weight(3);
+                $item->icon('fa fa-deaf');
+                if (!m_setting('evaluation.no_mch')) {
+                    $item->item('MCH Queue', function (Item $item) {
+                        $item->icon('fa fa-calendar-plus-o');
+                        $item->route('evaluation.queues', 'MCH');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.mch'));
+                    });
+                }
+
+                if (!m_setting('evaluation.no_nursing')) {
+                    $item->item('HpD Queue', function (Item $item) {
+                        $item->icon('fa fa-stethoscope');
+                        $item->route('evaluation.queues', 'hpd');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.hpd'));
+                    });
+                }
+            });
             $group->item('OutPatient', function (Item $item) {
                 $item->weight(2);
                 $item->authorize($this->auth->hasAccess('evaluation.*'));
@@ -74,13 +93,6 @@ class SidebarExtender implements Panda
                         $item->icon('fa fa-smile-o');
                         $item->route('evaluation.queues', 'dental');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.dental'));
-                    });
-                }
-                if (!m_setting('evaluation.no_mch')) {
-                    $item->item('MCH Queue', function (Item $item) {
-                        $item->icon('fa fa-calendar-plus-o');
-                        $item->route('evaluation.queues', 'MCH');
-                        $item->authorize($this->auth->hasAccess('evaluation.examination.mch'));
                     });
                 }
 
