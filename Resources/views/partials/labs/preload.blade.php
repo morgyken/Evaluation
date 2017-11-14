@@ -64,6 +64,8 @@ $other_tests = get_lab_template($item->procedures->id);
         </th>
     </tr>
     @foreach($other_tests as $_test)
+        <?php
+        try{?>
         @if(!in_array($_test->subtests->id,$with_headers))
             <?php $t_array[] = $_test->subtests->id; ?>
             @if($_test->subtests->sensitivity)
@@ -90,6 +92,9 @@ $other_tests = get_lab_template($item->procedures->id);
                 </tr>
             @endif
         @endif
+        <?php
+        }catch (\Exception $e) {
+        }
     @endforeach
     <input type="hidden" name="tests{{$item->id}}" value="{{json_encode($t_array)}}"/>
     <td colspan="2">
