@@ -94,7 +94,7 @@ $other_tests = get_lab_template($item->procedures->id);
         @endif
         <?php
         }catch (\Exception $e) {
-        }
+        }?>
     @endforeach
     <input type="hidden" name="tests{{$item->id}}" value="{{json_encode($t_array)}}"/>
     <td colspan="2">
