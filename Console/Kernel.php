@@ -16,8 +16,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         parent::schedule($schedule);
-        if ((bool)m_setting('evaluation.auto_checkout')) {
-            $schedule->command('evaluation:checkout')->everyThirtyMinutes();
-        }
+        $schedule->command('evaluation:checkout')->everyThirtyMinutes();
     }
 }

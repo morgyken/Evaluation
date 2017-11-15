@@ -90,9 +90,9 @@
                     </div>
                 </div>
             @else
-                <h4>Optical Procedure {{$loop->iteration}} <span class="text-danger">NOT PAID</span></h4>
+                <h4>Procedure {{$loop->iteration}} <span class="text-danger">NOT PAID </span></h4>
                 <div>
-                    <span class="text-danger">NOT PAID</span><br/>
+                    <span class="text-danger"><i class="fa fa-ban"></i> NOT PAID</span><br/>
                     <p>Cannot show procedure . Send patient to cashier</p>
                 </div>
             @endif

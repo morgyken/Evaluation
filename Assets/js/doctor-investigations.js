@@ -15,7 +15,7 @@ $(function () {
     //mock hide this
     $('.instructions').hide();
     $('#diagnosisLoader').hide();
-    $('.investigation_item').find('table#di,table#di').DataTable({
+    $('.investigation_item').find('table#di,table#rad').DataTable({
         scrollY: "300px",
         paging: false
     });
