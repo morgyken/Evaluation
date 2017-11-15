@@ -60,7 +60,7 @@ class SidebarExtender implements Panda
                 }
 
                 if (!m_setting('evaluation.no_nursing')) {
-                    $item->item('HpD Queue', function (Item $item) {
+                    $item->item('HPD Queue', function (Item $item) {
                         $item->icon('fa fa-stethoscope');
                         $item->route('evaluation.queues', 'hpd');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.hpd'));
