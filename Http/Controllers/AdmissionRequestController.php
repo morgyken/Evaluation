@@ -22,7 +22,7 @@ class AdmissionRequestController extends AdminBaseController
     /*
     * Inject the various dependencies that will be required
     */
-    public function __construct(VisitRepository $visitRepository, 
+    public function __construct(VisitRepository $visitRepository,
                                 AdmissionTypeRepository $admissionTypeRepository,
                                 AdmissionRequestRepository $admissionRequestRepository)
     {
@@ -33,6 +33,7 @@ class AdmissionRequestController extends AdminBaseController
         $this->admissionTypeRepository = $admissionTypeRepository;
 
         $this->admissionRequestRepository = $admissionRequestRepository;
+        $this->_require_assets();
     }
 
     /**
@@ -43,6 +44,26 @@ class AdmissionRequestController extends AdminBaseController
     {
         $this->admissionRequestRepository->getAdmissionRequests();
         // return view('evaluation::index');
+    }
+
+    private function _require_assets()
+    {
+        $assets = [
+            'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations.js'),
+            'doctor-treatment.js' => m_asset('evaluation:js/doctor-treatment.js'),
+            'doctor-next-steps.js' => m_asset('evaluation:js/doctor-next-steps.min.js'),
+            'doctor-notes.js' => m_asset('evaluation:js/doctor-notes.js'),
+            'doctor-opnotes.js' => m_asset('evaluation:js/doctor-opnotes.min.js'),
+            'doctor-prescriptions.js' => m_asset('evaluation:js/doctor-prescriptions.min.js'),
+            'doctor-visit-date.js' => m_asset('evaluation:js/doctor-set-visit-date.min.js'),
+            'nurse-vitals.js' => m_asset('evaluation:js/nurse-vitals.min.js'),
+            //'order-investigation.js' => m_asset('evaluation:js/doctor-treatment.min.js'),
+            'nurse_eye_preliminary.js' => m_asset('evaluation:js/nurse_eye_preliminary.min.js'),
+        ];
+        foreach ($assets as $key => $asset) {
+            $this->assetManager->addAssets([$key => $asset]);
+            $this->assetPipeline->requireJs($key);
+        }
     }
 
     /*
@@ -56,18 +77,18 @@ class AdmissionRequestController extends AdminBaseController
 
         $viewData = compact('visit', 'admissionTypes');
 
-        return view("evaluation::patient_$section", [ 'data' =>  $viewData ]);
+        return view("evaluation::patient_$section", ['data' => $viewData]);
     }
 
     /*
      *  Store admission requests and approvals
      */
     public function store()
-    {   
+    {
         $admissionRequest = $this->admissionRequestRepository->create(request()->all());
 
-        return $admissionRequest ?  redirect()->back()->with('success', 'Admission request sent!') : 
-                                    redirect()->back()->with('error', 'Something Went Wrong ');
+        return $admissionRequest ? redirect()->back()->with('success', 'Admission request sent!') :
+            redirect()->back()->with('error', 'Something Went Wrong ');
     }
 
     /**
@@ -95,8 +116,7 @@ class AdmissionRequestController extends AdminBaseController
     {
         $id = request()->get('admission_request_id');
 
-        if(request()->has('authorized'))
-        {
+        if (request()->has('authorized')) {
             $details = [
                 'authorized_by' => Auth::id(),
                 'authorized' => request()->get('authorized'),
@@ -105,8 +125,8 @@ class AdmissionRequestController extends AdminBaseController
 
         $admissionRequest = $this->admissionRequestRepository->update($id, $details);
 
-        return $admissionRequest ?  redirect()->back()->with('success', 'Process completed successfully!') : 
-                                    redirect()->back()->with('error', 'Something Went Wrong ');
+        return $admissionRequest ? redirect()->back()->with('success', 'Process completed successfully!') :
+            redirect()->back()->with('error', 'Something Went Wrong ');
     }
 
     /*
