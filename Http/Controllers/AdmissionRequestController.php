@@ -51,14 +51,14 @@ class AdmissionRequestController extends AdminBaseController
         $assets = [
             'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations.js'),
             'doctor-treatment.js' => m_asset('evaluation:js/doctor-treatment.js'),
-            'doctor-next-steps.js' => m_asset('evaluation:js/doctor-next-steps.min.js'),
+            'doctor-next-steps.js' => m_asset('evaluation:js/doctor-next-steps.js'),
             'doctor-notes.js' => m_asset('evaluation:js/doctor-notes.js'),
-            'doctor-opnotes.js' => m_asset('evaluation:js/doctor-opnotes.min.js'),
-            'doctor-prescriptions.js' => m_asset('evaluation:js/doctor-prescriptions.min.js'),
-            'doctor-visit-date.js' => m_asset('evaluation:js/doctor-set-visit-date.min.js'),
-            'nurse-vitals.js' => m_asset('evaluation:js/nurse-vitals.min.js'),
+            'doctor-opnotes.js' => m_asset('evaluation:js/doctor-opnotes.js'),
+            'doctor-prescriptions.js' => m_asset('evaluation:js/doctor-prescriptions.js'),
+            'doctor-visit-date.js' => m_asset('evaluation:js/doctor-set-visit-date.js'),
+            'nurse-vitals.js' => m_asset('evaluation:js/nurse-vitals.js'),
             //'order-investigation.js' => m_asset('evaluation:js/doctor-treatment.min.js'),
-            'nurse_eye_preliminary.js' => m_asset('evaluation:js/nurse_eye_preliminary.min.js'),
+            'nurse_eye_preliminary.js' => m_asset('evaluation:js/nurse_eye_preliminary.js'),
         ];
         foreach ($assets as $key => $asset) {
             $this->assetManager->addAssets([$key => $asset]);

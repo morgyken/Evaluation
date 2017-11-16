@@ -46,7 +46,6 @@ class EvaluationController extends AdminBaseController
     {
         parent::__construct();
         $this->evaluationRepository = $evaluationRepository;
-        $this->__require_assets();
     }
 
     public function queues($department)

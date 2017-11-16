@@ -135,7 +135,7 @@ $(function () {
                 $('#diagnosisLoader').hide();
                 alertify.success('<i class="fa fa-check-circle"></i> Patient evaluation updated');
                 // $('.investigation_item').find('input').iCheck('uncheck');
-                $('input:checkbox').removeAttr('checked');
+                $('input[type=checkbox]').prop('checked', false).trigger('change');
                 procedureInvestigations = [];
                 arrIndex = {};
                 position = 0;
