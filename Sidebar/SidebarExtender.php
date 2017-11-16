@@ -66,6 +66,13 @@ class SidebarExtender implements Panda
                         $item->authorize($this->auth->hasAccess('evaluation.examination.hpd'));
                     });
                 }
+                if (!m_setting('evaluation.no_physiotherapy')) {
+                    $item->item('Physiotherapy Queue', function (Item $item) {
+                        $item->icon('fa fa-openid');
+                        $item->route('evaluation.queues', 'physio');
+                        $item->authorize($this->auth->hasAccess('evaluation.examination.physio'));
+                    });
+                }
             });
             $group->item('OutPatient', function (Item $item) {
                 $item->weight(2);
@@ -149,14 +156,6 @@ class SidebarExtender implements Panda
                         $item->icon('fa fa-heartbeat');
                         $item->route('evaluation.queues', 'theatre');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.theatre'));
-                    });
-                }
-
-                if (!m_setting('evaluation.no_physiotherapy')) {
-                    $item->item('Physiotherapy Queue', function (Item $item) {
-                        $item->icon('fa fa-openid');
-                        $item->route('evaluation.queues', 'physio');
-                        $item->authorize($this->auth->hasAccess('evaluation.examination.physio'));
                     });
                 }
 

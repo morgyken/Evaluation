@@ -96,14 +96,7 @@ class EvaluationController extends AdminBaseController
     public function evaluate($visit, $section)
     {
         $this->data['visit'] = Visit::find($visit);
-        if (count(Admission::where('visit_id', $visit)->get())) {
-            $this->data['status'] = 'admited';
-        } else {
-            $this->data['status'] = 'none';
-        }
-        if (count(RequestAdmission::where('visit_id', $visit)->get())) {
-            $this->data['status'] = 'request admission';
-        }
+
 
 
         try {
