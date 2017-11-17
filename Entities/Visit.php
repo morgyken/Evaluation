@@ -276,8 +276,8 @@ class Visit extends Model
         $p = [];
         foreach ($this->destinations as $d) {
             if ($d->destination > 0) {
-                $p[] = /*$d->department . */
-                    $d->medics->profile->name;
+                $p[] = $d->department;
+//                    $d->medics->profile->name;
             }
             if ($d->room) {
                 $p[] = $d->room->name;

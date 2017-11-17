@@ -8,10 +8,10 @@ extract($data);
 ?>
 @extends('layouts.app')
 @section('content_title','Patient Evaluation')
-@section('content_description','Patient evaluation at '.$section)
+@section('content_description',$section.' evaluation')
 
 @section('content')
-    @include('evaluation::partials.common.details')
+    @include('evaluation::partials.common.patient_details')
     <div class="box box-default">
         <div class="box-body">
             <div class="form-horizontal">
