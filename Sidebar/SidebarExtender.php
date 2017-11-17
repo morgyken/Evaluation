@@ -67,7 +67,7 @@ class SidebarExtender implements Panda
                         $name = $clinic->show ?? strtoupper($clinic->name);
                         $item->item($name . ' Queue', function (Item $item) use ($clinic) {
                             $item->icon('fa ' . $clinic->icon);
-                            $item->route('evaluation.queues', $clinic->name);
+                            $item->route('evaluation.queues', [$clinic->name, 'clinic']);
                             $item->authorize($this->auth->hasAccess('evaluation.examination.' . $clinic->name));
                         });
                     }

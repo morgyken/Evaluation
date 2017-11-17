@@ -89,7 +89,7 @@ class EvaluationController extends AdminBaseController
             'quantity' => $request->quantity,
         ];
         $prescription->payment()->update($attributes);
-        flash("Saved");
+        flash('Saved');
         return redirect()->back();
     }
 
