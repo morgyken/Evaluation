@@ -54,7 +54,12 @@ class SidebarExtender implements Panda
                 $clinics = [
                     ['name' => 'mch', 'icon' => 'fa-calendar-plus-o',],
                     ['name' => 'hpd', 'icon' => 'fa-stethoscope',],
-                    ['name' => 'physio', 'icon' => 'fa-openid', 'show' => 'Physiotherapy'],
+                    ['name' => 'popc', 'icon' => 'fa-openid', 'show' => 'Pedeatrics'],
+                    ['name' => 'orthopeadic', 'icon' => 'fa-magnet', 'show' => 'Orthopeadic'],
+                    ['name' => 'mopc', 'icon' => 'fa-magic', 'show' => 'Medical'],
+                    ['name' => 'sopc', 'icon' => 'fa-paw', 'show' => 'Surgical'],
+                    ['name' => 'gopc', 'icon' => 'fa-sun-o', 'show' => 'Gyenecology'],
+                    ['name' => 'physio', 'icon' => 'fa-tint', 'show' => 'Physiotherapy'],
                 ];
                 foreach ($clinics as $clinic) {
                     $clinic = (object)$clinic;
