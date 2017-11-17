@@ -22,10 +22,10 @@ $(function () {
         e.preventDefault();
         save_notes();
     });
-    $('#notes_form input').blur(function () {
+    $('#notes_form').find('input').change(function () {
         save_notes();
     });
-    $('#notes_form textarea').blur(function () {
+    $('#notes_form').find('textarea').change(function () {
         save_notes();
     });
 

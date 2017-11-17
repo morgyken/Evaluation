@@ -77,6 +77,7 @@
                                 <i class="fa fa-save"></i>Save</a>
                             <button type="reset" class="btn btn-warning btn-xs">Cancel</button>
                         </div>
+                    </form>
                     {!! Form::close()!!}
                 </div>
             @else

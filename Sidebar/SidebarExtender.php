@@ -51,20 +51,26 @@ class SidebarExtender implements Panda
             $group->item('Clinics', function (Item $item) {
                 $item->weight(3);
                 $item->icon('fa fa-deaf');
-                if (!m_setting('evaluation.no_mch')) {
-                    $item->item('MCH Queue', function (Item $item) {
-                        $item->icon('fa fa-calendar-plus-o');
-                        $item->route('evaluation.queues', 'MCH');
-                        $item->authorize($this->auth->hasAccess('evaluation.examination.mch'));
-                    });
-                }
-
-                if (!m_setting('evaluation.no_nursing')) {
-                    $item->item('HPD Queue', function (Item $item) {
-                        $item->icon('fa fa-stethoscope');
-                        $item->route('evaluation.queues', 'hpd');
-                        $item->authorize($this->auth->hasAccess('evaluation.examination.hpd'));
-                    });
+                $clinics = [
+                    ['name' => 'mch', 'icon' => 'fa-calendar-plus-o',],
+                    ['name' => 'hpd', 'icon' => 'fa-stethoscope',],
+                    ['name' => 'popc', 'icon' => 'fa-openid', 'show' => 'Pedeatrics'],
+                    ['name' => 'orthopeadic', 'icon' => 'fa-magnet', 'show' => 'Orthopeadic'],
+                    ['name' => 'mopc', 'icon' => 'fa-magic', 'show' => 'Medical'],
+                    ['name' => 'sopc', 'icon' => 'fa-paw', 'show' => 'Surgical'],
+                    ['name' => 'gopc', 'icon' => 'fa-sun-o', 'show' => 'Gyenecology'],
+                    ['name' => 'physio', 'icon' => 'fa-tint', 'show' => 'Physiotherapy'],
+                ];
+                foreach ($clinics as $clinic) {
+                    $clinic = (object)$clinic;
+                    if (m_setting('evaluation.with_clinic_' . $clinic->name)) {
+                        $name = $clinic->show ?? strtoupper($clinic->name);
+                        $item->item($name . ' Queue', function (Item $item) use ($clinic) {
+                            $item->icon('fa ' . $clinic->icon);
+                            $item->route('evaluation.queues', [$clinic->name, 'clinic']);
+                            $item->authorize($this->auth->hasAccess('evaluation.examination.' . $clinic->name));
+                        });
+                    }
                 }
             });
             $group->item('OutPatient', function (Item $item) {
@@ -149,14 +155,6 @@ class SidebarExtender implements Panda
                         $item->icon('fa fa-heartbeat');
                         $item->route('evaluation.queues', 'theatre');
                         $item->authorize($this->auth->hasAccess('evaluation.examination.theatre'));
-                    });
-                }
-
-                if (!m_setting('evaluation.no_physiotherapy')) {
-                    $item->item('Physiotherapy Queue', function (Item $item) {
-                        $item->icon('fa fa-openid');
-                        $item->route('evaluation.queues', 'physio');
-                        $item->authorize($this->auth->hasAccess('evaluation.examination.physio'));
                     });
                 }
 

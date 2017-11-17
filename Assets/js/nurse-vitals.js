@@ -64,7 +64,6 @@ $(function () {
 
 
     function save_vitals() {
-        //alert(VITALS_URL);
         $.ajax({
             type: "POST",
             url: VITALS_URL,
