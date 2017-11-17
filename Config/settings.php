@@ -9,7 +9,8 @@
  *
  * =============================================================================
  */
-return [
+
+$settings = [
     'auto_checkout' => [
         'description' => 'Auto - checkout after 24 hours',
         'view' => 'checkbox',
@@ -40,51 +41,6 @@ return [
         'view' => 'evaluation::fields.discount',
         'hint' => 'Select places where discount is applicable'
     ],
-    'no_doctor' => [
-        'description' => 'Disable Doctor Queue',
-        'view' => 'checkbox'
-    ],
-    'no_pharmacy' => [
-        'description' => 'Disable Pharmacy Queue',
-        'view' => 'checkbox'
-    ],
-    'no_nursing' => [
-        'description' => 'Disable Nursing',
-        'view' => 'checkbox'
-    ],
-
-    'no_radiology' => [
-        'description' => 'Disable Radiology Queue',
-        'view' => 'checkbox'
-    ],
-    'no_ultrasound' => [
-        'description' => 'Disable Ultrasound Queue',
-        'view' => 'checkbox'
-    ],
-    'no_dental' => [
-        'description' => 'Disable Dental',
-        'view' => 'checkbox',
-    ],
-    'no_physiotherapy' => [
-        'description' => 'Disable Physiotherapy',
-        'view' => 'checkbox'
-    ],
-    'no_theatre' => [
-        'description' => 'Disable Theatre',
-        'view' => 'checkbox'
-    ],
-    'no_mch' => [
-        'description' => 'Disable MCH',
-        'view' => 'checkbox'
-    ],
-    'no_laboratory' => [
-        'description' => 'Disable Lab',
-        'view' => 'checkbox'
-    ],
-    'no_diagnostics' => [
-        'description' => 'Disable Diagnostics',
-        'view' => 'checkbox',
-    ],
     'doctor_see_all' => [
         'description' => 'Allow Doctors to see patients in other Doctor\'s queue',
         'view' => 'checkbox',
@@ -98,3 +54,39 @@ return [
         'view' => 'checkbox'
     ],
 ];
+$_c = [
+    'mch' => 'MCH',
+    'hpd' => 'Hypertension and Diabetes',
+    'orthopeadic' => 'Orthopeadic',
+    'popc' => 'Pedeatrics',
+    'mopc' => 'Medical',
+    'sopc' => 'Sergical',
+    'gopc' => 'Gyenecology',
+    'physio' => 'Physiotherapy',
+];
+$clinics = [];
+foreach ($_c as $k => $v) {
+    $clinics['with_clinic_' . $k] = [
+        'description' => 'Enable ' . $v . ' clinic',
+        'view' => 'checkbox',
+    ];
+}
+$_d = [
+    'doctor',
+    'pharmacy',
+    'nursing',
+    'radiology',
+    'ultrasound',
+    'dental',
+    'theatre',
+    'laboratory',
+    'diagnostics',
+];
+$departments = [];
+foreach ($_d as $d) {
+    $departments['no_' . $d] = [
+        'description' => 'Disable ' . ucfirst($d),
+        'view' => 'checkbox',
+    ];
+}
+return array_merge($settings, $departments, $clinics);

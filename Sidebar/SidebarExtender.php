@@ -51,27 +51,21 @@ class SidebarExtender implements Panda
             $group->item('Clinics', function (Item $item) {
                 $item->weight(3);
                 $item->icon('fa fa-deaf');
-                if (!m_setting('evaluation.no_mch')) {
-                    $item->item('MCH Queue', function (Item $item) {
-                        $item->icon('fa fa-calendar-plus-o');
-                        $item->route('evaluation.queues', 'MCH');
-                        $item->authorize($this->auth->hasAccess('evaluation.examination.mch'));
-                    });
-                }
-
-                if (!m_setting('evaluation.no_nursing')) {
-                    $item->item('HPD Queue', function (Item $item) {
-                        $item->icon('fa fa-stethoscope');
-                        $item->route('evaluation.queues', 'hpd');
-                        $item->authorize($this->auth->hasAccess('evaluation.examination.hpd'));
-                    });
-                }
-                if (!m_setting('evaluation.no_physiotherapy')) {
-                    $item->item('Physiotherapy Queue', function (Item $item) {
-                        $item->icon('fa fa-openid');
-                        $item->route('evaluation.queues', 'physio');
-                        $item->authorize($this->auth->hasAccess('evaluation.examination.physio'));
-                    });
+                $clinics = [
+                    ['name' => 'mch', 'icon' => 'fa-calendar-plus-o',],
+                    ['name' => 'hpd', 'icon' => 'fa-stethoscope',],
+                    ['name' => 'physio', 'icon' => 'fa-openid', 'show' => 'Physiotherapy'],
+                ];
+                foreach ($clinics as $clinic) {
+                    $clinic = (object)$clinic;
+                    if (m_setting('evaluation.with_clinic_' . $clinic->name)) {
+                        $name = $clinic->show ?? strtoupper($clinic->name);
+                        $item->item($name . ' Queue', function (Item $item) use ($clinic) {
+                            $item->icon('fa ' . $clinic->icon);
+                            $item->route('evaluation.queues', $clinic->name);
+                            $item->authorize($this->auth->hasAccess('evaluation.examination.' . $clinic->name));
+                        });
+                    }
                 }
             });
             $group->item('OutPatient', function (Item $item) {
