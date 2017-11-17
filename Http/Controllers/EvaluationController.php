@@ -25,6 +25,8 @@ use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Entities\Ward;
 use Ignite\Evaluation\Entities\WardAssigned;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
+use Ignite\Evaluation\Repositories\VisitRepository;
+use Ignite\Inpatient\Repositories\AdmissionRepository;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -98,7 +100,6 @@ class EvaluationController extends AdminBaseController
         $this->data['visit'] = Visit::find($visit);
 
 
-
         try {
             $this->data['all'] = Visit::checkedAt('diagnostics')->get();
             $this->data['visit'] = Visit::find($visit);
@@ -119,7 +120,11 @@ class EvaluationController extends AdminBaseController
 //            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
             //check if has requested for admission
             $this->data['investigations'] = Investigations::whereVisit($visit)->get();
-            return view("evaluation::patient_$section", ['data' => $this->data]);
+            try {
+                return view("evaluation::patient_$section", ['data' => $this->data]);
+            } catch (\InvalidArgumentException $e) {
+                return view('evaluation::patient_clinic', ['data' => $this->data]);
+            }
         } catch (\Exception $ex) {
             flash($ex->getMessage(), 'error');
             return back();
