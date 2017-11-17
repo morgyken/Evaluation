@@ -15,8 +15,4 @@ class VisitRepository
     {
         return Visit::with(['admissionRequest', 'patients'])->findOrFail($id);
     }
-
-    /*
-    * 
-    */
 }

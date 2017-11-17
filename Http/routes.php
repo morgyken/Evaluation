@@ -17,8 +17,9 @@ $router->get('patients/visit/{visit}/move', ['uses' => 'EvaluationController@mov
 
 $router->post('performed/pres/updater/evaluation', ['as' => 'drug.edit', 'uses' => 'EvaluationController@updateDrug']);
 
-
+$router->get('patients/visit/{visit}/evaluate/doctor', ['uses' => 'AdmissionRequestController@create', 'as' => 'evaluateDoc']);
 $router->get('patients/visit/{visit}/evaluate/{department}', ['uses' => 'EvaluationController@evaluate', 'as' => 'evaluate']);
+
 $router->post('patients/visit/admission', ['uses' => 'AdmissionRequestController@store', 'as'=>'requestAdmission']);
 $router->get('patients/visit/{visit}/manage/{department}', ['uses' => 'EvaluationController@manage']);
 

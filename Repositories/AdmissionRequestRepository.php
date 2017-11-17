@@ -26,6 +26,8 @@ class AdmissionRequestRepository
     {
         $fields['admitted'] = false;
 
+        $fields['deleted_at'] = null;
+
         return RequestAdmission::create($fields);
     }
 
