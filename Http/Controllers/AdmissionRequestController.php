@@ -43,7 +43,8 @@ class AdmissionRequestController extends AdminBaseController
     public function index()
     {
         $this->admissionRequestRepository->getAdmissionRequests();
-        // return view('evaluation::index');
+        
+        return view('evaluation::index');
     }
 
     private function _require_assets()
@@ -69,7 +70,7 @@ class AdmissionRequestController extends AdminBaseController
     /*
      * Show the form for creating a new resource.
      */
-    public function create($visit, $section)
+    public function create($visit)
     {
         $visit = $this->visitRepository->findById($visit);
 
@@ -77,14 +78,14 @@ class AdmissionRequestController extends AdminBaseController
 
         $viewData = compact('visit', 'admissionTypes');
 
-        return view("evaluation::patient_$section", ['data' => $viewData]);
+        return view("evaluation::patient_doctor", [ 'data' =>  $viewData ]);
     }
 
     /*
      *  Store admission requests and approvals
      */
     public function store()
-    {
+    {  
         $admissionRequest = $this->admissionRequestRepository->create(request()->all());
 
         return $admissionRequest ? redirect()->back()->with('success', 'Admission request sent!') :
