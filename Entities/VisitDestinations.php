@@ -59,4 +59,19 @@ class VisitDestinations extends Model
         return $this->belongsTo(Rooms::class);
     }
 
+//    public function getDestinationAttribute($value)
+//    {
+//        $_c = [
+//            'mch' => 'MCH',
+//            'hpd' => 'Hypertension and Diabetes',
+//            'orthopeadic' => 'Orthopeadic',
+//            'popc' => 'Pedeatrics',
+//            'mopc' => 'Medical',
+//            'sopc' => 'Sergical',
+//            'gopc' => 'Gyenecology',
+//            'physio' => 'Physiotherapy',
+//        ];
+//        return $_c[$value] ?? $value;
+//    }
+
 }
