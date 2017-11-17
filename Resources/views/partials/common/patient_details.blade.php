@@ -26,7 +26,8 @@ if (empty($status)) {
                         <li class="title"><b>{{$patient->full_name}}</b> ({{$patient->sex}}, {{ $patient->dob->age }}
                             yrs
                             old)
-                            <small>Payment Mode: {{$visit->mode}}</small></li>
+                            <small>Payment Mode: {{$visit->mode}}</small>
+                        </li>
                         <li class="options">
                                 <span class="input-group-btn">
                                     <a role="button" data-toggle="collapse" data-parent="#accordion"
@@ -72,34 +73,35 @@ if (empty($status)) {
                          <p>Patient signed out for this visit</p>
                          @endif
              <br><br> --}}
-
-                        @if($status == 'admited')
-                            @if(\Ignite\Evaluation\Entities\Admission::where('patient_id',$patient->id)->count())
-                                <button type="button" class="btn btn-warning"><i class="fa fa-share"></i> Awaiting
-                                    Admission
-                                </button>
+                        @if(is_module_enabled('Inpatient'))
+                            @if($status == 'admited')
+                                @if(\Ignite\Evaluation\Entities\Admission::where('patient_id',$patient->id)->count())
+                                    <button type="button" class="btn btn-warning"><i class="fa fa-share"></i> Awaiting
+                                        Admission
+                                    </button>
+                                @else
+                                    <a class="btn btn-warning btn-xs"
+                                       href="{{url('evaluation/inpatient/request_discharge/'.$visit->id)}}">Request
+                                        Discharge</a>
+                                @endif
+                            @elseif($status == 'request admission')
+                                <a class="btn btn-danger btn-xs"
+                                   href="{{url('evaluation/inpatient/cancel_request/'.$visit->id)}}">Cancel
+                                    admission Request</a>
                             @else
-                                <a class="btn btn-warning btn-xs"
-                                   href="{{url('evaluation/inpatient/request_discharge/'.$visit->id)}}">Request
-                                    Discharge</a>
+                                <dt>Request Admission:</dt>
+                                {!! Form::open(['url'=>['/inpatient/requestAdmission'], 'method' => 'POST'])!!}
+
+                                <input type="hidden" name="patient_id" value="{{$patient->id}}" required>
+                                <input type="hidden" name="visit_id" class="form-control" value="{{$visit->id}}"
+                                       required>
+                                {{-- <label>Reason for Admission</label><br> --}}
+                                <textarea name="reason" rows="5" cols="50" placeholder="Reason for Admission"
+                                          required></textarea><br>
+                                <button class="btn btn-primary " type="submit">Request admission</button>
+                                {!! Form::close() !!}
                             @endif
-                        @elseif($status == 'request admission')
-                            <a class="btn btn-danger btn-xs"
-                               href="{{url('evaluation/inpatient/cancel_request/'.$visit->id)}}">Cancel
-                                admission Request</a>
-                        @else
-                            <dt>Request Admission:</dt>
-                            {!! Form::open(['url'=>['/inpatient/requestAdmission'], 'method' => 'POST'])!!}
-
-                            <input type="hidden" name="patient_id" value="{{$patient->id}}" required>
-                            <input type="hidden" name="visit_id" class="form-control" value="{{$visit->id}}" required>
-                            {{-- <label>Reason for Admission</label><br> --}}
-                            <textarea name="reason" rows="5" cols="50" placeholder="Reason for Admission"
-                                      required></textarea><br>
-                            <button class="btn btn-primary " type="submit">Request admission</button>
-                            {!! Form::close() !!}
                         @endif
-
                     </div>
                 </div>
             </div>

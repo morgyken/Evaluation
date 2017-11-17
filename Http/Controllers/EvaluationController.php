@@ -46,7 +46,6 @@ class EvaluationController extends AdminBaseController
     {
         parent::__construct();
         $this->evaluationRepository = $evaluationRepository;
-        $this->__require_assets();
     }
 
     public function queues($department)
@@ -90,21 +89,14 @@ class EvaluationController extends AdminBaseController
             'quantity' => $request->quantity,
         ];
         $prescription->payment()->update($attributes);
-        flash("Saved");
+        flash('Saved');
         return redirect()->back();
     }
 
     public function evaluate($visit, $section)
     {
         $this->data['visit'] = Visit::find($visit);
-        if (count(Admission::where('visit_id', $visit)->get())) {
-            $this->data['status'] = 'admited';
-        } else {
-            $this->data['status'] = 'none';
-        }
-        if (count(RequestAdmission::where('visit_id', $visit)->get())) {
-            $this->data['status'] = 'request admission';
-        }
+
 
 
         try {
@@ -250,25 +242,6 @@ class EvaluationController extends AdminBaseController
         return view('evaluation::partials.doctor.results', ['data' => $this->data]);
     }
 
-    private function __require_assets()
-    {
-        $assets = [
-            'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations.js'),
-            'doctor-treatment.js' => m_asset('evaluation:js/doctor-treatment.js'),
-            'doctor-next-steps.js' => m_asset('evaluation:js/doctor-next-steps.min.js'),
-            'doctor-notes.js' => m_asset('evaluation:js/doctor-notes.js'),
-            'doctor-opnotes.js' => m_asset('evaluation:js/doctor-opnotes.min.js'),
-            'doctor-prescriptions.js' => m_asset('evaluation:js/doctor-prescriptions.min.js'),
-            'doctor-visit-date.js' => m_asset('evaluation:js/doctor-set-visit-date.min.js'),
-            'nurse-vitals.js' => m_asset('evaluation:js/nurse-vitals.min.js'),
-            //'order-investigation.js' => m_asset('evaluation:js/doctor-treatment.min.js'),
-            'nurse_eye_preliminary.js' => m_asset('evaluation:js/nurse_eye_preliminary.min.js'),
-        ];
-        foreach ($assets as $key => $asset) {
-            $this->assetManager->addAssets([$key => $asset]);
-            $this->assetPipeline->requireJs($key);
-        }
-    }
 
     public function cancelPresc(Request $request)
     {

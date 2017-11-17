@@ -357,8 +357,8 @@ class ApiController extends Controller
                 $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Pending</span>';
 
             $return[] = [
-                str_limit($item->procedures->name, 50, '...'),
-                $item->type,
+                '<span title="' . $item->procedures->name . '">' . str_limit($item->procedures->name, 20, '...') . '</span>',
+                ucfirst($item->type),
                 $item->price,
                 $item->quantity,
                 $item->discount,
