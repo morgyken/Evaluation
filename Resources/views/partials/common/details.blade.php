@@ -45,7 +45,7 @@
                     </div>
                     <div class="modal-body">
                 
-                        {!! Form::open(['url'=>['/evaluation/patients/visit/admission'], 'method' => 'POST', 'id'=>'admissionRequestForm' ])!!}
+                        {!! Form::open(['url'=>['/inpatient/admission-requests'], 'method' => 'POST', 'id'=>'admissionRequestForm' ])!!}
                             <input type="hidden" name="visit_id" value="{{ $visit->id }}" required>
                             <input type="hidden" name="patient_id" value="{{ $visit->patients->id }}" required>
 
