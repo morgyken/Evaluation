@@ -31,6 +31,7 @@ use Ignite\Reception\Entities\Patients;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Ignite\Inpatient\Repositories\AdmissionTypeRepository;
 
 class EvaluationController extends AdminBaseController
 {
@@ -38,16 +39,19 @@ class EvaluationController extends AdminBaseController
     /**
      * @var EvaluationRepository
      */
-    protected $evaluationRepository;
+    protected $evaluationRepository, $admissionTypeRepository;
 
     /**
      * EvaluationController constructor.
      * @param EvaluationRepository $evaluationRepository
      */
-    public function __construct(EvaluationRepository $evaluationRepository)
+    public function __construct(EvaluationRepository $evaluationRepository, AdmissionTypeRepository $admissionTypeRepository)
     {
         parent::__construct();
         $this->evaluationRepository = $evaluationRepository;
+
+        $this->admissionTypeRepository = $admissionTypeRepository;
+
         $this->_require_assets();
     }
 
@@ -100,6 +104,10 @@ class EvaluationController extends AdminBaseController
     {
         $this->data['visit'] = Visit::find($visit);
 
+        if(is_module_enabled('Inpatient'))
+        {
+            $this->data['admissionTypes'] = $this->admissionTypeRepository->all();
+        }
 
         try {
             $this->data['all'] = Visit::checkedAt('diagnostics')->get();
@@ -118,9 +126,10 @@ class EvaluationController extends AdminBaseController
                 });
             })->get();
 
-//            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
+            //this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
             //check if has requested for admission
             $this->data['investigations'] = Investigations::whereVisit($visit)->get();
+            
             try {
                 return view("evaluation::patient_$section", ['data' => $this->data]);
             } catch (\InvalidArgumentException $e) {
