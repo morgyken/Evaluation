@@ -52,7 +52,6 @@
                             <div class="form-group">
                                 <label for="">Choose Admission Type</label>
                                 <select class="form-control" name="admission_type_id" required>
-                                    <option value="" selected disabled>Choose an admission type</option>
                                     @foreach($admissionTypes as $admissionType)
                                         <option value="{{ $admissionType->id }}">{{ $admissionType->name }}</option>
                                     @endforeach
