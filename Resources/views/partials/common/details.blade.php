@@ -21,7 +21,7 @@
                                 </button>
                             @else
                                 <button type="button" class="btn btn-info btn-sm">
-                                    <i class="fa fa-info"></i> Awaiting Admission
+                                    Awaiting Admission
                                 </button>
                             @endif    
                         @else
@@ -45,14 +45,13 @@
                     </div>
                     <div class="modal-body">
                 
-                        {!! Form::open(['url'=>['/inpatient/admission-requests'], 'method' => 'POST', 'id'=>'admissionRequestForm' ])!!}
+                        {!! Form::open(['url'=>['/inpatient/admission-requests'], 'id'=>'admissionRequestForm' ])!!}
                             <input type="hidden" name="visit_id" value="{{ $visit->id }}" required>
                             <input type="hidden" name="patient_id" value="{{ $visit->patients->id }}" required>
 
                             <div class="form-group">
                                 <label for="">Choose Admission Type</label>
                                 <select class="form-control" name="admission_type_id" required>
-                                    <option value="" selected disabled>Choose an admission type</option>
                                     @foreach($admissionTypes as $admissionType)
                                         <option value="{{ $admissionType->id }}">{{ $admissionType->name }}</option>
                                     @endforeach
