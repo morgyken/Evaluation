@@ -25,6 +25,8 @@ use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Entities\Ward;
 use Ignite\Evaluation\Entities\WardAssigned;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
+use Ignite\Evaluation\Repositories\VisitRepository;
+use Ignite\Inpatient\Repositories\AdmissionRepository;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -49,6 +51,8 @@ class EvaluationController extends AdminBaseController
         $this->evaluationRepository = $evaluationRepository;
 
         $this->admissionTypeRepository = $admissionTypeRepository;
+
+        $this->_require_assets();
     }
 
     public function queues($department)
@@ -122,11 +126,26 @@ class EvaluationController extends AdminBaseController
                 });
             })->get();
 
-//            $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
+            //this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
             //check if has requested for admission
             $this->data['investigations'] = Investigations::whereVisit($visit)->get();
             
-            return view("evaluation::patient_$section", ['data' => $this->data]);
+            try {
+                return view("evaluation::patient_$section", ['data' => $this->data]);
+            } catch (\InvalidArgumentException $e) {
+                $_c = [
+                    'mch' => 'MCH',
+                    'hpd' => 'Hypertension and Diabetes',
+                    'orthopeadic' => 'Orthopeadic',
+                    'popc' => 'Pedeatrics',
+                    'mopc' => 'Medical',
+                    'sopc' => 'Sergical',
+                    'gopc' => 'Gyenecology',
+                    'physio' => 'Physiotherapy',
+                ];
+                $this->data['section'] = $_c[$section];
+                return view('evaluation::patient_clinic', ['data' => $this->data]);
+            }
         } catch (\Exception $ex) {
             flash($ex->getMessage(), 'error');
             return back();
@@ -905,6 +924,26 @@ class EvaluationController extends AdminBaseController
         $pdf = \PDF::loadView('Evaluation::inpatient.print.withdraw', ['patient' => $patient, 'trans' => $trans, 'type' => $request->type, 'acc' => $acc]);
         $pdf->setPaper('a4', 'Landscape');
         return $pdf->stream('Bill' . $request->id . '.pdf');
+    }
+
+    private function _require_assets()
+    {
+        $assets = [
+            'doctor-investigations.js' => m_asset('evaluation:js/doctor-investigations.js'),
+            'doctor-treatment.js' => m_asset('evaluation:js/doctor-treatment.js'),
+            'doctor-next-steps.js' => m_asset('evaluation:js/doctor-next-steps.js'),
+            'doctor-notes.js' => m_asset('evaluation:js/doctor-notes.js'),
+            'doctor-opnotes.js' => m_asset('evaluation:js/doctor-opnotes.js'),
+            'doctor-prescriptions.js' => m_asset('evaluation:js/doctor-prescriptions.js'),
+            'doctor-visit-date.js' => m_asset('evaluation:js/doctor-set-visit-date.js'),
+            'nurse-vitals.js' => m_asset('evaluation:js/nurse-vitals.js'),
+            //'order-investigation.js' => m_asset('evaluation:js/doctor-treatment.min.js'),
+            'nurse_eye_preliminary.js' => m_asset('evaluation:js/nurse_eye_preliminary.js'),
+        ];
+        foreach ($assets as $key => $asset) {
+            $this->assetManager->addAssets([$key => $asset]);
+            $this->assetPipeline->requireJs($key);
+        }
     }
 
 
