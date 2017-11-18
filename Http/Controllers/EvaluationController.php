@@ -18,7 +18,6 @@ use Ignite\Evaluation\Entities\PatientAccount;
 use Ignite\Evaluation\Entities\Prescriptions;
 use Ignite\Evaluation\Entities\Procedures;
 use Ignite\Evaluation\Entities\Request_admission;
-use Ignite\Evaluation\Entities\RequestAdmission;
 use Ignite\Evaluation\Entities\Sample;
 use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\VisitDestinations;
@@ -669,13 +668,6 @@ class EvaluationController extends AdminBaseController
         return redirect()->back()->with('success', 'Successfully deleted a bed');
     }
 
-    public function cancel($id)
-    {
-        $admit_r = RequestAdmission::find($id);
-        $admit_r->delete();
-        return redirect()->back()->with('success', 'Successfully canceled admission request');
-    }
-
     public function move_patient($visit)
     {
         $admission = Admission::find($visit);
@@ -727,15 +719,6 @@ class EvaluationController extends AdminBaseController
         //if there is ward change
 
         return redirect()->back()->with('success', 'Successfully moved the patient');
-    }
-
-    public function cancel_request($visit)
-    {
-        $request = RequestAdmission::where('visit_id', $visit)->first();
-        if (count($request)) {
-            $request->delete();
-        }
-        return redirect()->back()->with('success', 'Successfully canceled the admission request');
     }
 
     public function Nursing_services(Request $request)
