@@ -316,7 +316,7 @@ if (!function_exists('get_patient_procedures')) {
                 }
             }
             if (!$_paid) {
-                $link .= '<button to="' .
+                $link .= ' <button id="sapi_del" type="button" to="' .
                     route('api.evaluation.delete_diagnosis', $item->id)
                     . '" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> </a>';
             }
