@@ -27,6 +27,7 @@ class CreatePatientPrescriptionsTable extends Migration {
             $column->boolean('status')->default(false);
             $column->boolean('allow_substitution')->default(false);
             $column->integer('time_measure')->unsigned()->default(1);
+            $column->integer('quantity');
             //$column->integer('type')->default(0); // 0 - Once only, 1- regular
             $column->timestamps();
 
