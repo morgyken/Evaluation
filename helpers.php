@@ -278,7 +278,80 @@ if (!function_exists('get_lab_template')) {
     }
 
 }
+if (!function_exists('get_patient_procedures')) {
+    /**
+     * @param $visit_id
+     * @param bool $investigations
+     * @return array
+     */
+    function get_patient_procedures($visit_id, $investigations = false)
+    {
+        $visit = Visit::find($visit_id);
+        /** @var Investigations[] $data */
+        if (request()->has('type')) {
+            $data = get_investigations($visit, [request('type')]);
+        } elseif ($investigations) {
+            $data = get_investigations($visit, ['diagnostics', 'laboratory', 'radiology']);
+        } else {
+            $data = get_investigations($visit, ['treatment', 'nursing']);
+        }
+        $return = [];
+        $count = 0;
+        $is_insurance = $visit->payment_mode === 'insurance';
+        $post_bill_insurance = $is_insurance && (bool)m_setting('finance.post_pay_insurance');
+        foreach ($data as $key => $item) {
+            $type = $item->type;
+            $_paid = ($item->is_paid || $item->invoiced);
+            $_origin = \request()->user()->id == $item->user;
+            $can_show = $_paid || $_origin || $post_bill_insurance;
+            $link = '';
+            if ($investigations) {
+                if ($item->has_result)
+                    $link = '<a href="' . route('evaluation.view_result', $item->visit) . '"
+                                               class="btn btn-xs btn-success" target="_blank">
+                                                <i class="fa fa-external-link"></i> View Result
+            </a>';
+                else {
+                    $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Results Pending</span>';
+                }
+            }
+            if (!$_paid) {
+                $link .= ' <button id="sapi_del" type="button" to="' .
+                    route('api.evaluation.delete_diagnosis', $item->id)
+                    . '" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> </a>';
+            }
 
+            if ($can_show) {
+                $return[] = [
+                    ++$count,
+                    '<span title="' . $item->procedures->name . '">' . str_limit($item->procedures->name, 20, '...') . '</span>',
+                    ucwords($type),
+                    $item->price,
+                    $item->quantity,
+//                    $item->discount,
+                    $item->amount ?? $item->price,
+                    payment_label($_paid, $is_insurance),
+                    $item->created_at->format('d/m/Y h:i a'),
+                    $link,
+                ];
+            } else {
+                $return[] = [
+                    ++$count,
+                    'Procedure ' . $count,
+                    ucwords($type),
+                    '<span class="text-danger">Send patient to cashier</span>',
+                    '-',
+                    '-',
+                    '-',
+                    payment_label($_paid, $is_insurance),
+                    $item->created_at->format('d/m/Y h:i a'),
+                    '-'
+                ];
+            }
+        }
+        return $return;
+    }
+}
 if (!function_exists('has_headers')) {
 
     function has_headers($procedure)
@@ -516,15 +589,17 @@ if (!function_exists('get_investigations')) {
 
     /**
      * Get investigations
-     * @param $visit
+     * @param Visit $visit
+     * @param string|null $type
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     function get_investigations(Visit $visit, $type = null)
     {
         if (empty($type)) {
-            return Investigations::where(['visit' => $visit->id])->get();
+            return Investigations::where(['visit' => $visit->id])->orderBy('created_at', 'desc')->get();
         }
-        return Investigations::where(['visit' => $visit->id])->whereIn('type', $type)->get();
+        return Investigations::where(['visit' => $visit->id])->whereIn('type', $type)
+            ->orderBy('created_at', 'desc')->get();
     }
 
 }
@@ -728,14 +803,17 @@ if (!function_exists('payment_label')) {
     /**
      * Helper to return fancy lable for payment status
      * @param bool $paid
+     * @param bool $insurance
      * @return string
      */
-    function payment_label($paid = null)
+    function payment_label($paid, $insurance = false)
     {
         if ($paid) {
-            $fancy = "<span class='text-success'><i class='fa fa-check-circle-o'></i> Paid</span>";
+            $string = $insurance ? 'Invoiced' : 'Paid';
+            $fancy = "<span class='text-success'><i class='fa fa-check-circle-o'></i> $string</span>";
         } else {
-            $fancy = "<span class='text-danger'><i class='fa fa-warning'></i> Not Paid</span>";
+            $string = $insurance ? 'Not Invoiced' : 'Not Paid';
+            $fancy = "<span class='text-danger'><i class='fa fa-warning'></i> $string</span>";
         }
         return $fancy;
     }

@@ -99,6 +99,11 @@ class ApiController extends Controller
         return response()->json($this->evaluationRepository->save_diagnosis());
     }
 
+    public function deleteInvestigation($id)
+    {
+        return response()->json($this->evaluationRepository->deleteInvestigation($id));
+    }
+
     public function save_external_order(Request $request)
     {
         return response()->json($this->evaluationRepository->make_external_order($request));
@@ -293,81 +298,13 @@ class ApiController extends Controller
         $this->evaluationRepository->delete_lab_template_test($request);
     }
 
-    public function getDoneTreatment(Visit $visit_id)
+    public function getDoneTreatment($visit_id)
     {
-        /** @var Investigations[] $data */
-        $data = get_investigations($visit_id, ['treatment', 'nursing']);
-        if (request()->has('type')) {
-            $data = get_investigations($visit_id, [request('type')]);
-        }
-        $return = [];
-        $i = 0;
-        foreach ($data as $key => $item) {
-            if ($item->has_result)
-                $link = '<a href="' . route('evaluation.view_result', $item->visit) . '"
-                                               class="btn btn-xs btn-success" target="_blank">
-                                                <i class="fa fa-external-link"></i> View Result
-            </a>';
-            else
-                $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Pending</span>';
-            $type = $item->type;
-            if ($item->type == 'treatment.nurse') {
-                $type = 'Nurse';
-            }
-            $paid = (bool)($item->is_paid || $item->invoiced);
-            if ($paid) {
-                $return[] = [
-                    str_limit($item->procedures->name, 50, '...'),
-                    ucwords($type),
-                    $item->price,
-                    $item->quantity,
-                    $item->discount,
-                    $item->amount > 0 ? $item->amount : $item->price,
-                    payment_label((bool)($item->is_paid || $item->invoiced)),
-                    $item->created_at->format('d/m/Y h:i a'),
-                ];
-            } else {
-                $return[] = [
-                    'Procedure ' . ++$i,
-                    ucwords($type),
-                    '<span class="text-danger">Send patient to cashier</span>',
-                    '-',
-                    '-',
-                    '-',
-                    payment_label((bool)($item->is_paid || $item->invoiced)),
-                    $item->created_at->format('d/m/Y h:i a'),
-                ];
-            }
-        }
-        return response()->json(['data' => $return]);
+        return response()->json(['data' => get_patient_procedures($visit_id)]);
     }
 
-    public function getDoneInvestigations(Visit $visit_id)
+    public function getDoneInvestigations($visit_id)
     {
-        /** @var Investigations[] $data */
-        $data = get_investigations($visit_id, ['diagnostics', 'laboratory', 'radiology']);
-        $return = [];
-        foreach ($data as $key => $item) {
-            if ($item->has_result)
-                $link = '<a href="' . route('evaluation.view_result', $item->visit) . '"
-                                               class="btn btn-xs btn-success" target="_blank">
-                                                <i class="fa fa-external-link"></i> View Result
-            </a>';
-            else
-                $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Pending</span>';
-
-            $return[] = [
-                '<span title="' . $item->procedures->name . '">' . str_limit($item->procedures->name, 20, '...') . '</span>',
-                ucfirst($item->type),
-                $item->price,
-                $item->quantity,
-                $item->discount,
-                $item->amount > 0 ? $item->amount : $item->price,
-                payment_label((bool)($item->is_paid || $item->invoiced)),
-                $item->created_at->format('d/m/Y h:i a'),
-                $link,
-            ];
-        }
-        return response()->json(['data' => $return]);
+        return response()->json(['data' => get_patient_procedures($visit_id, true)]);
     }
 }

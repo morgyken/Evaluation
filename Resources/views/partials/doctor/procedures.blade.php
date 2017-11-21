@@ -65,14 +65,15 @@ $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
                 <table class="table table-condensed" id="in_table" width="100%">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th>Procedure</th>
                         <th>Type</th>
                         <th title="Unit price">Price</th>
                         <th title="Number performed">No. Perf</th>
-                        <th title="Discount">Disc(%)</th>
                         <th>Total</th>
                         <th>Payment</th>
                         <th>Date Ordered</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -101,6 +102,5 @@ $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
         });
-
     });
 </script>

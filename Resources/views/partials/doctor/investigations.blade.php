@@ -74,15 +74,15 @@
                     <table id="previousInvestigations" class="table table-condensed table-striped" width="100%">
                         <thead>
                         <tr>
+                            <th>#</th>
                             <th>Procedure</th>
                             <th>Type</th>
                             <th>Price</th>
                             <th>No. Performed</th>
-                            <th>Discount</th>
                             <th>Amount</th>
                             <th>Payment</th>
                             <th>Date</th>
-                            <th>Result</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
