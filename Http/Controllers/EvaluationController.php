@@ -44,12 +44,11 @@ class EvaluationController extends AdminBaseController
      * EvaluationController constructor.
      * @param EvaluationRepository $evaluationRepository
      */
-    public function __construct(EvaluationRepository $evaluationRepository, AdmissionTypeRepository $admissionTypeRepository)
+    public function __construct(EvaluationRepository $evaluationRepository)
     {
         parent::__construct();
         $this->evaluationRepository = $evaluationRepository;
 
-        $this->admissionTypeRepository = $admissionTypeRepository;
 
         $this->_require_assets();
     }
@@ -102,8 +101,8 @@ class EvaluationController extends AdminBaseController
     public function evaluate($visit, $section)
     {
         $this->data['visit'] = Visit::find($visit);
-        if(is_module_enabled('Inpatient'))
-        {
+        if (is_module_enabled('Inpatient')) {
+            $this->admissionTypeRepository = app(AdmissionRepository::class);
             $this->data['admissionTypes'] = $this->admissionTypeRepository->all();
         }
         try {
@@ -126,7 +125,7 @@ class EvaluationController extends AdminBaseController
             //this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)->get();
             //check if has requested for admission
             $this->data['investigations'] = Investigations::whereVisit($visit)->get();
-            
+
             try {
                 return view("evaluation::patient_$section", ['data' => $this->data]);
             } catch (\InvalidArgumentException $e) {
