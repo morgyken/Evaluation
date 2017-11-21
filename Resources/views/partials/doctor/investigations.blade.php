@@ -74,6 +74,7 @@
                     <table id="previousInvestigations" class="table table-condensed table-striped" width="100%">
                         <thead>
                         <tr>
+                            <th>#</th>
                             <th>Procedure</th>
                             <th>Type</th>
                             <th>Price</th>

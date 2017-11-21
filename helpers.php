@@ -296,7 +296,7 @@ if (!function_exists('get_patient_procedures')) {
             $data = get_investigations($visit, ['treatment', 'nursing']);
         }
         $return = [];
-        $i = 0;
+        $count = 0;
         $is_insurance = $visit->payment_mode === 'insurance';
         $post_bill_insurance = $is_insurance && (bool)m_setting('finance.post_pay_insurance');
         foreach ($data as $key => $item) {
@@ -320,8 +320,10 @@ if (!function_exists('get_patient_procedures')) {
                     route('api.evaluation.delete_diagnosis', $item->id)
                     . '" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> </a>';
             }
+
             if ($can_show) {
                 $return[] = [
+                    ++$count,
                     '<span title="' . $item->procedures->name . '">' . str_limit($item->procedures->name, 20, '...') . '</span>',
                     ucwords($type),
                     $item->price,
@@ -334,7 +336,8 @@ if (!function_exists('get_patient_procedures')) {
                 ];
             } else {
                 $return[] = [
-                    'Procedure ' . ++$i,
+                    ++$count,
+                    'Procedure ' . $count,
                     ucwords($type),
                     '<span class="text-danger">Send patient to cashier</span>',
                     '-',
@@ -593,9 +596,10 @@ if (!function_exists('get_investigations')) {
     function get_investigations(Visit $visit, $type = null)
     {
         if (empty($type)) {
-            return Investigations::where(['visit' => $visit->id])->get();
+            return Investigations::where(['visit' => $visit->id])->orderBy('created_at', 'desc')->get();
         }
-        return Investigations::where(['visit' => $visit->id])->whereIn('type', $type)->get();
+        return Investigations::where(['visit' => $visit->id])->whereIn('type', $type)
+            ->orderBy('created_at', 'desc')->get();
     }
 
 }

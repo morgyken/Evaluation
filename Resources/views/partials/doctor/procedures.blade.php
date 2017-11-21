@@ -65,6 +65,7 @@ $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
                 <table class="table table-condensed" id="in_table" width="100%">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th>Procedure</th>
                         <th>Type</th>
                         <th title="Unit price">Price</th>
@@ -100,28 +101,6 @@ $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
             checkboxClass: 'icheckbox_flat-blue',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
-        });
-        $('#in_table').on('click', '#sapi_del', function () {
-            $to_post = $(this).attr('to');
-            swal({
-                title: "Are you sure?",
-                text: "The procedure will be deleted only if it hasn't been paid/billed",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true
-            }).then(function (willDelete) {
-                if (willDelete) {
-                    $.ajax({
-                        url: $to_post,
-                        type: 'DELETE',
-                        data: {_token: $("meta[name=token]").attr("content")},
-                        success: function () {
-                            alertify.success("Deleted");
-                            $('#in_table').dataTable().api().ajax.reload();
-                        }
-                    })
-                }
-            });
         });
     });
 </script>

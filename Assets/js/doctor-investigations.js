@@ -24,6 +24,28 @@ $(function () {
             ajax: PERFOMED_INVESTIGATION_URL
         });
     }
+    $('#previousInvestigations').on('click', '#sapi_del', function () {
+        $to_post = $(this).attr('to');
+        swal({
+            title: "Are you sure?",
+            text: "The procedure will be deleted only if it hasn't been paid/billed",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then(function (willDelete) {
+            if (willDelete) {
+                $.ajax({
+                    url: $to_post,
+                    type: 'DELETE',
+                    data: {_token: $("meta[name=token]").attr("content")},
+                    success: function () {
+                        alertify.success("Deleted");
+                        $('#previousInvestigations').dataTable().api().ajax.reload();
+                    }
+                })
+            }
+        });
+    });
     $('#radiology_form input,#radiology_form textarea, #diagnosis_form input,#diagnosis_form textarea,#laboratory_form input,#laboratory_form textarea').blur(function () {
         show_selection_investigation();
     });
