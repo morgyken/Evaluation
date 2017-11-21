@@ -20,6 +20,7 @@ $router->get('diagnosis/{regex?}', ['uses' => 'ApiController@diagnosis_codes', '
 $router->post('auto_save_vitals', ['uses' => 'ApiController@save_vitals', 'as' => 'save_vitals']);
 $router->post('auto_save_notes', ['uses' => 'ApiController@save_notes', 'as' => 'save_notes']);
 $router->post('auto_save_diagnosis', ['uses' => 'ApiController@save_diagnosis', 'as' => 'save_diagnosis']);
+$router->delete('delete/investigation/diagnosis', ['uses' => 'ApiController@deleteInvestigation', 'as' => 'delete_diagnosis']);
 
 $router->post('auto_save_external_order', ['uses' => 'ApiController@save_external_order', 'as' => 'save_external_order']);
 $router->get('auto_save_external_order', ['uses' => 'ApiController@save_external_order', 'as' => 'save_external_order']);

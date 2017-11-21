@@ -20,7 +20,8 @@ use Ignite\Evaluation\Entities\VisitMeta;
  * Contain base class functions for evaluation
  * @package Ignite\Evaluation\Repositories
  */
-interface EvaluationRepository {
+interface EvaluationRepository
+{
 
     /**
      * Create a central management for preemptive patient evaluation route
@@ -139,4 +140,10 @@ interface EvaluationRepository {
     public function dispense();
 
     public function request_service();
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function deleteInvestigation($id);
 }

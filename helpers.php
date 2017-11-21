@@ -278,7 +278,46 @@ if (!function_exists('get_lab_template')) {
     }
 
 }
-
+if (!function_exists('get_patient_procedures')) {
+    function get_patient_procedures($visit_id)
+    {
+        /** @var Investigations[] $data */
+        $data = get_investigations($visit_id, ['treatment', 'nursing']);
+        if (request()->has('type')) {
+            $data = get_investigations($visit_id, [request('type')]);
+        }
+        $return = [];
+        $i = 0;
+        foreach ($data as $key => $item) {
+            $type = $item->type;
+            $paid = ($item->is_paid || $item->invoiced);
+            if ($paid) {
+                $return[] = [
+                    str_limit($item->procedures->name, 50, '...'),
+                    ucwords($type),
+                    $item->price,
+                    $item->quantity,
+                    $item->discount,
+                    $item->amount > 0 ? $item->amount : $item->price,
+                    payment_label($paid),
+                    $item->created_at->format('d/m/Y h:i a'),
+                ];
+            } else {
+                $return[] = [
+                    'Procedure ' . ++$i,
+                    ucwords($type),
+                    '<span class="text-danger">Send patient to cashier</span>',
+                    '-',
+                    '-',
+                    '-',
+                    payment_label($paid),
+                    $item->created_at->format('d/m/Y h:i a'),
+                ];
+            }
+        }
+        return response()->json(['data' => $return]);
+    }
+}
 if (!function_exists('has_headers')) {
 
     function has_headers($procedure)
@@ -728,14 +767,17 @@ if (!function_exists('payment_label')) {
     /**
      * Helper to return fancy lable for payment status
      * @param bool $paid
+     * @param bool $insurance
      * @return string
      */
-    function payment_label($paid = null)
+    function payment_label($paid, $insurance = false)
     {
         if ($paid) {
-            $fancy = "<span class='text-success'><i class='fa fa-check-circle-o'></i> Paid</span>";
+            $string = $insurance ? 'Invoiced' : 'Paid';
+            $fancy = "<span class='text-success'><i class='fa fa-check-circle-o'></i> $string</span>";
         } else {
-            $fancy = "<span class='text-danger'><i class='fa fa-warning'></i> Not Paid</span>";
+            $string = $insurance ? 'Not Invoiced' : 'Not Paid';
+            $fancy = "<span class='text-danger'><i class='fa fa-warning'></i> $string</span>";
         }
         return $fancy;
     }
