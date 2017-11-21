@@ -1048,8 +1048,10 @@ class EvaluationFunctions implements EvaluationRepository
     public function deleteInvestigation($id)
     {
         $I = Investigations::find($id);
-        return !$I->is_paid && !$I->invoiced ? ['success' => $I->delete(), 'message' => 'Item/Procedure was removed']
-            : ['success' => false, 'message' => 'This item is already billed or paid'];
+        return !$I->is_paid && !$I->invoiced ?
+            ['success' => $I->delete(), 'message' => 'Item/Procedure was removed']
+            :
+            ['success' => false, 'message' => 'This item is already billed or paid'];
 
     }
 }

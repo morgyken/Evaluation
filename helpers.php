@@ -282,7 +282,7 @@ if (!function_exists('get_patient_procedures')) {
     /**
      * @param $visit_id
      * @param bool $investigations
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
      */
     function get_patient_procedures($visit_id, $investigations = false)
     {
@@ -316,7 +316,9 @@ if (!function_exists('get_patient_procedures')) {
                 }
             }
             if (!$_paid) {
-                $link .= 'Delete';
+                $link .= '<button to="' .
+                    route('api.evaluation.delete_diagnosis', $item->id)
+                    . '" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> </a>';
             }
             if ($can_show) {
                 $return[] = [
