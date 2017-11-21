@@ -78,7 +78,7 @@ class AdmissionRequestController extends AdminBaseController
 
         $viewData = compact('visit', 'admissionTypes');
 
-        return view("evaluation::patient_doctor", [ 'data' =>  $viewData ]);
+        return view('evaluation::patient_doctor', [ 'data' =>  $viewData ]);
     }
 
     /*

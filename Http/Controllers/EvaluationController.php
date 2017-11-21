@@ -99,8 +99,6 @@ class EvaluationController extends AdminBaseController
     public function evaluate($visit, $section)
     {
         $this->data['visit'] = Visit::find($visit);
-
-
         try {
             $this->data['all'] = Visit::checkedAt('diagnostics')->get();
             $this->data['visit'] = Visit::find($visit);

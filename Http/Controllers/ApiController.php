@@ -300,35 +300,11 @@ class ApiController extends Controller
 
     public function getDoneTreatment($visit_id)
     {
-        return get_patient_procedures($visit_id);
+        return response()->json(['data' => get_patient_procedures($visit_id)]);
     }
 
     public function getDoneInvestigations(Visit $visit_id)
     {
-        /** @var Investigations[] $data */
-        $data = get_investigations($visit_id, ['diagnostics', 'laboratory', 'radiology']);
-        $return = [];
-        foreach ($data as $key => $item) {
-            if ($item->has_result)
-                $link = '<a href="' . route('evaluation.view_result', $item->visit) . '"
-                                               class="btn btn-xs btn-success" target="_blank">
-                                                <i class="fa fa-external-link"></i> View Result
-            </a>';
-            else
-                $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Pending</span>';
-
-            $return[] = [
-                '<span title="' . $item->procedures->name . '">' . str_limit($item->procedures->name, 20, '...') . '</span>',
-                ucfirst($item->type),
-                $item->price,
-                $item->quantity,
-                $item->discount,
-                $item->amount > 0 ? $item->amount : $item->price,
-                payment_label((bool)($item->is_paid || $item->invoiced)),
-                $item->created_at->format('d/m/Y h:i a'),
-                $link,
-            ];
-        }
-        return response()->json(['data' => $return]);
+        return response()->json(['data' => get_patient_procedures($visit_id, true)]);
     }
 }

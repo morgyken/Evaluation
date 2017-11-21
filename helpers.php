@@ -279,28 +279,51 @@ if (!function_exists('get_lab_template')) {
 
 }
 if (!function_exists('get_patient_procedures')) {
-    function get_patient_procedures($visit_id)
+    /**
+     * @param $visit_id
+     * @param bool $investigations
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function get_patient_procedures($visit_id, $investigations = false)
     {
+        $visit = Visit::find($visit_id);
         /** @var Investigations[] $data */
-        $data = get_investigations($visit_id, ['treatment', 'nursing']);
         if (request()->has('type')) {
             $data = get_investigations($visit_id, [request('type')]);
+        } elseif ($investigations) {
+            $data = get_investigations($visit_id, ['diagnostics', 'laboratory', 'radiology']);
+        } else {
+            $data = get_investigations($visit, ['treatment', 'nursing']);
         }
         $return = [];
         $i = 0;
+        $is_insurance = $visit->payment_mode === 'insurance';
+        $post_bill_insurance = $is_insurance && (bool)m_setting('finance.post_pay_insurance');
         foreach ($data as $key => $item) {
             $type = $item->type;
-            $paid = ($item->is_paid || $item->invoiced);
-            if ($paid) {
+            $_paid = ($item->is_paid || $item->invoiced);
+            $_origin = \request()->user()->id == $item->user;
+            $can_show = $_paid || $_origin || $post_bill_insurance;
+            if ($can_show) {
+                $link = '';
+                if ($item->has_result)
+                    $link = '<a href="' . route('evaluation.view_result', $item->visit) . '"
+                                               class="btn btn-xs btn-success" target="_blank">
+                                                <i class="fa fa-external-link"></i> View Result
+            </a>';
+                else
+                    $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Results Pending</span>';
+
                 $return[] = [
-                    str_limit($item->procedures->name, 50, '...'),
+                    '<span title="' . $item->procedures->name . '">' . str_limit($item->procedures->name, 20, '...') . '</span>',
                     ucwords($type),
                     $item->price,
                     $item->quantity,
                     $item->discount,
-                    $item->amount > 0 ? $item->amount : $item->price,
-                    payment_label($paid),
+                    $item->amount ?? $item->price,
+                    payment_label($_paid, $is_insurance),
                     $item->created_at->format('d/m/Y h:i a'),
+                    $link,
                 ];
             } else {
                 $return[] = [
@@ -310,11 +333,12 @@ if (!function_exists('get_patient_procedures')) {
                     '-',
                     '-',
                     '-',
-                    payment_label($paid),
+                    payment_label($_paid, $is_insurance),
                     $item->created_at->format('d/m/Y h:i a'),
                 ];
             }
         }
+        return $return;
         return response()->json(['data' => $return]);
     }
 }
@@ -555,7 +579,8 @@ if (!function_exists('get_investigations')) {
 
     /**
      * Get investigations
-     * @param $visit
+     * @param Visit $visit
+     * @param string|null $type
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     function get_investigations(Visit $visit, $type = null)
