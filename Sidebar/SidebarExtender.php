@@ -46,7 +46,7 @@ class SidebarExtender implements Panda
             $group->item('Charge treatment', function (Item $item) {
                 $item->icon('fa fa-shopping-bag');
                 $item->route('evaluation.shopfront');
-                $item->authorize($this->auth->hasAccess('evaluation.*'));
+                $item->authorize($this->auth->hasAccess('evaluation.clinics.*'));
             });
             $group->item('Clinics', function (Item $item) {
                 $item->weight(3);
@@ -68,7 +68,7 @@ class SidebarExtender implements Panda
                         $item->item($name . ' Queue', function (Item $item) use ($clinic) {
                             $item->icon('fa ' . $clinic->icon);
                             $item->route('evaluation.queues', [$clinic->name, 'clinic']);
-                            $item->authorize($this->auth->hasAccess('evaluation.examination.' . $clinic->name));
+                            $item->authorize($this->auth->hasAccess('evaluation.clinics.' . $clinic->name));
                         });
                     }
                 }

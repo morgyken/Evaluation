@@ -9,7 +9,7 @@
  *
  * =============================================================================
  */
-return [
+$original = [
     'evaluation.examination' => [
         'preliminary' => 'Nursing and preliminary',
         'doctor' => 'Doctor Evaluation',
@@ -18,12 +18,10 @@ return [
         'diagnostics' => 'Diagnostics Evaluation',
         'radiology' => 'Radiology Evaluation',
         'pharmacy' => 'Pharmacy Evaluation',
-        'physio' => 'Physiotherapy Queue',
         'review' => 'Review patient information',
         'ultrasound' => 'Ultrasound Evaluation',
         'dental' => 'Dental Evaluation',
         'optical' => 'Optical Queue',
-        'mch' => 'MCH queue',
     ],
     'evaluation.settings' => [
         'procedure_categories' => 'View procedures categories',
@@ -35,3 +33,18 @@ return [
         'external' => 'External user dashboard',
     ]
 ];
+
+$_c = [
+    'mch' => 'MCH',
+    'hpd' => 'Hypertension and Diabetes',
+    'orthopeadic' => 'Orthopeadic',
+    'popc' => 'Pedeatrics',
+    'mopc' => 'Medical',
+    'sopc' => 'Sergical',
+    'gopc' => 'Gyenecology',
+    'physio' => 'Physiotherapy',
+];
+foreach ($_c as $k => $v) {
+    $original['evaluation.clinics'][$k] = $v;
+}
+return $original;
