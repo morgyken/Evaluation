@@ -69,10 +69,10 @@ $visit = \Ignite\Evaluation\Entities\Visit::find($visit->id);
                         <th>Type</th>
                         <th title="Unit price">Price</th>
                         <th title="Number performed">No. Perf</th>
-                        <th title="Discount">Disc(%)</th>
                         <th>Total</th>
                         <th>Payment</th>
                         <th>Date Ordered</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>

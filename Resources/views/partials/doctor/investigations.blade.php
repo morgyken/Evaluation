@@ -78,11 +78,10 @@
                             <th>Type</th>
                             <th>Price</th>
                             <th>No. Performed</th>
-                            <th>Discount</th>
                             <th>Amount</th>
                             <th>Payment</th>
                             <th>Date</th>
-                            <th>Result</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>

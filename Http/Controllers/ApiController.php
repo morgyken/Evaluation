@@ -303,7 +303,7 @@ class ApiController extends Controller
         return response()->json(['data' => get_patient_procedures($visit_id)]);
     }
 
-    public function getDoneInvestigations(Visit $visit_id)
+    public function getDoneInvestigations($visit_id)
     {
         return response()->json(['data' => get_patient_procedures($visit_id, true)]);
     }

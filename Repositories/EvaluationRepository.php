@@ -13,6 +13,7 @@
 namespace Ignite\Evaluation\Repositories;
 
 use Ignite\Evaluation\Entities\VisitMeta;
+use Illuminate\Http\Request;
 
 /**
  * Interface EvaluationRepository
@@ -146,4 +147,6 @@ interface EvaluationRepository
      * @return mixed
      */
     public function deleteInvestigation($id);
+
+    public function delete_lab_template_test(Request $request);
 }

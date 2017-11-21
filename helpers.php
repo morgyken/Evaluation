@@ -289,9 +289,9 @@ if (!function_exists('get_patient_procedures')) {
         $visit = Visit::find($visit_id);
         /** @var Investigations[] $data */
         if (request()->has('type')) {
-            $data = get_investigations($visit_id, [request('type')]);
+            $data = get_investigations($visit, [request('type')]);
         } elseif ($investigations) {
-            $data = get_investigations($visit_id, ['diagnostics', 'laboratory', 'radiology']);
+            $data = get_investigations($visit, ['diagnostics', 'laboratory', 'radiology']);
         } else {
             $data = get_investigations($visit, ['treatment', 'nursing']);
         }
@@ -304,22 +304,27 @@ if (!function_exists('get_patient_procedures')) {
             $_paid = ($item->is_paid || $item->invoiced);
             $_origin = \request()->user()->id == $item->user;
             $can_show = $_paid || $_origin || $post_bill_insurance;
-            if ($can_show) {
-                $link = '';
+            $link = '';
+            if ($investigations) {
                 if ($item->has_result)
                     $link = '<a href="' . route('evaluation.view_result', $item->visit) . '"
                                                class="btn btn-xs btn-success" target="_blank">
                                                 <i class="fa fa-external-link"></i> View Result
             </a>';
-                else
+                else {
                     $link = '<span class="text-warning" ><i class="fa fa-warning" ></i > Results Pending</span>';
-
+                }
+            }
+            if (!$_paid) {
+                $link .= 'Delete';
+            }
+            if ($can_show) {
                 $return[] = [
                     '<span title="' . $item->procedures->name . '">' . str_limit($item->procedures->name, 20, '...') . '</span>',
                     ucwords($type),
                     $item->price,
                     $item->quantity,
-                    $item->discount,
+//                    $item->discount,
                     $item->amount ?? $item->price,
                     payment_label($_paid, $is_insurance),
                     $item->created_at->format('d/m/Y h:i a'),
@@ -335,11 +340,11 @@ if (!function_exists('get_patient_procedures')) {
                     '-',
                     payment_label($_paid, $is_insurance),
                     $item->created_at->format('d/m/Y h:i a'),
+                    '-'
                 ];
             }
         }
         return $return;
-        return response()->json(['data' => $return]);
     }
 }
 if (!function_exists('has_headers')) {
