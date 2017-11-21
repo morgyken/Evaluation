@@ -32,7 +32,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dispensing extends Model {
 
     public $table = 'inventory_evaluation_dispensing';
-    protected $fillable = ['visit', 'user'];
+    protected $fillable = ['visit', 'user', 'prescription'];
 
     public function visits() {
         return $this->belongsTo(Visit::class, 'visit');
