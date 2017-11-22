@@ -2,7 +2,6 @@
 
 namespace Ignite\Evaluation\Http\Controllers;
 
-use Carbon\Carbon;
 use Ignite\Core\Http\Controllers\AdminBaseController;
 use Ignite\Evaluation\Entities\Admission;
 use Ignite\Evaluation\Entities\Bed;
@@ -24,13 +23,10 @@ use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Entities\Ward;
 use Ignite\Evaluation\Entities\WardAssigned;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
-use Ignite\Evaluation\Repositories\VisitRepository;
-use Ignite\Inpatient\Repositories\AdmissionRepository;
+use Ignite\Inpatient\Repositories\AdmissionTypeRepository;
 use Ignite\Reception\Entities\Patients;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Ignite\Inpatient\Repositories\AdmissionTypeRepository;
 
 class EvaluationController extends AdminBaseController
 {
@@ -102,7 +98,7 @@ class EvaluationController extends AdminBaseController
     {
         $this->data['visit'] = Visit::find($visit);
         if (is_module_enabled('Inpatient')) {
-            $this->admissionTypeRepository = app(AdmissionRepository::class);
+            $this->admissionTypeRepository = app(AdmissionTypeRepository::class);
             $this->data['admissionTypes'] = $this->admissionTypeRepository->all();
         }
         try {
