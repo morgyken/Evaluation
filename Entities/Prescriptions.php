@@ -6,6 +6,7 @@ use Ignite\Inventory\Entities\InventoryProducts;
 use Ignite\Users\Entities\User;
 use Ignite\Inpatient\Entities\Admission;
 use Illuminate\Database\Eloquent\Model;
+use Ignite\Inpatient\Entities\AdministerDrug;
 
 /**
  * Ignite\Evaluation\Entities\Prescriptions
@@ -121,4 +122,13 @@ class Prescriptions extends Model
     {
         return $this->payment->invoiced || $this->payment->paid;
     }
+
+    /*
+    * Relationship between a prescription and administering the prescription
+    */
+    public function administered()
+    {
+        return  $this->hasMany(AdministerDrug::class, 'prescription_id');
+    }
+   
 }
