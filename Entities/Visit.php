@@ -171,7 +171,7 @@ class Visit extends Model
 
     public function notes()
     {
-        return $this->hasMany(DoctorNotes::class, 'visit');
+        return $this->hasOne(DoctorNotes::class, 'visit');
     }
 
     public function drawings()
