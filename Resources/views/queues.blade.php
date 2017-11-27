@@ -63,6 +63,9 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                             <td>{{$visit->created_at->format('dS M g:i a')}}</td>
                             <td>{{$visit->visit_destination}}</td>
                             <td>{{$visit->place}}</td>
+                            @if(is_module_enabled('Inpatient'))
+                                <td>{{ $visit->admission_request_id != 0 ? 'Inpatient' : 'Outpatient'}}</td>
+                            @endif
                             <td>
                                 <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
                                    class="btn btn-xs btn-primary">
@@ -83,6 +86,9 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                     <th>Date / Time</th>
                     <th>Destination</th>
                     <th>Doctor/Room</th>
+                    @if(is_module_enabled('Inpatient'))
+                        <th>Facility</th>
+                    @endif
                     <th>Actions</th>
                 </tr>
                 </thead>
