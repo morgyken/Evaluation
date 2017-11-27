@@ -231,7 +231,6 @@ class ReportsController extends Controller
         $this->data['patient'] = $patient = Patients::find($v->patient);
 
         $name = 'Patient Notes ' . $patient->full_name . '.docx';
-
         $exported = exportPatientNotesDate($v->patient, $visit);
         $exported->save($temp_file = tempnam(sys_get_temp_dir(), 'PHPWord'));
 

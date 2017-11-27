@@ -1140,7 +1140,6 @@ if (!function_exists('exportSickOff')) {
         $section->addText('Date:', ['bold' => true]);
         $date = (new Date($v->created_at))->format('j/m/Y');
         $section->addText($date);
-
         $section->addText(htmlspecialchars('Doctor\'s Notes', ENT_COMPAT, 'UTF-8'), ['name' => 'Times New Roman', 'size' => 16, 'bold' => true]);
         if (!empty($v->notes)) {
             $section->addText(htmlspecialchars('Presenting Complaints'), ['bold' => true]);
@@ -1150,7 +1149,7 @@ if (!function_exists('exportSickOff')) {
             $section->addText(htmlspecialchars('Examination'), ['bold' => true]);
             $section->addText($v->notes->examination);
             $section->addText(htmlspecialchars('Diagnosis'), ['bold' => true]);
-            $section->addText(implode(', ', unserialize($v->notes->diagnosis)));
+            $section->addText($v->notes->diagnosis);
             $section->addText(htmlspecialchars('Treatment Plan'), ['bold' => true]);
             $section->addText($v->notes->treatment_plan);
         } else {

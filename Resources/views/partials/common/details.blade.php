@@ -25,9 +25,11 @@
                                 </button>
                             @endif    
                         @else
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#admit-patient">
-                                Request Admission
-                            </button>
+                            @if($visit->admission_request_id == 0)
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#admit-patient">
+                                    Request Admission
+                                </button>
+                            @endif
                         @endif
                     @endif
                 </div>
@@ -53,7 +55,7 @@
                                 <label for="">Choose Admission Type</label>
                                 <select class="form-control" name="admission_type_id" required>
                                     @foreach($admissionTypes as $admissionType)
-                                        <option value="{{ $admissionType->id }}">{{ $admissionType->name }}</option>
+                                        <option value="{{ $admissionType->id }}">{{ $admissionType->name }} - (ksh. {{ $admissionType->deposit }})</option>
                                     @endforeach
                                 </select>
                             </div>

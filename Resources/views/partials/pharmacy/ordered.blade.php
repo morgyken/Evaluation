@@ -26,7 +26,7 @@
         </thead>
         <tbody>
         @foreach($drug_prescriptions as $item)
-            @if($item->payment->paid || $item->payment->invoiced)
+            @if($item->payment->paid || $item->payment->invoiced || $visit->admission_request_id != 0)
                 <?php
 
                 $visit = $item->visits;
@@ -96,6 +96,7 @@
     </div>
     <script>
         $(document).ready(function () {
+            
             function doMaths() {
                 var sum = 0;
                 $('#myTable').find('tbody').find('tr').each(function () {

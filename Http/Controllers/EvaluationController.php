@@ -200,6 +200,15 @@ class EvaluationController extends AdminBaseController
 
     public function pharmacy_dispense()
     {
+        if(is_module_enabled('Inpatient'))
+        {
+            $visit = Visit::findOrFail(request()->get('visit'));
+
+            $prescriptionEvaluator = '\Ignite\Inpatient\Library\Evaluation\PrescriptionsEvaluation';
+
+            app($prescriptionEvaluator)->dispense($visit);
+        }
+
         if ($this->evaluationRepository->dispense()) {
             flash('Drugs dispensed, thank you', 'success');
         } else {

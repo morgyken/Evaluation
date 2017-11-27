@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Ignite\Finance\Entities\InsuranceInvoice;
 use Ignite\Inpatient\Entities\AdmissionRequest;
+use Ignite\Inpatient\Entities\Admission;
 
 /**
  * Ignite\Evaluation\Entities\Visit
@@ -93,6 +94,8 @@ class Visit extends Model
     public $table = 'evaluation_visits';
     protected $fillable = ['inpatient', 'clinic', 'patient', 'purpose', 'external_doctor', 'user',
         'payment_mode', 'scheme', 'next_appointment', 'status'];
+    
+    protected $with = ['admissionRequest'];
 
     public function getUnpaidAmountAttribute()
     {
@@ -268,7 +271,7 @@ class Visit extends Model
 
     public function admission()
     {
-        return $this->hasOne(\Ignite\Inpatient\Entities\Admission::class, 'visit_id');
+        return $this->hasOne(Admission::class);
     }
 
     public function getPlaceAttribute()
