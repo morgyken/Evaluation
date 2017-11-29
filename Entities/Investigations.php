@@ -136,12 +136,13 @@ class Investigations extends Model
         return $this->hasOne(\Ignite\Finance\Entities\RemovedBills::class, 'investigation');
     }
 
-    public function getTheTypeAttribute()
+    public function getNiceTypeAttribute()
     {
-        $value = $this->type;
-        if ($value == 'treatment.nurse') {
-            return 'Nurse';
+        $type = ucfirst($this->type);
+        if (ends_with($type, '.inpatient')) {
+            $type = substr($type, 0, strpos($type, '.'))
+                . '<span title="Inpatient"> <i class="fa fa-bed"></i></span>';
         }
-        return ucfirst($value);
+        return $type;
     }
 }
