@@ -33,7 +33,9 @@ use Ignite\Inpatient\Entities\Admission;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property int|null $external_order
+ * @property int $admission_request_id
  * @property-read \Ignite\Inpatient\Entities\Admission $admission
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Inpatient\Entities\AdmissionRequest[] $admissionRequest
  * @property-read \Ignite\Reception\Entities\Appointments $appointments
  * @property-read \Ignite\Settings\Entities\Clinics $clinics
  * @property-read \Ignite\Finance\Entities\Copay $copay
@@ -68,6 +70,7 @@ use Ignite\Inpatient\Entities\Admission;
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Evaluation\Entities\Visit onlyTrashed()
  * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereAdmissionRequestId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereClinic($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Visit whereDeletedAt($value)

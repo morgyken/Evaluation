@@ -27,8 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $cash
  * @property-read mixed $has_result
  * @property-read mixed $is_paid
+ * @property-read mixed $nice_type
  * @property-read mixed $pesa
- * @property-read mixed $the_type
  * @property-read \Ignite\Evaluation\Entities\Procedures $p
  * @property-read \Ignite\Finance\Entities\EvaluationPaymentsDetails $payments
  * @property-read \Ignite\Evaluation\Entities\Procedures $procedures
