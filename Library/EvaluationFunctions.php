@@ -438,8 +438,12 @@ class EvaluationFunctions implements EvaluationRepository
                 $amount = 0;
                 $price = 0;
             }
+            $type = $this->input['type' . $treatment];
+            if (\request('__inpatient')) {
+                $type .= '.inpatient';
+            }
             Investigations::create([
-                'type' => $this->input['type' . $treatment],
+                'type' => $type,
                 'visit' => $this->visit,
                 'procedure' => $treatment,
                 'quantity' => $this->input['quantity' . $treatment],
