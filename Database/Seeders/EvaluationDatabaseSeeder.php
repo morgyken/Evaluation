@@ -16,6 +16,8 @@ class EvaluationDatabaseSeeder extends Seeder {
 
         // $this->call("OthersTableSeeder");
         $this->call(ProceduresTableSeeder::class);
+
+        $this->call(FacilitiesTableSeeder::class);
         /*
          * @todo THis takes long add to dispatch in background
          */
