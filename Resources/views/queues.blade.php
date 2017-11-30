@@ -68,12 +68,11 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                             @endif
                             <td>
                                 <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
-                                   class="btn btn-xs btn-primary">
+                                class="btn btn-xs btn-primary">
                                     <i class="fa fa-ellipsis-h"></i> Manage</a>
-
                                 <button value='{{$visit->id}}' class="btn btn-warning btn-xs checkout">
                                     <i class="fa fa-sign-out"></i> Checkout
-                                </button>
+                                </button> 
                             </td>
                         </tr>
                     @endforeach

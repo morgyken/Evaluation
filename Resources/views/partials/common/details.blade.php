@@ -11,13 +11,13 @@
                     <p><code>Payment Mode: {{ $visit->mode }}</code></p> 
                 </div>
                 <div class="btn-group col-md-3 pull-right">
-                    <button type="button" class="btn btn-success btn-sm">Checkout</button>
+                    <button type="button" class="btn btn-primary btn-sm">Checkout</button>
 
                     @if(is_module_enabled('Inpatient'))
-                        @if(count($visit->admissionRequest) > 0)
+                        @if(count($visit->admission_request_id) != 0)
                             @if($visit->admission)
-                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#admit-patient">
-                                    Discharge Patient
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#discharge-patient">
+                                    Request Discharge
                                 </button>
                             @else
                                 <button type="button" class="btn btn-info btn-sm">
@@ -69,6 +69,43 @@
                     </div>
                     <div class="modal-footer">
                         <button id="submitAdmission" type="button" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" click>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if(is_module_enabled('Inpatient'))
+        <div id="discharge-patient" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Request Patient Discharge</h4>
+                    </div>
+                    <div class="modal-body">
+                
+                        {!! Form::open(['url'=>['/inpatient/discharge-requests'], 'id'=>'dischargeRequestForm' ])!!}
+                            <input type="hidden" name="visit_id" value="{{ $visit->id }}" required>
+                            <div class="form-group">
+                                <label for="">Choose Discharge Type</label>
+                                <select class="form-control" name="admission_type_id" required>
+                                    @foreach($dischargeTypes as $dischargeType)
+                                        <option value="{{ $dischargeType->id }}">{{ $dischargeType->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Specify reason for discharge</label>
+                                <textarea class="form-control" name="reason" rows="5" required></textarea>
+                            </div>
+                        {!! Form::close() !!}
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button id="submitDischarge" type="button" class="btn btn-primary">Submit</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal" click>Cancel</button>
                     </div>
                 </div>

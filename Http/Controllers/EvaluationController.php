@@ -23,6 +23,7 @@ use Ignite\Evaluation\Entities\VisitDestinations;
 use Ignite\Evaluation\Entities\Ward;
 use Ignite\Evaluation\Entities\WardAssigned;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
+use Ignite\Inpatient\Entities\DischargeType;
 use Ignite\Inpatient\Repositories\AdmissionTypeRepository;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Http\Request;
@@ -100,6 +101,11 @@ class EvaluationController extends AdminBaseController
         if (is_module_enabled('Inpatient')) {
             $this->admissionTypeRepository = app(AdmissionTypeRepository::class);
             $this->data['admissionTypes'] = $this->admissionTypeRepository->all();
+            $this->data['dischargeTypes'] = DischargeType::all();
+
+            if($section == "pharmacy"){
+                return redirect("inpatient/visit/$visit/dispense-drugs");
+            }
         }
         try {
             $this->data['all'] = Visit::checkedAt('diagnostics')->get();
@@ -200,15 +206,6 @@ class EvaluationController extends AdminBaseController
 
     public function pharmacy_dispense()
     {
-//        if(is_module_enabled('Inpatient'))
-//        {
-//            $visit = Visit::findOrFail(request()->get('visit'));
-//
-//            $prescriptionEvaluator = '\Ignite\Inpatient\Library\Evaluation\PrescriptionsEvaluation';
-//
-//            app($prescriptionEvaluator)->dispense($visit);
-//        }
-
         if ($this->evaluationRepository->dispense()) {
             flash('Drugs dispensed, thank you', 'success');
         } else {

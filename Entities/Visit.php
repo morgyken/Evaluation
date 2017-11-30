@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Ignite\Finance\Entities\InsuranceInvoice;
 use Ignite\Inpatient\Entities\AdmissionRequest;
 use Ignite\Inpatient\Entities\Admission;
+use Ignite\Inpatient\Entities\ChargeSheet;
 
 /**
  * Ignite\Evaluation\Entities\Visit
@@ -299,4 +300,12 @@ class Visit extends Model
     {
         return $this->hasMany(AdmissionRequest::class, 'visit_id');
     }
+
+    /*
+    * Relationship between a visit and the charge sheet
+    */
+    public function chargeSheet()
+    {
+        return $this->hasMany(ChargeSheet::class);
+    } 
 }
