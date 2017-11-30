@@ -5,12 +5,7 @@ namespace Ignite\Evaluation\Entities;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Ignite\Evaluation\Entities\Admission
- *
- * @property-read \Ignite\Reception\Entities\Patients $patient
- * @mixin \Eloquent
- */
+
 class Admission extends Model
 {
     protected $fillable = [
@@ -25,9 +20,7 @@ class Admission extends Model
         'bedposition_id'
     ];
 
-    /*
-    * Relationship between an admission and the patient that has been admitted
-    */
+
     public function patient()
     {
         return $this->belongsTo(Patients::class, 'patient_id');
