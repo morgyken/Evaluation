@@ -42,6 +42,7 @@ use Ignite\Evaluation\Entities\VisitMeta;
 use Ignite\Evaluation\Entities\Visit;
 use Ignite\Evaluation\Entities\Vitals;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
+use Ignite\Inpatient\Entities\ChargeSheet;
 use Ignite\Inventory\Entities\InventoryProducts;
 use Ignite\Inventory\Repositories\InventoryRepository;
 use Ignite\Reception\Entities\Appointments;
@@ -442,7 +443,7 @@ class EvaluationFunctions implements EvaluationRepository
             if (\request('__inpatient')) {
                 $type .= '.inpatient';
             }
-            Investigations::create([
+            $investigation = Investigations::create([
                 'type' => $type,
                 'visit' => $this->visit,
                 'procedure' => $treatment,
@@ -454,6 +455,11 @@ class EvaluationFunctions implements EvaluationRepository
                 'user' => $this->user,
                 'ordered' => true
             ]);
+            if (\request('__inpatient') && is_module_enabled('Inpatient')) {
+                $charge = new ChargeSheet();
+                $charge->investigation_id = $investigation->id;
+                $charge->save();
+            }
             $to = $this->input['type' . $treatment];
             if (!in_array($to, $check_in, false)) {
                 $check_in[] = $to;
@@ -1052,10 +1058,11 @@ class EvaluationFunctions implements EvaluationRepository
     public function deleteInvestigation($id)
     {
         $I = Investigations::find($id);
-        return !$I->is_paid && !$I->invoiced ?
+        $result = !$I->is_paid && !$I->invoiced ?
             ['success' => $I->delete(), 'message' => 'Item/Procedure was removed']
             :
             ['success' => false, 'message' => 'This item is already billed or paid'];
-
+        reload_payments();
+        return $result;
     }
 }
