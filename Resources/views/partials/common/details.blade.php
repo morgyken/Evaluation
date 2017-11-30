@@ -12,9 +12,8 @@
                 </div>
                 <div class="btn-group col-md-3 pull-right">
                     <button type="button" class="btn btn-primary btn-sm">Checkout</button>
-
                     @if(is_module_enabled('Inpatient'))
-                        @if(count($visit->admission_request_id) != 0)
+                        @if($visit->admission_request_id != 0)
                             @if($visit->admission)
                                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#discharge-patient">
                                     Request Discharge
@@ -25,11 +24,9 @@
                                 </button>
                             @endif    
                         @else
-                            @if($visit->admission_request_id == 0)
-                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#admit-patient">
-                                    Request Admission
-                                </button>
-                            @endif
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#admit-patient">
+                                Request Admission
+                            </button>
                         @endif
                     @endif
                 </div>
