@@ -2,6 +2,7 @@
 
 namespace Ignite\Evaluation\Entities;
 
+use Ignite\Finance\Entities\RemovedBills;
 use Illuminate\Database\Eloquent\Model;
 
 use Ignite\Inpatient\Entities\Admission;
@@ -20,7 +21,6 @@ use Ignite\Inpatient\Entities\NursingCharge;
  * @property \Carbon\Carbon|null $updated_at
  * @property int $invoiced
  * @property-read \Ignite\Inpatient\Entities\Admission $admission
- * @property-read \Ignite\Inpatient\Entities\NursingCharge $charge
  * @property-read \Ignite\Finance\Entities\RemovedBills $removed_bills
  * @property-read \Ignite\Inpatient\Entities\Visit $visit
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\RecurrentCharge whereAdmissionId($value)
@@ -49,14 +49,11 @@ class RecurrentCharge extends Model
         return $this->belongsTo(Visit::class, 'visit_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-    */
-    public function charge() {
-        return $this->belongsTo(NursingCharge::class, 'recurrent_charge_id');
-    }
+//    public function charge() {
+//        return $this->belongsTo(NursingCharge::class, 'recurrent_charge_id');
+//    }
 
     public function removed_bills() {
-        return $this->hasOne(\Ignite\Finance\Entities\RemovedBills::class, 'recurrent');
+        return $this->hasOne(RemovedBills::class, 'recurrent');
     }
 }

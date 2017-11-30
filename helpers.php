@@ -320,12 +320,11 @@ if (!function_exists('get_patient_procedures')) {
                     route('api.evaluation.delete_diagnosis', $item->id)
                     . '" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> </a>';
             }
-
             if ($can_show) {
                 $return[] = [
                     ++$count,
                     '<span title="' . $item->procedures->name . '">' . str_limit($item->procedures->name, 20, '...') . '</span>',
-                    ucwords($type),
+                    $item->nice_type,
                     $item->price,
                     $item->quantity,
 //                    $item->discount,
@@ -596,9 +595,24 @@ if (!function_exists('get_investigations')) {
     function get_investigations(Visit $visit, $type = null)
     {
         if (empty($type)) {
-            return Investigations::where(['visit' => $visit->id])->orderBy('created_at', 'desc')->get();
+            return Investigations::where('visit', $visit->id)
+                ->orderBy('created_at', 'desc')->get();
         }
-        return Investigations::where(['visit' => $visit->id])->whereIn('type', $type)
+        $list = [];
+
+        if (\request('__inpatient')) {
+            foreach ($type as $t) {
+//                $list[] = $t;
+                $list[] = $t . '.inpatient';
+            }
+        } else {
+            foreach ($type as $t) {
+                $list[] = $t;
+                $list[] = $t . '.inpatient';
+            }
+        }
+        return Investigations::where('visit', $visit->id)
+            ->whereIn('type', $list)
             ->orderBy('created_at', 'desc')->get();
     }
 

@@ -24,6 +24,7 @@ use Ignite\Inpatient\Entities\AdministerDrug;
  * @property int $status
  * @property bool $allow_substitution
  * @property int $time_measure
+ * @property int $quantity
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property int $type
@@ -31,6 +32,7 @@ use Ignite\Inpatient\Entities\AdministerDrug;
  * @property int $canceled
  * @property int|null $admission_id
  * @property int $for_discharge
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Inpatient\Entities\AdministerDrug[] $administered
  * @property-read \Ignite\Inpatient\Entities\Admission|null $admission
  * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Dispensing[] $dispensing
  * @property-read \Ignite\Inventory\Entities\InventoryProducts $drugs
@@ -51,6 +53,7 @@ use Ignite\Inpatient\Entities\AdministerDrug;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereMethod($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereStopReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereStopped($value)
