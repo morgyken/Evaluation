@@ -458,6 +458,7 @@ class EvaluationFunctions implements EvaluationRepository
             if (\request('__inpatient') && is_module_enabled('Inpatient')) {
                 $charge = new ChargeSheet();
                 $charge->investigation_id = $investigation->id;
+                $charge->visit_id = \request('__inpatient');
                 $charge->save();
             }
             $to = $this->input['type' . $treatment];
