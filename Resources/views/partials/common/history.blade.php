@@ -20,7 +20,7 @@ $history = patient_visits($visit->patient);
                                     <h3 class="box-title">Doctor's Notes</h3>
                                 </div>
                                 <div class="box-body">
-                                    @if(count($_visit->notes) > 0)
+                                    @if($_visit->notes)
                                         <p><strong>Presenting Complaints</strong><br/>
                                             {{$_visit->notes->presenting_complaints}}</p>
                                         <p><strong>Past Medical History</strong><br/>
