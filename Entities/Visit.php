@@ -16,6 +16,7 @@ use Ignite\Finance\Entities\InsuranceInvoice;
 use Ignite\Inpatient\Entities\AdmissionRequest;
 use Ignite\Inpatient\Entities\Admission;
 use Ignite\Inpatient\Entities\ChargeSheet;
+use Ignite\Inpatient\Entities\DischargeRequest;
 
 /**
  * Ignite\Evaluation\Entities\Visit
@@ -308,4 +309,12 @@ class Visit extends Model
     {
         return $this->hasMany(ChargeSheet::class);
     } 
+
+    /*
+    * Relationship between a visit and a discharge request
+    */
+    public function discharge()
+    {
+        return $this->hasOne(DischargeRequest::class);
+    }
 }
