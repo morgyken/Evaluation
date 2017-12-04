@@ -98,7 +98,7 @@ class EvaluationController extends AdminBaseController
     public function evaluate($visit, $section)
     {
         $this->data['visit'] = Visit::find($visit);
-        if (is_module_enabled('Inpatient')) {
+        if (is_module_enabled('Inpatient') && $this->data['visit']->admission_request_id) {
             $this->admissionTypeRepository = app(AdmissionTypeRepository::class);
             $this->data['admissionTypes'] = $this->admissionTypeRepository->all();
             $this->data['dischargeTypes'] = DischargeType::all();

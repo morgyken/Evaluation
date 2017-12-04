@@ -35,7 +35,7 @@
     </div>
 
     <!-- Inpatient Request Modals -->
-    @if(is_module_enabled('Inpatient'))
+    @if(is_module_enabled('Inpatient') && $admissionTypes)
         @include('evaluation::includes.admission_request')
     @endif
     <!-- End Inpatient Request Modals -->
