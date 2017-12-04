@@ -26,4 +26,12 @@ class Dispensing extends Model {
         return $this->hasOne(\Ignite\Finance\Entities\RemovedBills::class, 'dispensing');
     }
 
+    /*
+     * Relationship between dispening and administer 
+    */
+    public function administer()
+    {
+        return $this->hasMany();
+    } 
+
 }
