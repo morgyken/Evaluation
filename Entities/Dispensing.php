@@ -4,6 +4,7 @@ namespace Ignite\Evaluation\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Ignite\Inpatient\Entities\AdministerDrug;
 
 class Dispensing extends Model {
 
@@ -25,13 +26,4 @@ class Dispensing extends Model {
     public function removed_bills() {
         return $this->hasOne(\Ignite\Finance\Entities\RemovedBills::class, 'dispensing');
     }
-
-    /*
-     * Relationship between dispening and administer 
-    */
-    public function administer()
-    {
-        return $this->hasMany();
-    } 
-
 }
