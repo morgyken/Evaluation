@@ -103,12 +103,15 @@ class EvaluationController extends AdminBaseController
         $this->data['facility'] =  $facility ? $facility : 'outpatient';
         $facility = Facility::where('name', 'inpatient')->first();
 
-        if ($this->data['facility'] == 'inpatient') 
+        if(is_module_enabled('Inpatient'))
         {
             $this->admissionTypeRepository = app(AdmissionTypeRepository::class);
             $this->data['admissionTypes'] = $this->admissionTypeRepository->all();
             $this->data['dischargeTypes'] = DischargeType::all();
+        }
 
+        if ($this->data['facility'] == 'inpatient') 
+        {
             if($section == "pharmacy")
             {
                 return redirect("inpatient/visit/$visit/dispense-drugs");
