@@ -65,17 +65,14 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                             <td>{{$visit->visit_destination}}</td>
                             <td>{{$visit->place}}</td>
                             <td>
-                                @if($section == 'pharmacy')
-                                    @if($visit->admission)
-                                        <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
+                                @if($section == 'pharmacy' && $visit->admission)
+                                    <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
                                             class="btn btn-xs btn-primary">
-                                            <i class="fa fa-arrow-up"></i> Outpatient</a> 
-                                        
-                                    @else  
-                                        <a href="{{route('evaluation.preview',[$visit->id, $section, 'inpatient'])}}"
-                                            class="btn btn-xs btn-success">
-                                            <i class="fa fa-arrow-down"></i> Inpatient</a>
-                                    @endif         
+                                            <i class="fa fa-arrow-up"></i> Outpatient</a>
+
+                                    <a href="{{route('evaluation.preview',[$visit->id, $section, 'inpatient'])}}"
+                                        class="btn btn-xs btn-success">
+                                        <i class="fa fa-arrow-down"></i> Inpatient</a>       
                                 @else
                                     <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
                                         class="btn btn-xs btn-primary">
