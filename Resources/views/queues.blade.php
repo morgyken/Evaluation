@@ -57,6 +57,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                         if(empty($visit)){
                         continue;}
                         @endphp
+
                         <tr id="row_id{{$visit->id}}">
                             <td>{{$loop->iteration}}</td>
                             <td>{{$visit->patients->full_name}}</td>
@@ -64,19 +65,27 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                             <td>{{$visit->visit_destination}}</td>
                             <td>{{$visit->place}}</td>
                             <td>
-                                <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
-                                class="btn btn-xs btn-primary">
-                                    <i class="fa fa-arrow-up"></i> Outpatient</a>
-
-                                @if($visit->admission !== 0)
-                                    <a href="{{route('evaluation.preview',[$visit->id, $section, 'inpatient'])}}"
-                                   class="btn btn-xs btn-success">
-                                    <i class="fa fa-arrow-down"></i> Inpatient</a>
+                                @if($section == 'pharmacy')
+                                    @if($visit->admission)
+                                        <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
+                                            class="btn btn-xs btn-primary">
+                                            <i class="fa fa-arrow-up"></i> Outpatient</a> 
+                                        
+                                    @else  
+                                        <a href="{{route('evaluation.preview',[$visit->id, $section, 'inpatient'])}}"
+                                            class="btn btn-xs btn-success">
+                                            <i class="fa fa-arrow-down"></i> Inpatient</a>
+                                    @endif         
+                                @else
+                                    <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
+                                        class="btn btn-xs btn-primary">
+                                        <i class="fa fa-ellipsis-h"></i> Manage</a>
                                 @endif
 
                                 <button value='{{$visit->id}}' class="btn btn-warning btn-xs checkout">
                                     <i class="fa fa-sign-out"></i> Checkout
                                 </button> 
+
                             </td>
                         </tr>
                     @endforeach
