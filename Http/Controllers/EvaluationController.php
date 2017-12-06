@@ -28,6 +28,7 @@ use Ignite\Inpatient\Repositories\AdmissionTypeRepository;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Ignite\Evaluation\Entities\Facility;
 
 class EvaluationController extends AdminBaseController
 {
@@ -74,8 +75,9 @@ class EvaluationController extends AdminBaseController
         return view('evaluation::queues', ['data' => $this->data]);
     }
 
-    public function preview($visit, $department)
+    public function preview($visit, $department, $facility=null)
     {
+        $this->data['facility'] = $facility ? $facility : 'outpatient';
         $this->data['visit'] = Visit::find($visit);
         $this->data['patient'] = $this->data['visit']->patients;
         $this->data['department'] = $department;
@@ -95,18 +97,24 @@ class EvaluationController extends AdminBaseController
         return redirect()->back();
     }
 
-    public function evaluate($visit, $section)
+    public function evaluate($visit, $section, $facility = null)
     {
         $this->data['visit'] = Visit::find($visit);
-        if (is_module_enabled('Inpatient')) {
+        $this->data['facility'] =  $facility ? $facility : 'outpatient';
+        $facility = Facility::where('name', 'inpatient')->first();
+
+        if ($this->data['facility'] == 'inpatient') 
+        {
             $this->admissionTypeRepository = app(AdmissionTypeRepository::class);
             $this->data['admissionTypes'] = $this->admissionTypeRepository->all();
             $this->data['dischargeTypes'] = DischargeType::all();
 
-            if($section == "pharmacy" && $this->data['visit']->admission_request_id){
+            if($section == "pharmacy")
+            {
                 return redirect("inpatient/visit/$visit/dispense-drugs");
             }
         }
+
         try {
             $this->data['all'] = Visit::checkedAt('diagnostics')->get();
             $this->data['visit'] = Visit::find($visit);
@@ -115,6 +123,7 @@ class EvaluationController extends AdminBaseController
 
             $this->data['drug_prescriptions'] = Prescriptions::whereVisit($visit)
                 ->where('status', 0)
+                ->where('facility_id', '!=', $facility->id)
                 ->get();
             session(['v' => $visit]);
             $this->data['dispensed'] = Prescriptions::whereHas('dispensing', function ($query) {

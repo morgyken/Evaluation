@@ -12,12 +12,12 @@ $router->get('patients/queue/{department}/waiting', ['uses' => 'EvaluationContro
 $router->match(['get', 'post'], 'samples/{patient?}', ['uses' => 'EvaluationController@labotomy', 'as' => 'labotomy']);
 $router->match(['get', 'post'], 'formulae/{id?}', ['uses' => 'EvaluationController@Formulae', 'as' => 'formulae']);
 $router->match(['get', 'post'], 'sample/barcode/{id?}/print', ['uses' => 'EvaluationController@labotomy_print', 'as' => 'labotomy.print']);
-$router->get('patients/visits/{visit}/preview/{department}', ['uses' => 'EvaluationController@preview', 'as' => 'preview']);
+$router->get('patients/visits/{visit}/preview/{department}/{facility?}', ['uses' => 'EvaluationController@preview', 'as' => 'preview']);
 $router->get('patients/visit/{visit}/move', ['uses' => 'EvaluationController@move_patient']);
 
 $router->post('performed/pres/updater/evaluation', ['as' => 'drug.edit', 'uses' => 'EvaluationController@updateDrug']);
 
-$router->get('patients/visit/{visit}/evaluate/{department}', ['uses' => 'EvaluationController@evaluate', 'as' => 'evaluate']);
+$router->get('patients/visit/{visit}/evaluate/{department}/{facility?}', ['uses' => 'EvaluationController@evaluate', 'as' => 'evaluate']);
 
 $router->post('patients/visit/admission', ['uses' => 'AdmissionRequestController@store', 'as'=>'requestAdmission']);
 $router->get('patients/visit/{visit}/manage/{department}', ['uses' => 'EvaluationController@manage']);

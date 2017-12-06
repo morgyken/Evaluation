@@ -30,7 +30,7 @@ extract($data);
         </div>
         <div class="col-md-8">
             <h4>Patient Evaluation</h4>
-            <a href="{{route('evaluation.evaluate',[$visit->id,$department])}}" class="btn btn-info">
+            <a href="{{route('evaluation.evaluate',[$visit->id, $department, $facility])}}" class="btn btn-info">
                 <i class="fa fa-medkit"></i> Evaluate Patient</a>
             <h4>Visit History</h4>
             @if($history->isEmpty())
