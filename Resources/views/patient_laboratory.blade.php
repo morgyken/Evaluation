@@ -5,9 +5,9 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 extract($data);
-$labs = $visit->investigations->where('type', 'laboratory')
+$labs = $visit->investigations->whereIn('type', ['laboratory', 'laboratory.inpatient'])
     ->where('has_result', false);
-$results = $visit->investigations->where('type', 'laboratory')->where('has_result', true);
+$results = $visit->investigations->whereIn('type', ['laboratory', 'laboratory.inpatient'])->where('has_result', true);
 $patient = $data['visit']->patients;
 ?>
 @extends('layouts.app')

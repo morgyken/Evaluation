@@ -5,8 +5,10 @@
  *  Author: Samuel Okoth <sodhiambo@collabmed.com>
  */
 extract($data);
-$investigations = $visit->investigations->where('type', 'diagnostics')->where('has_result', false);
-$results = $visit->investigations->where('type', 'diagnostics')->where('has_result', true);
+$investigations = $visit->investigations->whereIn('type', ['diagnostics', 'diagnostics.inpatient'])
+    ->where('has_result', false);
+$results = $visit->investigations->whereIn('type', ['diagnostics', 'diagnostics.inpatient'])
+    ->where('has_result', true);
 $category = 'diagnosis';
 ?>
 @extends('layouts.app')
