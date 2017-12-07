@@ -461,7 +461,10 @@ class EvaluationFunctions implements EvaluationRepository
                 $charge->visit_id = \request('__inpatient');
                 $charge->save();
             }
-            $to = $this->input['type' . $treatment];
+            $to = $type;
+            if (ends_with($to, '.inpatient')) {
+                $to = substr($to, 0, strpos($to, '.'));
+            }
             if (!in_array($to, $check_in, false)) {
                 $check_in[] = $to;
             }
