@@ -5,6 +5,51 @@ namespace Ignite\Evaluation\Entities;
 use Illuminate\Database\Eloquent\Model;
 
 
+/**
+ * Ignite\Evaluation\Entities\Procedures
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $code
+ * @property int $category
+ * @property string|null $gender
+ * @property int|null $template
+ * @property float $cash_charge
+ * @property float|null $insurance_charge
+ * @property int $charge_insurance
+ * @property int $precharge
+ * @property string|null $description
+ * @property int $status
+ * @property int $sensitivity
+ * @property-read \Ignite\Evaluation\Entities\ProcedureCategories $categories
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\SubProcedures[] $children
+ * @property-read \Ignite\Evaluation\Entities\CriticalValues $critical_values
+ * @property-read \Ignite\Evaluation\Entities\Formula $formula
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Formula[] $formulae
+ * @property-read mixed $price
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Settings\Entities\CompanyPrice[] $inclusions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\ProcedureInventoryItem[] $items
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\ReferenceRange[] $ref_ranges
+ * @property-read \Ignite\Evaluation\Entities\Remarks $remarks
+ * @property-read \Ignite\Evaluation\Entities\ProcedureTemplates $templates
+ * @property-read \Ignite\Evaluation\Entities\TemplateLab $templates_lab
+ * @property-read \Ignite\Evaluation\Entities\SubProcedures $this_test
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\HaemogramTitle[] $titles
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereCashCharge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereCategory($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereChargeInsurance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereGender($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereInsuranceCharge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures wherePrecharge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereSensitivity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Procedures whereTemplate($value)
+ * @mixin \Eloquent
+ */
 class Procedures extends Model
 {
 

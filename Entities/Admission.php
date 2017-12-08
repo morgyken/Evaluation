@@ -6,6 +6,12 @@ use Ignite\Reception\Entities\Patients;
 use Illuminate\Database\Eloquent\Model;
 
 
+/**
+ * Ignite\Evaluation\Entities\Admission
+ *
+ * @property-read \Ignite\Reception\Entities\Patients $patient
+ * @mixin \Eloquent
+ */
 class Admission extends Model
 {
     protected $fillable = [

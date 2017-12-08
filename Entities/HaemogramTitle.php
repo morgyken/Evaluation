@@ -5,6 +5,27 @@ namespace Ignite\Evaluation\Entities;
 use Illuminate\Database\Eloquent\Model;
 
 
+/**
+ * Ignite\Evaluation\Entities\HaemogramTitle
+ *
+ * @property int $id
+ * @property string $name
+ * @property int|null $procedure
+ * @property string|null $description
+ * @property int|null $sort_order
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Ignite\Evaluation\Entities\Procedures|null $procedures
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\SubProcedures[] $tests
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereProcedure($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\HaemogramTitle whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class HaemogramTitle extends Model {
 
     protected $table = 'hemogram_titles';

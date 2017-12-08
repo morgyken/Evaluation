@@ -7,6 +7,11 @@ use Ignite\Users\Entities\User;
 
 
 
+/**
+ * Ignite\Evaluation\Entities\RequestDischarge
+ *
+ * @mixin \Eloquent
+ */
 class RequestDischarge extends Model
 {
     protected $fillable = [

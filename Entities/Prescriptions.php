@@ -9,6 +9,66 @@ use Illuminate\Database\Eloquent\Model;
 use Ignite\Inpatient\Entities\AdministerDrug;
 
 
+/**
+ * Ignite\Evaluation\Entities\Prescriptions
+ *
+ * @property int $id
+ * @property int $visit
+ * @property int $user
+ * @property string $drug
+ * @property int $take
+ * @property int $whereto
+ * @property int $method
+ * @property int $duration
+ * @property string|null $stop_reason
+ * @property int $stopped
+ * @property int $status
+ * @property bool $allow_substitution
+ * @property int $time_measure
+ * @property int $quantity
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property int $type
+ * @property string|null $notes
+ * @property int $canceled
+ * @property int $facility_id
+ * @property int|null $admission_id
+ * @property int $for_discharge
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Inpatient\Entities\AdministerDrug[] $administered
+ * @property-read \Ignite\Inpatient\Entities\Admission|null $admission
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Evaluation\Entities\Dispensing[] $dispensing
+ * @property-read \Ignite\Inventory\Entities\InventoryProducts $drugs
+ * @property-read mixed $dose
+ * @property-read mixed $is_paid
+ * @property-read mixed $priced_amount
+ * @property-read mixed $sub
+ * @property-read \Ignite\Evaluation\Entities\PrescriptionPayment $payment
+ * @property-read \Ignite\Users\Entities\User $users
+ * @property-read \Ignite\Evaluation\Entities\Visit $visits
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereAdmissionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereAllowSubstitution($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereCanceled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereDrug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereFacilityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereForDischarge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereStopReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereStopped($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereTake($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereTimeMeasure($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereUser($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereVisit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Evaluation\Entities\Prescriptions whereWhereto($value)
+ * @mixin \Eloquent
+ */
 class Prescriptions extends Model
 {
 
