@@ -41,20 +41,20 @@ class AutoCheckout extends Command
         if ((bool)m_setting('evaluation.auto_checkout')) {
             $this->blockMessage('Checking out everyone!', 'Working out...', 'comment');
             $date = Carbon::now()->subDay()->toDateTimeString();
-            $destinations = VisitDestinations::where('created_at', '<=', $date)
-                ->where('checkout', false)
-                ->get();
-            $_v = $_d = 0;
-            foreach ($destinations as $d) {
-                $d->checkout = 1;
-                $d->finish_at = Carbon::now()->toDateTimeString();
-                $d->save();
-                $_d++;
-            }
+//            $destinations = VisitDestinations::where('created_at', '<=', $date)
+//                ->where('checkout', false)
+//                ->get();
+//            $_v = $_d = 0;
+//            foreach ($destinations as $d) {
+//                $d->checkout = 1;
+//                $d->finish_at = Carbon::now()->toDateTimeString();
+//                $d->save();
+//                $_d++;
+//            }
             $visits = Visit::where('status', '<>', '!!')->get();
             foreach ($visits as $visit) {
                 $p = (bool)$visit->destinations->where('checkout', false)->count();
-                if (!$p) {
+                if (!$p && !$visit->admission) {
                     $visit->status = '!!';
                     $visit->save();
                     $_v++;
