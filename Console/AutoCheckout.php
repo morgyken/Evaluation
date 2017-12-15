@@ -40,6 +40,7 @@ class AutoCheckout extends Command
     {
         if ((bool)m_setting('evaluation.auto_checkout')) {
             $this->blockMessage('Checking out everyone!', 'Working out...', 'comment');
+            $_v = $_d = 0;
             $date = Carbon::now()->subDay()->toDateTimeString();
 //            $destinations = VisitDestinations::where('created_at', '<=', $date)
 //                ->where('checkout', false)
