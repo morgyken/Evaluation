@@ -143,6 +143,9 @@ class Investigations extends Model
         if (ends_with($type, '.inpatient')) {
             $type = substr($type, 0, strpos($type, '.'))
                 . '<span title="Inpatient"> <i class="fa fa-bed"></i></span>';
+        } else {
+            $type = substr($type, 0, strpos($type, '.'))
+                . '<span title="Outpatient"> <i class="fa fa-ambulance"></i></span>';
         }
         return $type;
     }
