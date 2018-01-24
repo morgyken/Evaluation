@@ -169,7 +169,8 @@
 <script>
     var INSURANCE = false;
     var STOCK_URL = "{{route('api.inventory.getstock')}}";
-    var PRODUCTS_URL = "{{route('api.inventory.get.products')}}";
+    {{--var PRODUCTS_URL = "{{route('api.inventory.get.products')}}";--}}
+    var PRODUCTS_URL = "{{route('api.inventory.get.store-products')}}";
     $(function () {
 
         $('table#prescribed_drugs').dataTable({

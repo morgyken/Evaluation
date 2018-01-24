@@ -503,21 +503,24 @@ class EvaluationFunctions implements EvaluationRepository
      */
     public function save_prescriptions()
     {
-        if (empty($this->request->drug)) {
-            return false;
-        }
-        $cost = get_price_drug(Visit::find($this->visit), InventoryProducts::find($this->request->drug));
-        $this->input['user'] = $this->user;
-        $prescription = Prescriptions::create(array_except($this->input, 'quantity'));
-        $attributes = [
-            'price' => $cost,
-            'cost' => $cost * (int)$this->input['quantity'],
-            'quantity' => (int)$this->input['quantity'],
-        ];
-        $prescription->payment()->create($attributes);
-        reload_payments();
-        $this->check_in_at('pharmacy');
-        return $prescription;
+        http_response_code(500);
+        dd(request()->all());
+
+//        if (empty($this->request->drug)) {
+//            return false;
+//        }
+//        $cost = get_price_drug(Visit::find($this->visit), InventoryProducts::find($this->request->drug));
+//        $this->input['user'] = $this->user;
+//        $prescription = Prescriptions::create(array_except($this->input, 'quantity'));
+//        $attributes = [
+//            'price' => $cost,
+//            'cost' => $cost * (int)$this->input['quantity'],
+//            'quantity' => (int)$this->input['quantity'],
+//        ];
+//        $prescription->payment()->create($attributes);
+//        reload_payments();
+//        $this->check_in_at('pharmacy');
+//        return $prescription;
     }
 
     /**
