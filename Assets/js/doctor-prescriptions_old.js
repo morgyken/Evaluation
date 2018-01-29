@@ -50,8 +50,7 @@ $(function () {
                 "cache": true,
                 "data": function (term, page) {
                     return {
-                        term: term,
-                        departments: ["pharmacy", "nursing"],
+                        term: term
                     };
                 },
                 "results": function (data, page) {
