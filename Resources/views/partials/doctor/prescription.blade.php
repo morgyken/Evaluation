@@ -10,6 +10,8 @@
         <div class="col-md-12">
             {!! Form::open(['id'=>'prescription_form'])!!}
             {!! Form::hidden('visit',$visit->id) !!}
+            <input type="hidden" id="store_id" name="store_id" />
+
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h4 class="box-title">Prescriptions</h4>
@@ -214,6 +216,10 @@
                 $myModal.modal({show: false});
                 $myModal.modal('show');
             });
+        });
+
+        $('.select2-single').on('select2:select', function (e) {
+            $('#store_id').val(e.params.data.store);
         });
 
 
