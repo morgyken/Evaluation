@@ -218,5 +218,5 @@
 
     });
 </script>
-<script src="{!! m_asset('evaluation:js/doctor-prescriptions.js') !!}"></script>
+<script src="{!! m_asset('evaluation:js/doctor-prescriptions_old.js') !!}"></script>
 <?php endif; ?>
