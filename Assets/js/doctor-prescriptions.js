@@ -51,7 +51,7 @@ $(function () {
                 "data": function (term, page) {
                     return {
                         term: term,
-                        departments: ["pharmacy", "nursing"],
+                        clinic: $("#clinic").val()
                     };
                 },
                 "results": function (data, page) {

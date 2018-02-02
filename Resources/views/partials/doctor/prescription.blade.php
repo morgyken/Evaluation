@@ -18,6 +18,18 @@
                 </div>
                 <div class="box-body">
                     <div class="form-group">
+                        <label class="control-label col-md-4">Departments</label>
+                        <div class="col-md-8" id="">
+                            <select name="clinic" id="clinic" class="form-control" style="width: 100%" required>
+                                <option value="" selected disabled>Please choose a department</option>
+                                @foreach($departments as $department)
+                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="control-label col-md-4">Drug</label>
                         <div class="col-md-8" id="editDrug">
                             @if(is_module_enabled('Inventory'))
@@ -171,8 +183,8 @@
 <script>
     var INSURANCE = false;
     var STOCK_URL = "{{route('api.inventory.getstock')}}";
-    {{--var PRODUCTS_URL = "{{route('api.inventory.get.products')}}";--}}
-    var PRODUCTS_URL = "{{route('api.inventory.get.store-products')}}";
+    var PRODUCTS_URL = "{{route('api.inventory.get.storeproducts')}}";
+
     $(function () {
 
         $('table#prescribed_drugs').dataTable({
@@ -221,9 +233,7 @@
         $('.select2-single').on('select2:select', function (e) {
             $('#store_id').val(e.params.data.store);
         });
-
-
     });
 </script>
-<script src="{!! m_asset('evaluation:js/doctor-prescriptions.js') !!}"></script>
+
 <?php endif; ?>
