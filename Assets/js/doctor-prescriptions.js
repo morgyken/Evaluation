@@ -51,11 +51,7 @@ $(function () {
                 "data": function (term, page) {
                     return {
                         term: term,
-<<<<<<< HEAD
                         clinic: $("#clinic").val()
-=======
-                        departments: ["pharmacy", "nursing"],
->>>>>>> master
                     };
                 },
                 "results": function (data, page) {
