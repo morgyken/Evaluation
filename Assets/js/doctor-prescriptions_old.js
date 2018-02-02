@@ -50,12 +50,7 @@ $(function () {
                 "cache": true,
                 "data": function (term, page) {
                     return {
-                        term: term,
-<<<<<<< HEAD
-                        clinic: $("#clinic").val()
-=======
-                        departments: ["pharmacy", "nursing"],
->>>>>>> master
+                        term: term
                     };
                 },
                 "results": function (data, page) {
