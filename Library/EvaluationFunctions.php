@@ -506,17 +506,17 @@ class EvaluationFunctions implements EvaluationRepository
     public function save_prescriptions()
     {
 //        http_response_code(500);
-//        dd(request()->all());
+//        dd(request()->all(), $this->request->drug);
+//
+//        $productId = StoreProducts::find()->product_id;
 
-        $productId = StoreProducts::find($this->request->drug)->product_id;
-
-        if (empty($productId)) {
+        if (empty($this->request->drug)) {
             return false;
         }
 
-        $cost = get_price_drug(Visit::find($this->visit), InventoryProducts::find($productId));
+        $cost = get_price_drug(Visit::find($this->visit), InventoryProducts::find($this->request->drug));
         $this->input['user'] = $this->user;
-        $this->input['drug'] = $productId;
+//        $this->input['drug'] = $productId;
         $prescription = Prescriptions::create(array_except($this->input, ['quantity', 'store_id', 'clinic']));
         $attributes = [
             'price' => $cost,
