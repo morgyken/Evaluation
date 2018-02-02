@@ -33,7 +33,7 @@
                         <label class="control-label col-md-4">Drug</label>
                         <div class="col-md-8" id="editDrug">
                             @if(is_module_enabled('Inventory'))
-                                <select name="drug" id="item_0" class="select2-single form-control"
+                                <select name="drug" id="item_0" class="select2-single form-control drug-select"
                                         style="width: 100%"></select>
                             @else
                                 <input id="drug" type="text" name='drug' class="form-control"/>
@@ -230,8 +230,10 @@
             });
         });
 
-        $('.select2-single').on('select2:select', function (e) {
-            $('#store_id').val(e.params.data.store);
+        $('.drug-select').on('select2:select', function (event) {
+
+            $('#store_id').val(event.params.data.store);
+
         });
     });
 </script>

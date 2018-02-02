@@ -44,6 +44,8 @@ use Ignite\Evaluation\Entities\Vitals;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Inpatient\Entities\ChargeSheet;
 use Ignite\Inventory\Entities\InventoryProducts;
+use Ignite\Inventory\Entities\StorePrescription;
+use Ignite\Inventory\Entities\StoreProducts;
 use Ignite\Inventory\Repositories\InventoryRepository;
 use Ignite\Reception\Entities\Appointments;
 use Ignite\Reception\Entities\PatientDocuments;
@@ -504,14 +506,18 @@ class EvaluationFunctions implements EvaluationRepository
     public function save_prescriptions()
     {
 //        http_response_code(500);
-//        dd(request()->all(), InventoryProducts::find($this->request->drug));
+//        dd(request()->all());
 
-        if (empty($this->request->drug)) {
+        $productId = StoreProducts::find($this->request->drug)->product_id;
+
+        if (empty($productId)) {
             return false;
         }
-        $cost = get_price_drug(Visit::find($this->visit), InventoryProducts::find($this->request->drug));
+
+        $cost = get_price_drug(Visit::find($this->visit), InventoryProducts::find($productId));
         $this->input['user'] = $this->user;
-        $prescription = Prescriptions::create(array_except($this->input, 'quantity'));
+        $this->input['drug'] = $productId;
+        $prescription = Prescriptions::create(array_except($this->input, ['quantity', 'store_id', 'clinic']));
         $attributes = [
             'price' => $cost,
             'cost' => $cost * (int)$this->input['quantity'],
