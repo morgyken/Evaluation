@@ -50,7 +50,8 @@ $(function () {
                 "cache": true,
                 "data": function (term, page) {
                     return {
-                        term: term
+                        term: term,
+                        clinic: $("#clinic").val()
                     };
                 },
                 "results": function (data, page) {

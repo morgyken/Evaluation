@@ -25,6 +25,7 @@ use Ignite\Evaluation\Entities\WardAssigned;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Inpatient\Entities\DischargeType;
 use Ignite\Inpatient\Repositories\AdmissionTypeRepository;
+use Ignite\Inventory\Entities\StoreDepartment;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -56,6 +57,12 @@ class EvaluationController extends AdminBaseController
         $this->data['referer'] = \URL::previous();
         $this->data['department'] = ucwords($department);
         $user = \Auth::user()->id;
+
+//        dd(Store::whereHas('department', function($query){
+//
+//
+//        }));
+
         if ($department === 'doctor') {
             $this->data['doc'] = 1;
             $this->data['myq'] = VisitDestinations::whereDestination($user)
@@ -102,6 +109,7 @@ class EvaluationController extends AdminBaseController
         $this->data['visit'] = Visit::find($visit);
         $this->data['facility'] =  $facility ? $facility : 'outpatient';
         $facility = Facility::where('name', 'inpatient')->first();
+        $this->data['departments'] = StoreDepartment::all();
 
         if(is_module_enabled('Inpatient'))
         {
