@@ -41,9 +41,9 @@
                     </td>
                     <td>
                         {{$item->drugs->name}}<br>
-                        <i>{{ $item->drugs->stocks?$item->drugs->stocks->quantity>0?$item->drugs->stocks->quantity:0:0}}
-                            in
-                            store</i>
+                        {{--<i>{{ $item->drugs->stocks?$item->drugs->stocks->quantity>0?$item->drugs->stocks->quantity:0:0}}--}}
+                            {{--in--}}
+                            {{--store</i>--}}
                     </td>
                     <td>
                         <dl class="dl-horizontal">

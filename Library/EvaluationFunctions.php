@@ -544,6 +544,7 @@ class EvaluationFunctions implements EvaluationRepository
         $dis->save();
         $amount = 0;
         $prescription = null;
+
         foreach ($this->_get_selected_stack() as $index) {
             $item = 'item' . $index;
             $drug = 'drug' . $index;
@@ -553,6 +554,7 @@ class EvaluationFunctions implements EvaluationRepository
             $disc = 'discount' . $index;
 
             $prescription = $this->request->$presc;
+
             $details = new DispensingDetails;
             $details->batch = $dis->id;
             $details->product = $this->request->$drug;
@@ -565,6 +567,21 @@ class EvaluationFunctions implements EvaluationRepository
             //adj stock
             $this->repo->take_dispensed_products($details);
             $this->updatePresc($this->request->$presc);
+
+            //remove prescribed, dispensed drugs from store
+            $storePrescription = StorePrescription::where('prescription_id', $prescription)->first();
+
+            $storeId = $storePrescription->store_id;
+
+            $storeProducts = StoreProducts::where('store_id', $storeId)->where('product_id', $details->product)->first();
+
+            $storeProducts->quantity = $storeProducts->quantity - $details->quantity;
+
+            $storePrescription->dispensed = $details->quantity;
+
+            $storeProducts->save();
+
+            $storePrescription->save();
         }
         $dis->amount = $amount;
         $dis->prescription = $prescription;
