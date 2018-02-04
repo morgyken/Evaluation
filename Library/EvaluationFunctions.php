@@ -577,9 +577,11 @@ class EvaluationFunctions implements EvaluationRepository
 
             $storeProducts->quantity = $storeProducts->quantity - $details->quantity;
 
-            $storeProducts->dispensed = true;
+            $storePrescription->dispensed = $details->quantity;
 
             $storeProducts->save();
+
+            $storePrescription->save();
         }
         $dis->amount = $amount;
         $dis->prescription = $prescription;
