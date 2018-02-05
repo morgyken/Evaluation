@@ -78,6 +78,7 @@ $(function () {
                 $('table#prescribed_drugs').dataTable().api().ajax.reload();
                 $prescriptionForm.trigger("reset");
                 alertify.success("Prescription saved");
+                $(".drug-select").select2("data", null);
                 $btn.show();
             },
             error: function () {
