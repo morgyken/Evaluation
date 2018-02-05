@@ -77,8 +77,12 @@ $(function () {
                 $('#prescriptionLoader').hide();
                 $('table#prescribed_drugs').dataTable().api().ajax.reload();
                 $prescriptionForm.trigger("reset");
+                // $(".drug-select").select2("val", "");
+                // $(".drug-select").select2("data", null);
+                // $(".drug-select").select2("results", null);
+                // $(".drug-select").val('').trigger('change');
+                location.reload();
                 alertify.success("Prescription saved");
-                $(".drug-select").select2("data", null);
                 $btn.show();
             },
             error: function () {

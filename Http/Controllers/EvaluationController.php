@@ -25,7 +25,9 @@ use Ignite\Evaluation\Entities\WardAssigned;
 use Ignite\Evaluation\Repositories\EvaluationRepository;
 use Ignite\Inpatient\Entities\DischargeType;
 use Ignite\Inpatient\Repositories\AdmissionTypeRepository;
+use Ignite\Inventory\Entities\Store;
 use Ignite\Inventory\Entities\StoreDepartment;
+use Ignite\Inventory\Entities\StorePrescription;
 use Ignite\Reception\Entities\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -54,14 +56,18 @@ class EvaluationController extends AdminBaseController
 
     public function queues($department)
     {
+        if(!session()->has('department_id') and !session()->has('store_id'))
+        {
+            $departments = StoreDepartment::all();
+
+            $stores = Store::all();
+
+            return view('evaluation::stores.department-select', compact('departments', 'stores'));
+        }
+
         $this->data['referer'] = \URL::previous();
         $this->data['department'] = ucwords($department);
         $user = \Auth::user()->id;
-
-//        dd(Store::whereHas('department', function($query){
-//
-//
-//        }));
 
         if ($department === 'doctor') {
             $this->data['doc'] = 1;
@@ -78,6 +84,29 @@ class EvaluationController extends AdminBaseController
                 ->whereCheckout(false)
                 ->latest()
                 ->paginate(100);
+
+            $this->data['myq'] = $this->data['myq']->filter(function($data) {
+
+                $prescriptions = $data->visits->prescriptions;
+
+                $prescriptionExists = false;
+
+                foreach($prescriptions as $prescription)
+                {
+                    $storePrescription = StorePrescription::where('prescription_id', $prescription->id)
+                        ->where('store_id', session()->get('store_id'))
+                        ->first();
+
+                    if(StorePrescription::where('prescription_id', $prescription->id)->first())
+                    {
+                        $prescriptionExists = true;
+
+                        break;
+                    }
+                }
+
+                return $prescriptionExists;
+            });
         }
         return view('evaluation::queues', ['data' => $this->data]);
     }
@@ -948,5 +977,14 @@ class EvaluationController extends AdminBaseController
         }
     }
 
+    public function authStore()
+    {
+        session([
+            'department_id' => request('department'),
+            'store_id' => request('store')
+        ]);
+
+        return redirect()->route('evaluation.queues', ['department' => 'pharmacy']);
+    }
 
 }
