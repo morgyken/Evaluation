@@ -28,6 +28,11 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
 @section('content_description',"$department Queue")
 
 @section('content')
+
+    <div style="margin-bottom: 20px;">
+        <a href="{{ route('evaluation.authenticate.store') }}" class="btn btn-primary">Change Store</a>
+    </div>
+
     <div class="box box-info">
         <div class="box-body">
             <table class="table table-striped">

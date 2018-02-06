@@ -987,4 +987,16 @@ class EvaluationController extends AdminBaseController
         return redirect()->route('evaluation.queues', ['department' => 'pharmacy']);
     }
 
+    /*
+     * Select a store to dispense drugs from
+     */
+    public function selectStore()
+    {
+        $departments = StoreDepartment::all();
+
+        $stores = Store::all();
+
+        return view('evaluation::stores.department-select', compact('departments', 'stores'));
+    }
+
 }

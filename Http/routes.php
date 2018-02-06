@@ -113,4 +113,6 @@ $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router
     $router->get('results/one/{id}/{visit}/{type}', ['uses' => 'ReportsController@print_results_one', 'as' => 'print_res.one']);
 });
 
+$router->get('authenticates/store',  ['uses' => 'EvaluationController@selectStore', 'as' => 'authenticate.store']);
+
 $router->post('authenticate/store',  ['uses' => 'EvaluationController@authStore', 'as' => 'authenticated.store']);
