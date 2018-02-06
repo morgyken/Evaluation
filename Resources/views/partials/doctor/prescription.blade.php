@@ -84,7 +84,7 @@
                     <div class="pull-right">
                         <div class="loader" id="prescriptionLoader"></div>
                         <button type="submit" class="btn btn-xs btn-primary" id="savePrescription">
-                          <i class="fa fa-save"></i> Save
+                            <i class="fa fa-save"></i> Save
                         </button>
 
                     </div>

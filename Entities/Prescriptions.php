@@ -3,6 +3,7 @@
 namespace Ignite\Evaluation\Entities;
 
 use Ignite\Inventory\Entities\InventoryProducts;
+use Ignite\Inventory\Entities\StorePrescription;
 use Ignite\Users\Entities\User;
 use Ignite\Inpatient\Entities\Admission;
 use Illuminate\Database\Eloquent\Model;
@@ -133,6 +134,14 @@ class Prescriptions extends Model
     public function administered()
     {
         return  $this->hasMany(AdministerDrug::class, 'prescription_id');
+    }
+
+    /*
+     * Relationship between a prescription and a store
+     */
+    public function store()
+    {
+        return $this->hasOne(StorePrescription::class, 'prescription_id');
     }
    
 }

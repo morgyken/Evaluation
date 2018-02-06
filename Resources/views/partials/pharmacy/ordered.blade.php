@@ -32,48 +32,50 @@
                 $visit = $item->visits;
 
                 ?>
-                <tr id="row{{$item->id}}">
-                    <td>
-                        {{$loop->iteration}}
-                        <input type="hidden" name="presc{{$item->id}}" value="{{$item->id}}">
-                        <input type="hidden" name="drug{{$item->id}}" value="{{$item->drugs->id}}">
-                        <input type="hidden" value="{{$item->id}}" name="item{{$item->id}}">
-                    </td>
-                    <td>
-                        {{$item->drugs->name}}<br>
-                        {{--<i>{{ $item->drugs->stocks?$item->drugs->stocks->quantity>0?$item->drugs->stocks->quantity:0:0}}--}}
-                            {{--in--}}
-                            {{--store</i>--}}
-                    </td>
-                    <td>
-                        <dl class="dl-horizontal">
-                            <dt>Dose:</dt>
-                            <dd>{{$item->dose}}</dd>
-                            <dt>Date:</dt>
-                            <dd>{{smart_date_time($item->created_at)}}</dd>
-                            <dt>Prescribed By:</dt>
-                            <dd> {{$item->users->profile->full_name}} </dd>
-                            <dt>Notes</dt>
-                            <dd><em><u>{{$item->notes??'N/A'}}</u></em></dd>
-                            <!-- <b>Payment Mode: </b> Cash<br> -->
-                        </dl>
-                    </td>
-                    <td>
-                        <code>{{$item->payment->price}}</code>
-                        <input type="hidden" value="{{$item->payment->price}}" name="prc{{$item->id}}"
-                               id="prc{{$item->id}}">
-                    </td>
-                    <td>
-                        <input name="qty{{$item->id}}" id="quantity{{$item->id}}"
-                               class="qty{{$item->id}}"
-                               value="{{$item->payment->quantity}}"
-                               size="4"
-                               type="text" readonly></td>
-                    <td>
-                        <input class="txt" size="10" readonly id="total{{$item->id}}" type="text"
-                               name="txt"/>
-                    </td>
-                </tr>
+                @if($item->store->store_id == session('store_id'))
+                    <tr id="row{{$item->id}}">
+                        <td>
+                            {{$loop->iteration}}
+                            <input type="hidden" name="presc{{$item->id}}" value="{{$item->id}}">
+                            <input type="hidden" name="drug{{$item->id}}" value="{{$item->drugs->id}}">
+                            <input type="hidden" value="{{$item->id}}" name="item{{$item->id}}">
+                        </td>
+                        <td>
+                            {{$item->drugs->name}}<br>
+                            {{--<i>{{ $item->drugs->stocks?$item->drugs->stocks->quantity>0?$item->drugs->stocks->quantity:0:0}}--}}
+                                {{--in--}}
+                                {{--store</i>--}}
+                        </td>
+                        <td>
+                            <dl class="dl-horizontal">
+                                <dt>Dose:</dt>
+                                <dd>{{$item->dose}}</dd>
+                                <dt>Date:</dt>
+                                <dd>{{smart_date_time($item->created_at)}}</dd>
+                                <dt>Prescribed By:</dt>
+                                <dd> {{$item->users->profile->full_name}} </dd>
+                                <dt>Notes</dt>
+                                <dd><em><u>{{$item->notes??'N/A'}}</u></em></dd>
+                                <!-- <b>Payment Mode: </b> Cash<br> -->
+                            </dl>
+                        </td>
+                        <td>
+                            <code>{{$item->payment->price}}</code>
+                            <input type="hidden" value="{{$item->payment->price}}" name="prc{{$item->id}}"
+                                   id="prc{{$item->id}}">
+                        </td>
+                        <td>
+                            <input name="qty{{$item->id}}" id="quantity{{$item->id}}"
+                                   class="qty{{$item->id}}"
+                                   value="{{$item->payment->quantity}}"
+                                   size="4"
+                                   type="text" readonly></td>
+                        <td>
+                            <input class="txt" size="10" readonly id="total{{$item->id}}" type="text"
+                                   name="txt"/>
+                        </td>
+                    </tr>
+                @endif
 
             @else
                 <tr>
@@ -85,6 +87,7 @@
                     <td><span class="label label-danger">NOT PAID</span></td>
                 </tr>
             @endif
+
         @endforeach
         </tbody>
     </table>
