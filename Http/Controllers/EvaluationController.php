@@ -56,7 +56,7 @@ class EvaluationController extends AdminBaseController
 
     public function queues($department)
     {
-        if(!session()->has('department_id') and !session()->has('store_id'))
+        if(!session()->has('department_id') and !session()->has('store_id') and $department === 'pharmacy')
         {
             $departments = StoreDepartment::all();
 
