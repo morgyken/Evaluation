@@ -77,36 +77,38 @@ class EvaluationController extends AdminBaseController
                 ->latest()
                 ->paginate(100);
         } else {
-//            $this->data['all'] = Visit::checkedAt($department)
-//                ->orderBy('created_at')
-//                ->get();
             $this->data['myq'] = VisitDestinations::whereDepartment($department)
                 ->whereCheckout(false)
                 ->latest()
                 ->paginate(100);
 
-            $this->data['myq'] = $this->data['myq']->filter(function($data) {
+            if($department === 'pharmacy')
+            {
+                $this->data['myq'] = $this->data['myq']->filter(function($data) {
 
-                $prescriptions = $data->visits->prescriptions;
+                    $prescriptions = $data->visits->prescriptions;
 
-                $prescriptionExists = false;
+                    $prescriptionExists = false;
 
-                foreach($prescriptions as $prescription)
-                {
-                    $storePrescription = StorePrescription::where('prescription_id', $prescription->id)
-                        ->where('store_id', session()->get('store_id'))
-                        ->first();
-
-                    if(StorePrescription::where('prescription_id', $prescription->id)->first())
+                    foreach($prescriptions as $prescription)
                     {
-                        $prescriptionExists = true;
+                        $storePrescription = StorePrescription::where('prescription_id', $prescription->id)
+                            ->where('store_id', session()->get('store_id'))
+                            ->first();
 
-                        break;
+                        if(StorePrescription::where('prescription_id', $prescription->id)->first())
+                        {
+                            $prescriptionExists = true;
+
+                            break;
+                        }
                     }
-                }
 
-                return $prescriptionExists;
-            });
+                    return $prescriptionExists;
+                });
+            }
+
+//
         }
         return view('evaluation::queues', ['data' => $this->data]);
     }
