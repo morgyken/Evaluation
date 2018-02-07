@@ -82,37 +82,37 @@ class EvaluationController extends AdminBaseController
                 ->latest()
                 ->paginate(100);
 
-            if($department === 'pharmacy')
-            {
-                $this->data['myq'] = $this->data['myq']->filter(function($data) {
-
-                    if($data->visits->admission_request_id == true)
-                    {
-                        return true;
-                    }
-                    else{
-                        $prescriptions = $data->visits->prescriptions;
-
-                        $prescriptionExists = false;
-
-                        foreach($prescriptions as $prescription)
-                        {
-                            $storePrescription = StorePrescription::where('prescription_id', $prescription->id)
-                                ->where('store_id', session()->get('store_id'))
-                                ->first();
-
-                            if(StorePrescription::where('prescription_id', $prescription->id)->first())
-                            {
-                                $prescriptionExists = true;
-
-                                break;
-                            }
-                        }
-
-                        return $prescriptionExists;
-                    }
-                });
-            }
+//            if($department === 'pharmacy')
+//            {
+//                $this->data['myq'] = $this->data['myq']->filter(function($data) {
+//
+//                    if($data->visits->admission_request_id == true)
+//                    {
+//                        return true;
+//                    }
+//                    else{
+//                        $prescriptions = $data->visits->prescriptions;
+//
+//                        $prescriptionExists = false;
+//
+//                        foreach($prescriptions as $prescription)
+//                        {
+//                            $storePrescription = StorePrescription::where('prescription_id', $prescription->id)
+//                                ->where('store_id', session()->get('store_id'))
+//                                ->first();
+//
+//                            if(StorePrescription::where('prescription_id', $prescription->id)->first())
+//                            {
+//                                $prescriptionExists = true;
+//
+//                                break;
+//                            }
+//                        }
+//
+//                        return $prescriptionExists;
+//                    }
+//                });
+//            }
         }
         return view('evaluation::queues', ['data' => $this->data]);
     }
