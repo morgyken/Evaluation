@@ -86,6 +86,11 @@ class EvaluationController extends AdminBaseController
             {
                 $this->data['myq'] = $this->data['myq']->filter(function($data) {
 
+                    if($data->visits->admission_request_id)
+                    {
+                        return true;
+                    }
+
                     $prescriptions = $data->visits->prescriptions;
 
                     $prescriptionExists = false;

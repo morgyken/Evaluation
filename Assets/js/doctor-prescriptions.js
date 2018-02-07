@@ -81,7 +81,7 @@ $(function () {
                 // $(".drug-select").select2("data", null);
                 // $(".drug-select").select2("results", null);
                 // $(".drug-select").val('').trigger('change');
-                location.reload();
+                // location.reload();
                 alertify.success("Prescription saved");
                 $btn.show();
             },
