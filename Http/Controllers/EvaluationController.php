@@ -107,8 +107,6 @@ class EvaluationController extends AdminBaseController
                     return $prescriptionExists;
                 });
             }
-
-//
         }
         return view('evaluation::queues', ['data' => $this->data]);
     }
