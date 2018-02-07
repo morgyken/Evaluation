@@ -301,7 +301,7 @@ class Visit extends Model
 
     public function admissionRequest()
     {
-        return $this->hasMany(AdmissionRequest::class, 'visit_id');
+        return $this->hasMany(AdmissionRequest::class, 'visit_id')->withTrashed();
     }
 
 
