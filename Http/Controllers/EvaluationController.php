@@ -86,30 +86,31 @@ class EvaluationController extends AdminBaseController
             {
                 $this->data['myq'] = $this->data['myq']->filter(function($data) {
 
-                    if($data->visits->admission_request_id)
+                    if($data->visits->admission_request_id == true)
                     {
                         return true;
                     }
+                    else{
+                        $prescriptions = $data->visits->prescriptions;
 
-                    $prescriptions = $data->visits->prescriptions;
+                        $prescriptionExists = false;
 
-                    $prescriptionExists = false;
-
-                    foreach($prescriptions as $prescription)
-                    {
-                        $storePrescription = StorePrescription::where('prescription_id', $prescription->id)
-                            ->where('store_id', session()->get('store_id'))
-                            ->first();
-
-                        if(StorePrescription::where('prescription_id', $prescription->id)->first())
+                        foreach($prescriptions as $prescription)
                         {
-                            $prescriptionExists = true;
+                            $storePrescription = StorePrescription::where('prescription_id', $prescription->id)
+                                ->where('store_id', session()->get('store_id'))
+                                ->first();
 
-                            break;
+                            if(StorePrescription::where('prescription_id', $prescription->id)->first())
+                            {
+                                $prescriptionExists = true;
+
+                                break;
+                            }
                         }
-                    }
 
-                    return $prescriptionExists;
+                        return $prescriptionExists;
+                    }
                 });
             }
         }
