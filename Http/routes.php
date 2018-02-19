@@ -116,3 +116,6 @@ $router->group(['prefix' => 'print', 'as' => 'print.'], function (Router $router
 $router->get('authenticates/store',  ['uses' => 'EvaluationController@selectStore', 'as' => 'authenticate.store']);
 
 $router->post('authenticate/store',  ['uses' => 'EvaluationController@authStore', 'as' => 'authenticated.store']);
+
+$router->post('patients/queue/{department}/waiting', ['uses' => 'EvaluationController@queues_patient_search', 'as' => 'queues_patient_search']);
+

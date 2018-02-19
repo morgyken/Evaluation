@@ -81,40 +81,41 @@ class EvaluationController extends AdminBaseController
                 ->whereCheckout(false)
                 ->latest()
                 ->paginate(100);
-
-//            if($department === 'pharmacy')
-//            {
-//                $this->data['myq'] = $this->data['myq']->filter(function($data) {
-//
-//                    if($data->visits->admission_request_id == true)
-//                    {
-//                        return true;
-//                    }
-//                    else{
-//                        $prescriptions = $data->visits->prescriptions;
-//
-//                        $prescriptionExists = false;
-//
-//                        foreach($prescriptions as $prescription)
-//                        {
-//                            $storePrescription = StorePrescription::where('prescription_id', $prescription->id)
-//                                ->where('store_id', session()->get('store_id'))
-//                                ->first();
-//
-//                            if(StorePrescription::where('prescription_id', $prescription->id)->first())
-//                            {
-//                                $prescriptionExists = true;
-//
-//                                break;
-//                            }
-//                        }
-//
-//                        return $prescriptionExists;
-//                    }
-//                });
-//            }
         }
         return view('evaluation::queues', ['data' => $this->data]);
+    }
+
+    /*
+    * search for patient from the queue
+    */
+    public function queues_patient_search(Request $request, $department)
+    {
+        if(!session()->has('department_id') and !session()->has('store_id') and $department === 'pharmacy')
+        {
+            $departments = StoreDepartment::all();
+
+            $stores = Store::all();
+
+            return view('evaluation::stores.department-select', compact('departments', 'stores'));
+        }
+
+        $this->data['referer'] = \URL::previous();
+
+        $this->data['department'] = ucwords($department);
+
+        $user = \Auth::user()->id;
+
+
+        $patients = $this->data['myq'] = VisitDestinations::whereDepartment($department)->get();
+
+        $found = $patients->filter(function($destination){
+
+            $fullName = @$destination->visits->patients->full_name;
+
+            return str_contains(strtolower($fullName), strtolower(request('search')));
+        });
+
+        return view('evaluation::queue_search', ['data' => $this->data, 'found' => $found]);
     }
 
     public function preview($visit, $department, $facility=null)

@@ -8,6 +8,7 @@
  *
  * =============================================================================
  */
+
 extract($data);
 $section = strtolower($department);
 $from_evaluation = 0;
@@ -28,7 +29,6 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
 @section('content_description',"$department Queue")
 
 @section('content')
-
     <div style="margin-bottom: 20px;">
         <a href="{{ route('evaluation.authenticate.store') }}" class="btn btn-primary">Change Store</a>
     </div>
@@ -38,7 +38,6 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
 
             @include('evaluation::partials.queues.search')
 
-
             <table class="table table-striped">
                 <tbody>
                 @if(isset($all))
@@ -46,7 +45,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                         <tr id="row_id{{$visit->id}}">
                             <td>{{$loop->iteration}}</td>
                             <td>{{$visit->patients?$visit->patients->full_name:'-'}}</td>
-                            <td>{{$visit->created_at->format('dS M g:i a')}}</td>
+                            <td>{{$visit->created_at->format('dS class="table table-striped"M g:i a')}}</td>
                             <td>{{$visit->visit_destination}}</td>
                             <td>{{$visit->place}}</td>
                             <td>
@@ -59,8 +58,9 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                             </td>
                         </tr>
                     @endforeach
+
                 @else
-                    @foreach($myq as $item)
+                    @foreach($found as $item)
                         @php
                             $visit=$item->visits;
                         if(empty($visit)){
@@ -68,7 +68,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                         @endphp
 
                         <tr id="row_id{{$visit->id}}">
-                            <td>{{$loop->iteration}}</td>
+                            <td>{{$visit->id}}</td>
                             <td>{{$visit->patients->full_name}}</td>
                             <td>{{$visit->created_at->format('dS M g:i a')}}</td>
                             <td>{{$visit->visit_destination}}</td>
@@ -76,21 +76,21 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
                             <td>
                                 @if($section == 'pharmacy' && $visit->admission)
                                     <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
-                                            class="btn btn-xs btn-primary">
-                                            <i class="fa fa-arrow-up"></i> Outpatient</a>
+                                       class="btn btn-xs btn-primary">
+                                        <i class="fa fa-arrow-up"></i> Outpatient</a>
 
                                     <a href="{{route('evaluation.preview',[$visit->id, $section, 'inpatient'])}}"
-                                        class="btn btn-xs btn-success">
-                                        <i class="fa fa-arrow-down"></i> Inpatient</a>       
+                                       class="btn btn-xs btn-success">
+                                        <i class="fa fa-arrow-down"></i> Inpatient</a>
                                 @else
                                     <a href="{{route('evaluation.preview',[$visit->id,$section])}}"
-                                        class="btn btn-xs btn-primary">
+                                       class="btn btn-xs btn-primary">
                                         <i class="fa fa-ellipsis-h"></i> Manage</a>
                                 @endif
 
                                 <button value='{{$visit->id}}' class="btn btn-warning btn-xs checkout">
                                     <i class="fa fa-sign-out"></i> Checkout
-                                </button> 
+                                </button>
 
                             </td>
                         </tr>
@@ -156,10 +156,7 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
         var SIGN_OUT = "{{route('api.evaluation.checkout_patient')}}";
         var FROM = "<?= $section; ?>";
     </script>
-    <?php
-    $send_to = route('evaluation.queues', $section);
-    $pop = (bool)m_setting('evaluation::request_checkout');
-    ?>
+
     @if($from_evaluation==1 && $pop)
         <script>
             $(document).ready(function () {
@@ -186,3 +183,4 @@ if (strpos($referer, '/evaluation/patients/visit/') && strpos($referer, '/evalua
     @endif
     <script src="{{m_asset('evaluation:js/queues.js')}}" type="text/javascript"></script>
 @endsection
+
